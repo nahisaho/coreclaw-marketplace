@@ -32,7 +32,7 @@ coreclaw-skills-hub/skills/
         └── [other original files]
 ```
 
-Examples: `consultant/`, `educationalist/`, `general-assistant/`
+Examples: `consultant/`, `educationalist/`
 
 ### Nested Skills (Multiple Skills in Group)
 
@@ -133,7 +133,6 @@ Defines metadata for groups (skill categories). Place directly in group director
 🔬  Scientists (scientist)
 💼  Consultants (consultant)
 📚  Educators (educationalist)
-🤖  General Assistant (general-assistant)
 📊  Data Scientists
 🔧  Engineers
 💡  Innovation

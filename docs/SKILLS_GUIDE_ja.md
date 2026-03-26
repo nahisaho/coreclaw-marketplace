@@ -32,7 +32,7 @@ coreclaw-skills-hub/skills/
         └── [その他のオリジナルファイル]
 ```
 
-例：`consultant/`, `educationalist/`, `general-assistant/`
+例：`consultant/`, `educationalist/`
 
 ### ネストされたグループ内のスキル（複数スキル）
 
@@ -133,7 +133,6 @@ coreclaw-skills-hub/skills/
 🔬  科学者向け (scientist)
 💼  コンサルタント向け (consultant)
 📚  教育関係者向け (educationalist)
-🤖  一般アシスタント (general-assistant)
 📊  データサイエンティスト向け
 🔧  エンジニア向け
 💡  イノベーション向け
