@@ -55,3 +55,15 @@ jobs:
           for skill_json in sorted(skill_json_paths):
               subprocess.run([sys.executable, str(validator), str(skill_json)], check=True)
           PY
+
+      - name: Generate registry preview
+        run: |
+          python .github/scripts/generate_registry_preview.py \
+            skills \
+            .artifacts/registry.preview.json
+
+      - name: Upload registry preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: registry-preview
+          path: .artifacts/registry.preview.json

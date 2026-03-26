@@ -57,6 +57,9 @@ If you compare `coreclaw/skills` and `coreclaw-skills-hub/skills`, they are expe
 
 Pull requests that touch files under `skills/**` run metadata validation for changed skills.
 
+PR validation does not commit `registry.json` changes.
+Instead, CI generates a preview registry artifact so reviewers can inspect the current skill catalog without polluting the pull request branch with bot commits.
+
 ## skill.json Schema (minimum)
 
 ```json
