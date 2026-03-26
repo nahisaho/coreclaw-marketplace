@@ -14,13 +14,44 @@ jobs:
       - name: Validate changed skills
         run: |
           set -euo pipefail
-          CHANGED_SKILLS=$(git diff --name-only origin/main...HEAD | grep '^skills/' | awk -F/ '{print $2}' | sort -u || true)
+          python - <<'PY'
+          import pathlib
+          import subprocess
+          import sys
 
-          if [ -z "${CHANGED_SKILLS}" ]; then
-            echo "No skill changes detected."
-            exit 0
-          fi
+          repo_root = pathlib.Path.cwd()
+          skills_root = repo_root / "skills"
+          validator = repo_root / ".github/scripts/validate_skill.py"
 
-          for SKILL in ${CHANGED_SKILLS}; do
-            python .github/scripts/validate_skill.py "skills/${SKILL}/skill.json"
-          done
+          diff_output = subprocess.run(
+              ["git", "diff", "--name-only", "origin/main...HEAD"],
+              check=True,
+              capture_output=True,
+              text=True,
+          ).stdout.splitlines()
+
+          skill_json_paths = set()
+          for item in diff_output:
+              path = repo_root / item
+              try:
+                  path.relative_to(skills_root)
+              except ValueError:
+                  continue
+
+              current = path if path.is_dir() else path.parent
+              while current != current.parent and current != skills_root.parent:
+                  candidate = current / "skill.json"
+                  if candidate.exists():
+                      skill_json_paths.add(candidate)
+                      break
+                  if current == skills_root:
+                      break
+                  current = current.parent
+
+          if not skill_json_paths:
+              print("No skill changes detected.")
+              raise SystemExit(0)
+
+          for skill_json in sorted(skill_json_paths):
+              subprocess.run([sys.executable, str(validator), str(skill_json)], check=True)
+          PY

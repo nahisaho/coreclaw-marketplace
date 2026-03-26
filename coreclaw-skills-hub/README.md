@@ -8,18 +8,18 @@ Marketplace repository for Core-Claw Agent Skills.
 - `.github/workflows/validate.yml`: validate changed skills on pull requests.
 - `.github/scripts/validate_skill.py`: validates each `skill.json`.
 - `.github/scripts/update_registry.py`: updates `registry.json` after release.
-- `skills/<skill-name>/`: each skill package.
+- `skills/<group>/<skill-name>/`: nested skill packages, e.g. `skills/scientist/scientific-academic-writing/`.
 - `registry.json`: generated index for all released skills.
 
 ## Release Flow
 
 1. Create a tag with this format:
-   - `<skill-name>/v<major>.<minor>.<patch>`
-   - Example: `web-search/v1.0.0`
+   - `<skill-path>/v<major>.<minor>.<patch>`
+   - Example: `scientist/scientific-academic-writing/v0.1.0`
 2. Push the tag.
 3. The release workflow will:
-   - validate `skills/<skill-name>/skill.json`
-   - zip that skill directory
+   - validate `skills/<skill-path>/skill.json`
+   - zip that nested skill directory
    - create a GitHub Release and upload the zip
    - update `registry.json` and push to `main`
 

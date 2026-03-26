@@ -42,12 +42,6 @@ def main() -> None:
     if not SEMVER_TAG_PATTERN.match(data["version"]):
         fail("version must match v<major>.<minor>.<patch>, e.g. v1.0.0")
 
-    skill_dir_name = path.parent.name
-    if data["name"] != skill_dir_name:
-        fail(
-            f"name mismatch: skill.json name '{data['name']}' must match directory '{skill_dir_name}'"
-        )
-
     entrypoint = path.parent / data["entrypoint"]
     if not entrypoint.exists():
         fail(f"entrypoint not found: {entrypoint}")
