@@ -11,6 +11,36 @@ Marketplace repository for Core-Claw Agent Skills.
 - `skills/<group>/<skill-name>/`: nested skill packages, e.g. `skills/scientist/scientific-academic-writing/`.
 - `registry.json`: generated index for all released skills.
 
+## Imported Skill Layout
+
+This repository does not keep `skills/` identical to `nahisaho/coreclaw`.
+The current layout is intentional and is the official marketplace format.
+
+For each imported skill directory such as `skills/scientist/scientific-academic-writing/`, the following files are maintained:
+
+- `SKILL.md`: the original skill definition copied to the skill root for direct consumption.
+- `skill.json`: marketplace metadata used by validation and release workflows.
+- `main.py`: marketplace entrypoint placeholder.
+- `README.md`: marketplace-facing description for the imported skill.
+- `source/`: preserved original source payload copied from `nahisaho/coreclaw`.
+
+Examples:
+
+- Original file `coreclaw/skills/scientist/scientific-academic-writing/SKILL.md`
+   is preserved as `skills/scientist/scientific-academic-writing/SKILL.md`
+   and also as `skills/scientist/scientific-academic-writing/source/SKILL.md`.
+- Original directory `coreclaw/skills/scientist/scientific-academic-writing/assets/`
+   is preserved under `skills/scientist/scientific-academic-writing/source/assets/`.
+
+This means:
+
+- skill directory nesting is preserved
+- original source files are preserved
+- marketplace-specific files are added
+- helper files from the source repository may live under `source/` rather than at the original top-level position
+
+If you compare `coreclaw/skills` and `coreclaw-skills-hub/skills`, they are expected to differ structurally, but the original source content should still be present.
+
 ## Release Flow
 
 1. Create a tag with this format:
@@ -31,9 +61,9 @@ Pull requests that touch files under `skills/**` run metadata validation for cha
 
 ```json
 {
-  "name": "web-search",
-  "version": "v1.0.0",
-  "description": "Searches the web and returns summarized results.",
+   "name": "scientific-academic-writing",
+   "version": "v0.1.0",
+   "description": "Imported from nahisaho/coreclaw",
   "entrypoint": "main.py"
 }
 ```
