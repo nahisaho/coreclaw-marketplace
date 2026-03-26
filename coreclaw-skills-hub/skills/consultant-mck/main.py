@@ -5,6 +5,7 @@
 def run(input_data: dict | None = None) -> dict:
     return {
         "skill": "consultant-mck",
+        "skill_path": "consultant-mck",
         "status": "imported",
         "input": input_data or {},
     }

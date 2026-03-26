@@ -2,6 +2,6 @@
 
 Imported from nahisaho/coreclaw.
 
-- Source path: `skills/consultant-acn`
+- Source path: `consultant-acn`
 - Original definition: `source/SKILL.md`
 - Imported version: `v0.1.0`

@@ -1,7 +1,0 @@
-# scientific-hgnc-nomenclature
-
-Imported from nahisaho/coreclaw.
-
-- Source path: `skills/scientist/scientific-hgnc-nomenclature`
-- Original definition: `source/SKILL.md`
-- Imported version: `v0.1.0`
