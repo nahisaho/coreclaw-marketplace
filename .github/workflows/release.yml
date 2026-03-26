@@ -1,0 +1,64 @@
+name: Release Skill
+
+on:
+  push:
+    tags:
+      - "*/v*" # e.g. web-search/v1.0.0
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract skill and version from tag
+        id: meta
+        run: |
+          TAG="${GITHUB_REF_NAME}" # web-search/v1.0.0
+          SKILL="${TAG%%/*}"       # web-search
+          VERSION="${TAG##*/}"     # v1.0.0
+          echo "skill=${SKILL}" >> "${GITHUB_OUTPUT}"
+          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+
+      - name: Validate skill.json
+        run: |
+          SKILL="${{ steps.meta.outputs.skill }}"
+          python coreclaw-skills-hub/.github/scripts/validate_skill.py "coreclaw-skills-hub/skills/${SKILL}/skill.json"
+
+      - name: Package skill as zip
+        run: |
+          SKILL="${{ steps.meta.outputs.skill }}"
+          VERSION="${{ steps.meta.outputs.version }}"
+          ZIP_NAME="${SKILL}-${VERSION}.zip"
+          cd coreclaw-skills-hub/skills
+          zip -r "../../${ZIP_NAME}" "${SKILL}/"
+          echo "ZIP_NAME=${ZIP_NAME}" >> "${GITHUB_ENV}"
+
+      - name: Create GitHub Release and upload asset
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "${{ steps.meta.outputs.skill }} ${{ steps.meta.outputs.version }}"
+          files: ${{ env.ZIP_NAME }}
+
+      - name: Update registry.json
+        run: |
+          SKILL="${{ steps.meta.outputs.skill }}"
+          VERSION="${{ steps.meta.outputs.version }}"
+          ZIP_URL="https://github.com/${{ github.repository }}/releases/download/${GITHUB_REF_NAME}/${ZIP_NAME}"
+          cd coreclaw-skills-hub
+          python .github/scripts/update_registry.py "${SKILL}" "${VERSION}" "${ZIP_URL}"
+
+      - name: Commit registry.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add coreclaw-skills-hub/registry.json
+          if git diff --cached --quiet; then
+            echo "No registry changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: update registry for ${{ steps.meta.outputs.skill }} ${{ steps.meta.outputs.version }}"
+          git push origin HEAD:main

@@ -1,0 +1,26 @@
+name: Validate Skill
+
+on:
+  pull_request:
+    paths:
+      - "coreclaw-skills-hub/skills/**"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate changed skills
+        run: |
+          set -euo pipefail
+          CHANGED_SKILLS=$(git diff --name-only origin/main...HEAD | grep '^coreclaw-skills-hub/skills/' | awk -F/ '{print $3}' | sort -u || true)
+
+          if [ -z "${CHANGED_SKILLS}" ]; then
+            echo "No skill changes detected."
+            exit 0
+          fi
+
+          for SKILL in ${CHANGED_SKILLS}; do
+            python coreclaw-skills-hub/.github/scripts/validate_skill.py "coreclaw-skills-hub/skills/${SKILL}/skill.json"
+          done
