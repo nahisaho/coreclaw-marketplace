@@ -1,6 +1,6 @@
 {
   "name": "Consultant",
-  "description": "汎用コンサルタント向けスキル。ビジネス分析、戦略策定、問題解決、プレゼンテーション、クライアント管理などコンサルティング業務全般に必要なスキル。",
+  "description": "General consultant skills. Essential skills for consulting work including business analysis, strategy development, problem-solving, presentations, and client management.",
   "icon": "💼",
   "count": 1
 }
