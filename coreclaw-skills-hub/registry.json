@@ -1,4 +1,817 @@
 {
-  "generated_at": "2026-03-26T21:44:17+00:00",
-  "skills": {}
+  "generated_at": "2026-03-26T21:51:58+00:00",
+  "skills": {
+    "consultant-acn": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "consultant-assistant": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "consultant-bcg": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "consultant-mck": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "consultant-pwc": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "general-assistant": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-academic-writing": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-active-learning": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-adaptive-experiments": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-admet-pharmacokinetics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-advanced-imaging": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-advanced-visualization": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-alphafold-structures": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-anomaly-detection": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-arrayexpress-expression": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-assistant": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-audit-report": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-automl": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-bayesian-statistics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-biobank-cohort": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-bioinformatics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-biomedical-pubtator": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-biosignal-processing": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-biothings-idmapping": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-cancer-genomics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-causal-inference": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-causal-ml": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-cell-line-resources": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-cellxgene-census": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-chembl-assay-mining": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-cheminformatics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-citation-checker": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-civic-evidence": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-clingen-curation": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-clinical-decision-support": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-clinical-nlp": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-clinical-pharmacology": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-clinical-reporting": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-clinical-standards": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-clinical-trials-analytics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-compound-screening": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-computational-materials": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-crispr-design": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-critical-review": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-crossref-metadata": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-data-preprocessing": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-data-profiling": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-data-simulation": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-data-submission": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-deep-chemistry": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-deep-learning": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-deep-research": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-depmap-dependencies": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-disease-research": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-doe": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-drug-repurposing": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-drug-target-profiling": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-drugbank-resources": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-ebi-databases": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-eda-correlation": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-encode-screen": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-ensembl-genomics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-ensemble-methods": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-environmental-ecology": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-environmental-geodata": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-epidemiology-public-health": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-epigenomics-chromatin": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-experiment-fork": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-experiment-template": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-explainable-ai": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-expression-comparison": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-feature-importance": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-federated-learning": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-gdc-portal": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-gene-expression-transcriptomics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-genome-sequence-tools": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-geo-expression": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-geospatial-analysis": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-glycomics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-gnomad-variants": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-gpu-singlecell": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-grant-writing": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-graph-neural-networks": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-gtex-tissue-expression": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-gwas-catalog": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-healthcare-ai": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-hgnc-nomenclature": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-human-cell-atlas": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-human-protein-atlas": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-hypothesis-pipeline": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-icgc-cancer-data": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-image-analysis": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-immunoinformatics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-infectious-disease": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-interactive-dashboard": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-lab-automation": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-lab-data-management": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-latex-export": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-latex-formatter": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-lipidomics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-literature-search": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-marine-ecology": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-materials-characterization": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-md-simulation": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-medical-imaging": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-meta-analysis": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-metabolic-atlas": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-metabolic-flux": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-metabolic-modeling": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-metabolomics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-metabolomics-databases": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-metabolomics-network": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-metagenome-assembled-genomes": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-microbiome-metagenomics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-missing-data-analysis": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-ml-classification": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-ml-regression": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-model-monitoring": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-model-organism-db": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-molecular-docking": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-monarch-ontology": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-multi-omics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-multi-task-learning": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-nci60-screening": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-network-analysis": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-network-visualization": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-neural-architecture-search": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-neuroscience-electrophysiology": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-noncoding-rna": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-ontology-enrichment": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-opentargets-genetics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-paleobiology": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-paper-quality": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-parasite-genomics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-pathway-enrichment": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-pca-tsne": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-peer-review": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-peer-review-response": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-perturbation-analysis": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-pharmacogenomics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-pharmacology-targets": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-pharmacovigilance": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-pharmgkb-pgx": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-pharos-targets": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-phylogenetics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-pipeline-scaffold": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-plant-biology": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-population-genetics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-precision-oncology": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-preprint-archive": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-presentation-design": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-process-optimization": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-protein-design": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-protein-domain-family": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-protein-interaction-network": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-protein-structure-analysis": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-proteomics-mass-spectrometry": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-public-health-data": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-publication-figures": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-quantum-computing": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-radiology-ai": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-rare-disease-genetics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-rcsb-pdb-search": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-reactome-pathways": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-regulatory-genomics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-regulatory-science": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-reinforcement-learning": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-reproducible-reporting": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-research-methodology": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-revision-tracker": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-rrna-taxonomy": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-scatac-signac": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-scientific-schematics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-scvi-integration": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-semantic-scholar": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-semi-supervised-learning": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-sequence-analysis": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-single-cell-genomics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-spatial-multiomics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-spatial-transcriptomics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-spectral-signal": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-squidpy-advanced": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-statistical-simulation": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-statistical-testing": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-stitch-chemical-network": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-streaming-analytics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-string-network-api": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-structural-proteomics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-supplementary-generator": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-survival-clinical": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-symbolic-mathematics": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-systematic-review": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-systems-biology": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-text-mining-nlp": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-time-series": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-time-series-forecasting": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-toxicology-env": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-transfer-learning": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-uncertainty-quantification": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-uniprot-proteome": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-variant-effect-prediction": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "scientific-variant-interpretation": {
+      "latest": "v0.1.0",
+      "versions": []
+    },
+    "teaching-assistant": {
+      "latest": "v0.1.0",
+      "versions": []
+    }
+  }
 }

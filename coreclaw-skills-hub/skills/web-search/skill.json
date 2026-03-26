@@ -1,6 +1,0 @@
-{
-  "name": "web-search",
-  "version": "v1.0.0",
-  "description": "Searches the web and returns summarized results.",
-  "entrypoint": "main.py"
-}

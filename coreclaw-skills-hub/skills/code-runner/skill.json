@@ -1,6 +1,0 @@
-{
-  "name": "code-runner",
-  "version": "v1.0.0",
-  "description": "Executes code snippets in a controlled runtime.",
-  "entrypoint": "main.py"
-}
