@@ -29,6 +29,14 @@ def load_registry() -> dict[str, Any]:
     return data
 
 
+def load_group_metadata(group_name: str) -> dict[str, Any] | None:
+    """Load group.json metadata if it exists."""
+    group_json = pathlib.Path("skills") / group_name / "group.json"
+    if group_json.exists():
+        return json.loads(group_json.read_text(encoding="utf-8"))
+    return None
+
+
 def main() -> None:
     if len(sys.argv) != 4:
         print(
@@ -65,6 +73,19 @@ def main() -> None:
     item["latest"] = version
     item["versions"] = versions
     skills[skill] = item
+
+    # Add group metadata if this skill belongs to a group
+    if "/" in skill:
+        group_name = skill.split("/")[0]
+        group_meta = load_group_metadata(group_name)
+        if group_meta and group_name not in skills:
+            skills[group_name] = {
+                "name": group_meta["name"],
+                "description": group_meta["description"],
+                "icon": group_meta.get("icon", ""),
+                "isGroup": True,
+                "skillCount": group_meta.get("count", 0),
+            }
 
     registry["generated_at"] = released_at
 
