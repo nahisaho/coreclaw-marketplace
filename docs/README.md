@@ -1,49 +1,49 @@
 # Documentation - coreclaw-skills-hub
 
-coreclaw-skills-hub マーケットプレースの完全なドキュメンテーション。
+Complete documentation for the coreclaw-skills-hub skills marketplace.
 
-## 📚 ドキュメント一覧
+## 📚 Documentation Index
 
-### [Skills 作成ガイド](./SKILLS_GUIDE.md) 
+### [Skills Development Guide](./SKILLS_GUIDE.md)
 
-スキルを作成・登録するための完全なガイド。
+Complete guide for creating and registering skills in the marketplace.
 
-**含まれる内容：**
-- ディレクトリ構造とファイル配置
-- `skill.json` と `group.json` のスキーマ
-- 命名規則とバージョン管理
-- スキル作成の手順
-- ベストプラクティス
+**Contents:**
+- Directory structure and file placement
+- `skill.json` and `group.json` schemas
+- Naming conventions and version management
+- Step-by-step skill creation process
+- Release procedures and best practices
 
-**対象者:** スキル開発者、新しいスキルを追加したい人
-
----
-
-### [Registry と CI/CD ワークフロー](./REGISTRY_AND_CI_CD.md)
-
-系統の仕組みと自動化ワークフローの詳細。
-
-**含まれる内容：**
-- Registry （registry.json）の構造
-- PR 検証ワークフロー（validation.yml）
-- リリースワークフロー（release.yml）
-- GitHub Release 自動生成
-- トラブルシューティング
-
-**対象者:** マーケットプレース管理者、ワークフロー理解のための技術者
+**Target audience:** Skill developers, those adding new skills
 
 ---
 
-## 🚀 クイックスタート
+### [Registry and CI/CD Workflow](./REGISTRY_AND_CI_CD.md)
 
-### 1. 新しいスキルを作成
+Detailed information about the registry system and automated workflows.
+
+**Contents:**
+- Registry (registry.json) structure
+- PR validation workflow (validation.yml)
+- Release workflow (release.yml)
+- Automatic GitHub Release generation
+- Troubleshooting guide
+
+**Target audience:** Marketplace administrators, developers understanding workflows
+
+---
+
+## 🚀 Quick Start
+
+### 1. Create a New Skill
 
 ```bash
-# ディレクトリ作成
+# Create directory
 mkdir -p coreclaw-skills-hub/skills/<group>/<skill-name>
 cd coreclaw-skills-hub/skills/<group>/<skill-name>
 
-# skill.json 作成
+# Create skill.json
 cat > skill.json << 'EOF'
 {
   "name": "my-skill",
@@ -53,7 +53,7 @@ cat > skill.json << 'EOF'
 }
 EOF
 
-# main.py 作成
+# Create main.py
 cat > main.py << 'EOF'
 #!/usr/bin/env python3
 def main():
@@ -63,162 +63,175 @@ if __name__ == "__main__":
     main()
 EOF
 
-# SKILL.md 作成
+# Create SKILL.md
 cat > SKILL.md << 'EOF'
 # My Skill
 
-## 概要
-スキルの説明
+## Overview
+Skill description
 
-## 使用方法
-使用方法
+## Usage
+Usage instructions
 EOF
 
-# コミット
+# Commit
 git add .
 git commit -m "feat: add my-skill"
 git push origin main
 ```
 
-詳細は [Skills 作成ガイド](./SKILLS_GUIDE.md) を参照。
+For detailed instructions, see [Skills Development Guide](./SKILLS_GUIDE.md).
 
-### 2. スキルをリリース
+### 2. Release a Skill
 
 ```bash
-# skill.json のバージョン更新
+# Update version in skill.json
 # version: "v0.1.0" → "v0.2.0"
 
 git add coreclaw-skills-hub/skills/<group>/<skill-name>/skill.json
 git commit -m "bump: version v0.2.0"
 git push origin main
 
-# リリースタグ作成
+# Create release tag
 git tag <group>/<skill-name>/v0.2.0
 git push origin <group>/<skill-name>/v0.2.0
 ```
 
-詳細は [Registry と CI/CD ワークフロー](./REGISTRY_AND_CI_CD.md#リリースワークフロー) を参照。
+For detailed instructions, see [Registry and CI/CD Workflow - Release Workflow](./REGISTRY_AND_CI_CD.md#release-workflow).
 
 ---
 
-## 📋 ファイル構造
+## 📋 File Structure
 
 ```
 coreclaw-skills-hub/
 ├── skills/
 │   ├── scientist/
-│   │   ├── group.json                                  # グループメタデータ
+│   │   ├── group.json                                  # Group metadata
 │   │   ├── scientific-academic-writing/
-│   │   │   ├── skill.json                             # スキルメタデータ
-│   │   │   ├── main.py                                # エントリポイント
+│   │   │   ├── skill.json                             # Skill metadata
+│   │   │   ├── main.py                                # Entrypoint
 │   │   │   ├── SKILL.md
 │   │   │   ├── README.md
-│   │   │   └── source/                                # オリジナルペイロード
-│   │   └── [...その他のスキル...]
+│   │   │   └── source/                                # Original payload
+│   │   └── [...other skills...]
 │   ├── consultant/
-│   └── [...その他のグループ...]
-├── registry.json                                       # リリース済みスキルのメタデータ
+│   └── [...other groups...]
+├── registry.json                                       # Released skills metadata
 ├── .github/
 │   ├── scripts/
-│   │   ├── generate_registry_preview.py               # PR 用プレビュー生成
-│   │   ├── validate_skill.py                          # スキル検証
-│   │   └── update_registry.py                         # registry 更新
+│   │   ├── generate_registry_preview.py               # PR preview generation
+│   │   ├── validate_skill.py                          # Skill validation
+│   │   └── update_registry.py                         # Registry update
 │   └── workflows/
-│       ├── validate.yml                               # PR 検証ワークフロー
-│       └── release.yml                                # リリースワークフロー
+│       ├── validate.yml                               # PR validation workflow
+│       └── release.yml                                # Release workflow
 └── docs/
-    ├── README.md                                       # このファイル
-    ├── SKILLS_GUIDE.md                                # スキル作成ガイド
-    └── REGISTRY_AND_CI_CD.md                          # Registry と CI/CD
+    ├── README.md                                       # This file
+    ├── README_ja.md                                    # Japanese version
+    ├── SKILLS_GUIDE.md                                # Skills development guide
+    ├── SKILLS_GUIDE_ja.md                             # Japanese version
+    ├── REGISTRY_AND_CI_CD.md                          # Registry and CI/CD guide
+    └── REGISTRY_AND_CI_CD_ja.md                       # Japanese version
 ```
 
 ---
 
-## 🔑 重要な概念
+## 🔑 Key Concepts
 
-### セマンティック バージョニング
+### Semantic Versioning
 
-バージョン形式：`v<MAJOR>.<MINOR>.<PATCH>`
+Version format: `v<MAJOR>.<MINOR>.<PATCH>`
 
 ```
-v0.1.0  初期バージョン
-v0.2.0  新機能追加 (minor version up)
-v0.2.1  バグ修正 (patch version up)
-v1.0.0  安定版リリース (major version up)
+v0.1.0  Initial version
+v0.2.0  New features added (minor version bump)
+v0.2.1  Bug fix (patch version bump)
+v1.0.0  Stable release (major version bump)
 ```
 
-参考：[semver.org](https://semver.org/)
+Reference: [semver.org](https://semver.org/)
 
-### タグ命名規則
+### Tag Naming Convention
 
 ```bash
-# 単一スキル（グループ = スキル）
+# Single skill (group = skill)
 <group>/v<version>
 
-# ネストされたスキル（グループ内のスキル）
+# Nested skill (skill within group)
 <group>/<skill-name>/v<version>
 ```
 
-例：
+Examples:
 ```bash
 scientist/scientific-academic-writing/v0.2.0
 consultant/v0.1.0
 ```
 
-### Registry の更新タイミング
+### Registry Update Timing
 
-- **自動更新**: タグのプッシュ時のみ（GitHub Actions による）
-- **手動更新**: 不可（自動ワークフロー以外では変更不可）
-- **PR では**: プレビュー生成のみ（registry.json 変更なし）
-
----
-
-## 🛠 技術スタック
-
-- **スクリプト言語**: Python 3.8+
-- **バージョン管理**: Git
-- **自動化**: GitHub Actions
-- **Registry フォーマット**: JSON
-- **スキル実装言語**: Python（推奨）
+- **Automatic update**: Only when tags are pushed (GitHub Actions)
+- **Manual update**: Not allowed (changes only via automated workflow)
+- **On PR**: Preview generation only (no registry.json changes)
 
 ---
 
-## 📞 サポート
+## 🛠 Technology Stack
 
-### よくある質問（FAQ）
+- **Scripting language**: Python 3.8+
+- **Version control**: Git
+- **Automation**: GitHub Actions
+- **Registry format**: JSON
+- **Skill implementation language**: Python (recommended)
 
-Q: **複数スキルを同時にリリースしたい**
-A: 各タグを作成してまとめてプッシュできます。
+---
+
+## 📞 Support
+
+### Frequently Asked Questions (FAQ)
+
+**Q: I want to release multiple skills at once**
+
+A: Create multiple tags and push them together:
 ```bash
 git tag group/skill1/v0.1.0 group/skill2/v0.1.0
 git push origin --tags
 ```
 
-Q: **タグを削除したい**
+**Q: How do I delete a tag?**
+
 A:
 ```bash
 git tag -d tag-name
 git push origin :refs/tags/tag-name
 ```
 
-Q: **Registry プレビューはどこで見られる？**
-A: PR の Artifacts セクションから `registry-preview` をダウンロード。
+**Q: Where can I see the registry preview?**
 
-### 問題報告
+A: Download `registry-preview` from the Artifacts section of the PR.
 
-問題や質問が発生した場合：
-1. GitHub Issues で報告
-2. 詳細なエラーログを含める
-3. 関連するファイル（skill.json など）を添付
+### Reporting Issues
 
----
-
-## 📝 ライセンス
-
-MIT License
+If you encounter issues or have questions:
+1. Report via GitHub Issues
+2. Include detailed error logs
+3. Attach related files (skill.json, etc.)
 
 ---
 
-**最終更新**: 2026-03-27  
-**作成者**: coreclaw-skills-hub  
-**バージョン**: 1.0.0
+## 📚 Additional Resources
+
+- [Semantic Versioning - semver.org](https://semver.org/)
+- [GitHub Releases Documentation](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)
+
+### Language Versions
+
+- **English** (this file)
+- **日本語** (Japanese) - See [README_ja.md](./README_ja.md)
+
+---
+
+**Last updated**: 2026-03-27  
+**Author**: coreclaw-skills-hub  
+**Version**: 1.0.0

@@ -1,45 +1,45 @@
-# Skills 作成ガイド
+# Skills Development Guide
 
-このガイドでは、coreclaw-skills-hub マーケットプレースにスキルを登録・公開するための手順とベストプラクティスを説明します。
+This guide explains the procedures and best practices for creating and registering skills in the coreclaw-skills-hub marketplace.
 
-## 目次
+## Table of Contents
 
-1. [ディレクトリ構造](#ディレクトリ構造)
-2. [skill.json スキーマ](#skilljson-スキーマ)
-3. [group.json スキーマ](#groupjson-スキーマ)
-4. [ファイル要件](#ファイル要件)
-5. [命名規則](#命名規則)
-6. [スキル作成手順](#スキル作成手順)
-7. [リリース手順](#リリース手順)
-8. [ベストプラクティス](#ベストプラクティス)
+1. [Directory Structure](#directory-structure)
+2. [skill.json Schema](#skilljson-schema)
+3. [group.json Schema](#groupjson-schema)
+4. [File Requirements](#file-requirements)
+5. [Naming Conventions](#naming-conventions)
+6. [Skill Creation Steps](#skill-creation-steps)
+7. [Release Procedures](#release-procedures)
+8. [Best Practices](#best-practices)
 
 ---
 
-## ディレクトリ構造
+## Directory Structure
 
-### グループレベルのスキル（単一スキル）
-
-```
-coreclaw-skills-hub/skills/
-└── <group-name>/
-    ├── group.json                    # グループメタデータ
-    ├── SKILL.md                      # スキルドキュメント（根ルート）
-    ├── skill.json                    # スキルメタデータ
-    ├── main.py                       # エントリポイント（マーケットプレース用）
-    ├── README.md                     # スキル説明（マーケットプレース用）
-    └── source/                       # 元のペイロード
-        ├── SKILL.md                  # 元のスキルドキュメント
-        └── [その他のオリジナルファイル]
-```
-
-例：`consultant/`, `educationalist/`, `general-assistant/`
-
-### ネストされたグループ内のスキル（複数スキル）
+### Group-level Skills (Single Skill)
 
 ```
 coreclaw-skills-hub/skills/
 └── <group-name>/
-    ├── group.json                    # グループメタデータ
+    ├── group.json                    # Group metadata
+    ├── SKILL.md                      # Skill documentation (root)
+    ├── skill.json                    # Skill metadata
+    ├── main.py                       # Entrypoint (marketplace)
+    ├── README.md                     # Skill description (marketplace)
+    └── source/                       # Original payload
+        ├── SKILL.md                  # Original skill document
+        └── [other original files]
+```
+
+Examples: `consultant/`, `educationalist/`, `general-assistant/`
+
+### Nested Skills (Multiple Skills in Group)
+
+```
+coreclaw-skills-hub/skills/
+└── <group-name>/
+    ├── group.json                    # Group metadata
     ├── <skill-name-1>/
     │   ├── SKILL.md
     │   ├── skill.json
@@ -47,7 +47,7 @@ coreclaw-skills-hub/skills/
     │   ├── README.md
     │   └── source/
     │       ├── SKILL.md
-    │       └── [その他のファイル]
+    │       └── [other files]
     └── <skill-name-2>/
         ├── SKILL.md
         ├── skill.json
@@ -55,16 +55,16 @@ coreclaw-skills-hub/skills/
         ├── README.md
         └── source/
             ├── SKILL.md
-            └── [その他のファイル]
+            └── [other files]
 ```
 
-例：`scientist/scientific-academic-writing/`, `scientist/scientific-active-learning/`
+Examples: `scientist/scientific-academic-writing/`, `scientist/scientific-active-learning/`
 
 ---
 
-## skill.json スキーマ
+## skill.json Schema
 
-### 最小限の例
+### Minimal Example
 
 ```json
 {
@@ -75,19 +75,19 @@ coreclaw-skills-hub/skills/
 }
 ```
 
-### フィールド説明
+### Field Description
 
-| フィールド | 型 | 必須 | 説明 |
-|-----------|-----|------|------|
-| `name` | string | ✅ | スキルの一意な名前。ケバブケース（kebab-case）で記述。EXドメイン内で重複しない必要があります。 |
-| `version` | string | ✅ | セマンティック バージョン（Semantic Versioning）形式：`vX.Y.Z`。例：`v0.1.0`, `v1.2.3` |
-| `description` | string | ✅ | スキルの簡潔な説明（英語推奨）。1-2 文で概要を説明。 |
-| `entrypoint` | string | ✅ | マーケットプレースから実行されるメインファイル。通常は `main.py` |
-| `author` | string | ❌ | スキル作成者の名前またはメールアドレス |
-| `license` | string | ❌ | ライセンスタイプ。例：`MIT`, `Apache-2.0` |
-| `keywords` | array | ❌ | スキルを分類するキーワード。例：`["research", "writing", "academic"]` |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | ✅ | Unique skill name. Use kebab-case. Must not duplicate within the domain. |
+| `version` | string | ✅ | Semantic Versioning format: `vX.Y.Z`. Ex: `v0.1.0`, `v1.2.3` |
+| `description` | string | ✅ | Brief skill description (English recommended). Summarize in 1-2 sentences. |
+| `entrypoint` | string | ✅ | Main file executed from marketplace. Usually `main.py` |
+| `author` | string | ❌ | Skill creator name or email address |
+| `license` | string | ❌ | License type. Ex: `MIT`, `Apache-2.0` |
+| `keywords` | array | ❌ | Keywords for skill classification. Ex: `["research", "writing", "academic"]` |
 
-### 拡張例
+### Extended Example
 
 ```json
 {
@@ -103,11 +103,11 @@ coreclaw-skills-hub/skills/
 
 ---
 
-## group.json スキーマ
+## group.json Schema
 
-グループ（スキルカテゴリ）のメタデータを定義します。グループディレクトリの直下に配置。
+Defines metadata for groups (skill categories). Place directly in group directory.
 
-### 最小限の例
+### Minimal Example
 
 ```json
 {
@@ -118,66 +118,66 @@ coreclaw-skills-hub/skills/
 }
 ```
 
-### フィールド説明
+### Field Description
 
-| フィールド | 型 | 必須 | 説明 |
-|-----------|-----|------|------|
-| `name` | string | ✅ | グループの表示名。ユーザーフレンドリーな形式。 |
-| `description` | string | ✅ | グループの説明（英語）。このグループに属するスキルの共通の特徴を説明。 |
-| `icon` | string | ✅ | グループを表す絵文字またはアイコン。UI での表示用。 |
-| `count` | number | ✅ | グループ内のスキル数。Registry 生成時に更新される。 |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | ✅ | Group display name. User-friendly format. |
+| `description` | string | ✅ | Group description (English). Explain common features of skills. |
+| `icon` | string | ✅ | Emoji or icon representing group. For UI display. |
+| `count` | number | ✅ | Number of skills in group. Updated during registry generation. |
 
-### 使用可能なアイコン例
+### Suggested Icons
 
 ```
-🔬  科学者向け (scientist)
-💼  コンサルタント向け (consultant)
-📚  教育関係者向け (educationalist)
-🤖  一般アシスタント (general-assistant)
-📊  データサイエンティスト向け
-🔧  エンジニア向け
-💡  イノベーション向け
+🔬  Scientists (scientist)
+💼  Consultants (consultant)
+📚  Educators (educationalist)
+🤖  General Assistant (general-assistant)
+📊  Data Scientists
+🔧  Engineers
+💡  Innovation
 ```
 
 ---
 
-## ファイル要件
+## File Requirements
 
-### SKILL.md（スキルドキュメント）
+### SKILL.md (Skill Documentation)
 
-スキルの詳細なドキュメント。根ルートと `source/` の両方に配置。
+Detailed skill documentation. Place in both root and `source/` directories.
 
-**必須セクション：**
+**Required Sections:**
 
 ```markdown
 # [Skill Name]
 
-## 概要
-スキルが何をするか、誰を対象にしているかの概要。
+## Overview
+What the skill does and who it targets.
 
-## 主な機能
-- 機能 1
-- 機能 2
-- 機能 3
+## Key Features
+- Feature 1
+- Feature 2
+- Feature 3
 
-## 使用方法
-スキルの使用方法や実行例。
+## Usage
+How to use the skill with examples.
 
-## 入出力フォーマット
-入力と出力の仕様。
+## Input/Output Format
+Specification of input and output formats.
 
-## 前提条件
-必要な環境、依存関係、アクセス権限など。
+## Prerequisites
+Required environment, dependencies, access permissions.
 
-## ライセンス
-スキルのライセンス情報。
+## License
+Skill license information.
 ```
 
-### main.py（エントリポイント）
+### main.py (Entrypoint)
 
-マーケットプレースから実行される Python スクリプト。
+Python script executed from the marketplace.
 
-**最小限の例：**
+**Minimal Example:**
 
 ```python
 #!/usr/bin/env python3
@@ -191,24 +191,24 @@ if __name__ == "__main__":
     main()
 ```
 
-### README.md（マーケットプレース向け説明）
+### README.md (Marketplace Description)
 
-レジストリに表示される短い説明。`description` に基づいて作成。
+Short description displayed in registry. Based on `skill.json` `description`.
 
-**例：**
+**Example:**
 
 ```markdown
 # Scientific Academic Writing
 
-Assists researchers in composing high-quality academic papers with proper structure 
-and citation formatting.
+Assists researchers in composing high-quality academic papers with proper 
+structure and citation formatting.
 
 ## Features
 
 - Automated abstract generation
 - Citation management
 - Structure validation
-- Language polish
+- Language enhancement
 
 ## Quick Start
 
@@ -224,40 +224,40 @@ python main.py
 
 ---
 
-## 命名規則
+## Naming Conventions
 
-### グループ名
-- 英語、ケバブケース（kebab-case）
-- 複数形推奨：`scientists`, `consultants`
-- 例： `scientist`, `consultant`, `consultant-acn`, `educationalist`
+### Group Names
+- English, kebab-case
+- Plural recommended: `scientists`, `consultants`
+- Examples: `scientist`, `consultant`, `consultant-acn`, `educationalist`
 
-### スキル名
-- 英語、ケバブケース（kebab-case）
-- スキルの機能を明確に表現
-- 例： `scientific-academic-writing`, `strategic-planning`, `presentation-design`
+### Skill Names
+- English, kebab-case
+- Clearly express skill functionality
+- Examples: `scientific-academic-writing`, `strategic-planning`, `presentation-design`
 
-### バージョン番号
-- セマンティック バージョニング（Semantic Versioning）準拠
-- 形式：`vMAJOR.MINOR.PATCH`
-- 例： `v0.1.0`, `v1.0.0`, `v2.1.3`
+### Version Numbers
+- Follow Semantic Versioning (Semantic Versioning)
+- Format: `vMAJOR.MINOR.PATCH`
+- Examples: `v0.1.0`, `v1.0.0`, `v2.1.3`
 
-**版のガイドライン：**
-- `MAJOR`：互換性を失う変更を行った場合
-- `MINOR`：後方互換性を保ちながら機能を追加した場合
-- `PATCH`：バグ修正などの小さな変更の場合
+**Versioning Guidelines:**
+- `MAJOR`: Made breaking changes
+- `MINOR`: Added features with backward compatibility
+- `PATCH`: Bug fixes and minor changes
 
 ---
 
-## スキル作成手順
+## Skill Creation Steps
 
-### 1. ディレクトリを作成
+### 1. Create Directory
 
 ```bash
 mkdir -p coreclaw-skills-hub/skills/<group>/<skill-name>
 cd coreclaw-skills-hub/skills/<group>/<skill-name>
 ```
 
-### 2. skill.json を作成
+### 2. Create skill.json
 
 ```json
 {
@@ -268,9 +268,9 @@ cd coreclaw-skills-hub/skills/<group>/<skill-name>
 }
 ```
 
-### 3. main.py を作成
+### 3. Create main.py
 
-スキルのロジックを実装：
+Implement skill logic:
 
 ```python
 #!/usr/bin/env python3
@@ -285,25 +285,25 @@ if __name__ == "__main__":
     main()
 ```
 
-### 4. SKILL.md を作成
+### 4. Create SKILL.md
 
-スキルのドキュメントを作成：
+Create skill documentation:
 
 ```markdown
 # [Skill Name]
 
-## 概要
-説明
+## Overview
+Description
 
-## 使用方法
-使用方法
+## Usage
+Usage instructions
 
 ...
 ```
 
-### 5. README.md を作成
+### 5. Create README.md
 
-マーケットプレース向けの説明：
+Create marketplace-facing description:
 
 ```markdown
 # [Skill Name]
@@ -311,17 +311,17 @@ if __name__ == "__main__":
 Brief description and features
 ```
 
-### 6. source/ ディレクトリを作成（オプション）
+### 6. Create source/ Directory (Optional)
 
-元のペイロードを保存：
+Store original payload:
 
 ```bash
 mkdir source
 cp SKILL.md source/
-# 他のオリジナルファイルをコピー
+# Copy other original files
 ```
 
-### 7. 変更をコミット
+### 7. Commit Changes
 
 ```bash
 git add <group>/<skill-name>/
@@ -331,9 +331,9 @@ git push origin main
 
 ---
 
-## リリース手順
+## Release Procedures
 
-### 1. skill.json のバージョンを更新
+### 1. Update Version in skill.json
 
 ```json
 {
@@ -344,7 +344,7 @@ git push origin main
 }
 ```
 
-### 2. 変更をコミット
+### 2. Commit Changes
 
 ```bash
 git add coreclaw-skills-hub/skills/<group>/<skill-name>/skill.json
@@ -352,87 +352,87 @@ git commit -m "bump: version v0.2.0 for <skill-name>"
 git push origin main
 ```
 
-### 3. リリースタグを作成
+### 3. Create Release Tag
 
 ```bash
-# 単一スキル（グループと同じ名前）
+# Single skill (group = skill name)
 git tag <group>/v0.2.0
 git push origin <group>/v0.2.0
 
-# ネストされたスキル（グループ内のスキル）
+# Nested skill (skill within group)
 git tag <group>/<skill-name>/v0.2.0
 git push origin <group>/<skill-name>/v0.2.0
 ```
 
-### 4. GitHub Release を確認
+### 4. Verify GitHub Release
 
-タグ作成後、GitHub Actions が自動的に以下を実行：
-- スキルディレクトリをZIP化
-- GitHub Release を作成
-- registry.json を更新
-- 変更を main ブランチにプッシュ
+After tag creation, GitHub Actions automatically:
+- Zips skill directory
+- Creates GitHub Release
+- Updates registry.json
+- Pushes changes to main branch
 
 ---
 
-## ベストプラクティス
+## Best Practices
 
-### 説明の書き方
+### Writing Descriptions
 
-✅ **良い例：**
+✅ **Good Example:**
 ```
 "Assists researchers in composing high-quality academic papers with proper structure and citation formatting"
 ```
 
-❌ **悪い例：**
+❌ **Bad Example:**
 ```
 "paper writing"
 "tool for writing"
 ```
 
-### バージョンの進め方
+### Version Progression
 
 ```
-v0.1.0  -> v0.2.0  新機能追加時
-v0.1.0  -> v0.1.1  バグ修正時
-v0.9.0  -> v1.0.0  安定版リリース時
+v0.1.0  -> v0.2.0  When adding features
+v0.1.0  -> v0.1.1  When fixing bugs
+v0.9.0  -> v1.0.0  When releasing stable version
 ```
 
-### ファイルサイズ
+### File Size
 
-- `SKILL.md`: 簡潔に。複雑な場合は複数ファイルに分割
-- `main.py`: 実装が大きい場合はモジュール化
-- `source/`: オリジナルペイロード全体を保存
+- `SKILL.md`: Keep concise. Split into multiple files if complex.
+- `main.py`: Modularize if implementation is large.
+- `source/`: Store entire original payload.
 
-### 依存関係管理
+### Dependency Management
 
-- `requirements.txt` を用意（外部ライブラリが必要な場合）
-- 依存関係のバージョンを固定
-- Python >= 3.8 を推奨
+- Provide `requirements.txt` if external libraries needed
+- Pin dependency versions
+- Recommend Python >= 3.8
 
-### 言語の統一
+### Language Consistency
 
-- `skill.json` の `description`: **英語**
-- `group.json` の `description`: **英語**
-- `SKILL.md`: 日本語 または 英語（一貫性を保つ）
-- `README.md`: 英語推奨
+- `skill.json` `description`: **English**
+- `group.json` `description`: **English**
+- `SKILL.md`: Japanese or English (maintain consistency)
+- `README.md`: English recommended
 
-### CI/CD との連携
+### CI/CD Integration
 
-- `skill.json` は必須フィールドをすべて含める
-- `entrypoint` で指定したファイルが存在することを確認
-- `main` ブランチへのプッシュは自動検証される
+- Include all required fields in `skill.json`
+- Verify entrypoint file exists
+- Validate automatically on push to main branch
 
 ---
 
 ## FAQ
 
-### Q. スキルを更新する場合、バージョンを上げずに済む？
+### Q. Can I update a skill without changing the version?
 
-A. いいえ。registry に登録されるため、バージョンは必ず更新してください。タグ作成時に GitHub Actions が新しいバージョンを検出し、registry.json を更新します。
+A. No. Since registry tracks versions, always update the version number. GitHub Actions will detect the new version when creating the tag and update registry.json.
 
-### Q. 複数のスキルをまとめてリリースできる？
+### Q. Can I release multiple skills at once?
 
-A. 可能です。各スキルのタグを作成してプッシュすれば、GitHub Actions が順次処理します。
+A. Yes. Create tags for each skill and push them together; GitHub Actions processes each one.
 
 ```bash
 git tag scientist/scientific-writing/v0.2.0
@@ -440,16 +440,22 @@ git tag scientist/data-analysis/v0.1.0
 git push origin --tags
 ```
 
-### Q. ネストされたグループ（3階層以上）をサポートしている？
+### Q. Does the system support nested groups (3+ levels)?
 
-A. 現在のシステムは最大 2階層（グループ + スキル）をサポートしています。3階層以上が必要な場合は registry の設定を変更する必要があります。
+A. Current system supports up to 2 levels (group + skill). For 3+ levels, registry configuration needs modification.
 
-### Q. source/ ディレクトリは必須？
+### Q. Is the source/ directory required?
 
-A. いいえ。新規作成スキルは必須ではありません。既存のペイロードをインポートする際に、元のファイル構造を保存するために使用します。
+A. No. It's optional for new skills. Use it when importing existing payloads to preserve original file structure.
 
 ---
 
-## サポート
+## Support
 
-質問や問題がある場合は、リポジトリの Issues セクションで報告してください。
+For questions or issues, report in the repository's Issues section.
+
+---
+
+**Language Versions:**
+- **English** (this file)
+- **日本語** (Japanese) - See [SKILLS_GUIDE_ja.md](./SKILLS_GUIDE_ja.md)

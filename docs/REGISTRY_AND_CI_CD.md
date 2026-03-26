@@ -1,21 +1,21 @@
-# Registry と CI/CD ワークフロー
+# Registry and CI/CD Workflow
 
-このドキュメントでは、coreclaw-skills-hub の registry システムと自動化ワークフローについて説明します。
+This document explains the registry system and automated workflows in coreclaw-skills-hub.
 
-## 目次
+## Table of Contents
 
-1. [Registry 構造](#registry-構造)
-2. [検証ワークフロー](#検証ワークフロー)
-3. [リリースワークフロー](#リリースワークフロー)
-4. [トラブルシューティング](#トラブルシューティング)
+1. [Registry Structure](#registry-structure)
+2. [Validation Workflow](#validation-workflow)
+3. [Release Workflow](#release-workflow)
+4. [Troubleshooting](#troubleshooting)
 
 ---
 
-## Registry 構造
+## Registry Structure
 
-### registry.json の形式
+### registry.json Format
 
-`coreclaw-skills-hub/registry.json` は、すべてのリリース済みスキルのメタデータと URL を管理します。
+`coreclaw-skills-hub/registry.json` manages metadata and URLs for all released skills.
 
 ```json
 {
@@ -53,116 +53,117 @@
 }
 ```
 
-### フィールド説明
+### Field Description
 
-#### グループエントリ（`isGroup: true`）
+#### Group Entry (`isGroup: true`)
 
-| フィールド | 説明 |
-|-----------|------|
-| `name` | グループの表示名 |
-| `description` | グループの説明 |
-| `icon` | グループを表す絵文字 |
-| `isGroup` | グループかどうかを示すフラグ |
-| `skillCount` | グループ内のスキル数 |
+| Field | Description |
+|-------|-------------|
+| `name` | Group display name |
+| `description` | Group description |
+| `icon` | Emoji representing group |
+| `isGroup` | Flag indicating group type |
+| `skillCount` | Number of skills in group |
 
-#### スキルエントリ
+#### Skill Entry
 
-| フィールド | 説明 |
-|-----------|------|
-| `name` | スキルの一意な名前 |
-| `version` | 現在のバージョン |
-| `description` | スキルの説明 |
-| `entrypoint` | 実行ファイル（通常は `main.py`） |
-| `latest` | 最新バージョン番号 |
-| `versions` | バージョン履歴（URL とリリース日時を含む） |
+| Field | Description |
+|-------|-------------|
+| `name` | Unique skill name |
+| `version` | Current version |
+| `description` | Skill description |
+| `entrypoint` | Execution file (usually `main.py`) |
+| `latest` | Latest version number |
+| `versions` | Version history (includes URL and release date) |
 
 ---
 
-## 検証ワークフロー
+## Validation Workflow
 
-### 実行タイミング
+### Trigger Timing
 
-- **トリガー**: `skills/**` パスへの変更を含む Pull Request
-- **アクション**: PR の validation チェック実行
+- **Trigger**: Pull Request with changes to `skills/**` paths
+- **Action**: Runs PR validation checks
 
-### ワークフロー処理
+### Workflow Process
 
-```yaml
-PR 作成 → 変更検出 → skill.json 検証 → registry プレビュー生成 → artifact upload → レビュー
+```
+Create PR → Detect changes → Validate skill.json → Generate registry preview → Upload artifact → Review
 ```
 
-### 検証項目
+### Validation Items
 
-1. **skill.json の存在**: 各スキルディレクトリに `skill.json` があるか
-2. **必須フィールド**: `name`, `version`, `description`, `entrypoint` が存在するか
-3. **バージョンフォーマット**: `vX.Y.Z` 形式か（セマンティック バージョニング）
-4. **entrypoint の存在**: で指定したファイルが実際に存在するか
+1. **skill.json Existence**: Check if each skill directory has `skill.json`
+2. **Required Fields**: Verify `name`, `version`, `description`, `entrypoint` exist
+3. **Version Format**: Confirm `vX.Y.Z` format (Semantic Versioning)
+4. **Entrypoint Existence**: Verify file specified in entrypoint exists
 
-### Registry プレビュー
+### Registry Preview
 
-PR では `registry.preview.json` が自動生成され、artifact としてアップロードされます。
+PR automatically generates `registry.preview.json` and uploads as artifact.
 
-**用途:**
-- PR レビュー時にスキルメタデータを確認
-- registry.json の最終形を事前に確認
-- branch を汚さずに検証
+**Usage:**
+- Review skill metadata during PR review
+- Verify final registry.json form before release
+- Validation without branch pollution
 
-**確認方法:**
-1. PR の「Checks」タブを開く
-2. 「Details」から「Artifacts」を選択
-3. `registry-preview` をダウンロード
+**How to Check:**
+1. Open PR "Checks" tab
+2. Select "Details"
+3. Choose "Artifacts"
+4. Download `registry-preview`
 
 ---
 
-## リリースワークフロー
+## Release Workflow
 
-### 実行タイミング
+### Trigger Timing
 
-- **トリガー**: タグの作成とプッシュ
-- **タグ形式**: `<skill-path>/v<major>.<minor>.<patch>`
+- **Trigger**: Tag creation and push
+- **Tag Format**: `<skill-path>/v<major>.<minor>.<patch>`
 
-### タグ例
+### Tag Examples
 
 ```bash
-# 単一スキル（グループ = スキル）
+# Single skill (group = skill)
 git tag consultant/v0.1.0
 
-# ネストされたスキル（グループ内のスキル）
+# Nested skill (skill within group)
 git tag scientist/scientific-academic-writing/v0.2.0
 ```
 
-### ワークフロー処理
+### Workflow Process
 
 ```
-タグ作成
+Create tag
   ↓
-skill.json 検証
+Validate skill.json
   ↓
-スキルディレクトリを ZIP 化
+Zip skill directory
   ↓
-GitHub Release を作成
+Create GitHub Release
   ↓
-registry.json を更新
+Update registry.json
   ↓
-registry.json を main にプッシュ
+Push registry.json to main
 ```
 
-### 出力
+### Output
 
 #### GitHub Release
 
-リリースページに以下が作成されます：
+Created on release page:
 
-- **タイトル**: `[<skill-path>] Release v<version>`
-- **説明**: skill.json の description
-- **アセット**: `skill.zip` （スキル全体をZIP化）
+- **Title**: `[<skill-path>] Release v<version>`
+- **Description**: From skill.json `description`
+- **Asset**: `skill.zip` (entire skill zipped)
 
-**URL 例：**
+**URL Example:**
 ```
 https://github.com/nahisaho/coreclaw-marketplace/releases/download/scientist/scientific-academic-writing/v0.1.0/skill.zip
 ```
 
-#### registry.json の更新
+#### registry.json Update
 
 ```json
 {
@@ -186,20 +187,20 @@ https://github.com/nahisaho/coreclaw-marketplace/releases/download/scientist/sci
 
 ---
 
-## トラブルシューティング
+## Troubleshooting
 
-### 検証エラー
+### Validation Errors
 
-#### エラー: `skill.json not found`
+#### Error: `skill.json not found`
 
-**原因**: スキルディレクトリに `skill.json` がない
+**Cause**: skill.json missing from skill directory
 
-**解決方法**:
+**Solution**:
 ```bash
-# スキルディレクトリを確認
+# Verify skill directory
 ls coreclaw-skills-hub/skills/<group>/<skill-name>/skill.json
 
-# ない場合は作成
+# Create if missing
 cat > coreclaw-skills-hub/skills/<group>/<skill-name>/skill.json << 'EOF'
 {
   "name": "your-skill",
@@ -210,32 +211,32 @@ cat > coreclaw-skills-hub/skills/<group>/<skill-name>/skill.json << 'EOF'
 EOF
 ```
 
-#### エラー: `Invalid version format`
+#### Error: `Invalid version format`
 
-**原因**: バージョンが `vX.Y.Z` 形式でない
+**Cause**: Version not in `vX.Y.Z` format
 
-**解決方法**:
+**Solution**:
 ```json
 {
-  "version": "v0.1.0"  // ✅ 正しい形式
+  "version": "v0.1.0"  // ✅ Correct format
 }
 ```
 
-❌ 間違った形式：
-- `0.1.0` （v がない）
-- `v1` （マイナー、パッチがない）
-- `1.0.0-beta` （プレリリースタグは非サポート）
+❌ Incorrect formats:
+- `0.1.0` (missing v)
+- `v1` (missing minor, patch)
+- `1.0.0-beta` (pre-release tag not supported)
 
-#### エラー: `entrypoint file not found`
+#### Error: `entrypoint file not found`
 
-**原因**: `skill.json` の `entrypoint` で指定したファイルが存在しない
+**Cause**: File specified in skill.json entrypoint doesn't exist
 
-**解決方法**:
+**Solution**:
 ```bash
-# ファイルが存在するか確認
+# Verify file exists
 ls coreclaw-skills-hub/skills/<group>/<skill-name>/main.py
 
-# ない場合は作成
+# Create if missing
 cat > coreclaw-skills-hub/skills/<group>/<skill-name>/main.py << 'EOF'
 #!/usr/bin/env python3
 """Skill entry point."""
@@ -248,77 +249,77 @@ if __name__ == "__main__":
 EOF
 ```
 
-### リリースエラー
+### Release Errors
 
-#### エラー: `Release creation failed`
+#### Error: `Release creation failed`
 
-**原因**: タグ形式が不正
+**Cause**: Invalid tag format
 
-**解決方法**:
+**Solution**:
 ```bash
-# 正しいタグ形式確認
+# Check correct tag format
 git tag -l | grep "scientist/scientific"
 
-# 削除（必要な場合）
+# Delete if needed
 git tag -d incorrect-tag
 git push origin :refs/tags/incorrect-tag
 
-# 正しいタグを作成
+# Create correct tag
 git tag scientist/scientific-academic-writing/v0.2.0
 git push origin scientist/scientific-academic-writing/v0.2.0
 ```
 
-#### エラー: `GitHub Actions failure`
+#### Error: `GitHub Actions failure`
 
-**確認方法**:
-1. GitHub の「Actions」タブを開く
-2. 失敗したワークフローをクリック
-3. ログを確認
+**How to Check:**
+1. Open GitHub "Actions" tab
+2. Click failed workflow
+3. Review logs
 
-**一般的な原因と解決**:
+**Common Causes and Solutions:**
 
-| エラー | 原因 | 解決 |
-|------|------|------|
-| `Invalid regex` | タグ形式が不正 | タグを再作成 |
-| `ZIP creation failed` | ファイルが見つからない | ファイルパスを確認 |
-| `API rate limit` | GitHub API の制限に達した | 少し待機してから再試行 |
+| Error | Cause | Solution |
+|-------|-------|----------|
+| `Invalid regex` | Invalid tag format | Recreate tag |
+| `ZIP creation failed` | File not found | Verify file paths |
+| `API rate limit` | GitHub API limit reached | Wait and retry |
 
 ---
 
-## ベストプラクティス
+## Best Practices
 
-### リリース前のチェックリスト
+### Pre-Release Checklist
 
-- [ ] `skill.json` が正しいフォーマットか確認
-- [ ] 必須フィールド（name, version, description, entrypoint）が入っているか
-- [ ] バージョン番号がセマンティック バージョニングに従っているか
-- [ ] `main.py` が存在し、実行可能か
-- [ ] SKILL.md または README.md が存在するか
-- [ ] 新しいバージョンが main にマージされているか
+- [ ] Verify skill.json has correct format
+- [ ] Check all required fields (name, version, description, entrypoint) present
+- [ ] Confirm version follows Semantic Versioning
+- [ ] Ensure main.py exists and is executable
+- [ ] Verify SKILL.md or README.md exists
+- [ ] Confirm new version merged to main
 
-### タグ作成コマンド
+### Tag Creation Commands
 
 ```bash
-# 完全なフロー例
+# Complete flow example
 git checkout main
 git pull origin main
 
-# バージョン更新（例）
-# coreclaw-skills-hub/skills/scientist/scientific-academic-writing/skill.json の version を v0.2.0 に更新
+# Update version (example)
+# Update version in coreclaw-skills-hub/skills/scientist/scientific-academic-writing/skill.json to v0.2.0
 
 git add coreclaw-skills-hub/skills/scientist/scientific-academic-writing/skill.json
 git commit -m "bump: version v0.2.0 for scientific-academic-writing"
 git push origin main
 
-# リリースタグ作成
+# Create release tag
 git tag scientist/scientific-academic-writing/v0.2.0
 git push origin scientist/scientific-academic-writing/v0.2.0
 
-# ステータス確認
+# Verify status
 git tag -l scientist/scientific-academic-writing/v0.2.0
 ```
 
-### 複数スキル同時リリース
+### Release Multiple Skills
 
 ```bash
 git tag scientist/skill1/v0.2.0
@@ -328,8 +329,14 @@ git push origin --tags
 
 ---
 
-## 参考リンク
+## Reference Links
 
 - [Semantic Versioning](https://semver.org/)
 - [GitHub Releases](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
+
+---
+
+**Language Versions:**
+- **English** (this file)
+- **日本語** (Japanese) - See [REGISTRY_AND_CI_CD_ja.md](./REGISTRY_AND_CI_CD_ja.md)
