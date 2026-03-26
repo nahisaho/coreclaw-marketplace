@@ -1,6 +1,0 @@
-{
-  "name": "web-seearch",
-  "version": "v0.1.0",
-  "description": "Test skill package for release workflow execution.",
-  "entrypoint": "main.py"
-}
