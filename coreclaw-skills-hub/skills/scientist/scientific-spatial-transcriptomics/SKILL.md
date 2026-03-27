@@ -279,7 +279,7 @@ def spatial_visualization_panel(adata, svg_df=None, save_dir="figures"):
 
 ---
 
-## Verification Loop (v0.2.1)
+## Verification Loop (v0.2.2)
 
 ```
 PLAN   → define scope, inputs, expected outputs

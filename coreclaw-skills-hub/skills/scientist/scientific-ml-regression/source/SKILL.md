@@ -224,7 +224,7 @@ def plot_radar_comparison(results_df, target_name, figsize=(8, 8)):
 
 ---
 
-## Verification Loop (v0.2.1)
+## Verification Loop (v0.2.2)
 
 ```
 PLAN   → define scope, inputs, expected outputs

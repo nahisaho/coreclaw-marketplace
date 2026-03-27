@@ -254,7 +254,7 @@ def search_patents(query, start_date=None, end_date=None,
 
 ---
 
-## Verification Loop (v0.2.1)
+## Verification Loop (v0.2.2)
 
 ```
 PLAN   → define scope, inputs, expected outputs

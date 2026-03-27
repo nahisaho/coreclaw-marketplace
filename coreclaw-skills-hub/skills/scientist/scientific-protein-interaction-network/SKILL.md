@@ -353,7 +353,7 @@ def visualize_ppi_network(G, partition=None, hub_proteins=None,
 
 ---
 
-## Verification Loop (v0.2.1)
+## Verification Loop (v0.2.2)
 
 ```
 PLAN   → define scope, inputs, expected outputs

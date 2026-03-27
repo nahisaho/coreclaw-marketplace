@@ -1,6 +1,6 @@
 {
   "name": "scientific-hypothesis-pipeline",
-  "version": "v0.2.1",
+  "version": "v0.2.2",
   "description": "Supports researchers designing studies, hypotheses, and experiment branches with explicit variables, comparisons, and decision logic.",
   "entrypoint": "main.py"
 }

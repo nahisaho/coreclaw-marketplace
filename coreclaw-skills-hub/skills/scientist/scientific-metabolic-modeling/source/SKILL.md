@@ -291,7 +291,7 @@ def metabolic_model_exploration(organism_query):
 
 ---
 
-## Verification Loop (v0.2.1)
+## Verification Loop (v0.2.2)
 
 ```
 PLAN   → define scope, inputs, expected outputs

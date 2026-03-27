@@ -334,7 +334,7 @@ def generate_tikz_figure(tikz_code, output_file="figures/tikz_figure.tex",
 
 ---
 
-## Verification Loop (v0.2.1)
+## Verification Loop (v0.2.2)
 
 ```
 PLAN   → define scope, inputs, expected outputs

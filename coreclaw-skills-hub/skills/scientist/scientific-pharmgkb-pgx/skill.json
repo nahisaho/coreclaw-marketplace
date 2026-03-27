@@ -1,6 +1,6 @@
 {
   "name": "scientific-pharmgkb-pgx",
-  "version": "v0.2.1",
+  "version": "v0.2.2",
   "description": "Supports clinical and translational researchers working with regulated evidence, interpretable risk framing, and decision-ready scientific outputs.",
   "entrypoint": "main.py"
 }

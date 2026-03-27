@@ -1,6 +1,6 @@
 {
   "name": "scientific-squidpy-advanced",
-  "version": "v0.2.1",
+  "version": "v0.2.2",
   "description": "Supports researchers working on squidpy advanced with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
   "entrypoint": "main.py"
 }

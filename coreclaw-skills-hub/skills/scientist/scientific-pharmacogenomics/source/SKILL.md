@@ -343,7 +343,7 @@ def generate_pgx_report(patient_results, output_file="results/pgx_report.json"):
 
 ---
 
-## Verification Loop (v0.2.1)
+## Verification Loop (v0.2.2)
 
 ```
 PLAN   → define scope, inputs, expected outputs

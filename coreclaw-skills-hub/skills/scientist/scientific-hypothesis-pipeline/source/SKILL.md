@@ -791,7 +791,7 @@ def manage_hypotheses(hypotheses_list):
 
 ---
 
-## Verification Loop (v0.2.1)
+## Verification Loop (v0.2.2)
 
 ```
 PLAN   → define scope, inputs, expected outputs

@@ -237,7 +237,7 @@ def power_analysis(effect_size_range=None, n_range=None,
 
 ---
 
-## Verification Loop (v0.2.1)
+## Verification Loop (v0.2.2)
 
 ```
 PLAN   → define scope, inputs, expected outputs

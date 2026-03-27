@@ -384,7 +384,7 @@ def export_model(model, sample_input, export_dir="models"):
 
 ---
 
-## Verification Loop (v0.2.1)
+## Verification Loop (v0.2.2)
 
 ```
 PLAN   → define scope, inputs, expected outputs

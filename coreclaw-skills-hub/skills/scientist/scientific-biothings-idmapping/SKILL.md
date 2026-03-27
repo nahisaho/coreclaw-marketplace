@@ -302,7 +302,7 @@ def batch_integrated_annotation(gene_symbols, include_variants=False):
 
 ---
 
-## Verification Loop (v0.2.1)
+## Verification Loop (v0.2.2)
 
 ```
 PLAN   → define scope, inputs, expected outputs

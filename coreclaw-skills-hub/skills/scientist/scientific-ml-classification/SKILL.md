@@ -274,7 +274,7 @@ def volcano_plot(df, group_col, value_cols, group1, group2,
 
 ---
 
-## Verification Loop (v0.2.1)
+## Verification Loop (v0.2.2)
 
 ```
 PLAN   → define scope, inputs, expected outputs

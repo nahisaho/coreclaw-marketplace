@@ -344,7 +344,7 @@ def metabolite_correlation_network(df, metabolite_cols, method="spearman",
 
 ---
 
-## Verification Loop (v0.2.1)
+## Verification Loop (v0.2.2)
 
 ```
 PLAN   → define scope, inputs, expected outputs

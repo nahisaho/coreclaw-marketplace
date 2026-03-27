@@ -1,6 +1,6 @@
 {
   "name": "scientific-uniprot-proteome",
-  "version": "v0.2.1",
+  "version": "v0.2.2",
   "description": "Supports protein-focused researchers with structure-aware interpretation, resource integration, and outputs suited to molecular analysis workflows.",
   "entrypoint": "main.py"
 }

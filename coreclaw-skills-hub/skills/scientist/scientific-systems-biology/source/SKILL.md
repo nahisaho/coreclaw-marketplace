@@ -318,7 +318,7 @@ def global_sensitivity_analysis(model_func, param_names, param_bounds,
 
 ---
 
-## Verification Loop (v0.2.1)
+## Verification Loop (v0.2.2)
 
 ```
 PLAN   → define scope, inputs, expected outputs

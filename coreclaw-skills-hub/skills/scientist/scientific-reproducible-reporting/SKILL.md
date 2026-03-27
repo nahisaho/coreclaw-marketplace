@@ -339,7 +339,7 @@ def batch_convert_notebooks(notebook_dir, output_format="html",
 
 ---
 
-## Verification Loop (v0.2.1)
+## Verification Loop (v0.2.2)
 
 ```
 PLAN   → define scope, inputs, expected outputs

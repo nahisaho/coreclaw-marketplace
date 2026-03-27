@@ -1,6 +1,6 @@
 {
   "name": "scientific-bayesian-statistics",
-  "version": "v0.2.1",
+  "version": "v0.2.2",
   "description": "Supports quantitative researchers with method selection logic, explicit assumptions, uncertainty treatment, and interpretable statistical conclusions.",
   "entrypoint": "main.py"
 }

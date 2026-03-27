@@ -272,7 +272,7 @@ def evaluate_clinical_model(trainer, test_dataset):
 
 ---
 
-## Verification Loop (v0.2.1)
+## Verification Loop (v0.2.2)
 
 ```
 PLAN   → define scope, inputs, expected outputs

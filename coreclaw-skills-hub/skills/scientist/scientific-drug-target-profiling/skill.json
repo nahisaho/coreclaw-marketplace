@@ -1,6 +1,6 @@
 {
   "name": "scientific-drug-target-profiling",
-  "version": "v0.2.1",
+  "version": "v0.2.2",
   "description": "Supports drug-discovery and translational research teams evaluating targets, compounds, and evidence for scientific decision-making.",
   "entrypoint": "main.py"
 }

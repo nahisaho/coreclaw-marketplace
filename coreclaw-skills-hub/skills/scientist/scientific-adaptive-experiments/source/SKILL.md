@@ -296,7 +296,7 @@ def bayesian_adaptive_dose_finding(dose_levels, n_patients=30,
 
 ---
 
-## Verification Loop (v0.2.1)
+## Verification Loop (v0.2.2)
 
 ```
 PLAN   → define scope, inputs, expected outputs
