@@ -1,6 +1,6 @@
 {
   "name": "scientific-model-organism-db",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for model organism db with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports researchers working on model organism db with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
   "entrypoint": "main.py"
 }

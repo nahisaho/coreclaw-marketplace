@@ -1,6 +1,6 @@
 {
   "name": "teaching-assistant",
   "version": "v0.1.0",
-  "description": "Instructional design toolkit for curriculum planning, assessment alignment, and learner-centered improvement cycles.",
+  "description": "Instructional design skill for educators and program owners shaping curriculum architecture, learning alignment, assessment thinking, and learner-centered improvement.",
   "entrypoint": "main.py"
 }

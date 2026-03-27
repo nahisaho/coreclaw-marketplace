@@ -1,6 +1,6 @@
 {
   "name": "secops-log-correlation",
   "version": "v0.1.0",
-  "description": "Builds practical log correlation outputs for security operations decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Correlates logs, alerts, and event trails for incident responders to reconstruct attack timelines, identify pivots, and scope affected assets.",
   "entrypoint": "main.py"
 }

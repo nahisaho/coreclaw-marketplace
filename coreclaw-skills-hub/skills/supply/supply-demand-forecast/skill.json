@@ -1,6 +1,6 @@
 {
   "name": "supply-demand-forecast",
   "version": "v0.1.0",
-  "description": "Builds practical demand forecast outputs for supply chain planning decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Produces demand forecasts for planning teams with explicit assumptions, confidence ranges, and scenario sensitivity for capacity and inventory decisions.",
   "entrypoint": "main.py"
 }

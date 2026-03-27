@@ -1,6 +1,6 @@
 {
   "name": "diligence-competitive-benchmark",
   "version": "v0.1.0",
-  "description": "Builds practical competitive benchmark outputs for commercial and investment diligence decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Benchmarks targets against direct and adjacent competitors for diligence work, comparing positioning, capabilities, risks, and differentiation.",
   "entrypoint": "main.py"
 }

@@ -1,6 +1,6 @@
 {
   "name": "growth-user-segmentation",
   "version": "v0.1.0",
-  "description": "Builds practical user segmentation outputs for product growth decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Builds actionable user segments for product and marketing teams using behavior, value, lifecycle stage, and need signals to target experiments precisely.",
   "entrypoint": "main.py"
 }

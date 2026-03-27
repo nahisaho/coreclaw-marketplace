@@ -1,6 +1,6 @@
 {
   "name": "scientific-gnomad-variants",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for gnomad variants with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports researchers working on gnomad variants with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
   "entrypoint": "main.py"
 }

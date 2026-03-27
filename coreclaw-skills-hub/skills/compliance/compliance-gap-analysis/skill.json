@@ -1,6 +1,6 @@
 {
   "name": "compliance-gap-analysis",
   "version": "v0.1.0",
-  "description": "Builds practical gap analysis outputs for compliance and audit readiness decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Identifies control, documentation, and evidence gaps for compliance teams, then ranks them by exposure, audit risk, and remediation urgency.",
   "entrypoint": "main.py"
 }

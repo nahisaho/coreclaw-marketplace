@@ -1,6 +1,6 @@
 {
   "name": "growth-learning-synthesis",
   "version": "v0.1.0",
-  "description": "Builds practical learning synthesis outputs for product growth decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Synthesizes experiment outcomes for growth reviews into practical decisions, follow-up hypotheses, and a concrete next-iteration agenda.",
   "entrypoint": "main.py"
 }

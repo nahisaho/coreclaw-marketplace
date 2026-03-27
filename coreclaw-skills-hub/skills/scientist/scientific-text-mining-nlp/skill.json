@@ -1,6 +1,6 @@
 {
   "name": "scientific-text-mining-nlp",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for text mining nlp with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports researchers working on text mining nlp with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
   "entrypoint": "main.py"
 }

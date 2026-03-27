@@ -1,6 +1,6 @@
 {
   "name": "sales-account-research",
   "version": "v0.1.0",
-  "description": "Builds practical account research outputs for strategic B2B sales execution decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Builds account intelligence briefs for strategic sales teams, covering business priorities, timing, risks, buying context, and trigger events.",
   "entrypoint": "main.py"
 }

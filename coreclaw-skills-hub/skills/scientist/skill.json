@@ -1,6 +1,6 @@
 {
   "name": "scientific-assistant",
   "version": "v0.1.0",
-  "description": "Comprehensive scientific research skill suite for reproducible analysis, evidence synthesis, model development, and publication-ready reporting.",
+  "description": "Comprehensive scientific research skill suite for researchers working across literature review, data analysis, modeling, bioinformatics, and publication-oriented reporting.",
   "entrypoint": "main.py"
 }

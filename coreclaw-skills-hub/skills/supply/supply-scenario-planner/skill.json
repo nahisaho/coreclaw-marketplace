@@ -1,6 +1,6 @@
 {
   "name": "supply-scenario-planner",
   "version": "v0.1.0",
-  "description": "Builds practical scenario planner outputs for supply chain planning decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Builds disruption scenarios for operations leaders to test shocks, capacity shifts, policy changes, and contingency responses.",
   "entrypoint": "main.py"
 }

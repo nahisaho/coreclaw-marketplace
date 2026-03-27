@@ -1,6 +1,6 @@
 {
   "name": "scientific-environmental-geodata",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for environmental geodata with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports environmental and spatial researchers with data-integration planning, comparative analysis, and context-aware interpretation.",
   "entrypoint": "main.py"
 }

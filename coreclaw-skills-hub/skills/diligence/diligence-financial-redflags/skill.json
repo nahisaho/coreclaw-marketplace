@@ -1,6 +1,6 @@
 {
   "name": "diligence-financial-redflags",
   "version": "v0.1.0",
-  "description": "Builds practical financial redflags outputs for commercial and investment diligence decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Highlights financial red flags, fragile assumptions, and scenario-sensitive exposures for investment committees and diligence reviews.",
   "entrypoint": "main.py"
 }

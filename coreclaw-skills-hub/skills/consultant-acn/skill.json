@@ -1,6 +1,6 @@
 {
   "name": "consultant-acn",
   "version": "v0.1.0",
-  "description": "Consulting skillset for operating-model and transformation problem solving, with structured analysis and actionable recommendations.",
+  "description": "Consulting skillset for transformation and operating-model work, suited to teams shaping implementation plans, operating decisions, and structured recommendations.",
   "entrypoint": "main.py"
 }

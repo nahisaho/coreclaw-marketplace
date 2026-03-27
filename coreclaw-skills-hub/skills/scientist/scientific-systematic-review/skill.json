@@ -1,6 +1,6 @@
 {
   "name": "scientific-systematic-review",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for systematic review with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Guides researchers through systematic review work, from search framing and screening logic to evidence synthesis and traceable reporting.",
   "entrypoint": "main.py"
 }

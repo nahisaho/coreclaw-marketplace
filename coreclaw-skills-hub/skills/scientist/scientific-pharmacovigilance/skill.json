@@ -1,6 +1,6 @@
 {
   "name": "scientific-pharmacovigilance",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for pharmacovigilance with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports clinical and translational researchers working with regulated evidence, interpretable risk framing, and decision-ready scientific outputs.",
   "entrypoint": "main.py"
 }

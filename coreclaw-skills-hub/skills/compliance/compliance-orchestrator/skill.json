@@ -1,6 +1,6 @@
 {
   "name": "compliance-orchestrator",
   "version": "v0.1.0",
-  "description": "Orchestrates end-to-end compliance and audit readiness workflows by coordinating specialized sub-skills, applying quality gates, and producing decision-ready outputs.",
+  "description": "Coordinates control mapping, evidence planning, gap analysis, remediation design, and audit response for end-to-end compliance workflows.",
   "entrypoint": "main.py"
 }

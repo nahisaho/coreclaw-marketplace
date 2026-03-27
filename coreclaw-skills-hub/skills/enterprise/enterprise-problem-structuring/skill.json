@@ -1,6 +1,6 @@
 {
   "name": "enterprise-problem-structuring",
   "version": "v0.1.0",
-  "description": "Builds practical problem structuring outputs for enterprise transformation decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Structures ambiguous enterprise problems for strategy and transformation teams into decision trees, issue buckets, hypotheses, and workstreams that can be analyzed immediately.",
   "entrypoint": "main.py"
 }

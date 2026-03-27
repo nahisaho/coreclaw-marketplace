@@ -1,6 +1,6 @@
 {
   "name": "diligence-market-scan",
   "version": "v0.1.0",
-  "description": "Builds practical market scan outputs for commercial and investment diligence decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Builds market landscape scans for investors and strategy teams, covering demand signals, structural trends, segments, and competitive motion.",
   "entrypoint": "main.py"
 }

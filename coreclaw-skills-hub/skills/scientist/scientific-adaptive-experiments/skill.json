@@ -1,6 +1,6 @@
 {
   "name": "scientific-adaptive-experiments",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for adaptive experiments with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports researchers designing studies, hypotheses, and experiment branches with explicit variables, comparisons, and decision logic.",
   "entrypoint": "main.py"
 }

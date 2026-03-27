@@ -1,6 +1,6 @@
 {
   "name": "scientific-systems-biology",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for systems biology with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports researchers working on systems biology with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
   "entrypoint": "main.py"
 }

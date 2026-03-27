@@ -1,6 +1,6 @@
 {
   "name": "scientific-string-network-api",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for string network api with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports pathway and network analysis for researchers interpreting molecular relationships, enrichment signals, and biologically meaningful connections.",
   "entrypoint": "main.py"
 }

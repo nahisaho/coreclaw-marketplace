@@ -1,6 +1,6 @@
 {
   "name": "scientific-metabolic-modeling",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for metabolic modeling with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports computational researchers using simulation-heavy methods, with attention to model assumptions, scenario design, and scientific interpretation.",
   "entrypoint": "main.py"
 }

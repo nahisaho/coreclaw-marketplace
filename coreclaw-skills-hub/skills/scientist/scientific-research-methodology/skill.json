@@ -1,6 +1,6 @@
 {
   "name": "scientific-research-methodology",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for research methodology with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports researchers selecting methods and study structures, with explicit reasoning about validity, trade-offs, and research design quality.",
   "entrypoint": "main.py"
 }

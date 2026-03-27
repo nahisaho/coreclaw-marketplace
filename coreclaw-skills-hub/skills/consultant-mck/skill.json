@@ -1,6 +1,6 @@
 {
   "name": "consultant-mck",
   "version": "v0.1.0",
-  "description": "Consulting skillset for strategic and operational problem solving, with structured diagnosis and board-ready decision support.",
+  "description": "Consulting skillset for strategic and operational problem solving, suited to teams producing structured diagnostics and board-ready decision support.",
   "entrypoint": "main.py"
 }

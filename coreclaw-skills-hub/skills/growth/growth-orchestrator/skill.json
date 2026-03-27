@@ -1,6 +1,6 @@
 {
   "name": "growth-orchestrator",
   "version": "v0.1.0",
-  "description": "Orchestrates end-to-end product growth workflows by coordinating specialized sub-skills, applying quality gates, and producing decision-ready outputs.",
+  "description": "Coordinates segmentation, funnel diagnosis, experiment planning, copy generation, and learning synthesis for evidence-based growth programs.",
   "entrypoint": "main.py"
 }

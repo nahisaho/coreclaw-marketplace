@@ -1,6 +1,6 @@
 {
   "name": "scientific-uncertainty-quantification",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for uncertainty quantification with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports quantitative researchers with method selection logic, explicit assumptions, uncertainty treatment, and interpretable statistical conclusions.",
   "entrypoint": "main.py"
 }

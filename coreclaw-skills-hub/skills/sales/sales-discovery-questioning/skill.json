@@ -1,6 +1,6 @@
 {
   "name": "sales-discovery-questioning",
   "version": "v0.1.0",
-  "description": "Builds practical discovery questioning outputs for strategic B2B sales execution decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Generates discovery question sets for account teams, tailored to buyer context, sales stage, and commercial risks that must be surfaced early.",
   "entrypoint": "main.py"
 }

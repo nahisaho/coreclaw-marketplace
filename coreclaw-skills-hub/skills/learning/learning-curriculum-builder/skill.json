@@ -1,6 +1,6 @@
 {
   "name": "learning-curriculum-builder",
   "version": "v0.1.0",
-  "description": "Builds practical curriculum builder outputs for learning design and evaluation decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Builds sequenced curriculum structures for courses and programs with pacing, scaffolding, progression logic, and outcome alignment.",
   "entrypoint": "main.py"
 }

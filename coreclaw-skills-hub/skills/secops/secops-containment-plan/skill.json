@@ -1,6 +1,6 @@
 {
   "name": "secops-containment-plan",
   "version": "v0.1.0",
-  "description": "Builds practical containment plan outputs for security operations decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Builds containment and eradication plans for security teams that balance response speed, rollback safety, operational continuity, and evidence preservation.",
   "entrypoint": "main.py"
 }

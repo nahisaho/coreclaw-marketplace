@@ -1,6 +1,6 @@
 {
   "name": "secops-alert-triage",
   "version": "v0.1.0",
-  "description": "Builds practical alert triage outputs for security operations decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Classifies security alerts for SOC analysts by severity, confidence, likely blast radius, and business impact so high-risk incidents rise first.",
   "entrypoint": "main.py"
 }

@@ -1,6 +1,6 @@
 {
   "name": "scientific-protein-structure-analysis",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for protein structure analysis with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports protein-focused researchers with structure-aware interpretation, resource integration, and outputs suited to molecular analysis workflows.",
   "entrypoint": "main.py"
 }

@@ -1,6 +1,6 @@
 {
   "name": "scientific-multi-omics",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for multi omics with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports omics researchers with reproducible analysis planning, interpretable comparisons, and biologically grounded result framing.",
   "entrypoint": "main.py"
 }

@@ -1,6 +1,6 @@
 {
   "name": "scientific-rrna-taxonomy",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for rrna taxonomy with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports microbiome and metagenomics researchers with reproducible taxonomic analysis, comparison logic, and interpretable biological summaries.",
   "entrypoint": "main.py"
 }

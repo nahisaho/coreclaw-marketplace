@@ -1,6 +1,6 @@
 {
   "name": "scientific-network-visualization",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for network visualization with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Builds scientific dashboards and visualizations for researchers who need patterns, caveats, and comparisons communicated clearly to expert audiences.",
   "entrypoint": "main.py"
 }

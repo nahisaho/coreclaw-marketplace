@@ -1,6 +1,6 @@
 {
   "name": "compliance-control-mapping",
   "version": "v0.1.0",
-  "description": "Builds practical control mapping outputs for compliance and audit readiness decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Maps regulations and frameworks to internal controls, owners, and evidence expectations for risk, compliance, and audit-readiness programs.",
   "entrypoint": "main.py"
 }

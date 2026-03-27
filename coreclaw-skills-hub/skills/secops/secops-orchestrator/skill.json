@@ -1,6 +1,6 @@
 {
   "name": "secops-orchestrator",
   "version": "v0.1.0",
-  "description": "Orchestrates end-to-end security operations workflows by coordinating specialized sub-skills, applying quality gates, and producing decision-ready outputs.",
+  "description": "Coordinates triage, evidence correlation, containment planning, root-cause analysis, and postmortem writing across the full incident-response lifecycle.",
   "entrypoint": "main.py"
 }

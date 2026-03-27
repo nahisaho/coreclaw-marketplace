@@ -1,6 +1,6 @@
 {
   "name": "scientific-scientific-schematics",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for scientific schematics with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Creates scientific communication assets for papers, talks, and internal reviews, translating complex results into clear visual narratives.",
   "entrypoint": "main.py"
 }

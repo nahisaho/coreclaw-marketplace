@@ -1,6 +1,6 @@
 {
   "name": "consultant-bcg",
   "version": "v0.1.0",
-  "description": "Consulting skillset for strategy and growth problem solving, with hypothesis-driven analysis and executive-ready recommendations.",
+  "description": "Consulting skillset for strategy and growth work, suited to teams framing market choices, portfolio moves, and executive recommendation narratives.",
   "entrypoint": "main.py"
 }

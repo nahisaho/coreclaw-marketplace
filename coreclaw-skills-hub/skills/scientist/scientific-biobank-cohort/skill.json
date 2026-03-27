@@ -1,6 +1,6 @@
 {
   "name": "scientific-biobank-cohort",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for biobank cohort with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports researchers working on biobank cohort with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
   "entrypoint": "main.py"
 }

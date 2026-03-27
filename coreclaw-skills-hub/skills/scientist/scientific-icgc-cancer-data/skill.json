@@ -1,6 +1,6 @@
 {
   "name": "scientific-icgc-cancer-data",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for icgc cancer data with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports disease-focused research teams with evidence synthesis, analytical rigor, and interpretation grounded in translational relevance.",
   "entrypoint": "main.py"
 }

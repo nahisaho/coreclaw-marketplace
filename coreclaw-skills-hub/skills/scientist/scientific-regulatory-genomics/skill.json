@@ -1,6 +1,6 @@
 {
   "name": "scientific-regulatory-genomics",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for regulatory genomics with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports researchers in domain-specific omics workflows where reproducibility, cross-sample interpretation, and biological insight are critical.",
   "entrypoint": "main.py"
 }

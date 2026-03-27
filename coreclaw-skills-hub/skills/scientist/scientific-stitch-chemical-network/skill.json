@@ -1,6 +1,6 @@
 {
   "name": "scientific-stitch-chemical-network",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for stitch chemical network with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports researchers working on stitch chemical network with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
   "entrypoint": "main.py"
 }

@@ -1,6 +1,6 @@
 {
   "name": "enterprise-initiative-prioritization",
   "version": "v0.1.0",
-  "description": "Builds practical initiative prioritization outputs for enterprise transformation decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Ranks transformation initiatives for portfolio and PMO discussions by strategic impact, feasibility, dependency load, and execution risk.",
   "entrypoint": "main.py"
 }

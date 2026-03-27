@@ -1,6 +1,6 @@
 {
   "name": "diligence-investment-memo",
   "version": "v0.1.0",
-  "description": "Builds practical investment memo outputs for commercial and investment diligence decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Produces investment memo drafts for IC and deal teams, combining thesis, evidence, risks, upside cases, and recommendation logic into a decision format.",
   "entrypoint": "main.py"
 }

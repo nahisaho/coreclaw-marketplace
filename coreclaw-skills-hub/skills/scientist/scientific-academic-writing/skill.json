@@ -1,6 +1,6 @@
 {
   "name": "scientific-academic-writing",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for academic writing with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports researchers preparing manuscripts by structuring arguments, grounding claims in evidence, and producing manuscript-ready scientific prose.",
   "entrypoint": "main.py"
 }

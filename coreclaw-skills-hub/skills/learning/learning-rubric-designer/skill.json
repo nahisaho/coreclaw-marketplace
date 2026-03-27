@@ -1,6 +1,6 @@
 {
   "name": "learning-rubric-designer",
   "version": "v0.1.0",
-  "description": "Builds practical rubric designer outputs for learning design and evaluation decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Creates analytic rubrics for assessment design with clear criteria, performance levels, and language that supports consistent evaluation.",
   "entrypoint": "main.py"
 }

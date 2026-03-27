@@ -1,6 +1,6 @@
 {
   "name": "scientific-precision-oncology",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for precision oncology with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports disease-focused research teams with evidence synthesis, analytical rigor, and interpretation grounded in translational relevance.",
   "entrypoint": "main.py"
 }

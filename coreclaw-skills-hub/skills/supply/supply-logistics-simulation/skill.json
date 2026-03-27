@@ -1,6 +1,6 @@
 {
   "name": "supply-logistics-simulation",
   "version": "v0.1.0",
-  "description": "Builds practical logistics simulation outputs for supply chain planning decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Simulates routing and logistics scenarios for supply teams to compare lead time, cost, bottlenecks, and resilience trade-offs across options.",
   "entrypoint": "main.py"
 }

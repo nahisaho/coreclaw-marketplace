@@ -1,6 +1,6 @@
 {
   "name": "sales-stakeholder-mapping",
   "version": "v0.1.0",
-  "description": "Builds practical stakeholder mapping outputs for strategic B2B sales execution decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "description": "Maps stakeholders, influence patterns, decision criteria, and likely concerns across the buying committee for complex enterprise opportunities.",
   "entrypoint": "main.py"
 }

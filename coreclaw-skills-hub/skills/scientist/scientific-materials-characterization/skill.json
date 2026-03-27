@@ -1,6 +1,6 @@
 {
   "name": "scientific-materials-characterization",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for materials characterization with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports researchers working on materials characterization with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
   "entrypoint": "main.py"
 }

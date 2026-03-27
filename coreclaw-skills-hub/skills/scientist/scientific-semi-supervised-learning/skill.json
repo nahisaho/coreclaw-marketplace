@@ -1,6 +1,6 @@
 {
   "name": "scientific-semi-supervised-learning",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for semi supervised learning with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports ML researchers with experiment structure, model comparison logic, interpretability considerations, and reproducible reporting.",
   "entrypoint": "main.py"
 }

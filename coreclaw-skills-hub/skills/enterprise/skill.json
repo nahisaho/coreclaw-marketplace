@@ -1,6 +1,6 @@
 {
   "name": "enterprise-assistant",
   "version": "v0.1.0",
-  "description": "Coordinates enterprise transformation workstreams to turn ambiguous strategic problems into prioritized, execution-ready decisions.",
+  "description": "Coordinates enterprise transformation work for strategy, PMO, and leadership teams across diagnosis, prioritization, simulation, and executive communication.",
   "entrypoint": "main.py"
 }

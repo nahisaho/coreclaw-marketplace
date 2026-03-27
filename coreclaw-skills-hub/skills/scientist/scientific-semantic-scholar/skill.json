@@ -1,6 +1,6 @@
 {
   "name": "scientific-semantic-scholar",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for semantic scholar with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports literature review workflows for researchers who need structured search, relevance filtering, citation awareness, and evidence synthesis.",
   "entrypoint": "main.py"
 }

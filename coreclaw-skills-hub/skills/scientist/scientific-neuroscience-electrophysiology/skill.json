@@ -1,6 +1,6 @@
 {
   "name": "scientific-neuroscience-electrophysiology",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for neuroscience electrophysiology with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports researchers working on neuroscience electrophysiology with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
   "entrypoint": "main.py"
 }

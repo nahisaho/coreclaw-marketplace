@@ -1,6 +1,6 @@
 {
   "name": "scientific-drug-target-profiling",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for drug target profiling with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports drug-discovery and translational research teams evaluating targets, compounds, and evidence for scientific decision-making.",
   "entrypoint": "main.py"
 }

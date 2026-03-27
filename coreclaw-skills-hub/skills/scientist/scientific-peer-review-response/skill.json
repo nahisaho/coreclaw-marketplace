@@ -1,6 +1,6 @@
 {
   "name": "scientific-peer-review-response",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for peer review response with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Helps authors answer reviewer comments with point-by-point responses that connect evidence, revisions, and scientific rationale.",
   "entrypoint": "main.py"
 }

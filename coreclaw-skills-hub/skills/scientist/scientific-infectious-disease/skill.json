@@ -1,6 +1,6 @@
 {
   "name": "scientific-infectious-disease",
   "version": "v0.1.0",
-  "description": "Provides scientific workflows for infectious disease with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
+  "description": "Supports disease-focused research teams with evidence synthesis, analytical rigor, and interpretation grounded in translational relevance.",
   "entrypoint": "main.py"
 }
