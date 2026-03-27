@@ -1,6 +1,6 @@
 {
   "name": "learning-feedback-analyzer",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Analyzes learner feedback and performance signals to help program owners identify friction points, improvement priorities, and redesign opportunities.",
   "entrypoint": "main.py"
 }

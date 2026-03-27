@@ -1,6 +1,6 @@
 {
   "name": "learning-curriculum-builder",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Builds sequenced curriculum structures for courses and programs with pacing, scaffolding, progression logic, and outcome alignment.",
   "entrypoint": "main.py"
 }

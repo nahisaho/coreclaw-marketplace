@@ -1,6 +1,6 @@
 {
   "name": "growth-funnel-analysis",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Analyzes conversion funnels for growth teams to identify drop-off patterns, quantify bottlenecks, and isolate the stages with the highest improvement leverage.",
   "entrypoint": "main.py"
 }

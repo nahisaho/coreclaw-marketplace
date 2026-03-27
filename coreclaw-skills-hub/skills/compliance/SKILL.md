@@ -27,3 +27,21 @@ final actionable result.
 - Explicit assumptions and constraints
 - Traceable reasoning between steps
 - Final recommendation with next actions
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis / generation pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → deliver structured artifacts with traceable reasoning
+```
+
+### Quality Gates
+
+- [ ] All outputs include explicit assumptions and constraints
+- [ ] Traceable reasoning between steps
+- [ ] Final recommendation with clear next actions
+- [ ] Artifacts saved as files (not chat-only output)

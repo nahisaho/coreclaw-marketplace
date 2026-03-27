@@ -18,3 +18,20 @@ Generates discovery question sets tailored to account context and stage.
 
 ## Notes
 - This skill is designed to work with related skills in the \"sales\" suite.
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run skill logic
+VERIFY  → check outputs against quality gates
+REPORT  → structured result for downstream skills
+```
+
+### Quality Gates
+
+- [ ] Explicit assumptions and constraints documented
+- [ ] Clear decisions and rationale
+- [ ] Actionable next steps provided

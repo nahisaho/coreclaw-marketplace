@@ -1,6 +1,6 @@
 {
   "name": "consultant-assistant",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "General consulting skill for teams turning ambiguous business questions into structured analyses, clear options, and decision-ready recommendations.",
   "entrypoint": "main.py"
 }

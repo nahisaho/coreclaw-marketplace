@@ -1,6 +1,6 @@
 {
   "name": "agent-skills-builder",
-  "version": "v0.1.1",
+  "version": "v0.2.0",
   "description": "Discovers the user's true objective through one-question dialogue, then designs docs/SKILLS_GUIDE.md-compliant CoreClaw agents, optional sub-agents, and downloadable ZIP deliverables.",
   "entrypoint": "main.py"
 }

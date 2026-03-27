@@ -1,6 +1,6 @@
 {
   "name": "growth-learning-synthesis",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Synthesizes experiment outcomes for growth reviews into practical decisions, follow-up hypotheses, and a concrete next-iteration agenda.",
   "entrypoint": "main.py"
 }

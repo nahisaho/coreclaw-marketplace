@@ -29,3 +29,20 @@ Orchestrates supply chain decisions from forecasting through scenario planning.
 ## Fallback Policy
 - If a sub-skill output is insufficient, request clarification and rerun that step.
 - If constraints conflict, present at least two viable alternatives.
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run skill logic
+VERIFY  → check outputs against quality gates
+REPORT  → structured result for downstream skills
+```
+
+### Quality Gates
+
+- [ ] Explicit assumptions and constraints documented
+- [ ] Clear decisions and rationale
+- [ ] Actionable next steps provided

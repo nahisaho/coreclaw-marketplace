@@ -1,6 +1,6 @@
 {
   "name": "growth-orchestrator",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Coordinates segmentation, funnel diagnosis, experiment planning, copy generation, and learning synthesis for evidence-based growth programs.",
   "entrypoint": "main.py"
 }

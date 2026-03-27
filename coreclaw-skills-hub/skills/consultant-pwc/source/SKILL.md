@@ -9,29 +9,29 @@ description: |
   Supports Deep Research MCP for enhanced web research capabilities.
 ---
 
-# Consultant PwC（PwC式コンサルティング）
+# Consultant PwC (PwC-Style Consulting)
 
-PwCのコンサルティング手法を活用した深層リサーチ＆コンサルティング分析スキルです。
-「Fit for Growth」「Strategy&」「BXT」「TIMM」を中核としたアプローチを提供します。
+Deep research and consulting analysis skill using PwC methodologies.
+Provides Fit for Growth, Strategy&, BXT, and TIMM-centered approaches.
 
-## PwC式ワークフロー
+## PwC-Style Workflow
 
 ```
-Phase 1: 課題診断
-    ↓ ビジネス・エクスペリエンス・テクノロジーの3軸で診断
-Phase 2: 戦略立案（Strategy&）
-    ↓ ケイパビリティ駆動戦略の構築
-Phase 3: Fit for Growth 分析
-    ↓ コスト構造のRight-sizing、差別化投資の特定
-Phase 4: トータルインパクト測定（TIMM）
-    ↓ 経済・社会・環境・税の4次元でインパクト評価
-Phase 5: 実行＆変革
-    ↓ ディールバリュー創出、リスク管理の統合実行
+Phase 1: Problem Diagnosis
+    ↓ Diagnose across Business/Experience/Technology axes
+Phase 2: Strategy Formulation (Strategy&)
+    ↓ Build capability-driven strategy
+Phase 3: Fit for Growth Analysis
+    ↓ Right-size cost structure, identify differentiated investments
+Phase 4: Total Impact Measurement (TIMM)
+    ↓ Impact assessment across economic/social/environmental/tax dimensions
+Phase 5: Execution & Transformation
+    ↓ Deal value creation, integrated risk management execution
 ```
 
-## プロンプト一覧
+## Prompt List
 
-| プロンプト | フェーズ | 説明 |
+| Prompt | Phase | Description |
 |-----------|---------|------|
 | **purpose-discovery** | Phase 1 | 課題診断・BXTスコーピング |
 | **deep-research** | Phase 2-3 | Strategy& + Fit for Growth |
@@ -39,9 +39,9 @@ Phase 5: 実行＆変革
 | **report-writing** | Phase 5 | 統合レポート |
 | **full-research** | 全フェーズ | 統合リサーチ |
 
-## スキル一覧
+## Skills
 
-| スキル | 説明 |
+| Skill | Description |
 |--------|------|
 | **orchestrator** | タスク分類・フェーズルーティング |
 
@@ -71,9 +71,9 @@ Phase 5: 実行＆変革
 | **Risk & Regulation** | 規制環境分析とリスクベースの意思決定 |
 | **ESG Framework** | ESG統合経営とサステナビリティ戦略 |
 
-## 使い方
+## Usage
 
-### 例
+### Examples
 
 - 「コスト構造を見直して成長投資に回したい」→ Fit for Growth
 - 「M&A後の統合計画を作りたい」→ Deal Value Creation
@@ -92,8 +92,26 @@ Phase 5: 実行＆変革
 | ステークホルダー | 全ステークホルダーの視点を含むか |
 | Right to Win | その市場で勝つ権利（ケイパビリティ）があるか |
 
-## MCP連携
+## MCP Integration
 
 `deep-research` MCP サーバーが有効な場合、Deep Research フェーズで MCP の構造化リサーチ
 フレームワークを活用してください。MCP が利用できない場合は従来の Think→Action→Report
 ワークフローを使用します。
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report
+```
+
+### Quality Gates
+
+- [ ] All outputs include explicit assumptions and constraints
+- [ ] Traceable reasoning between steps
+- [ ] Final recommendation with clear next actions
+- [ ] Artifacts saved as files (not chat-only output)

@@ -1,6 +1,6 @@
 {
   "name": "sales-stakeholder-mapping",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Maps stakeholders, influence patterns, decision criteria, and likely concerns across the buying committee for complex enterprise opportunities.",
   "entrypoint": "main.py"
 }

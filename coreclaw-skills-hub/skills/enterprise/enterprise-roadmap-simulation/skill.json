@@ -1,6 +1,6 @@
 {
   "name": "enterprise-roadmap-simulation",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Builds phased transformation roadmaps for leadership and PMO planning, showing dependency-aware scenarios, timing trade-offs, and execution implications.",
   "entrypoint": "main.py"
 }

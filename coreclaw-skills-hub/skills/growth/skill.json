@@ -1,6 +1,6 @@
 {
   "name": "growth-assistant",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Coordinates product growth work for product, marketing, and lifecycle teams from segmentation and funnel diagnosis to experiment design and learning synthesis.",
   "entrypoint": "main.py"
 }

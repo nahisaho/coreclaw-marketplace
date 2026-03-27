@@ -8,27 +8,27 @@ description: |
   Supports Deep Research MCP for enhanced web research capabilities.
 ---
 
-# Consultant BCG（BCG式コンサルティング）
+# Consultant BCG (BCG-Style Consulting)
 
-ボストンコンサルティンググループ（BCG）のメソドロジーを活用した深層リサーチ＆コンサルティング分析スキルです。
-ポートフォリオ戦略、コスト・オペレーション、戦略立案、価値創造に特化したフレームワークを提供します。
+Deep research and consulting analysis skill using BCG methodologies.
+Provides frameworks for portfolio strategy, cost operations, strategy formulation, and value creation.
 
-## ワークフロー
+## Workflow
 
 ```
-Phase 1: Purpose Discovery（目的探索）
-    ↓ BCG Hypothesis-Driven Approach で仮説設定
-Phase 2: Deep Research（深層リサーチ）
-    ↓ Think→Action→Report サイクル
-Phase 3: Framework Analysis（フレームワーク分析）
-    ↓ BCG独自フレームワークで構造化分析
-Phase 4: Report Writing（レポート生成）
-    ↓ ファクトベースのピラミッド構造レポート
+Phase 1: Purpose Discovery
+    ↓ Hypothesis setting via BCG approach
+Phase 2: Deep Research
+    ↓ Think→Action→Report cycle
+Phase 3: Framework Analysis
+    ↓ Structured analysis with BCG frameworks
+Phase 4: Report Writing
+    ↓ Fact-based pyramid-structured report
 ```
 
-## プロンプト一覧
+## Prompt List
 
-| プロンプト | フェーズ | 説明 |
+| Prompt | Phase | Description |
 |-----------|---------|------|
 | **purpose-discovery** | Phase 1 | 仮説駆動で目的探索 |
 | **deep-research** | Phase 2 | 反復的深層リサーチ |
@@ -36,9 +36,9 @@ Phase 4: Report Writing（レポート生成）
 | **report-writing** | Phase 4 | レポート生成 |
 | **full-research** | 全フェーズ | 統合リサーチ |
 
-## スキル一覧
+## Skills
 
-| スキル | 説明 |
+| Skill | Description |
 |--------|------|
 | **orchestrator** | タスク分類・フェーズルーティング |
 | **framework-library** | BCG固有フレームワーク定義 |
@@ -83,9 +83,9 @@ Phase 4: Report Writing（レポート生成）
 | **Digital Acceleration Index** | デジタル化の加速度評価 |
 | **Bionic Company** | テクノロジーと人間の融合型組織設計 |
 
-## 使い方
+## Usage
 
-### 例
+### Examples
 
 - 「事業ポートフォリオを分析して」→ BCG Growth-Share Matrix 適用
 - 「コスト競争力を評価して」→ BCG Experience Curve 適用
@@ -122,8 +122,26 @@ Phase 4: Report Writing（レポート生成）
 | ファクトベース | データに基づく定量分析 |
 | So What | 経営層への示唆が明確 |
 
-## MCP連携
+## MCP Integration
 
 `deep-research` MCP サーバーが有効な場合、Deep Research フェーズで MCP の構造化リサーチ
 フレームワークを活用してください。MCP が利用できない場合は従来の Think→Action→Report
 ワークフローを使用します。
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report
+```
+
+### Quality Gates
+
+- [ ] All outputs include explicit assumptions and constraints
+- [ ] Traceable reasoning between steps
+- [ ] Final recommendation with clear next actions
+- [ ] Artifacts saved as files (not chat-only output)

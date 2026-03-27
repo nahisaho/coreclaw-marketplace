@@ -1,6 +1,6 @@
 {
   "name": "learning-orchestrator",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Coordinates objective design, curriculum sequencing, activity creation, rubric design, and feedback analysis for complete learning-design workflows.",
   "entrypoint": "main.py"
 }

@@ -1,6 +1,6 @@
 {
   "name": "growth-user-segmentation",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Builds actionable user segments for product and marketing teams using behavior, value, lifecycle stage, and need signals to target experiments precisely.",
   "entrypoint": "main.py"
 }

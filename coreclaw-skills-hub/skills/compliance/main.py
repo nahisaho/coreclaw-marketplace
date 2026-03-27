@@ -1,12 +1,30 @@
 #!/usr/bin/env python3
-\"\"\"Entrypoint for imported skill: compliance.\"\"\"
+"""Entrypoint for imported skill: compliance (v0.2.0).
+
+Harness-optimized with verification loops and quality gates.
+"""
 
 
 def run(input_data: dict | None = None) -> dict:
     return {
         "skill": "compliance-assistant",
+        "version": "v0.2.0",
         "skill_path": "compliance",
         "status": "imported",
+        "capabilities": [
+            "verification-loop",
+            "quality-gates",
+            "harness-optimized",
+        ],
+        "harness": {
+            "verification_loop": "PLAN → EXECUTE → VERIFY → REPORT",
+            "quality_gates": [
+                "explicit-assumptions",
+                "traceable-reasoning",
+                "actionable-next-steps",
+                "artifacts-saved-as-files",
+            ],
+        },
         "input": input_data or {},
     }
 

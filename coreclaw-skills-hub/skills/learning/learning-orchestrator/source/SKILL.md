@@ -1,20 +1,48 @@
 ---
 name: learning-orchestrator
-description: Coordinates learning design workflow from objectives to evaluation feedback.
+description: Orchestrates learning design from measurable objectives to feedback-driven iteration.
 ---
 
 # learning-orchestrator
 
 ## Overview
-Coordinates learning design workflow from objectives to evaluation feedback.
+Orchestrates learning design from measurable objectives to feedback-driven iteration.
 
-## Inputs
-- Objective and context for this step in the suite
-- Constraints, assumptions, and expected output format
+## Orchestration Flow
+1) learning-objective-designer -> 2) learning-curriculum-builder -> 3) learning-activity-generator -> 4) learning-rubric-designer -> 5) learning-feedback-analyzer
 
-## Outputs
-- Structured result for downstream skills in the same suite
-- Clear decisions, rationale, and next actions
+## Input Contract
+- Learner profile and target outcomes
+- Delivery mode and constraints
+- Assessment requirements
 
-## Notes
-- This skill is designed to work with related skills in the \"learning\" suite.
+## Output Contract
+- Outcome-aligned curriculum and activities
+- Rubrics and evaluation plan
+- Improvement recommendations from feedback
+
+## Quality Gates
+- Upstream outputs are complete and parseable before moving to next skill.
+- Each step must include assumptions and confidence levels.
+- Final response must include recommended next actions.
+
+## Fallback Policy
+- If a sub-skill output is insufficient, request clarification and rerun that step.
+- If constraints conflict, present at least two viable alternatives.
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run skill logic
+VERIFY  → check outputs against quality gates
+REPORT  → structured result for downstream skills
+```
+
+### Quality Gates
+
+- [ ] Explicit assumptions and constraints documented
+- [ ] Clear decisions and rationale
+- [ ] Actionable next steps provided

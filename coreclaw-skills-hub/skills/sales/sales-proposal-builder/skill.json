@@ -1,6 +1,6 @@
 {
   "name": "sales-proposal-builder",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Builds proposal structures for late-stage deals, aligned to stakeholder priorities, decision criteria, value themes, and next-step commitments.",
   "entrypoint": "main.py"
 }

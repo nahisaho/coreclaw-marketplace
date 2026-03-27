@@ -1,6 +1,6 @@
 {
   "name": "enterprise-exec-briefing",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Produces executive briefings for leadership forums that summarize options, trade-offs, risks, and recommended actions in a concise decision format.",
   "entrypoint": "main.py"
 }

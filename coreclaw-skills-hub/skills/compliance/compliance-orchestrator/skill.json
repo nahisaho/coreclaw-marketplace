@@ -1,6 +1,6 @@
 {
   "name": "compliance-orchestrator",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Coordinates control mapping, evidence planning, gap analysis, remediation design, and audit response for end-to-end compliance workflows.",
   "entrypoint": "main.py"
 }

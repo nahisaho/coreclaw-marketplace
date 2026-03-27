@@ -8,27 +8,27 @@ description: |
   Supports Deep Research MCP for enhanced web research capabilities.
 ---
 
-# Consultant ACN（アクセンチュア式コンサルティング）
+# Consultant ACN (Accenture-Style Consulting)
 
-アクセンチュアのメソドロジーを活用した深層リサーチ＆コンサルティング分析スキルです。
-DX戦略、コスト変革、オペレーション最適化、価値創造に特化したフレームワークを提供します。
+Deep research and consulting analysis skill using Accenture methodologies.
+Provides frameworks for DX strategy, cost transformation, operations optimization, and value creation.
 
-## ワークフロー
+## Workflow
 
 ```
-Phase 1: Purpose Discovery（目的探索）
-    ↓ Hypothesis-Driven Approach で課題特定
-Phase 2: Deep Research（深層リサーチ）
-    ↓ Think→Action→Report サイクル
-Phase 3: Framework Analysis（フレームワーク分析）
-    ↓ ACN独自フレームワークで構造化分析
-Phase 4: Report Writing（レポート生成）
-    ↓ アクションプランを含む提言レポート
+Phase 1: Purpose Discovery
+    ↓ Problem identification via Hypothesis-Driven Approach
+Phase 2: Deep Research
+    ↓ Think→Action→Report cycle
+Phase 3: Framework Analysis
+    ↓ Structured analysis with ACN frameworks
+Phase 4: Report Writing
+    ↓ Recommendation report with action plan
 ```
 
-## プロンプト一覧
+## Prompt List
 
-| プロンプト | フェーズ | 説明 |
+| Prompt | Phase | Description |
 |-----------|---------|------|
 | **purpose-discovery** | Phase 1 | 仮説駆動で目的探索 |
 | **deep-research** | Phase 2 | 反復的深層リサーチ |
@@ -36,9 +36,9 @@ Phase 4: Report Writing（レポート生成）
 | **report-writing** | Phase 4 | レポート生成 |
 | **full-research** | 全フェーズ | 統合リサーチ |
 
-## スキル一覧
+## Skills
 
-| スキル | 説明 |
+| Skill | Description |
 |--------|------|
 | **orchestrator** | タスク分類・フェーズルーティング |
 | **framework-library** | ACN固有フレームワーク定義 |
@@ -84,16 +84,16 @@ Phase 4: Report Writing（レポート生成）
 | **Change Management** | 変革推進のステークホルダー管理 |
 | **Talent Strategy** | デジタル人材戦略・リスキリング |
 
-## 使い方
+## Usage
 
-### 例
+### Examples
 
 - 「DX戦略を立案して」→ DX Strategy Framework 適用
 - 「コスト削減施策を検討して」→ Zero-Based Budgeting 適用
 - 「業務の自動化を検討して」→ Intelligent Operations 適用
 - 「新規市場への成長戦略を立案して」→ Growth Strategy 適用
 
-## 品質ゲート
+## Quality Gates
 
 | ゲート | 条件 |
 |--------|------|
@@ -102,8 +102,26 @@ Phase 4: Report Writing（レポート生成）
 | 3→4 | 1件以上のフレームワーク適用、数値検証済 |
 | 4→完了 | レポート品質チェック通過 |
 
-## MCP連携
+## MCP Integration
 
 `deep-research` MCP サーバーが有効な場合、Phase 2（Deep Research）で MCP の構造化リサーチ
 フレームワークを活用してください。MCP が利用できない場合は従来の Think→Action→Report
 ワークフローを使用します。
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report
+```
+
+### Quality Gates
+
+- [ ] All outputs include explicit assumptions and constraints
+- [ ] Traceable reasoning between steps
+- [ ] Final recommendation with clear next actions
+- [ ] Artifacts saved as files (not chat-only output)

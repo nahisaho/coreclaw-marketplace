@@ -1,6 +1,6 @@
 {
   "name": "compliance-remediation-plan",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Builds phased remediation plans for risk and control owners with milestones, sequencing, accountability, and measurable closure criteria.",
   "entrypoint": "main.py"
 }

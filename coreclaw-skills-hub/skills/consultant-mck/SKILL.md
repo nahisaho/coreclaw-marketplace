@@ -9,29 +9,29 @@ description: |
   Supports Deep Research MCP for enhanced web research capabilities.
 ---
 
-# Consultant McK（マッキンゼー式コンサルティング）
+# Consultant McK (McKinsey-Style Consulting)
 
-マッキンゼーのコンサルティング手法を活用した深層リサーチ＆コンサルティング分析スキルです。
-仮説駆動、MECE、ピラミッド原則、7Sフレームワークを中核としたアプローチを提供します。
+Deep research and consulting analysis skill using McKinsey methodologies.
+Provides hypothesis-driven, MECE, Pyramid Principle, and 7S Framework-centered approaches.
 
-## マッキンゼー式ワークフロー
+## McKinsey-Style Workflow
 
 ```
-Phase 1: 問題定義
-    ↓ クライアントの真の課題特定、成功の定義
-Phase 2: 仮説構築
-    ↓ Day 1 Answer 設定、支持論拠の整理
-Phase 3: イシュー分解
-    ↓ Issue Tree でMECE分解、優先順位付け
-Phase 4: データ収集・分析
-    ↓ 80/20分析、So What? で洞察抽出
-Phase 5: 統合・提言
-    ↓ ピラミッド原則で構造化、アクションプラン策定
+Phase 1: Problem Definition
+    ↓ Identify true client issues, define success
+Phase 2: Hypothesis Construction
+    ↓ Set Day 1 Answer, organize supporting arguments
+Phase 3: Issue Decomposition
+    ↓ MECE decomposition via Issue Tree, prioritization
+Phase 4: Data Collection & Analysis
+    ↓ 80/20 analysis, insight extraction via So What?
+Phase 5: Integration & Recommendations
+    ↓ Structure via Pyramid Principle, formulate action plan
 ```
 
-## プロンプト一覧
+## Prompt List
 
-| プロンプト | フェーズ | 説明 |
+| Prompt | Phase | Description |
 |-----------|---------|------|
 | **purpose-discovery** | Phase 1-2 | 問題定義・仮説構築 |
 | **deep-research** | Phase 3-4 | イシュー分解・データ収集 |
@@ -39,9 +39,9 @@ Phase 5: 統合・提言
 | **report-writing** | Phase 5 | 統合・提言レポート |
 | **full-research** | 全フェーズ | 統合リサーチ |
 
-## スキル一覧
+## Skills
 
-| スキル | 説明 |
+| Skill | Description |
 |--------|------|
 | **orchestrator** | タスク分類・フェーズルーティング |
 | **framework-library** | McK固有フレームワーク定義 |
@@ -73,9 +73,9 @@ Phase 5: 統合・提言
 | **プロフィットプール分析** | バリューチェーン全体の利益分布を可視化 |
 | **SCP分析** | 産業構造→企業行動→業績の因果関係を分析 |
 
-## 使い方
+## Usage
 
-### 例
+### Examples
 
 - 「新規事業の方向性を検討したい」→ 3つの地平線 + 成長のグラニュラリティ
 - 「組織の問題点を分析して」→ マッキンゼーの7S
@@ -93,8 +93,26 @@ Phase 5: 統合・提言
 | 80/20 | 最も重要な20%の分析にフォーカス |
 | ピラミッド構造 | 結論→根拠の論理的階層 |
 
-## MCP連携
+## MCP Integration
 
 `deep-research` MCP サーバーが有効な場合、Deep Research フェーズで MCP の構造化リサーチ
 フレームワークを活用してください。MCP が利用できない場合は従来の Think→Action→Report
 ワークフローを使用します。
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report
+```
+
+### Quality Gates
+
+- [ ] All outputs include explicit assumptions and constraints
+- [ ] Traceable reasoning between steps
+- [ ] Final recommendation with clear next actions
+- [ ] Artifacts saved as files (not chat-only output)

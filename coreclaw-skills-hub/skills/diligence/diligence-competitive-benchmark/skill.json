@@ -1,6 +1,6 @@
 {
   "name": "diligence-competitive-benchmark",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Benchmarks targets against direct and adjacent competitors for diligence work, comparing positioning, capabilities, risks, and differentiation.",
   "entrypoint": "main.py"
 }

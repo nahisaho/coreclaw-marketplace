@@ -1,20 +1,48 @@
 ---
 name: enterprise-orchestrator
-description: Orchestrates end-to-end enterprise transformation workflow across specialized skills.
+description: Orchestrates enterprise transformation from problem framing to executive decision output.
 ---
 
 # enterprise-orchestrator
 
 ## Overview
-Orchestrates end-to-end enterprise transformation workflow across specialized skills.
+Orchestrates enterprise transformation from problem framing to executive decision output.
 
-## Inputs
-- Objective and context for this step in the suite
-- Constraints, assumptions, and expected output format
+## Orchestration Flow
+1) enterprise-problem-structuring -> 2) enterprise-kpi-diagnostics -> 3) enterprise-initiative-prioritization -> 4) enterprise-roadmap-simulation -> 5) enterprise-exec-briefing
 
-## Outputs
-- Structured result for downstream skills in the same suite
-- Clear decisions, rationale, and next actions
+## Input Contract
+- Strategic objective and business context
+- Operating constraints (budget, timeline, ownership)
+- Baseline KPIs and target outcomes
 
-## Notes
-- This skill is designed to work with related skills in the \"enterprise\" suite.
+## Output Contract
+- Prioritized initiative portfolio
+- Dependency-aware roadmap
+- Executive briefing with decisions, risks, and trade-offs
+
+## Quality Gates
+- Upstream outputs are complete and parseable before moving to next skill.
+- Each step must include assumptions and confidence levels.
+- Final response must include recommended next actions.
+
+## Fallback Policy
+- If a sub-skill output is insufficient, request clarification and rerun that step.
+- If constraints conflict, present at least two viable alternatives.
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run skill logic
+VERIFY  → check outputs against quality gates
+REPORT  → structured result for downstream skills
+```
+
+### Quality Gates
+
+- [ ] Explicit assumptions and constraints documented
+- [ ] Clear decisions and rationale
+- [ ] Actionable next steps provided

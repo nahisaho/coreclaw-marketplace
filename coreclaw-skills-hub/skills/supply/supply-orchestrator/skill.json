@@ -1,6 +1,6 @@
 {
   "name": "supply-orchestrator",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Coordinates forecasting, inventory, logistics, supplier-risk, and scenario planning for integrated supply-decision workflows.",
   "entrypoint": "main.py"
 }

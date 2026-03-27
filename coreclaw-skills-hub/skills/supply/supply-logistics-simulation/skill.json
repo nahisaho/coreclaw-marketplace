@@ -1,6 +1,6 @@
 {
   "name": "supply-logistics-simulation",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Simulates routing and logistics scenarios for supply teams to compare lead time, cost, bottlenecks, and resilience trade-offs across options.",
   "entrypoint": "main.py"
 }

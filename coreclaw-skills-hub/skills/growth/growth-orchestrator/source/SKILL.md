@@ -1,20 +1,48 @@
 ---
 name: growth-orchestrator
-description: Coordinates growth analysis from segmentation through experiment learning cycles.
+description: Orchestrates product growth loops from segmentation to experiment learning synthesis.
 ---
 
 # growth-orchestrator
 
 ## Overview
-Coordinates growth analysis from segmentation through experiment learning cycles.
+Orchestrates product growth loops from segmentation to experiment learning synthesis.
 
-## Inputs
-- Objective and context for this step in the suite
-- Constraints, assumptions, and expected output format
+## Orchestration Flow
+1) growth-user-segmentation -> 2) growth-funnel-analysis -> 3) growth-experiment-design -> 4) growth-copy-variants -> 5) growth-learning-synthesis
 
-## Outputs
-- Structured result for downstream skills in the same suite
-- Clear decisions, rationale, and next actions
+## Input Contract
+- Product growth objective and target metrics
+- Audience and lifecycle context
+- Historical experiment constraints
 
-## Notes
-- This skill is designed to work with related skills in the \"growth\" suite.
+## Output Contract
+- Segment-level bottleneck diagnosis
+- Experiment plan with variants
+- Learning summary and next experiment backlog
+
+## Quality Gates
+- Upstream outputs are complete and parseable before moving to next skill.
+- Each step must include assumptions and confidence levels.
+- Final response must include recommended next actions.
+
+## Fallback Policy
+- If a sub-skill output is insufficient, request clarification and rerun that step.
+- If constraints conflict, present at least two viable alternatives.
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run skill logic
+VERIFY  → check outputs against quality gates
+REPORT  → structured result for downstream skills
+```
+
+### Quality Gates
+
+- [ ] Explicit assumptions and constraints documented
+- [ ] Clear decisions and rationale
+- [ ] Actionable next steps provided

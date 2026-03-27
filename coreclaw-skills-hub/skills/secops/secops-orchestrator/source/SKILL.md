@@ -1,20 +1,48 @@
 ---
 name: secops-orchestrator
-description: Orchestrates security incident response from alert triage to postmortem.
+description: Orchestrates security incident response from triage to post-incident improvement.
 ---
 
 # secops-orchestrator
 
 ## Overview
-Orchestrates security incident response from alert triage to postmortem.
+Orchestrates security incident response from triage to post-incident improvement.
 
-## Inputs
-- Objective and context for this step in the suite
-- Constraints, assumptions, and expected output format
+## Orchestration Flow
+1) secops-alert-triage -> 2) secops-log-correlation -> 3) secops-root-cause-analysis -> 4) secops-containment-plan -> 5) secops-postmortem-writer
 
-## Outputs
-- Structured result for downstream skills in the same suite
-- Clear decisions, rationale, and next actions
+## Input Contract
+- Alert metadata and environment scope
+- Available logs and detection evidence
+- Incident response constraints
 
-## Notes
-- This skill is designed to work with related skills in the \"secops\" suite.
+## Output Contract
+- Incident timeline and root-cause hypothesis
+- Containment and recovery actions
+- Postmortem with corrective/preventive actions
+
+## Quality Gates
+- Upstream outputs are complete and parseable before moving to next skill.
+- Each step must include assumptions and confidence levels.
+- Final response must include recommended next actions.
+
+## Fallback Policy
+- If a sub-skill output is insufficient, request clarification and rerun that step.
+- If constraints conflict, present at least two viable alternatives.
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run skill logic
+VERIFY  → check outputs against quality gates
+REPORT  → structured result for downstream skills
+```
+
+### Quality Gates
+
+- [ ] Explicit assumptions and constraints documented
+- [ ] Clear decisions and rationale
+- [ ] Actionable next steps provided

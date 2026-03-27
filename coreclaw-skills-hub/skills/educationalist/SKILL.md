@@ -10,73 +10,73 @@ description: |
 
 # Teaching Assistant
 
-教育者のための包括的なAIアシスタントスキルパッケージです。
+A comprehensive AI assistant skill package for educators.
 
-## 機能一覧
+## Feature List
 
-### プロンプト（教育コンテンツ生成）
+### Prompts (Education Content Generation)
 
-| スキル | 説明 | 主な教育理論 |
+| Skill | Description | 主な教育理論 |
 |--------|------|-------------|
-| **meta-prompt** | メタプロンプト生成（コンテキスト収集） | 構造化された質問設計 |
-| **lesson-plan** | Bloom's Taxonomyベースの授業計画 | Bloom's Taxonomy, Gagné's Nine Events |
-| **materials** | 教材作成（ワークシート・スライド・クイズ） | Gagné's Nine Events, ARCS Model, UDL |
-| **assessment** | 評価設計（ルーブリック・テスト・形成的評価） | Constructive Alignment, Bloom's Taxonomy |
-| **individual** | 個別指導計画（学習者プロファイルベース） | ZPD, Differentiated Instruction |
-| **feedback** | Growth Mindsetベースのフィードバック | Growth Mindset, Self-Regulated Learning |
-| **guidance** | 生活指導案（発達段階考慮） | Erikson, Kohlberg, Piaget, PBIS |
+| **meta-prompt** | Meta-prompt generation (context collection) | Structured question design |
+| **lesson-plan** | Bloom's Taxonomy-based lesson planning | Bloom's Taxonomy, Gagné's Nine Events |
+| **materials** | Material creation (worksheets, slides, quizzes) | Gagné's Nine Events, ARCS Model, UDL |
+| **assessment** | Assessment design (rubrics, tests, formative assessment) | Constructive Alignment, Bloom's Taxonomy |
+| **individual** | Individualized instruction plan (learner profile-based) | ZPD, Differentiated Instruction |
+| **feedback** | Growth Mindset-based feedback | Growth Mindset, Self-Regulated Learning |
+| **guidance** | Student guidance plan (developmental stage-aware) | Erikson, Kohlberg, Piaget, PBIS |
 
-### スキル（内部支援機能）
+### Skills (Internal Support Functions)
 
-| スキル | 説明 |
+| Skill | Description |
 |--------|------|
-| **orchestrator** | インテント分析とスキルルーティング |
-| **theory-lookup** | 175件の教育理論参照 |
-| **context-manager** | スキル間コンテキスト管理 |
+| **orchestrator** | Intent analysis and skill routing |
+| **theory-lookup** | Reference 175 education theories |
+| **context-manager** | Cross-skill context management |
 
-## 使い方
+## Usage
 
-ユーザーのリクエストに応じて、orchestrator が適切なスキルを自動選択します。
+The orchestrator automatically selects the appropriate skill based on user requests.
 
-### 例
+### Examples
 
-- 「中学2年の一次関数の授業計画を作成して」→ lesson-plan
-- 「小学3年の理科ワークシートを作って」→ materials
-- 「英語のルーブリックを作成して」→ assessment
-- 「この生徒に合った指導計画を考えて」→ individual
-- 「作文にフィードバックを書いて」→ feedback
-- 「不登校傾向の生徒への対応を考えて」→ guidance
+- "Create lesson plan for 8th grade linear functions" → lesson-plan
+- "Create 3rd grade science worksheet" → materials
+- "Create an English rubric" → assessment
+- "Design instruction plan for this student" → individual
+- "Write feedback on this essay" → feedback
+- "Plan response for student with truancy tendency" → guidance
 
-## 対応学校種
+## Supported School Levels
 
-- 小学校（低学年・高学年）
-- 中学校
-- 高等学校
-- 大学
+- Elementary school (lower/upper grades)
+- Middle school
+- High school
+- University
 
-## 学習指導要領
+## Curriculum Standards
 
-小中高の教育コンテンツ生成時は、学習指導要領に基づいた内容を生成します。
+Education content for elementary/middle/high school is generated based on curriculum standards.
 
-## データベース
+## Database
 
-以下のデータベースが `data/` ディレクトリに格納されています：
+The following databases are stored in the `data/` directory:
 
-## MCP連携
+## MCP Integration
 
-`deep-research` MCP サーバーが有効な場合、教育理論の調査や最新の教育研究の探索時に
-MCP の `deep-research` プロンプトテンプレートを活用してください。
-特に教育理論の比較、エビデンスベースの教育実践の調査、カリキュラム改訂の背景調査などで
-有効です。MCP が利用できない場合は、内蔵の theories.db と curriculum.db を使用します。
+When the `deep-research` MCP server is available, use the `deep-research` prompt template
+for education theory research and latest pedagogical study exploration.
+Particularly effective for education theory comparison, evidence-based practice surveys, and
+curriculum revision background research. When MCP is unavailable, use the built-in theories.db and curriculum.db.
 
-| ファイル | サイズ | 内容 |
+| File | Size | Contents |
 |---------|--------|------|
-| `theories.db` | 1.5MB | 175件の教育理論 (SQLite FTS5 trigram) |
-| `theories.json` | 315KB | 教育理論 JSON版 |
-| `relations.json` | 9.4KB | 理論間の関係データ (77件) |
-| `curriculum.db` | 13MB | 学習指導要領 SQLite DB (2657セクション, FTS5 trigram) |
+| `theories.db` | 1.5MB | 175 education theories (SQLite FTS5 trigram) |
+| `theories.json` | 315KB | Education theories in JSON |
+| `relations.json` | 9.4KB | Inter-theory relationships (77 entries) |
+| `curriculum.db` | 13MB | Curriculum standards SQLite DB (2657 sections, FTS5 trigram) |
 
-### curriculum.db の使い方
+### Using curriculum.db
 
 学習指導要領を検索する場合は **必ず `curriculum.db` を使用** してください。
 `curriculum/*.md` を grep で検索してはいけません（5.2MB のファイルスキャンは非常に遅いため）。
@@ -103,3 +103,21 @@ LIMIT 10;
 ```
 
 **school_level の値**: `小学校`, `中学校`, `高等学校`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report
+```
+
+### Quality Gates
+
+- [ ] All outputs include explicit assumptions and constraints
+- [ ] Traceable reasoning between steps
+- [ ] Final recommendation with clear next actions
+- [ ] Artifacts saved as files (not chat-only output)

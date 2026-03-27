@@ -1,6 +1,6 @@
 {
   "name": "enterprise-problem-structuring",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Structures ambiguous enterprise problems for strategy and transformation teams into decision trees, issue buckets, hypotheses, and workstreams that can be analyzed immediately.",
   "entrypoint": "main.py"
 }

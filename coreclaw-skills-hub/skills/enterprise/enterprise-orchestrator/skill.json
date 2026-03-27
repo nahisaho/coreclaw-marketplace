@@ -1,6 +1,6 @@
 {
   "name": "enterprise-orchestrator",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Coordinates enterprise problem solving for strategy and transformation teams across structuring, prioritization, KPI diagnosis, roadmap simulation, and executive synthesis.",
   "entrypoint": "main.py"
 }

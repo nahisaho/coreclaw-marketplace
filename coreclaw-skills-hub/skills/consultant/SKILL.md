@@ -10,73 +10,73 @@ description: |
 
 # Consultant Assistant
 
-深層リサーチ＆コンサルティング分析のためのAIアシスタントスキルパッケージです。
+AI assistant skill package for deep research and consulting analysis.
 
-## ワークフロー
+## Workflow
 
-4つのフェーズで構成されるコンサルティングワークフローを提供します。
+Provides a consulting workflow composed of 4 phases.
 
 ```
-Phase 1: Purpose Discovery（目的探索）
-    ↓ 5 Whys / JTBD で「真の目的」を発見
-Phase 2: Deep Research（深層リサーチ）
-    ↓ Think→Action→Report サイクルで情報収集
-Phase 3: Framework Analysis（フレームワーク分析）
-    ↓ 53フレームワークで構造化分析
-Phase 4: Report Writing（レポート生成）
-    ↓ ピラミッド原則に基づくレポート作成
+Phase 1: Purpose Discovery
+    ↓ Discover true objective via 5 Whys / JTBD
+Phase 2: Deep Research
+    ↓ Gather information via Think→Action→Report cycle
+Phase 3: Framework Analysis
+    ↓ Structured analysis with 53 frameworks
+Phase 4: Report Writing
+    ↓ Report writing based on Pyramid Principle
 ```
 
-## プロンプト一覧
+## Prompt List
 
-| プロンプト | フェーズ | 説明 |
+| Prompt | Phase | Description |
 |-----------|---------|------|
-| **purpose-discovery** | Phase 1 | 対話的目的探索を開始 |
-| **deep-research** | Phase 2 | 反復的深層リサーチを実行 |
-| **framework-analysis** | Phase 3 | フレームワーク分析を実行 |
-| **report-writing** | Phase 4 | レポートを生成 |
-| **full-research** | 全フェーズ | 統合リサーチを実行 |
+| **purpose-discovery** | Phase 1 | Start interactive purpose discovery |
+| **deep-research** | Phase 2 | Execute iterative deep research |
+| **framework-analysis** | Phase 3 | Execute framework analysis |
+| **report-writing** | Phase 4 | Generate report |
+| **full-research** | All Phases | Execute integrated research |
 
-## スキル一覧
+## Skills
 
-| スキル | 説明 |
+| Skill | Description |
 |--------|------|
-| **orchestrator** | リクエスト分類とフェーズルーティング |
-| **framework-library** | 53フレームワーク定義と選択支援 |
+| **orchestrator** | Request classification and phase routing |
+| **framework-library** | 53 framework definitions and selection support |
 
-## 使い方
+## Usage
 
-ユーザーのリクエストに応じて、orchestrator が適切なフェーズを自動選択します。
+The orchestrator automatically selects the appropriate phase based on user requests.
 
-### 例
+### Examples
 
-- 「競合分析をしたい」→ purpose-discovery → 真の目的を探索
-- 「AI市場について調べて」→ full-research → 統合リサーチ
-- 「収集した情報をSWOT分析して」→ framework-analysis
-- 「調査結果をレポートにまとめて」→ report-writing
-- 「新規事業の提案書を作って」→ full-research（全フェーズ）
+- "Competitive analysis" → purpose-discovery → discover true objective
+- "Research AI market" → full-research → integrated research
+- "SWOT analysis of collected data" → framework-analysis
+- "Compile findings into report" → report-writing
+- "Create new business proposal" → full-research (all phases)
 
-## フレームワーク（53定義）
+## Frameworks（53定義）
 
-| カテゴリ | 件数 | 代表例 |
+| Category | Count | Examples |
 |---------|------|--------|
-| 戦略分析 | 10 | SWOT, 3C, PEST, 5Forces, BCG, VRIO |
-| 問題解決 | 7 | MECE, ロジックツリー, イシューツリー, 5 Whys, フィッシュボーン |
-| 思考整理 | 3 | ピラミッド構造, So What/Why So, PREP |
-| 意思決定 | 4 | 意思決定マトリクス, プロコン, リスクマトリクス, コストベネフィット |
-| マーケティング | 7 | 4P, 4C, STP, カスタマージャーニー, ペルソナ, AIDMA/AISAS |
-| イノベーション | 7 | BMC, リーンキャンバス, TAM/SAM/SOM, デザイン思考, SCAMPER |
-| プロセス改善 | 3 | PDCA, OODA, ECRS |
-| 組織分析 | 2 | 7S, RACI |
-| 顧客分析 | 2 | RFM, NPS |
-| 汎用ツール | 5 | 5W1H, SMART, OKR, KPT, JTBD |
-| 財務分析 | 3 | デュポン, CVP, DCF |
+| Strategy Analysis | 10 | SWOT, 3C, PEST, 5Forces, BCG, VRIO |
+| Problem Solving | 7 | MECE, Logic Tree, Issue Tree, 5 Whys, Fishbone |
+| Thought Organization | 3 | Pyramid Structure, So What/Why So, PREP |
+| Decision Making | 4 | Decision Matrix, Pros/Cons, Risk Matrix, Cost-Benefit |
+| Marketing | 7 | 4P, 4C, STP, Customer Journey, Persona, AIDMA/AISAS |
+| Innovation | 7 | BMC, Lean Canvas, TAM/SAM/SOM, Design Thinking, SCAMPER |
+| Process Improvement | 3 | PDCA, OODA, ECRS |
+| Organizational Analysis | 2 | 7S, RACI |
+| Customer Analysis | 2 | RFM, NPS |
+| General Tools | 5 | 5W1H, SMART, OKR, KPT, JTBD |
+| Financial Analysis | 3 | DuPont, CVP, DCF |
 
-## 品質ゲート
+## Quality Gates
 
-各フェーズ間に品質ゲートを設けて、分析品質を担保します。
+Quality gates between phases ensure analysis quality.
 
-## MCP連携
+## MCP Integration
 
 `deep-research` MCP サーバーが Settings > MCP Servers で有効な場合、Phase 2（Deep Research）で
 構造化リサーチフレームワーク（課題精緻化→サブ質問分解→Web検索→ソース評価→レポート生成）を
@@ -96,3 +96,21 @@ Phase 4: Report Writing（レポート生成）
 | 通常 | − | 全フェーズ実行 |
 | 急ぎ | 急ぎ、今日中、明日まで | Phase 1→2簡略→3→4簡略 |
 | 緊急 | 今すぐ、至急、概要のみ | Phase 1→2概要→4サマリー |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report
+```
+
+### Quality Gates
+
+- [ ] All outputs include explicit assumptions and constraints
+- [ ] Traceable reasoning between steps
+- [ ] Final recommendation with clear next actions
+- [ ] Artifacts saved as files (not chat-only output)

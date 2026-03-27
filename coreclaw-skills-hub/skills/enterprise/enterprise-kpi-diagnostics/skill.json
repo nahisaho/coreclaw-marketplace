@@ -1,6 +1,6 @@
 {
   "name": "enterprise-kpi-diagnostics",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Diagnoses KPI movement for leadership reviews by separating signal from noise, identifying likely drivers, and surfacing leading indicators for action.",
   "entrypoint": "main.py"
 }

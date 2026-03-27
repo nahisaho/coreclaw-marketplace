@@ -1,6 +1,6 @@
 {
   "name": "growth-copy-variants",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Generates testable messaging and call-to-action variants for experiment programs, aligned to user intent, funnel stage, and learning goals.",
   "entrypoint": "main.py"
 }

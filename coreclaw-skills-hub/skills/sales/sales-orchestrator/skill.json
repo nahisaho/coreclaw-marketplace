@@ -1,6 +1,6 @@
 {
   "name": "sales-orchestrator",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Coordinates account research, stakeholder analysis, discovery planning, objection handling, and proposal shaping for complex deal execution.",
   "entrypoint": "main.py"
 }

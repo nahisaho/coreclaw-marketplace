@@ -1,6 +1,6 @@
 {
   "name": "supply-inventory-optimizer",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Optimizes inventory targets for operations teams against service levels, variability, replenishment constraints, and working-capital trade-offs.",
   "entrypoint": "main.py"
 }
