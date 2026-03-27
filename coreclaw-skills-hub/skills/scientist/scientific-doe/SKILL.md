@@ -269,7 +269,7 @@ def generate_lhs_pool(bounds, n_iterations=20, batch_size=5, n_pool=None):
     highs = np.array([bounds[p][1] for p in param_names])
 
     if n_pool is None:
-        n_pool = max(n_iterations * batch_size * 3, 30)
+        n_pool = max(n_iterations * batch_size * 3, 400)
 
     sampler = LatinHypercube(d=d, seed=42)
     sample = sampler.random(n=n_pool)
