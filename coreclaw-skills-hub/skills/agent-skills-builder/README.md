@@ -6,6 +6,7 @@ Builds CoreClaw skill packages from requirements using `docs/SKILLS_GUIDE.md`-co
 
 - Dialogue-driven requirement discovery with users
 - Enforces one-question-at-a-time interviews with users
+- Discovers the user's true objective behind the initial request
 - Proactive proposal generation to surface hidden needs
 - Creates complete skill package structures aligned to `docs/SKILLS_GUIDE.md`
 - Optionally scaffolds sub-agents (sub-skills) when complexity requires role separation
@@ -64,3 +65,13 @@ This skill helps generate:
 - Ask users exactly one question at a time
 - Wait for the user's answer before asking the next question
 - Do not bundle multiple requirement questions into a single turn
+- Confirm the true objective in plain language before generating artifacts
+
+## Goal Discovery Flow
+
+1. Capture the user's stated request.
+2. Ask one question to identify the background problem.
+3. Ask one question to define success criteria.
+4. Ask one question to reveal operational constraints.
+5. Summarize the inferred true objective and ask for confirmation.
+6. Design the agent structure to achieve the confirmed true objective.

@@ -43,6 +43,14 @@ def _create_zip_bundle(output_dir: str, zip_path: str | None = None) -> dict:
 def run(input_data: dict | None = None) -> dict:
     request = input_data or {}
     zip_result = None
+    inferred_true_objective = request.get("true_objective")
+
+    if not inferred_true_objective and request.get("stated_request"):
+        inferred_true_objective = (
+            "Inferred objective candidate: "
+            "convert the stated request into a measurable business outcome and "
+            "design agent responsibilities that can achieve that outcome."
+        )
 
     if request.get("create_zip"):
         zip_result = _create_zip_bundle(
@@ -59,8 +67,10 @@ def run(input_data: dict | None = None) -> dict:
             "sub_agents": True,
             "zip_bundle": True,
             "interaction_mode": "one-question-one-answer",
+            "true_objective_discovery": True,
         },
         "capabilities": [
+            "discover-true-objective",
             "scaffold-skill-package",
             "scaffold-sub-agents",
             "apply-skills-guide-structure",
@@ -71,6 +81,7 @@ def run(input_data: dict | None = None) -> dict:
             "prepare-release-tag",
         ],
         "input": request,
+        "true_objective": inferred_true_objective,
         "zip_bundle": zip_result,
     }
 
