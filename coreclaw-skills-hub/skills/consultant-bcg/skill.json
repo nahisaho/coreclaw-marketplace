@@ -1,6 +1,6 @@
 {
   "name": "consultant-bcg",
   "version": "v0.1.0",
-  "description": "Imported from nahisaho/coreclaw",
+  "description": "Consulting skillset for strategy and growth problem solving, with hypothesis-driven analysis and executive-ready recommendations.",
   "entrypoint": "main.py"
 }

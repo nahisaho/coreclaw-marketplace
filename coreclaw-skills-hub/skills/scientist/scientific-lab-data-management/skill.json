@@ -1,6 +1,6 @@
 {
   "name": "scientific-lab-data-management",
   "version": "v0.1.0",
-  "description": "Imported from nahisaho/coreclaw",
+  "description": "Provides scientific workflows for lab data management with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
   "entrypoint": "main.py"
 }

@@ -1,6 +1,6 @@
 {
   "name": "scientific-presentation-design",
   "version": "v0.1.0",
-  "description": "Imported from nahisaho/coreclaw",
+  "description": "Provides scientific workflows for presentation design with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
   "entrypoint": "main.py"
 }

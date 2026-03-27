@@ -1,6 +1,6 @@
 {
   "name": "teaching-assistant",
   "version": "v0.1.0",
-  "description": "Imported from nahisaho/coreclaw",
+  "description": "Instructional design toolkit for curriculum planning, assessment alignment, and learner-centered improvement cycles.",
   "entrypoint": "main.py"
 }

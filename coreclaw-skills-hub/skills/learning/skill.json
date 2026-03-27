@@ -1,0 +1,6 @@
+{
+  "name": "learning-assistant",
+  "version": "v0.1.0",
+  "description": "Coordinates learning-design workflows from measurable objectives to activities, rubrics, and feedback-driven iteration.",
+  "entrypoint": "main.py"
+}

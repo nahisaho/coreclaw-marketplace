@@ -1,0 +1,6 @@
+{
+  "name": "growth-experiment-design",
+  "version": "v0.1.0",
+  "description": "Builds practical experiment design outputs for product growth decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "entrypoint": "main.py"
+}

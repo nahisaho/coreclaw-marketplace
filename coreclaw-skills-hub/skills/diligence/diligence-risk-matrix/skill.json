@@ -1,0 +1,6 @@
+{
+  "name": "diligence-risk-matrix",
+  "version": "v0.1.0",
+  "description": "Builds practical risk matrix outputs for commercial and investment diligence decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "entrypoint": "main.py"
+}

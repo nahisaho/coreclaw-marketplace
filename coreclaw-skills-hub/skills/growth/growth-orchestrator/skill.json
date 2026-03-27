@@ -1,0 +1,6 @@
+{
+  "name": "growth-orchestrator",
+  "version": "v0.1.0",
+  "description": "Orchestrates end-to-end product growth workflows by coordinating specialized sub-skills, applying quality gates, and producing decision-ready outputs.",
+  "entrypoint": "main.py"
+}

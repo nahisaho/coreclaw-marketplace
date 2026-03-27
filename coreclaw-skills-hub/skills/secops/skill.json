@@ -1,0 +1,6 @@
+{
+  "name": "secops-assistant",
+  "version": "v0.1.0",
+  "description": "Coordinates security incident response from alert triage through containment, root-cause analysis, and post-incident improvement.",
+  "entrypoint": "main.py"
+}

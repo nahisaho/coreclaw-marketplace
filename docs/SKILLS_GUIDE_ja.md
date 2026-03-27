@@ -17,7 +17,7 @@
 
 ## ディレクトリ構造
 
-### グループレベルのスキル（単一スキル）
+### グループ直下の本体スキル（スイート親）
 
 ```
 coreclaw-skills-hub/skills/
@@ -27,12 +27,26 @@ coreclaw-skills-hub/skills/
     ├── skill.json                    # スキルメタデータ
     ├── main.py                       # エントリポイント（マーケットプレース用）
     ├── README.md                     # スキル説明（マーケットプレース用）
-    └── source/                       # 元のペイロード
+  ├── source/                       # 元のペイロード
         ├── SKILL.md                  # 元のスキルドキュメント
-        └── [その他のオリジナルファイル]
+  │   └── [その他のオリジナルファイル]
+  ├── <group-orchestrator>/         # オーケストレーター用サブスキル
+  │   ├── SKILL.md
+  │   ├── skill.json
+  │   ├── main.py
+  │   ├── README.md
+  │   └── source/
+  │       └── SKILL.md
+  └── <group-specialized-skill>/    # 専門サブスキル
+    ├── SKILL.md
+    ├── skill.json
+    ├── main.py
+    ├── README.md
+    └── source/
+      └── SKILL.md
 ```
 
-例：`consultant/`, `educationalist/`
+例：`scientist/`, `enterprise/`, `growth/`, `secops/`
 
 ### ネストされたグループ内のスキル（複数スキル）
 
@@ -58,7 +72,7 @@ coreclaw-skills-hub/skills/
             └── [その他のファイル]
 ```
 
-例：`scientist/scientific-academic-writing/`, `scientist/scientific-active-learning/`
+例：`scientist/scientific-academic-writing/`, `enterprise/enterprise-orchestrator/`, `growth/growth-funnel-analysis/`
 
 ---
 
@@ -172,6 +186,18 @@ coreclaw-skills-hub/skills/
 スキルのライセンス情報。
 ```
 
+### Orchestrator用SKILL.md（スイート構成で必須）
+
+`<group>/<group>-orchestrator/` のようなオーケストレーター用サブスキルでは、`SKILL.md` に次のセクションを含めます。
+
+- `## Orchestration Flow`
+- `## Input Contract`
+- `## Output Contract`
+- `## Quality Gates`
+- `## Fallback Policy`
+
+サブスキル連携順と検証ルールを明示してください。
+
 ### main.py（エントリポイント）
 
 マーケットプレースから実行される Python スクリプト。
@@ -249,7 +275,17 @@ python main.py
 
 ## スキル作成手順
 
-### 1. ディレクトリを作成
+### 1. 構成タイプを選択
+
+- **スイート構成（高度処理向け、推奨）**
+
+```bash
+mkdir -p coreclaw-skills-hub/skills/<group>
+mkdir -p coreclaw-skills-hub/skills/<group>/source
+mkdir -p coreclaw-skills-hub/skills/<group>/<group>-orchestrator/source
+```
+
+- **単一サブスキルのみ**
 
 ```bash
 mkdir -p coreclaw-skills-hub/skills/<group>/<skill-name>
@@ -401,6 +437,7 @@ v0.9.0  -> v1.0.0  安定版リリース時
 - `SKILL.md`: 簡潔に。複雑な場合は複数ファイルに分割
 - `main.py`: 実装が大きい場合はモジュール化
 - `source/`: オリジナルペイロード全体を保存
+- `agent-skills-builder` は本体1500文字以内、サブスキル2000文字以内を維持
 
 ### 依存関係管理
 
@@ -420,6 +457,7 @@ v0.9.0  -> v1.0.0  安定版リリース時
 - `skill.json` は必須フィールドをすべて含める
 - `entrypoint` で指定したファイルが存在することを確認
 - `main` ブランチへのプッシュは自動検証される
+- `group.json` の `count` はグループ内実数（本体 + サブスキル）と一致させる
 
 ---
 

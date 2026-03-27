@@ -1,0 +1,6 @@
+{
+  "name": "diligence-assistant",
+  "version": "v0.1.0",
+  "description": "Coordinates diligence workflows from market and competitive analysis to risk framing, red-flag detection, and investment memos.",
+  "entrypoint": "main.py"
+}

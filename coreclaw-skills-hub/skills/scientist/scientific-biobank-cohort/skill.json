@@ -1,6 +1,6 @@
 {
   "name": "scientific-biobank-cohort",
   "version": "v0.1.0",
-  "description": "Imported from nahisaho/coreclaw",
+  "description": "Provides scientific workflows for biobank cohort with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
   "entrypoint": "main.py"
 }

@@ -1,0 +1,6 @@
+{
+  "name": "secops-root-cause-analysis",
+  "version": "v0.1.0",
+  "description": "Builds practical root cause analysis outputs for security operations decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "entrypoint": "main.py"
+}

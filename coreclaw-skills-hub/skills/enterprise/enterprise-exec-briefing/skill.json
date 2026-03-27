@@ -1,0 +1,6 @@
+{
+  "name": "enterprise-exec-briefing",
+  "version": "v0.1.0",
+  "description": "Builds practical exec briefing outputs for enterprise transformation decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "entrypoint": "main.py"
+}

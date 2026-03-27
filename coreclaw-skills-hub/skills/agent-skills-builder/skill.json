@@ -1,0 +1,6 @@
+{
+  "name": "agent-skills-builder",
+  "version": "v0.1.0",
+  "description": "Designs production-ready CoreClaw skill packages from requirements, with schema-safe structure, quality checks, and release-ready artifacts.",
+  "entrypoint": "main.py"
+}

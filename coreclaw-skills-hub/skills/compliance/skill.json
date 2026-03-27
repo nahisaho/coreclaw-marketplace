@@ -1,0 +1,6 @@
+{
+  "name": "compliance-assistant",
+  "version": "v0.1.0",
+  "description": "Coordinates compliance and audit workflows to map controls, close evidence gaps, and produce traceable audit-ready outputs.",
+  "entrypoint": "main.py"
+}

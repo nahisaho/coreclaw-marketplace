@@ -1,0 +1,6 @@
+{
+  "name": "growth-copy-variants",
+  "version": "v0.1.0",
+  "description": "Builds practical copy variants outputs for product growth decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "entrypoint": "main.py"
+}

@@ -1,0 +1,6 @@
+{
+  "name": "growth-funnel-analysis",
+  "version": "v0.1.0",
+  "description": "Builds practical funnel analysis outputs for product growth decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "entrypoint": "main.py"
+}

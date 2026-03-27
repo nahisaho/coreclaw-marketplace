@@ -1,0 +1,6 @@
+{
+  "name": "sales-objection-handling",
+  "version": "v0.1.0",
+  "description": "Builds practical objection handling outputs for strategic B2B sales execution decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "entrypoint": "main.py"
+}

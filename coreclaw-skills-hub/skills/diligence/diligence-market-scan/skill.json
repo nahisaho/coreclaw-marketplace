@@ -1,0 +1,6 @@
+{
+  "name": "diligence-market-scan",
+  "version": "v0.1.0",
+  "description": "Builds practical market scan outputs for commercial and investment diligence decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "entrypoint": "main.py"
+}

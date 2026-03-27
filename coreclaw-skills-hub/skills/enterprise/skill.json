@@ -1,0 +1,6 @@
+{
+  "name": "enterprise-assistant",
+  "version": "v0.1.0",
+  "description": "Coordinates enterprise transformation workstreams to turn ambiguous strategic problems into prioritized, execution-ready decisions.",
+  "entrypoint": "main.py"
+}

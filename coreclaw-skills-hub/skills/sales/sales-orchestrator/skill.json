@@ -1,0 +1,6 @@
+{
+  "name": "sales-orchestrator",
+  "version": "v0.1.0",
+  "description": "Orchestrates end-to-end strategic B2B sales execution workflows by coordinating specialized sub-skills, applying quality gates, and producing decision-ready outputs.",
+  "entrypoint": "main.py"
+}

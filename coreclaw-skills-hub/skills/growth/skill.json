@@ -1,0 +1,6 @@
+{
+  "name": "growth-assistant",
+  "version": "v0.1.0",
+  "description": "Coordinates growth strategy workflows from segmentation and funnel diagnosis to experiment planning and learning synthesis.",
+  "entrypoint": "main.py"
+}

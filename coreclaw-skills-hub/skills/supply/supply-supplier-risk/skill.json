@@ -1,0 +1,6 @@
+{
+  "name": "supply-supplier-risk",
+  "version": "v0.1.0",
+  "description": "Builds practical supplier risk outputs for supply chain planning decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "entrypoint": "main.py"
+}

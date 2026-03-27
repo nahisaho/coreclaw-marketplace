@@ -1,0 +1,6 @@
+{
+  "name": "supply-inventory-optimizer",
+  "version": "v0.1.0",
+  "description": "Builds practical inventory optimizer outputs for supply chain planning decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "entrypoint": "main.py"
+}

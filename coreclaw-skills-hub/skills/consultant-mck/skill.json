@@ -1,6 +1,6 @@
 {
   "name": "consultant-mck",
   "version": "v0.1.0",
-  "description": "Imported from nahisaho/coreclaw",
+  "description": "Consulting skillset for strategic and operational problem solving, with structured diagnosis and board-ready decision support.",
   "entrypoint": "main.py"
 }

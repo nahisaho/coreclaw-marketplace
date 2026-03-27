@@ -1,0 +1,6 @@
+{
+  "name": "compliance-audit-response",
+  "version": "v0.1.0",
+  "description": "Builds practical audit response outputs for compliance and audit readiness decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "entrypoint": "main.py"
+}

@@ -1,0 +1,6 @@
+{
+  "name": "diligence-orchestrator",
+  "version": "v0.1.0",
+  "description": "Orchestrates end-to-end commercial and investment diligence workflows by coordinating specialized sub-skills, applying quality gates, and producing decision-ready outputs.",
+  "entrypoint": "main.py"
+}

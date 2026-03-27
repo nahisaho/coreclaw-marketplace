@@ -1,0 +1,6 @@
+{
+  "name": "learning-objective-designer",
+  "version": "v0.1.0",
+  "description": "Builds practical objective designer outputs for learning design and evaluation decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "entrypoint": "main.py"
+}

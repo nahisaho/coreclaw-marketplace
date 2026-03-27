@@ -17,7 +17,7 @@ This guide explains the procedures and best practices for creating and registeri
 
 ## Directory Structure
 
-### Group-level Skills (Single Skill)
+### Group-level Root Skill (Suite Parent)
 
 ```
 coreclaw-skills-hub/skills/
@@ -27,12 +27,26 @@ coreclaw-skills-hub/skills/
     ├── skill.json                    # Skill metadata
     ├── main.py                       # Entrypoint (marketplace)
     ├── README.md                     # Skill description (marketplace)
-    └── source/                       # Original payload
+  ├── source/                       # Original payload
         ├── SKILL.md                  # Original skill document
-        └── [other original files]
+  │   └── [other original files]
+  ├── <group-orchestrator>/         # Orchestrator sub-skill
+  │   ├── SKILL.md
+  │   ├── skill.json
+  │   ├── main.py
+  │   ├── README.md
+  │   └── source/
+  │       └── SKILL.md
+  └── <group-specialized-skill>/    # Specialized sub-skill(s)
+    ├── SKILL.md
+    ├── skill.json
+    ├── main.py
+    ├── README.md
+    └── source/
+      └── SKILL.md
 ```
 
-Examples: `consultant/`, `educationalist/`
+Examples: `scientist/`, `enterprise/`, `growth/`, `secops/`
 
 ### Nested Skills (Multiple Skills in Group)
 
@@ -58,7 +72,7 @@ coreclaw-skills-hub/skills/
             └── [other files]
 ```
 
-Examples: `scientist/scientific-academic-writing/`, `scientist/scientific-active-learning/`
+Examples: `scientist/scientific-academic-writing/`, `enterprise/enterprise-orchestrator/`, `growth/growth-funnel-analysis/`
 
 ---
 
@@ -172,6 +186,18 @@ Required environment, dependencies, access permissions.
 Skill license information.
 ```
 
+### Orchestrator SKILL.md (Required for Suite-style Groups)
+
+For orchestrator sub-skills (for example, `<group>/<group>-orchestrator/`), include these sections in `SKILL.md`:
+
+- `## Orchestration Flow`
+- `## Input Contract`
+- `## Output Contract`
+- `## Quality Gates`
+- `## Fallback Policy`
+
+The orchestrator file should explicitly define how sub-skills are chained and validated.
+
 ### main.py (Entrypoint)
 
 Python script executed from the marketplace.
@@ -249,7 +275,17 @@ python main.py
 
 ## Skill Creation Steps
 
-### 1. Create Directory
+### 1. Choose Structure Type
+
+- **Suite-style group** (recommended for advanced workflows):
+
+```bash
+mkdir -p coreclaw-skills-hub/skills/<group>
+mkdir -p coreclaw-skills-hub/skills/<group>/source
+mkdir -p coreclaw-skills-hub/skills/<group>/<group>-orchestrator/source
+```
+
+- **Single sub-skill only**:
 
 ```bash
 mkdir -p coreclaw-skills-hub/skills/<group>/<skill-name>
@@ -401,6 +437,7 @@ v0.9.0  -> v1.0.0  When releasing stable version
 - `SKILL.md`: Keep concise. Split into multiple files if complex.
 - `main.py`: Modularize if implementation is large.
 - `source/`: Store entire original payload.
+- For `agent-skills-builder`: keep main skill content within 1500 characters and sub-skill content within 2000 characters.
 
 ### Dependency Management
 
@@ -420,6 +457,7 @@ v0.9.0  -> v1.0.0  When releasing stable version
 - Include all required fields in `skill.json`
 - Verify entrypoint file exists
 - Validate automatically on push to main branch
+- Keep `group.json` `count` aligned with actual number of skills in the group (including root skill).
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "name": "consultant-pwc",
   "version": "v0.1.0",
-  "description": "Imported from nahisaho/coreclaw",
+  "description": "Consulting skillset for risk, finance, and transformation decisions, with evidence-based analysis and implementation-oriented outputs.",
   "entrypoint": "main.py"
 }

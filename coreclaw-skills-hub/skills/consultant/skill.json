@@ -1,6 +1,6 @@
 {
   "name": "consultant-assistant",
   "version": "v0.1.0",
-  "description": "Imported from nahisaho/coreclaw",
+  "description": "General consulting toolkit for problem structuring, hypothesis-driven analysis, and decision-ready communication for executives.",
   "entrypoint": "main.py"
 }

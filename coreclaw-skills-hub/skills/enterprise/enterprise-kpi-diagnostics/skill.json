@@ -1,0 +1,6 @@
+{
+  "name": "enterprise-kpi-diagnostics",
+  "version": "v0.1.0",
+  "description": "Builds practical kpi diagnostics outputs for enterprise transformation decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "entrypoint": "main.py"
+}

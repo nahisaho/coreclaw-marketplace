@@ -1,6 +1,6 @@
 {
   "name": "scientific-reinforcement-learning",
   "version": "v0.1.0",
-  "description": "Imported from nahisaho/coreclaw",
+  "description": "Provides scientific workflows for reinforcement learning with reproducible analysis steps, evidence-aware interpretation, and publication-ready deliverables.",
   "entrypoint": "main.py"
 }

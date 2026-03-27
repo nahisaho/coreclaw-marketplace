@@ -1,0 +1,6 @@
+{
+  "name": "learning-activity-generator",
+  "version": "v0.1.0",
+  "description": "Builds practical activity generator outputs for learning design and evaluation decisions, with structured analysis, explicit assumptions, and actionable recommendations.",
+  "entrypoint": "main.py"
+}
