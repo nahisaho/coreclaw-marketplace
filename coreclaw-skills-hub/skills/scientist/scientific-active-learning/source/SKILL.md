@@ -146,7 +146,7 @@ def batch_active_learning(model, X_pool, batch_size=10,
 ```python
 def active_learning_loop(X_labeled, y_labeled, X_pool, y_pool_true,
                          X_test, y_test,
-                         model=None, n_rounds=20, batch_size=10,
+                         model=None, n_rounds=100, batch_size=5,
                          strategy="entropy"):
     """
     アクティブラーニング実験ループ。
@@ -207,7 +207,7 @@ def active_learning_loop(X_labeled, y_labeled, X_pool, y_pool_true,
 
 
 def compare_strategies(X_labeled, y_labeled, X_pool, y_pool_true,
-                       X_test, y_test, n_rounds=20, batch_size=10):
+                       X_test, y_test, n_rounds=100, batch_size=5):
     """
     複数アクティブラーニング戦略の比較。
 
@@ -247,7 +247,7 @@ from sklearn.gaussian_process.kernels import RBF, WhiteKernel
 
 
 def gp_active_learning(X_labeled, y_labeled, X_pool,
-                       n_rounds=20, batch_size=5):
+                       n_rounds=100, batch_size=5):
     """
     Gaussian Process active learning with ARD-RBF kernel.
 

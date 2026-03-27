@@ -246,7 +246,7 @@ def main_effects_plot(design_df, response_col, factor_cols, figsize=None):
 ```python
 from scipy.stats.qmc import LatinHypercube
 
-def generate_lhs_pool(bounds, n_iterations=20, batch_size=5, n_pool=None):
+def generate_lhs_pool(bounds, n_iterations=100, batch_size=5, n_pool=None):
     """
     Latin Hypercube Sampling で初期候補プールを生成する。
 
@@ -287,7 +287,7 @@ from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF, WhiteKernel
 
 def bayesian_optimization(objective_func, bounds, n_initial=None,
-                           n_iterations=20, kappa=2.576, batch_size=1):
+                           n_iterations=100, kappa=2.576, batch_size=1):
     """
     ベイズ最適化（ARD-RBF GP + UCB acquisition）。
 
