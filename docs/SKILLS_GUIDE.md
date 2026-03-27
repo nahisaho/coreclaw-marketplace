@@ -12,6 +12,7 @@ This guide explains the procedures and best practices for creating and registeri
 6. [Skill Creation Steps](#skill-creation-steps)
 7. [Release Procedures](#release-procedures)
 8. [Best Practices](#best-practices)
+9. [Harness Optimization](#harness-optimization)
 
 ---
 
@@ -458,6 +459,94 @@ v0.9.0  -> v1.0.0  When releasing stable version
 - Verify entrypoint file exists
 - Validate automatically on push to main branch
 - Keep `group.json` `count` aligned with actual number of skills in the group (including root skill).
+
+---
+
+## Harness Optimization
+
+As of **v0.2.0**, all skills in the marketplace include **Harness Performance Optimization** — a structured verification system inspired by the [everything-claude-code](https://github.com/affaan-m/everything-claude-code) Harness Performance System (v1.8.0).
+
+### What is Harness Optimization?
+
+Harness Optimization adds a standardized quality assurance loop to every skill's `SKILL.md`. It ensures that skill outputs are not only generated but also **verified, validated, and reported** before delivery.
+
+### Verification Loop
+
+Every harness-optimized skill follows a 4-phase cycle appended to its `SKILL.md`:
+
+```
+## Verification Loop
+
+| Phase    | Action                                      |
+|----------|---------------------------------------------|
+| PLAN     | Parse the request and select execution path  |
+| EXECUTE  | Run the core skill logic                     |
+| VERIFY   | Validate outputs against quality gates       |
+| REPORT   | Return structured result with confidence     |
+```
+
+### Quality Gates
+
+Quality Gates are pass/fail checkpoints evaluated during the VERIFY phase. They vary by skill type:
+
+| Skill Type          | Quality Gate Examples                                        |
+|---------------------|--------------------------------------------------------------|
+| Suite Root          | Orchestration coverage, sub-skill delegation accuracy        |
+| Sub-skill           | Domain-specific output validation, format compliance         |
+| Standalone Skill    | End-to-end output correctness, completeness check            |
+
+### Harness Metadata in main.py
+
+Each `main.py` includes harness metadata for runtime introspection:
+
+```python
+SKILL_META = {
+    "version": "v0.2.0",
+    "harness": "coreclaw-v1",
+    "capabilities": ["verification-loop", "quality-gates", "eval-checkpoints"],
+    "quality_gates": {
+        "min_confidence": 0.7,
+        "require_verification": True,
+        "output_format_check": True
+    }
+}
+```
+
+### Three Footer Variants
+
+The Verification Loop footer in `SKILL.md` differs by skill role:
+
+1. **Suite Root** — Emphasizes orchestration principle:
+   > "When the suite root receives a request, it MUST delegate to the correct sub-skill via the orchestrator."
+
+2. **Standalone Skill** — Focuses on single-skill completeness:
+   > "This skill executes end-to-end. The VERIFY phase confirms output correctness before REPORT."
+
+3. **Sub-skill** — Highlights downstream responsibility:
+   > "This sub-skill runs within a suite pipeline. VERIFY confirms domain-specific quality before returning to orchestrator."
+
+### Applying Harness Optimization to a New Skill
+
+When creating a new skill at v0.2.0+, include these steps:
+
+1. **SKILL.md** — Append the appropriate Verification Loop footer (see variants above)
+2. **skill.json** — Set `"version": "v0.2.0"` or higher
+3. **main.py** — Add `SKILL_META` dict with harness capabilities and quality gates
+4. **source/SKILL.md** — Mirror the root `SKILL.md` content
+
+### Batch Conversion
+
+For upgrading existing skills, use the batch conversion scripts in `scripts/`:
+
+- `scripts/convert_scientist_v020.py` — Scientist group (195 sub-skills)
+- `scripts/convert_all_groups_v020.py` — All other groups (15 groups, 63 sub-skills)
+
+These scripts handle:
+- JP→EN translation of frontmatter descriptions and section headers
+- Verification Loop footer injection (3 variants)
+- `skill.json` version bump
+- `main.py` harness metadata insertion
+- `source/SKILL.md` synchronization
 
 ---
 
