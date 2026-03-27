@@ -57,7 +57,16 @@ def define_factors(factor_dict):
 ## 2. 直交配列表
 
 ```python
-# 田口 L9 直交表 (3 因子 × 3 水準)
+# 田口直交表
+# L4 (2^3 → 4 rows, 3 columns of 2 levels)
+L4 = np.array([
+    [0,0,0],
+    [0,1,1],
+    [1,0,1],
+    [1,1,0],
+])
+
+# L9 (3^4 → 9 rows, 3 columns of 3 levels)
 L9 = np.array([
     [0, 0, 0],
     [0, 1, 1],
@@ -70,17 +79,103 @@ L9 = np.array([
     [2, 2, 1],
 ])
 
+# L16 (2^15 → 16 rows, 15 columns of 2 levels)
+L16 = np.array([
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,1,1,1,1,1,1,1,1],
+    [0,0,0,1,1,1,1,0,0,0,0,1,1,1,1],
+    [0,0,0,1,1,1,1,1,1,1,1,0,0,0,0],
+    [0,1,1,0,0,1,1,0,0,1,1,0,0,1,1],
+    [0,1,1,0,0,1,1,1,1,0,0,1,1,0,0],
+    [0,1,1,1,1,0,0,0,0,1,1,1,1,0,0],
+    [0,1,1,1,1,0,0,1,1,0,0,0,0,1,1],
+    [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+    [1,0,1,0,1,0,1,1,0,1,0,1,0,1,0],
+    [1,0,1,1,0,1,0,0,1,0,1,1,0,1,0],
+    [1,0,1,1,0,1,0,1,0,1,0,0,1,0,1],
+    [1,1,0,0,1,1,0,0,1,1,0,0,1,1,0],
+    [1,1,0,0,1,1,0,1,0,0,1,1,0,0,1],
+    [1,1,0,1,0,0,1,0,1,1,0,1,0,0,1],
+    [1,1,0,1,0,0,1,1,0,0,1,0,1,1,0],
+])
+
+# L18 (2^1 × 3^7 → 18 rows, 8 columns: 1 col of 2 levels + 7 cols of 3 levels)
+L18 = np.array([
+    [0,0,0,0,0,0,0,0],
+    [0,0,1,1,1,1,1,1],
+    [0,0,2,2,2,2,2,2],
+    [0,1,0,0,1,1,2,2],
+    [0,1,1,1,2,2,0,0],
+    [0,1,2,2,0,0,1,1],
+    [0,2,0,1,0,2,1,2],
+    [0,2,1,2,1,0,2,0],
+    [0,2,2,0,2,1,0,1],
+    [1,0,0,2,2,1,1,0],
+    [1,0,1,0,0,2,2,1],
+    [1,0,2,1,1,0,0,2],
+    [1,1,0,1,2,0,2,1],
+    [1,1,1,2,0,1,0,2],
+    [1,1,2,0,1,2,1,0],
+    [1,2,0,2,1,2,0,1],
+    [1,2,1,0,2,0,1,2],
+    [1,2,2,1,0,1,2,0],
+])
+
+# L27 (3^13 → 27 rows, 13 columns of 3 levels)
+L27 = np.array([
+    [0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,1,1,1,1,1,1,1,1,1],
+    [0,0,0,0,2,2,2,2,2,2,2,2,2],
+    [0,1,1,1,0,0,0,1,1,1,2,2,2],
+    [0,1,1,1,1,1,1,2,2,2,0,0,0],
+    [0,1,1,1,2,2,2,0,0,0,1,1,1],
+    [0,2,2,2,0,0,0,2,2,2,1,1,1],
+    [0,2,2,2,1,1,1,0,0,0,2,2,2],
+    [0,2,2,2,2,2,2,1,1,1,0,0,0],
+    [1,0,1,2,0,1,2,0,1,2,0,1,2],
+    [1,0,1,2,1,2,0,1,2,0,1,2,0],
+    [1,0,1,2,2,0,1,2,0,1,2,0,1],
+    [1,1,2,0,0,1,2,1,2,0,2,0,1],
+    [1,1,2,0,1,2,0,2,0,1,0,1,2],
+    [1,1,2,0,2,0,1,0,1,2,1,2,0],
+    [1,2,0,1,0,1,2,2,0,1,1,2,0],
+    [1,2,0,1,1,2,0,0,1,2,2,0,1],
+    [1,2,0,1,2,0,1,1,2,0,0,1,2],
+    [2,0,2,1,0,2,1,0,2,1,0,2,1],
+    [2,0,2,1,1,0,2,1,0,2,1,0,2],
+    [2,0,2,1,2,1,0,2,1,0,2,1,0],
+    [2,1,0,2,0,2,1,1,0,2,2,1,0],
+    [2,1,0,2,1,0,2,2,1,0,0,2,1],
+    [2,1,0,2,2,1,0,0,2,1,1,0,2],
+    [2,2,1,0,0,2,1,2,1,0,1,0,2],
+    [2,2,1,0,1,0,2,0,2,1,2,1,0],
+    [2,2,1,0,2,1,0,1,0,2,0,2,1],
+])
+
 def generate_taguchi_design(factor_dict, array="L9"):
     """
     田口直交表から実験計画を生成する。
 
-    Available arrays: L4(2^3), L9(3^3-4), L16(2^15), L27(3^13)
+    Available arrays:
+        L4  (2^3)         — 4 runs, up to 3 two-level factors
+        L9  (3^4)         — 9 runs, up to 3 three-level factors
+        L16 (2^15)        — 16 runs, up to 15 two-level factors
+        L18 (2^1 × 3^7)   — 18 runs, 1 two-level + up to 7 three-level factors
+        L27 (3^13)        — 27 runs, up to 13 three-level factors
     """
     arrays = {
+        "L4": L4,
         "L9": L9,
-        "L4": np.array([[0,0,0],[0,1,1],[1,0,1],[1,1,0]]),
+        "L16": L16,
+        "L18": L18,
+        "L27": L27,
     }
-    oa = arrays.get(array, L9)
+    if array not in arrays:
+        raise ValueError(
+            f"Unknown orthogonal array '{array}'. "
+            f"Available arrays: {', '.join(sorted(arrays.keys()))}"
+        )
+    oa = arrays[array]
     factors = list(factor_dict.keys())
 
     runs = []
@@ -246,7 +341,7 @@ def main_effects_plot(design_df, response_col, factor_cols, figsize=None):
 ```python
 from scipy.stats.qmc import LatinHypercube
 
-def generate_lhs_pool(bounds, n_iterations=100, batch_size=5, n_pool=None):
+def generate_lhs_pool(bounds, n_iterations=100, batch_size=5, n_pool=None, seed=42):
     """
     Latin Hypercube Sampling で初期候補プールを生成する。
 
@@ -260,6 +355,7 @@ def generate_lhs_pool(bounds, n_iterations=100, batch_size=5, n_pool=None):
         n_iterations: int — 最適化ステップ数
         batch_size: int — バッチサイズ
         n_pool: int or None — 手動プールサイズ (None で自動計算)
+        seed: int — 乱数シード (再現性のため)
     Returns:
         np.ndarray (N, d) — LHS プール
     """
@@ -271,7 +367,7 @@ def generate_lhs_pool(bounds, n_iterations=100, batch_size=5, n_pool=None):
     if n_pool is None:
         n_pool = max(n_iterations * batch_size * 3, 400)
 
-    sampler = LatinHypercube(d=d, seed=42)
+    sampler = LatinHypercube(d=d, seed=seed)
     sample = sampler.random(n=n_pool)
     pool = lows + sample * (highs - lows)
 
@@ -291,7 +387,7 @@ def bayesian_optimization(objective_func, bounds, n_initial=None,
     """
     ベイズ最適化（ARD-RBF GP + UCB acquisition）。
 
-    v0.2.1: Kernel changed from isotropic Matern to ARD-RBF.
+    v0.3.0: Kernel changed from isotropic Matern to ARD-RBF.
     ARD-RBF uses per-dimension length_scale, enabling convergence
     in high-dimensional spaces (d >= 10) where isotropic kernels fail.
 
@@ -369,7 +465,7 @@ def bayesian_optimization(objective_func, bounds, n_initial=None,
     }
 ```
 
-## 7. 交互作用プロット
+## 8. 交互作用プロット
 
 ```python
 def interaction_plot(design_df, response_col, factor1, factor2, figsize=(8, 6)):
@@ -412,7 +508,7 @@ def interaction_plot(design_df, response_col, factor1, factor2, figsize=(8, 6)):
 | `figures/interaction_plot.png` | PNG |
 | `figures/bayesian_convergence.png` | PNG |
 
-#### 依存パッケージ
+## 9. 依存パッケージ
 
 ```
 scipy>=1.10
@@ -421,7 +517,7 @@ scikit-learn>=1.3
 
 ---
 
-## Verification Loop (v0.2.3)
+## 10. Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

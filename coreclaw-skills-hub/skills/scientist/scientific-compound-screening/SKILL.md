@@ -248,7 +248,7 @@ def virtual_screening_prep(query_smiles, lipinski=True, max_compounds=100):
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

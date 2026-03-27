@@ -1,6 +1,6 @@
 {
   "name": "scientific-multi-task-learning",
-  "version": "v0.2.3",
+  "version": "v0.3.0",
   "description": "Supports ML researchers with experiment structure, model comparison logic, interpretability considerations, and reproducible reporting.",
   "entrypoint": "main.py"
 }

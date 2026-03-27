@@ -273,7 +273,7 @@ gene-expression-transcriptomics → gtex-tissue-expression → variant-interpret
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

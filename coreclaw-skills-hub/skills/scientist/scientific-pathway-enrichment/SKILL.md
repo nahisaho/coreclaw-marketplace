@@ -446,7 +446,7 @@ def integrated_enrichment_heatmap(ora_results_dict, top_n=20,
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

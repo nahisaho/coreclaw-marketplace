@@ -1,6 +1,6 @@
 {
   "name": "scientific-interactive-dashboard",
-  "version": "v0.2.3",
+  "version": "v0.3.0",
   "description": "Builds scientific dashboards and visualizations for researchers who need patterns, caveats, and comparisons communicated clearly to expert audiences.",
   "entrypoint": "main.py"
 }

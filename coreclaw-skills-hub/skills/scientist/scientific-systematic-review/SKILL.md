@@ -359,7 +359,7 @@ def create_extraction_template(study_type="RCT",
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

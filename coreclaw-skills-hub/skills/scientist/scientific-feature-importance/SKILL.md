@@ -217,7 +217,7 @@ def generate_importance_mapping_table(all_fi_df, top_n=3):
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

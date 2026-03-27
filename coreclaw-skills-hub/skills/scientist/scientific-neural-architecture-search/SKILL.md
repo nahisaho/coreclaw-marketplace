@@ -215,7 +215,7 @@ def nas_pareto_search(train_loader, val_loader,
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

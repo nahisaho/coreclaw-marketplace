@@ -298,7 +298,7 @@ def conservation_priority(species_data, criteria_weights=None):
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

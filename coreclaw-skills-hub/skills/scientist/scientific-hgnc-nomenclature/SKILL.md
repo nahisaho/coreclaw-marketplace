@@ -289,7 +289,7 @@ biothings-idmapping → hgnc-nomenclature → genome-sequence-tools
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

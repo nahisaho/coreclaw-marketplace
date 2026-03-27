@@ -354,7 +354,7 @@ variant-interpretation → gnomad-variants → variant-effect-prediction
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

@@ -1,6 +1,6 @@
 {
   "name": "scientific-medical-imaging",
-  "version": "v0.2.3",
+  "version": "v0.3.0",
   "description": "Supports imaging researchers planning workflows, interpreting signal, and producing reproducible analyses for visual scientific datasets.",
   "entrypoint": "main.py"
 }

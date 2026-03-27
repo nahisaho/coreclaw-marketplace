@@ -171,12 +171,21 @@ def save_hypothesis_json(hypothesis, filepath=None):
     """
     import datetime
     
+    REQUIRED_HYPOTHESIS_KEYS = {"id", "H1", "framework"}
+    
+    def validate_hypothesis(h):
+        missing = REQUIRED_HYPOTHESIS_KEYS - set(h.keys())
+        if missing:
+            raise ValueError(f"Hypothesis missing required keys: {missing}")
+    
+    validate_hypothesis(hypothesis)
+    
     if filepath is None:
         filepath = BASE_DIR / "docs" / "hypothesis.json"
     filepath.parent.mkdir(parents=True, exist_ok=True)
     
     data = {
-        "version": "1.0",
+        "version": "v0.3.0",
         "created_at": datetime.datetime.now().isoformat(),
         "hypothesis": hypothesis,
     }
@@ -312,12 +321,22 @@ def save_workflow_json(hypothesis, steps, filepath=None):
     """
     import datetime
     
+    REQUIRED_WORKFLOW_KEYS = {"hypothesis_id", "skill", "inputs", "outputs"}
+    
+    def validate_workflow_step(step):
+        missing = REQUIRED_WORKFLOW_KEYS - set(step.keys())
+        if missing:
+            raise ValueError(f"Workflow step missing required keys: {missing}")
+    
+    for step in steps:
+        validate_workflow_step(step)
+    
     if filepath is None:
         filepath = BASE_DIR / "docs" / "workflow_design.json"
     filepath.parent.mkdir(parents=True, exist_ok=True)
     
     data = {
-        "version": "1.0",
+        "version": "v0.3.0",
         "created_at": datetime.datetime.now().isoformat(),
         "hypothesis_ref": {
             "H1": hypothesis["H1"],
@@ -791,7 +810,7 @@ def manage_hypotheses(hypotheses_list):
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

@@ -1,6 +1,6 @@
 {
   "name": "scientific-neuroscience-electrophysiology",
-  "version": "v0.2.3",
+  "version": "v0.3.0",
   "description": "Supports researchers working on neuroscience electrophysiology with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
   "entrypoint": "main.py"
 }

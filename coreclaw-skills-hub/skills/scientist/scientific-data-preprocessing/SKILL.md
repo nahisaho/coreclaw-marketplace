@@ -444,7 +444,7 @@ def preprocessing_pipeline(df, target_col=None, config=None):
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

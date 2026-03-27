@@ -273,7 +273,7 @@ variant-interpretation ──→ regulatory-genomics ──→ epigenomics-chrom
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

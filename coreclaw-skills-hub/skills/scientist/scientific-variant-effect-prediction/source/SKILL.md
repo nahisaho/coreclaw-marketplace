@@ -329,7 +329,7 @@ def consensus_pathogenicity(am_df, cadd_df, spliceai_df,
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

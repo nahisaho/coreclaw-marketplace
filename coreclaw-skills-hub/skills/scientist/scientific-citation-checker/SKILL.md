@@ -451,7 +451,7 @@ def run_citation_check(manuscript_path, citation_style="numeric", filepath=None)
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

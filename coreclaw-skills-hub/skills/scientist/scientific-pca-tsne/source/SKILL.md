@@ -244,7 +244,7 @@ def hierarchical_clustering(X_scaled, method="ward", max_k=10, figsize=(12, 5)):
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

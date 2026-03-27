@@ -171,22 +171,56 @@ def pareto_optimization(df, obj1_col, obj2_col, obj1_minimize=True,
     plt.close()
 
     return pareto_df
+
+
+def pareto_optimization_3d(df, obj1_col, obj2_col, obj3_col,
+                           obj1_minimize=True, obj2_minimize=True,
+                           obj3_minimize=True):
+    """
+    3 目的のパレートフロントを抽出する。
+    """
+    points = df[[obj1_col, obj2_col, obj3_col]].values.copy()
+
+    if not obj1_minimize:
+        points[:, 0] = -points[:, 0]
+    if not obj2_minimize:
+        points[:, 1] = -points[:, 1]
+    if not obj3_minimize:
+        points[:, 2] = -points[:, 2]
+
+    is_pareto = np.ones(len(points), dtype=bool)
+    for i in range(len(points)):
+        if is_pareto[i]:
+            for j in range(len(points)):
+                if i != j and is_pareto[j]:
+                    if np.all(points[j] <= points[i]) and np.any(points[j] < points[i]):
+                        is_pareto[i] = False
+                        break
+
+    pareto_df = df[is_pareto].copy()
+    pareto_df = pareto_df.sort_values(obj1_col)
+    pareto_df.to_csv("results/pareto_optimal_3d.csv", index=False)
+
+    print(f"  3D Pareto front: {len(pareto_df)} non-dominated solutions "
+          f"from {len(df)} total")
+    return pareto_df
 ```
 
-### 4. グリッドサーチによる最適条件探索
+### 4. ランダムサーチによる最適条件探索
 
 ```python
-def grid_search_optimum(model, feature_names, bounds,
-                        target_name, maximize=True, n_points=10000):
+def random_search_optimum(model, feature_names, bounds,
+                          target_name, maximize=True, n_points=10000):
     """
-    ランダムグリッドサーチで最適条件を探索する。
+    Random sampling optimization で最適条件を探索する。
     bounds: {feature_name: (min, max)} の辞書
     """
     rng = np.random.default_rng(42)
+    for f in feature_names:
+        if f not in bounds:
+            raise ValueError(f"Missing bounds for feature '{f}'. All features must have (min, max) bounds.")
     X_search = np.column_stack([
         rng.uniform(bounds[f][0], bounds[f][1], n_points)
-        if f in bounds
-        else np.full(n_points, bounds.get(f, (0, 0))[0])
         for f in feature_names
     ])
 
@@ -224,7 +258,7 @@ def grid_search_optimum(model, feature_names, bounds,
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

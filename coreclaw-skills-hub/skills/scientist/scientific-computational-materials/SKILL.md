@@ -61,6 +61,8 @@ def create_crystal_structure(lattice_params, species, coords,
     print(f"    Primitive cell: {len(primitive)} atoms")
 
     # CIF 出力
+    import os
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
     structure.to(filename=output_file)
 
     return structure, sga
@@ -116,7 +118,12 @@ def query_materials_project(formula=None, elements=None,
     - バンドギャップ範囲 (band_gap_range) — eV
     - 凸包上エネルギー (e_above_hull) — 安定性指標
     """
-    with MPRester() as mpr:
+    import os
+    api_key = os.environ.get("MP_API_KEY")
+    if not api_key:
+        raise EnvironmentError("Materials Project API key not found. Set MP_API_KEY environment variable.")
+
+    with MPRester(api_key) as mpr:
         criteria = {}
         if formula:
             criteria["formula"] = formula
@@ -289,6 +296,12 @@ def generate_vasp_inputs(structure, output_dir="vasp_inputs",
         vis = MPRelaxSet(structure)
     elif calculation_type == "static":
         vis = MPStaticSet(structure)
+    elif calculation_type == "band":
+        vis = MPStaticSet(structure)
+        vis.incar.update({"ICHARG": 11, "LORBIT": 11, "LWAVE": False})
+    elif calculation_type == "dos":
+        vis = MPStaticSet(structure)
+        vis.incar.update({"LORBIT": 11, "NEDOS": 2001, "ISMEAR": -5})
     else:
         vis = MPRelaxSet(structure)
 
@@ -351,7 +364,7 @@ def parse_vasp_output(vasprun_file="vasprun.xml"):
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

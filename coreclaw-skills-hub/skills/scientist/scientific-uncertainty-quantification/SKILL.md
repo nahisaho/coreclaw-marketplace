@@ -55,16 +55,29 @@ def conformal_prediction(model, X_calib, y_calib, X_test,
 
 
 def _conformal_regression(model, X_calib, y_calib, X_test, alpha, method):
-    preds_calib = model.predict(X_calib)
-    residuals = np.abs(y_calib - preds_calib)
+    if method == "cqr":
+        # Conformalized Quantile Regression
+        q_low = model.predict_quantile(X_calib, quantile=alpha/2)
+        q_high = model.predict_quantile(X_calib, quantile=1-alpha/2)
+        scores = np.maximum(q_low - y_calib, y_calib - q_high)
+        q = np.quantile(scores, (1-alpha)*(1+1/len(scores)))
+        # Apply to test
+        q_low_test = model.predict_quantile(X_test, quantile=alpha/2)
+        q_high_test = model.predict_quantile(X_test, quantile=1-alpha/2)
+        preds_test = model.predict(X_test)
+        lower = q_low_test - q
+        upper = q_high_test + q
+    else:
+        preds_calib = model.predict(X_calib)
+        residuals = np.abs(y_calib - preds_calib)
 
-    # (1-α)(1 + 1/n) 分位点
-    n = len(residuals)
-    q = np.quantile(residuals, np.ceil((1 - alpha) * (n + 1)) / n)
+        # (1-α)(1 + 1/n) 分位点
+        n = len(residuals)
+        q = np.quantile(residuals, np.ceil((1 - alpha) * (n + 1)) / n)
 
-    preds_test = model.predict(X_test)
-    lower = preds_test - q
-    upper = preds_test + q
+        preds_test = model.predict(X_test)
+        lower = preds_test - q
+        upper = preds_test + q
 
     coverage = None
     width = np.mean(upper - lower)
@@ -76,9 +89,9 @@ def _conformal_regression(model, X_calib, y_calib, X_test, alpha, method):
         "interval_width": upper - lower
     })
 
-    print(f"Conformal Prediction (α={alpha}): "
+    print(f"Conformal Prediction ({method}, α={alpha}): "
           f"mean width = {width:.4f}")
-    return result_df
+    return {"intervals": result_df, "coverage": coverage, "mean_width": width}
 
 
 def _conformal_classification(model, X_calib, y_calib, X_test, alpha):
@@ -116,16 +129,33 @@ def mc_dropout_predict(model, X, n_forward=100, dropout_rate=0.1):
         dropout_rate: float — ドロップアウト率
     """
     import torch
+    import torch.nn.functional as F
+
+    has_dropout = any(isinstance(m, torch.nn.Dropout) for m in model.modules())
 
     model.train()  # Dropout を有効にする
+
+    # Wrap model to apply dropout if not built-in
+    class _MCDropoutWrapper(torch.nn.Module):
+        def __init__(self, base_model, rate):
+            super().__init__()
+            self.base_model = base_model
+            self.rate = rate
+        def forward(self, x):
+            out = self.base_model(x)
+            return F.dropout(out, p=self.rate, training=True)
+
+    forward_model = model if has_dropout else _MCDropoutWrapper(model, dropout_rate)
 
     predictions = []
     with torch.no_grad():
         for _ in range(n_forward):
-            pred = model(X)
+            pred = forward_model(X)
             if pred.dim() > 1 and pred.shape[1] > 1:
                 pred = torch.softmax(pred, dim=1)
             predictions.append(pred.cpu().numpy())
+
+    model.eval()  # Restore eval mode
 
     predictions = np.array(predictions)  # (n_forward, n_samples, ...)
     mean_pred = predictions.mean(axis=0)
@@ -295,7 +325,7 @@ ensemble-methods → uncertainty-quantification → explainable-ai
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

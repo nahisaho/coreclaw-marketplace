@@ -8,10 +8,10 @@ description: |
   following the SHIKIGAMI paradigm (Think → Report → Action iterative cycle).
 ---
 
-# Scientific Assistant v0.2.0
+# Scientific Assistant v0.3.0
 
 A harness-optimized collection of 195 scientific research skills, organized
-as sub-skill directories within this skill package. v0.2.0 applies token
+as sub-skill directories within this skill package. v0.3.0 applies token
 optimization (English-only prompts) and structured verification loops
 inspired by the everything-claude-code harness performance system.
 

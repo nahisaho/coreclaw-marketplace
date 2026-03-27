@@ -1,6 +1,6 @@
 {
   "name": "scientific-nci60-screening",
-  "version": "v0.2.3",
+  "version": "v0.3.0",
   "description": "Supports researchers working on nci60 screening with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
   "entrypoint": "main.py"
 }

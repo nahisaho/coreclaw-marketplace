@@ -162,7 +162,7 @@ def posterior_predictive_check(model, trace, observed_y):
     fig, axes = plt.subplots(1, 3, figsize=(16, 5))
 
     # 1. 密度オーバーレイ
-    az.plot_ppc(az.from_pymc3(posterior_predictive=ppc, model=model),
+    az.plot_ppc(az.from_pymc(posterior_predictive=ppc, model=model),
                 ax=axes[0], kind="kde")
     axes[0].set_title("Posterior Predictive: KDE")
 
@@ -230,27 +230,27 @@ def bayesian_model_comparison(models_dict):
 
 ```python
 from sklearn.gaussian_process import GaussianProcessRegressor
-from sklearn.gaussian_process.kernels import Matern
+from sklearn.gaussian_process.kernels import RBF, WhiteKernel
 from scipy.optimize import minimize
-from scipy.stats import norm
+from scipy.stats import norm, qmc
 
 def bayesian_optimization(objective_func, bounds, n_init=5, n_iter=25):
     """
-    Gaussian Process ベースのベイズ最適化。
+    Gaussian Process (ARD-RBF kernel) ベースのベイズ最適化。
     Expected Improvement (EI) を獲得関数として使用。
     """
     dim = len(bounds)
 
-    # 初期サンプリング (Latin Hypercube)
-    X_samples = np.random.uniform(
-        [b[0] for b in bounds],
-        [b[1] for b in bounds],
-        size=(n_init, dim)
-    )
+    # 初期サンプリング (Latin Hypercube Sampling)
+    sampler = qmc.LatinHypercube(d=dim, seed=42)
+    X_unit = sampler.random(n=n_init)
+    l_bounds = np.array([b[0] for b in bounds])
+    u_bounds = np.array([b[1] for b in bounds])
+    X_samples = qmc.scale(X_unit, l_bounds, u_bounds)
     y_samples = np.array([objective_func(x) for x in X_samples])
 
-    # GP モデル
-    kernel = Matern(nu=2.5)
+    # GP モデル (ARD-RBF kernel)
+    kernel = RBF(length_scale=np.ones(dim)) + WhiteKernel(noise_level=1e-3, noise_level_bounds=(1e-5, 1e1))
     gp = GaussianProcessRegressor(kernel=kernel, alpha=1e-6, normalize_y=True)
 
     history = {"X": list(X_samples), "y": list(y_samples)}
@@ -386,7 +386,7 @@ model {
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

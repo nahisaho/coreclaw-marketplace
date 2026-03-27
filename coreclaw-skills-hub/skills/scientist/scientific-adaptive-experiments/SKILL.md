@@ -67,13 +67,14 @@ class ThompsonSamplingBandit:
         records = []
         for i in range(self.n_arms):
             a, b = self.alphas[i], self.betas[i]
+            samples = np.random.beta(a, b, 10000)
             records.append({
                 "arm": i,
                 "alpha": a, "beta": b,
                 "mean": a / (a + b),
                 "n_pulls": int(a + b - 2),
-                "95%_lower": float(np.percentile(
-                    np.random.beta(a, b, 10000), 2.5)),
+                "95%_lower": float(np.percentile(samples, 2.5)),
+                "95%_upper": float(np.percentile(samples, 97.5)),
             })
         return pd.DataFrame(records)
 
@@ -207,7 +208,8 @@ def sequential_probability_ratio_test(data_stream,
 def bayesian_adaptive_dose_finding(dose_levels, n_patients=30,
                                     target_toxicity=0.33,
                                     prior_alpha=1.0,
-                                    prior_beta=1.0, seed=42):
+                                    prior_beta=1.0, cohort_size=3,
+                                    seed=42):
     """
     ベイズ適応用量探索 (CRM 簡易版)。
 
@@ -217,6 +219,7 @@ def bayesian_adaptive_dose_finding(dose_levels, n_patients=30,
         target_toxicity: float — 目標毒性率
         prior_alpha: float — Beta 事前分布 α
         prior_beta: float — Beta 事前分布 β
+        cohort_size: int — コホートサイズ（同一用量に割り当てる患者数）
         seed: int — 乱数シード
     """
     rng = np.random.default_rng(seed)
@@ -244,10 +247,11 @@ def bayesian_adaptive_dose_finding(dose_levels, n_patients=30,
             "toxicity": toxicity,
         })
 
-        # 次の用量選択 (最も target に近い推定毒性率)
-        means = alphas / (alphas + betas)
-        distances = np.abs(means - target_toxicity)
-        current_dose = int(np.argmin(distances))
+        # 次の用量選択 (コホート単位: cohort_size 人ごとに更新)
+        if (patient + 1) % cohort_size == 0:
+            means = alphas / (alphas + betas)
+            distances = np.abs(means - target_toxicity)
+            current_dose = int(np.argmin(distances))
 
     # MTD 推定
     final_means = alphas / (alphas + betas)
@@ -296,7 +300,7 @@ def bayesian_adaptive_dose_finding(dose_levels, n_patients=30,
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

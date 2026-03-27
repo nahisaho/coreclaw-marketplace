@@ -290,7 +290,7 @@ def mutational_signature_analysis(mutations_df, genome="GRCh38",
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

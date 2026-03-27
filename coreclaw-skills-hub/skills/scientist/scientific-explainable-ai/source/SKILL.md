@@ -86,13 +86,13 @@ shap.summary_plot(shap_values, X_test, feature_names=feature_names,
                   show=False)
 plt.tight_layout()
 plt.savefig("figures/shap_summary.png", dpi=300, bbox_inches="tight")
-plt.show()
+plt.close()
 
 # Global: Bar Plot (平均 |SHAP|)
 shap.summary_plot(shap_values, X_test, feature_names=feature_names,
                   plot_type="bar", show=False)
 plt.savefig("figures/shap_importance.png", dpi=300, bbox_inches="tight")
-plt.show()
+plt.close()
 
 # Local: Waterfall Plot (個別サンプル)
 shap.waterfall_plot(shap.Explanation(
@@ -102,7 +102,7 @@ shap.waterfall_plot(shap.Explanation(
     feature_names=feature_names,
 ))
 plt.savefig("figures/shap_waterfall.png", dpi=300, bbox_inches="tight")
-plt.show()
+plt.close()
 ```
 
 ### 2. SHAP Interaction Values
@@ -123,7 +123,7 @@ plt.colorbar(im, label="Mean |SHAP Interaction|")
 ax.set_title("Feature Interaction Heatmap")
 plt.tight_layout()
 plt.savefig("figures/shap_interaction.png", dpi=300, bbox_inches="tight")
-plt.show()
+plt.close()
 
 # Dependence plot with interaction
 shap.dependence_plot(
@@ -242,28 +242,35 @@ def counterfactual_explanation(model, instance, desired_class,
         return class_loss + 0.5 * change_loss + sparsity_loss
 
     bounds = [(r[0], r[1]) for r in feature_ranges]
-    result = differential_evolution(objective, bounds, maxiter=max_iter, seed=42)
+    counterfactuals = []
 
-    cf_instance = result.x
-    cf_pred = model.predict(cf_instance.reshape(1, -1))[0]
+    for cf_i in range(n_cf):
+        result = differential_evolution(
+            objective, bounds, maxiter=max_iter, seed=42 + cf_i,
+        )
 
-    # 変更された特徴量
-    changes = []
-    for i, (orig, cf) in enumerate(zip(instance, cf_instance)):
-        if abs(orig - cf) > 1e-3:
-            changes.append({
-                "feature": feature_names[i],
-                "original": round(orig, 4),
-                "counterfactual": round(cf, 4),
-                "change": round(cf - orig, 4),
-            })
+        cf_instance = result.x
+        cf_pred = model.predict(cf_instance.reshape(1, -1))[0]
 
-    return {
-        "original_prediction": int(original_pred),
-        "counterfactual_prediction": int(cf_pred),
-        "changes": changes,
-        "n_features_changed": len(changes),
-    }
+        # 変更された特徴量
+        changes = []
+        for i, (orig, cf) in enumerate(zip(instance, cf_instance)):
+            if abs(orig - cf) > 1e-3:
+                changes.append({
+                    "feature": feature_names[i],
+                    "original": round(orig, 4),
+                    "counterfactual": round(cf, 4),
+                    "change": round(cf - orig, 4),
+                })
+
+        counterfactuals.append({
+            "original_prediction": int(original_pred),
+            "counterfactual_prediction": int(cf_pred),
+            "changes": changes,
+            "n_features_changed": len(changes),
+        })
+
+    return counterfactuals
 ```
 
 ### 6. 公平性監査
@@ -366,7 +373,7 @@ def fairness_audit(model, X_test, y_test, sensitive_feature,
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

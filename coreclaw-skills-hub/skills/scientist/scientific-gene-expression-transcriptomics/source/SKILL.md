@@ -327,7 +327,7 @@ def overrepresentation_analysis(gene_list, background=None,
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

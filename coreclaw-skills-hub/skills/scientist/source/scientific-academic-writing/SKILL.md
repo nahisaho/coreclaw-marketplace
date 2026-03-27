@@ -24,7 +24,7 @@ AI Disclosure 等）、バージョン番号をハードコードしてはなら
 
 ```
 ✅ 正しい例: GitHub Copilot Agent (SATORI v0.5.1)  ← package.json から取得
-❌ 誤った例: GitHub Copilot Agent (SATORI v0.2.0)  ← 古いバージョンのハードコード
+❌ 誤った例: GitHub Copilot Agent (SATORI v0.3.0)  ← 古いバージョンのハードコード
 ```
 
 取得手順:
@@ -430,7 +430,7 @@ needed and take full responsibility for the content of the publication.
    (ICMJE ガイドライン: オーサーシップには説明責任が必要)
 
 ❌ 誤り:
-   Author A¹, GitHub Copilot Agent (SATORI v0.2.0)¹, Author B²
+   Author A¹, GitHub Copilot Agent (SATORI v0.3.0)¹, Author B²
 
 ✅ 正しい:
    Author A¹*, Author B²

@@ -97,9 +97,21 @@ def smiles_to_graph(smiles):
         i, j = bond.GetBeginAtomIdx(), bond.GetEndAtomIdx()
         edge_index.extend([[i, j], [j, i]])  # 双方向
 
-    edge_index = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
+    # エッジ特徴量 (結合特徴)
+    edge_attr = []
+    for bond in mol.GetBonds():
+        bond_features = [
+            bond.GetBondTypeAsDouble(),
+            bond.GetIsConjugated(),
+            bond.GetIsAromatic(),
+            bond.IsInRing(),
+        ]
+        edge_attr.extend([bond_features, bond_features])  # both directions
 
-    return Data(x=x, edge_index=edge_index)
+    edge_index = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
+    edge_attr = torch.tensor(edge_attr, dtype=torch.float)
+
+    return Data(x=x, edge_index=edge_index, edge_attr=edge_attr)
 
 
 # === GCN モデル ===
@@ -246,21 +258,92 @@ class KGEModel:
         self.model_name = model_name
         self.num_entities = num_entities
         self.num_relations = num_relations
+        config = self.MODELS[model_name]
+        dim = config["embedding_dim"]
+        self.margin = config.get("margin", 6.0)
+        self.entity_emb = torch.nn.Embedding(num_entities, dim)
+        self.relation_emb = torch.nn.Embedding(num_relations, dim)
+        torch.nn.init.xavier_uniform_(self.entity_emb.weight)
+        torch.nn.init.xavier_uniform_(self.relation_emb.weight)
 
-    def train_and_evaluate(self, train_triples, valid_triples, test_triples):
-        """KGE トレーニングと評価"""
-        # 評価メトリクス
-        # MRR (Mean Reciprocal Rank)
-        # Hits@1, Hits@3, Hits@10
-        pass
+    def _score(self, h, r, t):
+        """TransE scoring: -||h + r - t||"""
+        return -torch.norm(h + r - t, p=2, dim=-1)
+
+    def train_and_evaluate(self, train_triples, valid_triples, test_triples,
+                           n_epochs=100, lr=0.01, neg_ratio=10):
+        """KGE トレーニングと評価 (negative sampling)"""
+        optimizer = torch.optim.Adam(
+            list(self.entity_emb.parameters()) +
+            list(self.relation_emb.parameters()), lr=lr,
+        )
+        train_t = torch.tensor(train_triples, dtype=torch.long)
+
+        for epoch in range(n_epochs):
+            optimizer.zero_grad()
+            h = self.entity_emb(train_t[:, 0])
+            r = self.relation_emb(train_t[:, 1])
+            t = self.entity_emb(train_t[:, 2])
+            pos_score = self._score(h, r, t)
+
+            # Negative sampling: corrupt tail entities
+            neg_tails = torch.randint(0, self.num_entities,
+                                      (len(train_t) * neg_ratio,))
+            h_neg = h.repeat(neg_ratio, 1)
+            r_neg = r.repeat(neg_ratio, 1)
+            t_neg = self.entity_emb(neg_tails)
+            neg_score = self._score(h_neg, r_neg, t_neg)
+
+            loss = F.relu(
+                self.margin - pos_score.repeat(neg_ratio) + neg_score
+            ).mean()
+            loss.backward()
+            optimizer.step()
+
+        return self._evaluate(test_triples)
+
+    def _evaluate(self, test_triples):
+        """Compute MRR and Hits@K metrics"""
+        test_t = torch.tensor(test_triples, dtype=torch.long)
+        ranks = []
+        with torch.no_grad():
+            all_entities = self.entity_emb.weight
+            for triple in test_t:
+                h = self.entity_emb(triple[0].unsqueeze(0))
+                r = self.relation_emb(triple[1].unsqueeze(0))
+                scores = self._score(
+                    h.expand(self.num_entities, -1),
+                    r.expand(self.num_entities, -1),
+                    all_entities,
+                )
+                rank = (scores >= scores[triple[2]]).sum().item()
+                ranks.append(rank)
+
+        ranks = np.array(ranks, dtype=float)
+        return {
+            "mrr": round(float(np.mean(1.0 / ranks)), 4),
+            "hits@1": round(float(np.mean(ranks <= 1)), 4),
+            "hits@3": round(float(np.mean(ranks <= 3)), 4),
+            "hits@10": round(float(np.mean(ranks <= 10)), 4),
+        }
 
     def predict_links(self, head, relation, top_k=10):
         """リンク予測: (h, r, ?) → top-k tail entities"""
-        pass
+        with torch.no_grad():
+            h = self.entity_emb(torch.tensor([head]))
+            r = self.relation_emb(torch.tensor([relation]))
+            all_entities = self.entity_emb.weight
+            scores = self._score(
+                h.expand(self.num_entities, -1),
+                r.expand(self.num_entities, -1),
+                all_entities,
+            )
+            top_scores, top_indices = torch.topk(scores, top_k)
+        return list(zip(top_indices.tolist(), top_scores.tolist()))
 
     def drug_repurposing_candidates(self, disease_entity, treats_relation):
         """薬物リポジショニング候補のスコアリング"""
-        pass
+        return self.predict_links(disease_entity, treats_relation, top_k=10)
 ```
 
 ### 5. トレーニング・評価ループ
@@ -393,7 +476,7 @@ def scaffold_split(dataset, train_ratio=0.8, val_ratio=0.1):
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

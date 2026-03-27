@@ -76,7 +76,6 @@ def query_by_committee(models, X_pool, n_members=5):
     predictions = np.array([m.predict(X_pool) for m in models[:n_members]])
     # Vote entropy
     n_samples = X_pool.shape[0]
-    n_classes = len(np.unique(predictions))
     scores = np.zeros(n_samples)
 
     for i in range(n_samples):
@@ -106,6 +105,12 @@ def batch_active_learning(model, X_pool, batch_size=10,
         diversity_weight: float — 多様性重み (0-1)
     """
     from sklearn.metrics.pairwise import euclidean_distances
+
+    # ランダム選択
+    if strategy == "random":
+        selected = np.random.choice(len(X_pool), size=min(batch_size, len(X_pool)), replace=False)
+        print(f"Batch AL: selected {len(selected)} random samples")
+        return selected
 
     # 不確実性スコア
     indices = uncertainty_sampling(model, X_pool, strategy)
@@ -227,12 +232,10 @@ def compare_strategies(X_labeled, y_labeled, X_pool, y_pool_true,
     # ランダムベースライン
     np.random.seed(42)
     random_history = active_learning_loop(
-        X_labeled, y_labeled,
-        X_pool[np.random.permutation(len(X_pool))],
-        y_pool_true[np.random.permutation(len(y_pool_true))],
+        X_labeled, y_labeled, X_pool, y_pool_true,
         X_test, y_test,
         n_rounds=n_rounds, batch_size=batch_size,
-        strategy="least_confident")
+        strategy="random")
     results["random"] = random_history
 
     print(f"Strategy comparison: {len(strategies) + 1} methods evaluated")
@@ -247,7 +250,7 @@ from sklearn.gaussian_process.kernels import RBF, WhiteKernel
 
 
 def gp_active_learning(X_labeled, y_labeled, X_pool,
-                       n_rounds=100, batch_size=5):
+                       oracle_func=None, n_rounds=100, batch_size=5):
     """
     Gaussian Process active learning with ARD-RBF kernel.
 
@@ -261,6 +264,7 @@ def gp_active_learning(X_labeled, y_labeled, X_pool,
         X_labeled: np.ndarray (n, d)
         y_labeled: np.ndarray (n,)
         X_pool: np.ndarray (m, d)
+        oracle_func: callable or None — function(X) -> y providing true labels
         n_rounds: int
         batch_size: int
     Returns:
@@ -305,7 +309,8 @@ def gp_active_learning(X_labeled, y_labeled, X_pool,
         # Select highest-variance points
         top_idx = np.argsort(sigma)[::-1][:batch_size]
         X_l = np.vstack([X_l, X_p[top_idx]])
-        y_l = np.concatenate([y_l, mu[top_idx]])  # surrogate label
+        y_new = oracle_func(X_p[top_idx]) if oracle_func is not None else mu[top_idx]
+        y_l = np.concatenate([y_l, y_new])
 
         mask = np.ones(len(X_p), dtype=bool)
         mask[top_idx] = False
@@ -395,7 +400,7 @@ eda-correlation → active-learning → ml-classification
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

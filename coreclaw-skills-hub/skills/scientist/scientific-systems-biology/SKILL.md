@@ -131,6 +131,17 @@ def flux_balance_analysis(model_path, objective="biomass", method="fba"):
         fva_result = cobra.flux_analysis.flux_variability_analysis(
             model, fraction_of_optimum=0.9)
         return fva_result
+    elif method == "loopless":
+        from cobra.flux_analysis.loopless import loopless_solution
+        solution = loopless_solution(model)
+        objective_value = solution.objective_value
+        fluxes = solution.fluxes
+        print(f"  Loopless FBA: objective={objective_value:.4f}")
+        result = {
+            "objective_value": objective_value,
+            "n_active_reactions": (fluxes.abs() > 1e-6).sum(),
+        }
+        return result, fluxes
 
     # 結果
     objective_value = solution.objective_value
@@ -177,9 +188,15 @@ def infer_grn(expression_matrix, method="genie3", n_top=1000):
         Weight wᵢⱼ = importance of gᵢ for predicting gⱼ
     """
     from arboreto.algo import genie3
+    import warnings
 
     # GENIE3
     if method == "genie3":
+        network = genie3(expression_matrix.values,
+                          gene_names=expression_matrix.columns.tolist())
+        network = network.sort_values("importance", ascending=False).head(n_top)
+    elif method in ("scenic", "granger"):
+        warnings.warn(f"Method '{method}' requires external setup. Falling back to GENIE3.")
         network = genie3(expression_matrix.values,
                           gene_names=expression_matrix.columns.tolist())
         network = network.sort_values("importance", ascending=False).head(n_top)
@@ -224,6 +241,30 @@ def parameter_estimation(model_func, data, param_bounds, method="de"):
     if method == "de":
         result = differential_evolution(objective, bounds=param_bounds,
                                          seed=42, maxiter=1000, tol=1e-8)
+        return {
+            "params": result.x,
+            "cost": result.fun,
+            "success": result.success,
+            "message": result.message,
+        }
+    elif method in ("nelder-mead", "l-bfgs-b"):
+        from scipy.optimize import minimize
+        x0 = np.mean(param_bounds, axis=1)
+        result = minimize(objective, x0, method=method,
+                         bounds=param_bounds if method == "l-bfgs-b" else None,
+                         options={"maxiter": 1000})
+        return {
+            "params": result.x,
+            "cost": result.fun,
+            "success": result.success,
+            "message": result.message,
+        }
+    else:
+        from scipy.optimize import minimize
+        x0 = np.mean(param_bounds, axis=1)
+        result = minimize(objective, x0, method=method,
+                         bounds=param_bounds,
+                         options={"maxiter": 1000})
         return {
             "params": result.x,
             "cost": result.fun,
@@ -318,7 +359,7 @@ def global_sensitivity_analysis(model_func, param_names, param_bounds,
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

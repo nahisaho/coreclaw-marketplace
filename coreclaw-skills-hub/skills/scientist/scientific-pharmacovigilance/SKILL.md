@@ -517,7 +517,7 @@ def generate_pv_report(target_drug, signals_df, ebgm_df, output_dir="results"):
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

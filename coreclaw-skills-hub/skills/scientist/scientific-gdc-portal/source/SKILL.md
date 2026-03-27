@@ -278,7 +278,7 @@ icgc-cancer-data ───────┘    variant-interpretation
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

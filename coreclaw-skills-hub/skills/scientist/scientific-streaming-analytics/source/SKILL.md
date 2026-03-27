@@ -230,7 +230,7 @@ def concept_drift_detection(stream_data, target_col="y",
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

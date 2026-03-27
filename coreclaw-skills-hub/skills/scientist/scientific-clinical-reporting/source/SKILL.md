@@ -323,7 +323,7 @@ def export_clinical_report(report, output_format="html",
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

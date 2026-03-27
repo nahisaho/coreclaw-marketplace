@@ -94,7 +94,7 @@ def train_gcn(train_data, valid_data, tasks, n_epochs=50,
     """
     model = dc.models.GraphConvModel(
         n_tasks=len(tasks),
-        mode="classification" if len(tasks) > 1 else "regression",
+        mode="classification" if hasattr(train_data, 'mode') and train_data.mode == 'classification' else ("classification" if any(t in str(tasks).lower() for t in ['tox21','bbbp','hiv','clintox','sider','muv','pcba']) else "regression"),
         batch_size=batch_size,
         learning_rate=learning_rate,
     )
@@ -103,7 +103,7 @@ def train_gcn(train_data, valid_data, tasks, n_epochs=50,
         loss = model.fit(train_data, nb_epoch=1)
         if (epoch + 1) % 10 == 0:
             metric = dc.metrics.Metric(
-                dc.metrics.roc_auc_score if len(tasks) > 1
+                dc.metrics.roc_auc_score if model.mode == "classification"
                 else dc.metrics.pearson_r2_score
             )
             train_score = model.evaluate(train_data, [metric])
@@ -130,7 +130,7 @@ def train_mpnn(train_data, valid_data, tasks, n_epochs=50,
     """
     model = dc.models.MPNNModel(
         n_tasks=len(tasks),
-        mode="classification" if len(tasks) > 1 else "regression",
+        mode="classification" if hasattr(train_data, 'mode') and train_data.mode == 'classification' else ("classification" if any(t in str(tasks).lower() for t in ['tox21','bbbp','hiv','clintox','sider','muv','pcba']) else "regression"),
         learning_rate=learning_rate,
         node_out_feats=64,
         edge_hidden_feats=128,
@@ -140,7 +140,7 @@ def train_mpnn(train_data, valid_data, tasks, n_epochs=50,
     model.fit(train_data, nb_epoch=n_epochs)
 
     metric = dc.metrics.Metric(
-        dc.metrics.roc_auc_score if len(tasks) > 1
+        dc.metrics.roc_auc_score if model.mode == "classification"
         else dc.metrics.pearson_r2_score
     )
     valid_score = model.evaluate(valid_data, [metric])
@@ -164,7 +164,7 @@ def train_attentivefp(train_data, valid_data, tasks, n_epochs=50,
     """
     model = dc.models.AttentiveFPModel(
         n_tasks=len(tasks),
-        mode="classification" if len(tasks) > 1 else "regression",
+        mode="classification" if hasattr(train_data, 'mode') and train_data.mode == 'classification' else ("classification" if any(t in str(tasks).lower() for t in ['tox21','bbbp','hiv','clintox','sider','muv','pcba']) else "regression"),
         learning_rate=learning_rate,
         num_layers=num_layers,
         graph_feat_size=200,
@@ -174,11 +174,40 @@ def train_attentivefp(train_data, valid_data, tasks, n_epochs=50,
     model.fit(train_data, nb_epoch=n_epochs)
 
     metric = dc.metrics.Metric(
-        dc.metrics.roc_auc_score if len(tasks) > 1
+        dc.metrics.roc_auc_score if model.mode == "classification"
         else dc.metrics.pearson_r2_score
     )
     valid_score = model.evaluate(valid_data, [metric])
     print(f"AttentiveFP: valid score = {list(valid_score.values())[0]:.4f}")
+    return model
+```
+
+## 4.1 モデルの保存と読み込み
+
+```python
+def save_model(model, model_dir="results/model"):
+    """
+    訓練済み DeepChem モデルを保存する。
+    """
+    import os
+    os.makedirs(model_dir, exist_ok=True)
+    model.save_checkpoint(model_dir=model_dir)
+    print(f"  Model saved to: {model_dir}")
+    return model_dir
+
+
+def load_model(model_class, model_dir="results/model", **model_kwargs):
+    """
+    保存済み DeepChem モデルを読み込む。
+
+    Parameters:
+        model_class: DeepChem モデルクラス (e.g., dc.models.GraphConvModel)
+        model_dir: str — モデル保存ディレクトリ
+        **model_kwargs: モデル初期化パラメータ (n_tasks, mode など)
+    """
+    model = model_class(**model_kwargs)
+    model.restore(model_dir=model_dir)
+    print(f"  Model loaded from: {model_dir}")
     return model
 ```
 
@@ -359,7 +388,7 @@ molecular-docking ───────┘         admet-pharmacokinetics
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

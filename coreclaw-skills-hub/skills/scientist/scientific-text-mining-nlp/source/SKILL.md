@@ -27,6 +27,28 @@ description: |
 ```python
 import numpy as np
 import pandas as pd
+import re
+
+
+def _regex_ner_fallback(texts):
+    """Regex-based NER fallback for common chemical/material patterns."""
+    patterns = {
+        "Chemical": r'\b[A-Z][a-z]?(?:\d+[A-Z][a-z]?)*\d*(?:\s*[\-·]\s*[A-Z][a-z]?\d*)*\b',
+        "Gene": r'\b[A-Z][A-Z0-9]{1,5}\d*\b',
+        "Disease": r'\b[A-Z][a-z]+(?:\s+[a-z]+)*\s+(?:disease|syndrome|disorder|cancer)\b',
+    }
+    all_entities = []
+    for i, text in enumerate(texts):
+        for label, pattern in patterns.items():
+            for m in re.finditer(pattern, text):
+                all_entities.append({
+                    "doc_id": i, "text": m.group(),
+                    "label": label,
+                    "start": m.start(), "end": m.end(),
+                    "kb_id": None, "confidence": None,
+                })
+    return pd.DataFrame(all_entities)
+
 
 def biomedical_ner(texts, model="biobert", entity_types=None):
     """
@@ -49,13 +71,18 @@ def biomedical_ner(texts, model="biobert", entity_types=None):
         entity_types = ["Gene", "Disease", "Chemical", "Species", "Mutation"]
 
     if model == "scispacy":
-        import spacy
-        nlp = spacy.load("en_core_sci_lg")
-        from scispacy.linking import EntityLinker
-        nlp.add_pipe("scispacy_linker", config={
-            "resolve_abbreviations": True,
-            "linker_name": "umls"
-        })
+        try:
+            import spacy
+            nlp = spacy.load("en_core_sci_lg")
+            from scispacy.linking import EntityLinker
+            nlp.add_pipe("scispacy_linker", config={
+                "resolve_abbreviations": True,
+                "linker_name": "umls"
+            })
+        except (ImportError, OSError):
+            # Fallback: regex-based NER for common chemical/material patterns
+            # when scispacy model is unavailable in the environment
+            return _regex_ner_fallback(texts)
 
         all_entities = []
         for i, text in enumerate(texts):
@@ -76,9 +103,14 @@ def biomedical_ner(texts, model="biobert", entity_types=None):
         return df
 
     elif model == "biobert":
-        from transformers import pipeline
-        ner_pipeline = pipeline("ner", model="dmis-lab/biobert-large-cased-v1.1-ner",
-                                 aggregation_strategy="simple")
+        try:
+            from transformers import pipeline
+            ner_pipeline = pipeline("ner", model="dmis-lab/biobert-large-cased-v1.1-ner",
+                                     aggregation_strategy="simple")
+        except (ImportError, OSError):
+            # Fallback: regex-based NER for common chemical/material patterns
+            # when BioBERT model is unavailable in the environment
+            return _regex_ner_fallback(texts)
 
         all_entities = []
         for i, text in enumerate(texts):
@@ -124,8 +156,13 @@ def relation_extraction(texts, relation_type="ppi", model="biobert_re"):
 
     relations = []
     for i, text in enumerate(texts):
-        # エンティティペア候補をマーキング
-        ner_results = biomedical_ner([text], model="scispacy")
+        # Select NER backend to match the relation extraction model
+        if model == "biobert_re":
+            ner_results = biomedical_ner([text], model="biobert")
+        elif model == "scispacy":
+            ner_results = biomedical_ner([text], model="scispacy")
+        else:
+            ner_results = biomedical_ner([text], model="scispacy")
         entities = ner_results[ner_results["doc_id"] == 0]
 
         # 全ペアの関係分類
@@ -133,7 +170,7 @@ def relation_extraction(texts, relation_type="ppi", model="biobert_re"):
             for idx_b, ent_b in entities.iterrows():
                 if idx_a < idx_b:
                     # コンテキスト付きテキスト
-                    marked_text = mark_entities(text, ent_a, ent_b)
+                    marked_text = mark_entities(text, [ent_a.to_dict(), ent_b.to_dict()])
                     pred = classifier(marked_text[:512])
 
                     if pred[0]["score"] > 0.7:
@@ -150,12 +187,16 @@ def relation_extraction(texts, relation_type="ppi", model="biobert_re"):
     return df
 
 
-def mark_entities(text, ent_a, ent_b):
-    """エンティティをマーキングしたテキストを生成。"""
-    # 簡易実装: @ENTITY_A@ / @ENTITY_B@ でマーク
-    marked = text.replace(ent_a["text"], f"@ENTITY_A@ {ent_a['text']} @/ENTITY_A@")
-    marked = marked.replace(ent_b["text"], f"@ENTITY_B@ {ent_b['text']} @/ENTITY_B@")
-    return marked
+def mark_entities(text, entities):
+    """Annotate entities in text using span-based insertion (avoids overlaps)."""
+    sorted_ents = sorted(entities, key=lambda e: e["start"], reverse=True)
+    chars = list(text)
+    for ent in sorted_ents:
+        start, end = ent["start"], ent["end"]
+        label = ent.get("label", "ENTITY")
+        markup = f"[{text[start:end]}]({label})"
+        chars[start:end] = list(markup)
+    return "".join(chars)
 ```
 
 ## 3. ナレッジグラフ構築
@@ -356,7 +397,7 @@ def citation_network_analysis(papers_df, citations_df):
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs

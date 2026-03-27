@@ -1,6 +1,6 @@
 {
   "name": "scientific-quantum-computing",
-  "version": "v0.2.3",
+  "version": "v0.3.0",
   "description": "Supports computational researchers using simulation-heavy methods, with attention to model assumptions, scenario design, and scientific interpretation.",
   "entrypoint": "main.py"
 }

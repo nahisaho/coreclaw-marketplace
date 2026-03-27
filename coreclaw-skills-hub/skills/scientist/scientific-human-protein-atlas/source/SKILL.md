@@ -247,7 +247,7 @@ def get_hpa_protein_interactions(gene_name):
 
 ---
 
-## Verification Loop (v0.2.3)
+## Verification Loop (v0.3.0)
 
 ```
 PLAN   → define scope, inputs, expected outputs
