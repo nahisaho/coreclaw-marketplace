@@ -1,6 +1,6 @@
 {
   "name": "scientific-meta-analysis",
-  "version": "v0.2.0",
+  "version": "v0.2.1",
   "description": "Supports researchers working on meta analysis with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
   "entrypoint": "main.py"
 }

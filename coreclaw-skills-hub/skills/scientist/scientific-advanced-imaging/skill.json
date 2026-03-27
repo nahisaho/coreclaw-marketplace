@@ -1,6 +1,6 @@
 {
   "name": "scientific-advanced-imaging",
-  "version": "v0.2.0",
+  "version": "v0.2.1",
   "description": "Supports imaging researchers planning workflows, interpreting signal, and producing reproducible analyses for visual scientific datasets.",
   "entrypoint": "main.py"
 }

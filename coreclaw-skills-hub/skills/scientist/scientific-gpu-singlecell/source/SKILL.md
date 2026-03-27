@@ -304,7 +304,7 @@ single-cell-genomics → gpu-singlecell → scvi-integration
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

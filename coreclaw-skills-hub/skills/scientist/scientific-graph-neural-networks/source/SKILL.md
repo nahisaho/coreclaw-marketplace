@@ -393,7 +393,7 @@ def scaffold_split(dataset, train_ratio=0.8, val_ratio=0.1):
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

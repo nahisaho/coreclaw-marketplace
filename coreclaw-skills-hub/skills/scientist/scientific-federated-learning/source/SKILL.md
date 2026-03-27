@@ -250,7 +250,7 @@ def create_non_iid_splits(dataset_labels, n_clients=5,
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

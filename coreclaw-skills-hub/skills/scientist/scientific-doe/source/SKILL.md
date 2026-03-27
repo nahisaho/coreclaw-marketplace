@@ -1,7 +1,7 @@
 ---
 name: scientific-doe
 description: |
-  Design of Experiments (DOE) skill. Factorial design, response surface methodology, Latin hypercube sampling, Taguchi methods, and optimal experimental design generation.
+  Design of Experiments (DOE) skill. Factorial design, response surface methodology, Latin hypercube sampling with auto-sized pool generation, Taguchi methods, ARD-RBF Bayesian optimization, and optimal experimental design generation.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -241,39 +241,92 @@ def main_effects_plot(design_df, response_col, factor_cols, figsize=None):
     plt.close()
 ```
 
-## 6. ベイズ最適化（Gaussian Process）
+## 6. LHS 初期プール生成
+
+```python
+from scipy.stats.qmc import LatinHypercube
+
+def generate_lhs_pool(bounds, n_iterations=20, batch_size=5, n_pool=None):
+    """
+    Latin Hypercube Sampling で初期候補プールを生成する。
+
+    Pool size auto-calculation:
+        N >= n_iterations × batch_size × 3
+    20 点固定ではプール枯渇が起きるため、反復回数とバッチサイズに
+    応じて十分なサイズを自動計算する。手動指定も可能。
+
+    Parameters:
+        bounds: dict {"param": (low, high)}
+        n_iterations: int — 最適化ステップ数
+        batch_size: int — バッチサイズ
+        n_pool: int or None — 手動プールサイズ (None で自動計算)
+    Returns:
+        np.ndarray (N, d) — LHS プール
+    """
+    param_names = list(bounds.keys())
+    d = len(param_names)
+    lows = np.array([bounds[p][0] for p in param_names])
+    highs = np.array([bounds[p][1] for p in param_names])
+
+    if n_pool is None:
+        n_pool = max(n_iterations * batch_size * 3, 30)
+
+    sampler = LatinHypercube(d=d, seed=42)
+    sample = sampler.random(n=n_pool)
+    pool = lows + sample * (highs - lows)
+
+    print(f"LHS pool: {n_pool} points in {d}D space "
+          f"(auto: {n_iterations}×{batch_size}×3={n_iterations*batch_size*3})")
+    return pool
+```
+
+## 7. ベイズ最適化（ARD-RBF Gaussian Process）
 
 ```python
 from sklearn.gaussian_process import GaussianProcessRegressor
-from sklearn.gaussian_process.kernels import Matern
+from sklearn.gaussian_process.kernels import RBF, WhiteKernel
 
-def bayesian_optimization(objective_func, bounds, n_initial=5,
-                           n_iterations=20, kappa=2.576):
+def bayesian_optimization(objective_func, bounds, n_initial=None,
+                           n_iterations=20, kappa=2.576, batch_size=1):
     """
-    ベイズ最適化（Gaussian Process + Expected Improvement）。
+    ベイズ最適化（ARD-RBF GP + UCB acquisition）。
+
+    v0.2.1: Kernel changed from isotropic Matern to ARD-RBF.
+    ARD-RBF uses per-dimension length_scale, enabling convergence
+    in high-dimensional spaces (d >= 10) where isotropic kernels fail.
+
+    Initial points are generated via LHS (auto-sized) instead of
+    fixed-size random uniform to ensure space-filling coverage.
 
     Parameters:
         objective_func: callable f(x) → y (最大化)
         bounds: dict {"param": (low, high)}
-        n_initial: 初期ランダムサンプリング数
+        n_initial: int or None — LHS 初期点数 (None で自動計算)
         n_iterations: 最適化ステップ数
         kappa: 探索-活用トレードオフ (UCB の κ)
+        batch_size: int — 1ステップあたりの評価点数
     """
     from scipy.optimize import minimize as scipy_minimize
     from scipy.stats import norm
 
     param_names = list(bounds.keys())
+    d = len(param_names)
     lows = np.array([bounds[p][0] for p in param_names])
     highs = np.array([bounds[p][1] for p in param_names])
 
-    # 初期サンプリング
-    X_init = np.random.uniform(lows, highs, size=(n_initial, len(param_names)))
+    # Auto-sized LHS initial sampling
+    if n_initial is None:
+        n_initial = max(2 * d, 5)
+    X_init = generate_lhs_pool(bounds, n_iterations=1, batch_size=n_initial,
+                               n_pool=n_initial)
     y_init = np.array([objective_func(dict(zip(param_names, x))) for x in X_init])
 
     X_observed = X_init.tolist()
     y_observed = y_init.tolist()
 
-    gp = GaussianProcessRegressor(kernel=Matern(nu=2.5), n_restarts_optimizer=5,
+    # ARD-RBF: per-dimension length_scale
+    kernel = RBF(length_scale=np.ones(d)) + WhiteKernel(noise_level=1e-3)
+    gp = GaussianProcessRegressor(kernel=kernel, n_restarts_optimizer=5,
                                    random_state=42)
 
     for i in range(n_iterations):
@@ -368,7 +421,7 @@ scikit-learn>=1.3
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

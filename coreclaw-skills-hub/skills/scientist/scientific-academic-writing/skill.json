@@ -1,6 +1,6 @@
 {
   "name": "scientific-academic-writing",
-  "version": "v0.2.0",
+  "version": "v0.2.1",
   "description": "Supports researchers preparing manuscripts by structuring arguments, grounding claims in evidence, and producing manuscript-ready scientific prose.",
   "entrypoint": "main.py"
 }

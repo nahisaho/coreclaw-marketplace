@@ -1,6 +1,6 @@
 {
   "name": "scientific-data-preprocessing",
-  "version": "v0.2.0",
+  "version": "v0.2.1",
   "description": "Supports research operations teams with reproducible data handling, workflow scaffolding, quality checks, and handoff-ready process outputs.",
   "entrypoint": "main.py"
 }

@@ -440,7 +440,7 @@ def build_citation_network(seed_pmids, depth=1, max_per_level=20):
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

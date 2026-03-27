@@ -332,7 +332,7 @@ def integrated_target_profile(uniprot_id, gene_symbol):
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

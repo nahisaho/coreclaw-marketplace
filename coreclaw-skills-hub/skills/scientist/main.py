@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Entrypoint for imported skill: scientist (v0.2.0).
+"""Entrypoint for imported skill: scientist (v0.2.1).
 
 Harness-optimized scientific research assistant with verification loops,
 quality gates, and English-only prompts for token efficiency.
@@ -9,7 +9,7 @@ quality gates, and English-only prompts for token efficiency.
 def run(input_data: dict | None = None) -> dict:
     return {
         "skill": "scientific-assistant",
-        "version": "v0.2.0",
+        "version": "v0.2.1",
         "skill_path": "scientist",
         "status": "imported",
         "capabilities": [

@@ -1,7 +1,7 @@
 ---
 name: scientific-active-learning
 description: |
-  Active learning skill. Uncertainty sampling, Query-by-Committee, expected model change, pool-based/stream-based, batch active learning, stopping criteria, and model improvement pipeline.
+  Active learning skill. Uncertainty sampling, Query-by-Committee, expected model change, pool-based/stream-based, batch active learning, GP-based active learning with ARD-RBF kernel, dimension-adaptive convergence, stopping criteria, and model improvement pipeline.
 tu_tools:
   - key: openml
     name: OpenML
@@ -239,10 +239,94 @@ def compare_strategies(X_labeled, y_labeled, X_pool, y_pool_true,
     return results
 ```
 
-## 4. 停止基準判定
+## 4. GP-Based Active Learning with ARD-RBF Kernel
 
 ```python
-def stopping_criterion(history_df, patience=5, min_improvement=0.001):
+from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.gaussian_process.kernels import RBF, WhiteKernel
+
+
+def gp_active_learning(X_labeled, y_labeled, X_pool,
+                       n_rounds=20, batch_size=5):
+    """
+    Gaussian Process active learning with ARD-RBF kernel.
+
+    ARD-RBF assigns a per-dimension length_scale, enabling
+    automatic relevance determination for high-dimensional spaces
+    (d >= 10).  Isotropic RBF or Matern kernels fail to converge
+    in such settings because they cannot distinguish informative
+    from uninformative dimensions.
+
+    Parameters:
+        X_labeled: np.ndarray (n, d)
+        y_labeled: np.ndarray (n,)
+        X_pool: np.ndarray (m, d)
+        n_rounds: int
+        batch_size: int
+    Returns:
+        dict with gp_model, history, X_final, y_final
+    """
+    d = X_labeled.shape[1]
+    # ARD-RBF: one length_scale per dimension
+    kernel = RBF(length_scale=np.ones(d)) + WhiteKernel(noise_level=1e-3)
+
+    X_l = X_labeled.copy()
+    y_l = y_labeled.copy()
+    X_p = X_pool.copy()
+
+    history = []
+    for rnd in range(n_rounds):
+        gp = GaussianProcessRegressor(
+            kernel=kernel, n_restarts_optimizer=5, random_state=42)
+        gp.fit(X_l, y_l)
+
+        mu, sigma = gp.predict(X_p, return_std=True)
+        mean_var = np.mean(sigma ** 2)
+
+        # dimension-adaptive convergence threshold
+        threshold = 0.3 * d
+        history.append({
+            "round": rnd,
+            "n_labeled": len(y_l),
+            "mean_variance": round(float(mean_var), 6),
+            "threshold": threshold,
+            "pool_remaining": len(X_p),
+        })
+
+        if mean_var < threshold:
+            print(f"GP-AL converged at round {rnd}: "
+                  f"mean_var={mean_var:.4f} < threshold={threshold:.1f}")
+            break
+
+        if len(X_p) < batch_size:
+            print(f"Pool exhausted at round {rnd}")
+            break
+
+        # Select highest-variance points
+        top_idx = np.argsort(sigma)[::-1][:batch_size]
+        X_l = np.vstack([X_l, X_p[top_idx]])
+        y_l = np.concatenate([y_l, mu[top_idx]])  # surrogate label
+
+        mask = np.ones(len(X_p), dtype=bool)
+        mask[top_idx] = False
+        X_p = X_p[mask]
+
+    print(f"GP-AL: {len(history)} rounds, "
+          f"final mean_var={history[-1]['mean_variance']:.4f}, "
+          f"ARD length_scales={gp.kernel_.k1.length_scale}")
+    return {
+        "gp_model": gp,
+        "history": pd.DataFrame(history),
+        "X_final": X_l,
+        "y_final": y_l,
+    }
+```
+
+## 5. 停止基準判定
+
+```python
+def stopping_criterion(history_df, patience=5, min_improvement=0.001,
+                       n_dims=None):
     """
     アクティブラーニング停止基準判定。
 
@@ -250,20 +334,33 @@ def stopping_criterion(history_df, patience=5, min_improvement=0.001):
         history_df: pd.DataFrame — AL 履歴
         patience: int — 改善なしラウンド数
         min_improvement: float — 最小改善幅
+        n_dims: int or None — 入力次元数 (variance-based convergence)
     """
-    accs = history_df["accuracy"].values
-    if len(accs) < patience + 1:
-        return False, "insufficient rounds"
+    # variance-based convergence (for GP-AL)
+    if "mean_variance" in history_df.columns and n_dims is not None:
+        threshold = 0.3 * n_dims
+        last_var = history_df["mean_variance"].iloc[-1]
+        if last_var < threshold:
+            return True, (f"variance converged: {last_var:.4f} "
+                          f"< threshold={threshold:.1f} (d={n_dims})")
 
-    recent = accs[-patience:]
-    best_before = accs[:-patience].max()
-    improvement = recent.max() - best_before
+    # accuracy-based convergence
+    if "accuracy" in history_df.columns:
+        accs = history_df["accuracy"].values
+        if len(accs) < patience + 1:
+            return False, "insufficient rounds"
 
-    if improvement < min_improvement:
-        return True, (f"converged: improvement {improvement:.5f} "
-                      f"< threshold {min_improvement}")
+        recent = accs[-patience:]
+        best_before = accs[:-patience].max()
+        improvement = recent.max() - best_before
 
-    return False, f"continuing: improvement {improvement:.5f}"
+        if improvement < min_improvement:
+            return True, (f"converged: improvement {improvement:.5f} "
+                          f"< threshold {min_improvement}")
+
+        return False, f"continuing: improvement {improvement:.5f}"
+
+    return False, "no convergence metric found"
 ```
 
 ---
@@ -286,6 +383,7 @@ eda-correlation → active-learning → ml-classification
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `al_history.csv` | AL ラウンド履歴 | → 停止判定 |
+| `gp_al_history.csv` | GP-AL (ARD-RBF) ラウンド履歴 | → 停止判定 |
 | `selected_samples.csv` | 選択サンプル | → ラベル付け |
 | `strategy_comparison.csv` | 戦略比較 | → advanced-visualization |
 
@@ -297,7 +395,7 @@ eda-correlation → active-learning → ml-classification
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

@@ -1,6 +1,6 @@
 {
   "name": "scientific-clinical-reporting",
-  "version": "v0.2.0",
+  "version": "v0.2.1",
   "description": "Supports traceable research reporting for regulated, collaborative, or publication workflows where reproducibility and auditability matter.",
   "entrypoint": "main.py"
 }

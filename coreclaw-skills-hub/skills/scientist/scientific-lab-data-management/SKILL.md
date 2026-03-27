@@ -332,7 +332,7 @@ def fork_protocol(original_protocol_id, modifications):
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

@@ -511,7 +511,7 @@ compound-screening       selectivity_profile    molecular-docking
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

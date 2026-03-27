@@ -232,7 +232,7 @@ def metabolomics_preprocessing(df, metabolite_cols, group_col=None):
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

@@ -269,7 +269,7 @@ def psp_path_diagram(ps_corr, sp_corr, pp_corr,
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

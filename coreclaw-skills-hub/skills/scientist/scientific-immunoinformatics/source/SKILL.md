@@ -352,7 +352,7 @@ def vaccine_candidate_ranking(antigens_df, weights=None):
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

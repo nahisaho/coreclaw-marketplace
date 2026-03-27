@@ -1,6 +1,6 @@
 {
   "name": "scientific-feature-importance",
-  "version": "v0.2.0",
+  "version": "v0.2.1",
   "description": "Supports quantitative researchers with method selection logic, explicit assumptions, uncertainty treatment, and interpretable statistical conclusions.",
   "entrypoint": "main.py"
 }

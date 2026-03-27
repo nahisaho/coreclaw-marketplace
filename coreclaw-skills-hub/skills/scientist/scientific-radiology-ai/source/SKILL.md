@@ -292,7 +292,7 @@ Age: {patient_info.get('age', 'N/A')} | Sex: {patient_info.get('sex', 'N/A')}
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

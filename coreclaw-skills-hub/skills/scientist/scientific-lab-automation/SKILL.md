@@ -280,7 +280,7 @@ def create_protocol_io_entry(protocol_data):
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

@@ -459,7 +459,7 @@ def generate_imaging_report(patient_id, modality, findings,
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

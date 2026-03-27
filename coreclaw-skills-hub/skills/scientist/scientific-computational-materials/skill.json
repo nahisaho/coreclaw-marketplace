@@ -1,6 +1,6 @@
 {
   "name": "scientific-computational-materials",
-  "version": "v0.2.0",
+  "version": "v0.2.1",
   "description": "Supports computational researchers using simulation-heavy methods, with attention to model assumptions, scenario design, and scientific interpretation.",
   "entrypoint": "main.py"
 }

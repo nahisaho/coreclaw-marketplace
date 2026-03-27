@@ -398,7 +398,7 @@ def differential_protein_expression(intensity_matrix, groups,
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

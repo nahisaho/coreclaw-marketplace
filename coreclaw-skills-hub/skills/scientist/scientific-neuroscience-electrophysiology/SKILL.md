@@ -407,7 +407,7 @@ def graph_theory_brain_network(conn_matrix, ch_names, threshold=0.3):
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

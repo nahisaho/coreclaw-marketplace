@@ -539,7 +539,7 @@ def run_latex_pipeline(manuscript_path, journal_format="elsevier",
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

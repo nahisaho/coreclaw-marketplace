@@ -255,7 +255,7 @@ protein-structure-analysis → alphafold-structures → protein-design
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

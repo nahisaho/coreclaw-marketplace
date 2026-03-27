@@ -350,7 +350,7 @@ cancer-genomics → icgc-cancer-data → precision-oncology
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs

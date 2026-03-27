@@ -428,7 +428,7 @@ def generate_mtb_report(patient_id, variants, civic_data, oncokb_data,
 
 ---
 
-## Verification Loop (v0.2.0)
+## Verification Loop (v0.2.1)
 
 ```
 PLAN   → define scope, inputs, expected outputs
