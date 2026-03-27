@@ -1,6 +1,6 @@
 {
   "name": "scientific-clinical-trials-analytics",
-  "version": "v0.2.2",
+  "version": "v0.2.3",
   "description": "Supports clinical and translational researchers working with regulated evidence, interpretable risk framing, and decision-ready scientific outputs.",
   "entrypoint": "main.py"
 }

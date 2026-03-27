@@ -151,7 +151,7 @@ def psp_block_correlation(df, process_cols, structure_cols, property_cols):
 
 ---
 
-## Verification Loop (v0.2.2)
+## Verification Loop (v0.2.3)
 
 ```
 PLAN   → define scope, inputs, expected outputs

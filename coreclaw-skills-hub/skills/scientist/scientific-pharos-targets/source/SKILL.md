@@ -273,7 +273,7 @@ drug-target-profiling → pharos-targets → drug-repurposing
 
 ---
 
-## Verification Loop (v0.2.2)
+## Verification Loop (v0.2.3)
 
 ```
 PLAN   → define scope, inputs, expected outputs

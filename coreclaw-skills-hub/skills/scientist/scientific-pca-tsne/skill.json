@@ -1,6 +1,6 @@
 {
   "name": "scientific-pca-tsne",
-  "version": "v0.2.2",
+  "version": "v0.2.3",
   "description": "Supports quantitative researchers with method selection logic, explicit assumptions, uncertainty treatment, and interpretable statistical conclusions.",
   "entrypoint": "main.py"
 }

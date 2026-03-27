@@ -395,7 +395,7 @@ def generate_disease_report(disease_name, gwas_df, gda_df, hpo_df,
 
 ---
 
-## Verification Loop (v0.2.2)
+## Verification Loop (v0.2.3)
 
 ```
 PLAN   → define scope, inputs, expected outputs

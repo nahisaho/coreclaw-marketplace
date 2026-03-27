@@ -1,6 +1,6 @@
 {
   "name": "scientific-peer-review",
-  "version": "v0.2.2",
+  "version": "v0.2.3",
   "description": "Supports peer reviewers and senior researchers in assessing methodology, evidence quality, interpretability, and publication risk.",
   "entrypoint": "main.py"
 }

@@ -1,6 +1,6 @@
 {
   "name": "scientific-neural-architecture-search",
-  "version": "v0.2.2",
+  "version": "v0.2.3",
   "description": "Supports ML researchers with experiment structure, model comparison logic, interpretability considerations, and reproducible reporting.",
   "entrypoint": "main.py"
 }

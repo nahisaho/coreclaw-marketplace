@@ -1,6 +1,6 @@
 {
   "name": "scientific-audit-report",
-  "version": "v0.2.2",
+  "version": "v0.2.3",
   "description": "Supports traceable research reporting for regulated, collaborative, or publication workflows where reproducibility and auditability matter.",
   "entrypoint": "main.py"
 }

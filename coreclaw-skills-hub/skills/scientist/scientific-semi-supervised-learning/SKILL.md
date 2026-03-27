@@ -220,7 +220,7 @@ def evaluate_pseudo_labels(y_true_unlabeled, pseudo_labels,
 
 ---
 
-## Verification Loop (v0.2.2)
+## Verification Loop (v0.2.3)
 
 ```
 PLAN   → define scope, inputs, expected outputs

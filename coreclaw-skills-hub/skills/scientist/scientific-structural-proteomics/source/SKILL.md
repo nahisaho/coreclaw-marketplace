@@ -316,7 +316,7 @@ def get_eve_variant_score(gene_name, variant=None):
 
 ---
 
-## Verification Loop (v0.2.2)
+## Verification Loop (v0.2.3)
 
 ```
 PLAN   → define scope, inputs, expected outputs

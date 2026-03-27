@@ -337,7 +337,7 @@ def selection_scan(haplotype_matrix, positions, method="ihs"):
 
 ---
 
-## Verification Loop (v0.2.2)
+## Verification Loop (v0.2.3)
 
 ```
 PLAN   → define scope, inputs, expected outputs

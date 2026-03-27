@@ -302,7 +302,7 @@ spatial-transcriptomics → spatial-multiomics → multi-omics
 
 ---
 
-## Verification Loop (v0.2.2)
+## Verification Loop (v0.2.3)
 
 ```
 PLAN   → define scope, inputs, expected outputs

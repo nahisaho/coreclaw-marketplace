@@ -289,7 +289,7 @@ def refmet_standardize(metabolite_names):
 
 ---
 
-## Verification Loop (v0.2.2)
+## Verification Loop (v0.2.3)
 
 ```
 PLAN   → define scope, inputs, expected outputs

@@ -1,6 +1,6 @@
 {
   "name": "scientific-streaming-analytics",
-  "version": "v0.2.2",
+  "version": "v0.2.3",
   "description": "Supports researchers working on streaming analytics with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
   "entrypoint": "main.py"
 }

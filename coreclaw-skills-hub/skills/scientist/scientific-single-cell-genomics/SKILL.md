@@ -361,7 +361,7 @@ def sc_visualization_panel(adata, deg_df=None, save_dir="figures"):
 
 ---
 
-## Verification Loop (v0.2.2)
+## Verification Loop (v0.2.3)
 
 ```
 PLAN   → define scope, inputs, expected outputs

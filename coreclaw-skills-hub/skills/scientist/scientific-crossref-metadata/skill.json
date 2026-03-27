@@ -1,6 +1,6 @@
 {
   "name": "scientific-crossref-metadata",
-  "version": "v0.2.2",
+  "version": "v0.2.3",
   "description": "Supports literature review workflows for researchers who need structured search, relevance filtering, citation awareness, and evidence synthesis.",
   "entrypoint": "main.py"
 }

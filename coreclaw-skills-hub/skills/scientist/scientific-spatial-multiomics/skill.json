@@ -1,6 +1,6 @@
 {
   "name": "scientific-spatial-multiomics",
-  "version": "v0.2.2",
+  "version": "v0.2.3",
   "description": "Supports omics researchers with reproducible analysis planning, interpretable comparisons, and biologically grounded result framing.",
   "entrypoint": "main.py"
 }

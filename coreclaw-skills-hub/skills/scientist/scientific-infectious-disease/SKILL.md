@@ -340,7 +340,7 @@ def run_epidemic_simulation(model="SIR", N=1e6, I0=10, R0=2.5,
 
 ---
 
-## Verification Loop (v0.2.2)
+## Verification Loop (v0.2.3)
 
 ```
 PLAN   → define scope, inputs, expected outputs

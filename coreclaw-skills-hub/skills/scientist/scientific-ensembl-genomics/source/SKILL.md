@@ -377,7 +377,7 @@ genome-sequence-tools ──┘    │              variant-effect-prediction
 
 ---
 
-## Verification Loop (v0.2.2)
+## Verification Loop (v0.2.3)
 
 ```
 PLAN   → define scope, inputs, expected outputs

@@ -1,6 +1,6 @@
 {
   "name": "scientific-reactome-pathways",
-  "version": "v0.2.2",
+  "version": "v0.2.3",
   "description": "Supports pathway and network analysis for researchers interpreting molecular relationships, enrichment signals, and biologically meaningful connections.",
   "entrypoint": "main.py"
 }

@@ -1,6 +1,6 @@
 {
   "name": "scientific-scientific-schematics",
-  "version": "v0.2.2",
+  "version": "v0.2.3",
   "description": "Creates scientific communication assets for papers, talks, and internal reviews, translating complex results into clear visual narratives.",
   "entrypoint": "main.py"
 }

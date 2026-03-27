@@ -377,7 +377,7 @@ def tauc_plot_bandgap(wavelength_nm, transmittance_pct, thickness_nm,
 
 ---
 
-## Verification Loop (v0.2.2)
+## Verification Loop (v0.2.3)
 
 ```
 PLAN   → define scope, inputs, expected outputs
