@@ -1,10 +1,7 @@
 ---
 name: scientific-critical-review
 description: |
-  学術論文の草稿に対する批判的レビュー・修正スキル。論理構成、考察の深さ、
-  データ解釈の妥当性、先行研究との整合性、統計的主張の正確性を多角的に検証し、
-  具体的な修正案を生成する。「論文をレビューして」「考察を深めて」「草稿を改善して」で発火。
-  scientific-academic-writing で草稿を作成した後のセルフレビューに使用。
+  Critical review skill. Systematic assessment of research quality, experimental rigor evaluation, statistical claim verification, and comprehensive peer review analysis.
 tu_tools:
   - key: crossref
     name: Crossref
@@ -742,9 +739,9 @@ def run_review_pipeline(manuscript_path):
 **修正理由:** [理由の説明]
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `crossref` | Crossref | 論文検証・引用メタデータ参照 |
 
@@ -752,16 +749,16 @@ def run_review_pipeline(manuscript_path):
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `manuscript/review_report.md` | レビューレポート（Markdown） | Pass 1-4 完了時 |
 | `manuscript/review_report.json` | レビュー結果（JSON） | Pass 1-4 完了時 |
 | `manuscript/manuscript_revised.md` | 修正済み原稿 | Pass 5 完了時 |
 | `manuscript/revision_diff.md` | 修正前後の差分 | Pass 5 完了時 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-academic-writing` | 草稿作成 → 本スキルでレビュー → 修正原稿 |
 | `scientific-statistical-testing` | 統計的主張の検証に使用 |
@@ -769,3 +766,22 @@ def run_review_pipeline(manuscript_path):
 | `scientific-hypothesis-pipeline` | 仮説と結論の整合性検証に使用 |
 
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

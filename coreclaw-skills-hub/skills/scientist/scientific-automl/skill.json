@@ -1,6 +1,6 @@
 {
   "name": "scientific-automl",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Supports ML researchers with experiment structure, model comparison logic, interpretability considerations, and reproducible reporting.",
   "entrypoint": "main.py"
 }

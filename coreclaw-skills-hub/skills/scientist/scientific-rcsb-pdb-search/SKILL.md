@@ -1,10 +1,7 @@
 ---
 name: scientific-rcsb-pdb-search
 description: |
-  RCSB PDB 構造検索スキル。RCSB PDB Search API および
-  Data API によるタンパク質立体構造検索・メタデータ取得・
-  リガンド情報・解像度フィルタリング。ToolUniverse 連携:
-  rcsb_pdb, rcsb_search。
+  RCSB PDB search skill. Protein Data Bank structure search, advanced query construction, structure clustering, and PDB data retrieval/parsing.
 tu_tools:
   - key: rcsb_pdb
     name: RCSB PDB Data
@@ -252,14 +249,14 @@ def rcsb_pipeline(query, resolution_max=3.0,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `rcsb_pdb` | RCSB PDB Data | エントリデータ・構造メタデータ |
 | `rcsb_search` | RCSB PDB Search | テキスト/配列/構造類似検索 |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 protein-structure-analysis → rcsb-pdb-search → molecular-docking
@@ -272,9 +269,28 @@ protein-structure-analysis → rcsb-pdb-search → molecular-docking
                   (AlphaFold DB)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/pdb_entries.csv` | 構造メタデータ | → protein-structure-analysis |
 | `results/ligands.csv` | リガンド情報 | → molecular-docking |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

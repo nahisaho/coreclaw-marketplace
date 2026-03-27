@@ -1,9 +1,7 @@
 ---
 name: scientific-perturbation-analysis
 description: |
-  シングルセル摂動解析スキル。pertpy による CRISPR スクリーン解析・
-  薬剤応答分析・scGen 摂動予測・Augur 摂動応答性スコアリング・
-  scIB 統合ベンチマーク・差次的摂動応答パイプライン。
+  Perturbation analysis skill. CRISPR screen analysis, drug perturbation response, perturbation signature comparison, and connectivity map (CMap) analysis.
 tu_tools:
   - key: cellxgene
     name: CellxGene
@@ -279,7 +277,7 @@ def perturbation_signature(adata, perturbation_key="perturbation",
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 single-cell-genomics → perturbation-analysis → pathway-enrichment
@@ -291,7 +289,7 @@ spatial-transcriptomics ──┘      │            disease-research
                        (標的候補評価)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -300,8 +298,27 @@ spatial-transcriptomics ──┘      │            disease-research
 | `results/perturbation_signatures.json` | 摂動シグネチャ | → drug-target-profiling |
 | `results/scib_benchmark.json` | 統合ベンチマーク | → spatial-transcriptomics |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `cellxgene` | CellxGene | 摂動解析データセット検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,9 +1,7 @@
 ---
 name: scientific-ontology-enrichment
 description: |
-  オントロジー・エンリッチメント解析スキル。EFO 実験ファクターオントロジー、
-  OLS オントロジー検索サービス、Enrichr 遺伝子セット濃縮解析、
-  UMLS メタシソーラス統一医学言語体系の統合パイプライン。
+  Ontology enrichment skill. GO enrichment analysis, KEGG pathway enrichment, disease ontology enrichment, multiple testing correction, and enrichment visualization.
 ---
 
 # Scientific Ontology Enrichment
@@ -310,7 +308,7 @@ def get_umls_crosswalk(cui, api_key, target_source=None):
 
 ---
 
-## 利用可能ツール
+## Available Tools
 
 | ToolUniverse カテゴリ | 主なツール |
 |---|---|
@@ -319,7 +317,7 @@ def get_umls_crosswalk(cui, api_key, target_source=None):
 | `enrichr` | `Enrichr_submit_gene_list`, `Enrichr_get_enrichment` |
 | `umls` | `UMLS_search`, `UMLS_get_concept` |
 
-## パイプライン出力
+## Pipeline Output
 
 | 出力ファイル | 説明 | 連携先スキル |
 |---|---|---|
@@ -328,7 +326,7 @@ def get_umls_crosswalk(cui, api_key, target_source=None):
 | `results/umls_mapping.json` | UMLS 用語マッピング | → clinical-decision-support, public-health-data |
 | `results/ontology_hierarchy.json` | オントロジー階層 | → text-mining-nlp, knowledge-graph |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 disease-research ──→ ontology-enrichment ──→ pathway-enrichment
@@ -338,3 +336,22 @@ disease-research ──→ ontology-enrichment ──→ pathway-enrichment
                               ├──→ public-health-data (UMLS→RxNorm)
                               └──→ clinical-reporting (SNOMED/ICD マッピング)
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

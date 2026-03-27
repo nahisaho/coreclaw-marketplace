@@ -1,11 +1,7 @@
 ---
 name: scientific-protein-structure-analysis
 description: |
-  タンパク質構造解析スキル。PDB / AlphaFold DB / PDBe を活用した 3D 構造解析。
-  構造アラインメント、結合部位検出、分子ドッキング準備、構造品質評価。
-  ToolUniverse の Protein Structure Retrieval と claude-scientific-skills の
-  PDB/AlphaFold スキルを統合。
-  「タンパク質の構造を解析して」「PDB 構造を調べて」「ドッキング準備して」で発火。
+  Protein structure analysis skill. PDB structure retrieval, structural alignment (TM-align), binding site analysis, and structure-function relationship exploration.
 tu_tools:
   - key: proteinsplus
     name: ProteinsPlus
@@ -307,13 +303,13 @@ def detect_binding_sites(pdb_id):
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `results/structure_report.md` | 構造解析レポート（Markdown） | 全解析完了時 |
 | `results/structure_analysis.json` | 構造データ（JSON） | 品質評価完了時 |
 | `results/binding_sites.json` | 結合部位データ（JSON） | ポケット解析完了時 |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -326,9 +322,9 @@ def detect_binding_sites(pdb_id):
 | Proteins API | `proteins_api_get_features` | タンパク質特徴情報 |
 | AlphaMissense | `AlphaMissense_get_protein_scores` | 残基レベル病原性予測 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-drug-target-profiling` | ← ターゲットタンパク質の構造解析依頼 |
 | `scientific-bioinformatics` | ← 配列・ドメイン情報 |
@@ -336,3 +332,22 @@ def detect_binding_sites(pdb_id):
 | `scientific-protein-design` | → 構造に基づく de novo タンパク質設計 |
 | `scientific-cheminformatics` | → 結合部位情報を分子ドッキングに利用 |
 | `scientific-academic-writing` | → 研究成果の論文化 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,11 +1,7 @@
 ---
 name: scientific-crispr-design
 description: |
-  CRISPR gRNA 設計スキル。Cas9/Cas12a PAM 配列検索・
-  オフターゲットスコアリング (CFD/MIT)・
-  CRISPRscan/Rule Set 2 活性予測・検証プライマー設計・
-  sgRNA スクリーニングライブラリ構築パイプライン。
-  TU 外スキル (Python ライブラリ + ローカル解析)。
+  CRISPR design skill. Guide RNA design, off-target analysis, CRISPR screen analysis, gene knockout/knock-in design, and editing efficiency prediction.
 tu_tools:
   - key: ensembl
     name: Ensembl
@@ -354,7 +350,7 @@ def build_sgrna_library(gene_list,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 genome-sequence-tools → crispr-design → perturbation-analysis
@@ -364,7 +360,7 @@ genome-sequence-tools → crispr-design → perturbation-analysis
     (変異影響予測)                   (機能ゲノミクス)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -372,8 +368,27 @@ genome-sequence-tools → crispr-design → perturbation-analysis
 | `off_target_report.csv` | オフターゲット評価 | → 安全性確認 |
 | `sgrna_library.csv` | sgRNA ライブラリ | → perturbation-analysis |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `ensembl` | Ensembl | gRNA 設計用ゲノム配列参照 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,9 +1,7 @@
 ---
 name: scientific-environmental-geodata
 description: |
-  環境地理空間データスキル。SoilGrids REST API による土壌特性
-  取得、WorldClim/CHELSA 気候データ、生物多様性-環境モデリング
-  統合。直接 REST API 連携 (TU 外)。
+  Environmental geodata skill. Satellite imagery analysis, remote sensing data processing, climate data integration, land use classification, and environmental monitoring.
 tu_tools: []
 ---
 
@@ -230,11 +228,11 @@ def environmental_geodata_pipeline(occurrences_csv, output_dir="results"):
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
 直接 REST API 使用 (SoilGrids, WorldClim は ToolUniverse 外)。
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 environmental-ecology → environmental-geodata → marine-ecology
@@ -247,9 +245,28 @@ environmental-ecology → environmental-geodata → marine-ecology
                   (SDM 統合)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/env_stack.csv` | 環境変数スタック | → species-distribution-model |
 | `results/env_summary.csv` | 環境空間要約 | → environmental-ecology |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

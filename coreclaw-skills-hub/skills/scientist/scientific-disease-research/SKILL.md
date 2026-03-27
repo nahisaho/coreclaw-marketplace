@@ -1,10 +1,7 @@
 ---
 name: scientific-disease-research
 description: |
-  疾患研究スキル。GWAS Catalog・Orphanet・OMIM・HPO・DisGeNET を統合し、
-  疾患-遺伝子関連解析・希少疾患診断支援・表現型-遺伝型マッピング・
-  疫学的特性評価を支援。
-  「疾患と遺伝子の関連を調べて」「希少疾患を診断して」「GWAS 結果を解析して」で発火。
+  Disease research skill. Disease ontology queries, phenotype-genotype associations, clinical feature extraction, and disease mechanism pathway analysis.
 tu_tools:
   - key: disgenet
     name: DisGeNET
@@ -365,13 +362,13 @@ def generate_disease_report(disease_name, gwas_df, gda_df, hpo_df,
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `results/disease_research_report.json` | 疾患研究レポート（JSON） | 解析完了時 |
 | `results/disease_research_report.md` | 疾患研究レポート（Markdown） | レポート生成時 |
 | `results/gwas_significant_loci.json` | GWAS 有意 loci（JSON） | GWAS 検索完了時 |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -385,9 +382,9 @@ def generate_disease_report(disease_name, gwas_df, gda_df, hpo_df,
 | ClinVar | `clinvar_search_variants` | 病原性バリアント検索 |
 | ClinicalTrials | `search_clinical_trials` | 疾患関連臨床試験 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-variant-interpretation` | → 候補バリアントの ACMG 分類 |
 | `scientific-bioinformatics` | ← 発現データ・eQTL 解析 |
@@ -395,3 +392,22 @@ def generate_disease_report(disease_name, gwas_df, gda_df, hpo_df,
 | `scientific-meta-analysis` | ← GWAS メタアナリシス |
 | `scientific-precision-oncology` | → がん疾患の精密医療連携 |
 | `scientific-deep-research` | ← 疾患関連文献リサーチ |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

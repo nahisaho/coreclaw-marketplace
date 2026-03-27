@@ -1,9 +1,7 @@
 ---
 name: scientific-neural-architecture-search
 description: |
-  ニューラルアーキテクチャ探索 (NAS) スキル。DARTS 微分可能 NAS・
-  Optuna NAS 統合・効率的ネットワーク設計・探索空間定義・
-  Pareto 最適化 (精度 vs FLOPS)。
+  Neural architecture search (NAS) skill. Architecture space definition, search strategy implementation, performance estimation, and efficient NAS methods (DARTS/ENAS).
 tu_tools:
   - key: papers_with_code
     name: Papers with Code
@@ -191,7 +189,7 @@ def nas_pareto_search(train_loader, val_loader,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 [タスク定義] → neural-architecture-search → deep-learning
@@ -201,7 +199,7 @@ def nas_pareto_search(train_loader, val_loader,
                   (HPO)      (アンサンブル)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -209,8 +207,27 @@ def nas_pareto_search(train_loader, val_loader,
 | `pareto_front.csv` | Pareto 最適解群 | → モデル選択 |
 | `best_architecture.json` | 最良アーキテクチャ | → deep-learning |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `papers_with_code` | Papers with Code | NAS 探索空間・ベンチマーク検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

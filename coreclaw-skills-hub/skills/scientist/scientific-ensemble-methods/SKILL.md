@@ -1,10 +1,7 @@
 ---
 name: scientific-ensemble-methods
 description: |
-  アンサンブル学習スキル。Stacking/Blending 多段積層・
-  Boosting (XGBoost/LightGBM/CatBoost) 勾配ブースティング・
-  Bagging/Random Subspace・Voting 分類器/回帰器・
-  アンサンブル多様性評価・モデル統合パイプライン。
+  Ensemble methods skill. Random forests, gradient boosting (XGBoost/LightGBM/CatBoost), stacking, blending, voting classifiers, and ensemble model interpretation.
 tu_tools:
   - key: openml
     name: OpenML
@@ -248,7 +245,7 @@ def ensemble_diversity(models, X, y):
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 automl → ensemble-methods → uncertainty-quantification
@@ -258,7 +255,7 @@ automl → ensemble-methods → uncertainty-quantification
     (特徴量重要度)               (説明可能 AI)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -266,8 +263,27 @@ automl → ensemble-methods → uncertainty-quantification
 | `boosting_comparison.csv` | ブースティング比較 | → レポート |
 | `ensemble_diversity.json` | 多様性指標 | → モデル改善 |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `openml` | OpenML | アンサンブル手法ベンチマーク参照 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

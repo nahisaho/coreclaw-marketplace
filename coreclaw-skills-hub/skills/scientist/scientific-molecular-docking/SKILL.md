@@ -1,10 +1,7 @@
 ---
 name: scientific-molecular-docking
 description: |
-  構造ベース分子ドッキングスキル。DiffDock (拡散生成モデル)、
-  AutoDock Vina (スコアリング関数)、GNINA (CNN ベーススコアリング) を統合した
-  タンパク質-リガンド結合ポーズ予測、バーチャルスクリーニング、
-  結合自由エネルギー推定、ドッキングスコア統合パイプライン。
+  Molecular docking skill. AutoDock Vina/SMINA docking simulations, binding pose prediction, scoring function evaluation, virtual screening, and protein-ligand interaction analysis.
 ---
 
 # Scientific Molecular Docking
@@ -283,11 +280,11 @@ def virtual_screening(receptor_pdbqt, ligand_library,
 | `results/virtual_screening.csv` | CSV |
 | `figures/docking_scores.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > このスキルは主に K-Dense-AI/claude-scientific-skills の diffdock スキルを参照しています。ToolUniverse SMCP には専用ドッキングツールは含まれませんが、タンパク質構造は PDB/AlphaFold ツール経由で取得可能です。
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -301,3 +298,22 @@ def virtual_screening(receptor_pdbqt, ligand_library,
 ### 依存パッケージ
 
 `vina` (AutoDock Vina), `rdkit`, `openbabel` (optional), `numpy`, `pandas`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

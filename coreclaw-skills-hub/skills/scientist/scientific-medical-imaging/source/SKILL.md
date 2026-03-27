@@ -1,9 +1,7 @@
 ---
 name: scientific-medical-imaging
 description: |
-  医用イメージングスキル。DICOM/NIfTI 処理・WSI (Whole Slide Image) 解析・
-  PathML・MONAI・3D Slicer 連携・放射線画像解析・病理組織画像解析を支援。
-  「DICOM を解析して」「WSI を処理して」「医用画像をセグメンテーションして」で発火。
+  Medical imaging skill. DICOM processing, image segmentation (U-Net), classification, registration, radiomics feature extraction, and clinical imaging pipeline development.
 tu_tools:
   - key: tcia
     name: TCIA
@@ -431,9 +429,9 @@ def generate_imaging_report(patient_id, modality, findings,
 - [ ] 3D 可視化
 - [ ] レポート（JSON + Markdown）生成
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `tcia` | TCIA | がん画像アーカイブ検索 |
 
@@ -441,16 +439,16 @@ def generate_imaging_report(patient_id, modality, findings,
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `results/imaging_report.json` | 画像解析レポート（JSON） | 解析完了時 |
 | `results/imaging_report.md` | 画像解析レポート（Markdown） | レポート生成時 |
 | `results/radiomics_features.json` | Radiomics 特徴量（JSON） | 特徴量抽出時 |
 | `figures/segmentation_overlay.png` | セグメンテーション結果図 | セグメンテーション時 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-image-analysis` | ← 一般的な画像処理・セグメンテーション基盤 |
 | `scientific-deep-learning` | ← U-Net/SwinUNETR のトレーニング基盤 |
@@ -458,3 +456,22 @@ def generate_imaging_report(patient_id, modality, findings,
 | `scientific-precision-oncology` | → 腫瘍画像の精密医療連携 |
 | `scientific-clinical-decision-support` | → 画像所見の臨床意思決定反映 |
 | `scientific-explainable-ai` | → 医用 AI の説明可能性 (GradCAM) |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

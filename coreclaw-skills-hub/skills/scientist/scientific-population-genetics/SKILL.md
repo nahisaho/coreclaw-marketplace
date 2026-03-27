@@ -1,9 +1,7 @@
 ---
 name: scientific-population-genetics
 description: |
-  集団遺伝学解析スキル。アレル頻度解析・Hardy-Weinberg 平衡検定・
-  集団構造解析（PCA / ADMIXTURE）・Fst 分化指標・選択圧検出（iHS / XP-EHH）・
-  連鎖不平衡（LD）解析・GWAS Catalog / gnomAD データ統合パイプライン。
+  Population genetics skill. Allele frequency analysis, Hardy-Weinberg testing, Fst/neutrality statistics, population structure (ADMIXTURE/PCA), and demographic inference.
 ---
 
 # Scientific Population Genetics
@@ -305,7 +303,7 @@ def selection_scan(haplotype_matrix, positions, method="ihs"):
 | `figures/admixture_barplot.png` | PNG |
 | `figures/manhattan_fst.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -321,7 +319,7 @@ def selection_scan(haplotype_matrix, positions, method="ihs"):
 | GWAS | `gwas_get_associations_for_snp` | SNP 別関連 |
 | GWAS | `gwas_get_snps_for_gene` | 遺伝子近傍 SNP |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 連携内容 |
 |---|---|
@@ -336,3 +334,22 @@ def selection_scan(haplotype_matrix, positions, method="ihs"):
 #### 依存パッケージ
 
 - scikit-allel, plink2, admixture, pandas, numpy, scipy
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

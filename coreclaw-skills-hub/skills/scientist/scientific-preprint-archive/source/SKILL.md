@@ -1,10 +1,7 @@
 ---
 name: scientific-preprint-archive
 description: |
-  プレプリント・オープンアクセスアーカイブ検索スキル。bioRxiv/medRxiv
-  プレプリント検索、arXiv 論文取得、PMC フルテキスト、DOAJ OA ジャーナル、
-  Unpaywall OA リンク、CORE/HAL/Zenodo/OpenAIRE/OSF/Fatcat/DBLP
-  統合文献アクセスパイプライン。
+  Preprint archive skill. bioRxiv/medRxiv/arXiv search, preprint tracking, citation monitoring, and preprint-to-publication linking.
 ---
 
 # Scientific Preprint Archive
@@ -435,7 +432,7 @@ def multi_archive_search(query, archives=None, **kwargs):
 
 ---
 
-## 利用可能ツール
+## Available Tools
 
 以下のツールが ToolUniverse SMCP 経由で利用可能:
 
@@ -455,7 +452,7 @@ def multi_archive_search(query, archives=None, **kwargs):
 | `fatcat` | `Fatcat_search_releases` |
 | `dblp` | `DBLP_search_publications` |
 
-## パイプライン出力
+## Pipeline Output
 
 | 出力ファイル | 説明 | 連携先スキル |
 |---|---|---|
@@ -464,7 +461,7 @@ def multi_archive_search(query, archives=None, **kwargs):
 | `results/fulltext_corpus/` | フルテキストコーパス | → text-mining-nlp, biomedical-pubtator |
 | `results/arxiv_papers.csv` | arXiv 論文メタデータ | → deep-learning, graph-neural-networks |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 literature-search ──→ preprint-archive ──→ systematic-review
@@ -474,3 +471,22 @@ literature-search ──→ preprint-archive ──→ systematic-review
                               ├──→ biomedical-pubtator (PubTator NER)
                               └──→ deep-research (エビデンス統合)
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

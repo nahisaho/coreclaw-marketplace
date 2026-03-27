@@ -1,9 +1,7 @@
 ---
 name: scientific-scvi-integration
 description: |
-  scvi-tools シングルセル統合スキル。scVI 変分オートエンコーダ統合・
-  scANVI 半教師有りアノテーション・totalVI CITE-seq
-  RNA+タンパク質結合解析・SOLO ダブレット検出・潜在空間解析。
+  scVI integration skill. Deep generative model-based single-cell analysis with scvi-tools, batch correction, cell type annotation, and multi-modal data integration.
 tu_tools:
   - key: cellxgene
     name: CellxGene
@@ -325,7 +323,7 @@ def scvi_pipeline(adata_paths, batch_labels=None, labels_key="cell_type",
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 single-cell-genomics → scvi-integration → spatial-transcriptomics
@@ -338,7 +336,7 @@ perturbation-analysis ────────┘               gene-expression
                   (Expression Atlas 比較)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -347,8 +345,27 @@ perturbation-analysis ────────┘               gene-expression
 | `results/de_results.csv` | 差次的発現結果 | → gene-expression |
 | `results/annotations.csv` | scANVI アノテーション | → expression-comparison |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `cellxgene` | CellxGene | scVI 統合用データセット検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

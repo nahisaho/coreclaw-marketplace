@@ -1,9 +1,7 @@
 ---
 name: scientific-drugbank-resources
 description: |
-  DrugBank リソーススキル。DrugBank API を用いた薬剤記述・
-  薬理情報・標的タンパク質・薬物相互作用検索。
-  ToolUniverse 連携: drugbank。
+  DrugBank resource skill. Drug information retrieval, drug-target interactions, drug-drug interactions, pharmacological classifications, and clinical indication mapping.
 tu_tools:
   - key: drugbank
     name: DrugBank
@@ -243,13 +241,13 @@ def drugbank_pipeline(drug_name, api_key=None,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `drugbank` | DrugBank | 薬剤データベース API |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 drug-target-profiling → drugbank-resources → admet-pharmacokinetics
@@ -259,7 +257,7 @@ opentargets-genetics ──────────┘       compound-screening
   (OT 薬剤エビデンス)                  (ZINC 化合物検索)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -267,3 +265,22 @@ opentargets-genetics ──────────┘       compound-screening
 | `results/drugbank_detail.csv` | 薬剤詳細 | → admet-pharmacokinetics |
 | `results/drugbank_targets.csv` | 標的タンパク質 | → protein-interaction-network |
 | `results/drugbank_ddi.csv` | 薬物相互作用 | → pharmacogenomics |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

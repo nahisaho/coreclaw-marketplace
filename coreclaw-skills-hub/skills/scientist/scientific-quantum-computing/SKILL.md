@@ -1,10 +1,7 @@
 ---
 name: scientific-quantum-computing
 description: |
-  量子計算スキル。Qiskit・Cirq・PennyLane・QuTiP を活用し、
-  量子回路設計・シミュレーション・変分量子アルゴリズム（VQE/QAOA）・
-  量子化学計算・量子機械学習を支援。
-  「量子回路を設計して」「VQE で基底エネルギーを求めて」「量子シミュレーションして」で発火。
+  Quantum computing skill. Qiskit/Cirq quantum circuit design, VQE/QAOA algorithms, quantum chemistry simulation, and quantum machine learning experiments.
 tu_tools:
   - key: papers_with_code
     name: Papers with Code
@@ -323,9 +320,9 @@ plt.show()
 - [ ] エラー緩和手法適用（実機の場合）
 - [ ] 結果レポート・収束プロット生成
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `papers_with_code` | Papers with Code | 量子計算論文・ベンチマーク検索 |
 
@@ -333,18 +330,37 @@ plt.show()
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `results/quantum_result.json` | 量子計算結果（JSON） | 計算完了時 |
 | `figures/quantum_convergence.png` | 収束プロット | VQE/QAOA 完了時 |
 | `figures/quantum_rabi.png` | 量子ダイナミクス図 | QuTiP シミュレーション時 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-cheminformatics` | ← 分子構造 → ハミルトニアン |
 | `scientific-process-optimization` | ← QAOA による組合せ最適化 |
 | `scientific-statistical-testing` | ← 量子測定結果の統計解析 |
 | `scientific-deep-learning` | → 量子-古典ハイブリッド ML |
 | `scientific-bayesian-statistics` | ← ベイズ最適化による VQE パラメータ最適化 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

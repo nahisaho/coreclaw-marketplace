@@ -1,10 +1,7 @@
 ---
 name: scientific-variant-interpretation
 description: |
-  遺伝子バリアント臨床解釈スキル。ClinVar / gnomAD / COSMIC / ACMG ガイドラインに
-  基づく病原性評価、薬理ゲノミクス（PharmGKB/ClinPGx）、バリアント-表現型相関の
-  エビデンスグレーディング。ToolUniverse の Variant Interpretation パラダイムを統合。
-  「バリアントの病原性を評価して」「pharmacogenomics 解析して」で発火。
+  Variant interpretation skill. ACMG/AMP variant classification, pathogenicity evidence aggregation, clinical significance assessment, and variant report generation.
 tu_tools:
   - key: clinvar
     name: ClinVar
@@ -299,13 +296,13 @@ def pgx_recommendation(gene, phenotype, drug):
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `results/variant_report.md` | バリアント解釈レポート（Markdown） | 全解析完了時 |
 | `results/variant_classification.json` | ACMG/AMP 分類データ（JSON） | 分類完了時 |
 | `results/pgx_report.json` | 薬理ゲノミクスレポート（JSON） | PGx 評価完了時 |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -319,9 +316,9 @@ def pgx_recommendation(gene, phenotype, drug):
 | CADD | `CADD_get_variant_score` | バリアント有害性スコア |
 | MyVariant | `MyVariant_get_variant_annotation` | 統合バリアントアノテーション |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-bioinformatics` | ← ゲノムデータ・バリアントコール |
 | `scientific-sequence-analysis` | ← 配列コンテキスト・保存度情報 |
@@ -329,3 +326,22 @@ def pgx_recommendation(gene, phenotype, drug):
 | `scientific-clinical-decision-support` | → バリアント解釈結果の臨床意思決定 |
 | `scientific-academic-writing` | → 研究成果の論文化 |
 | `scientific-pharmacogenomics` | ← Star アレル・代謝型・薬理ゲノミクス |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,9 +1,7 @@
 ---
 name: scientific-biobank-cohort
 description: |
-  バイオバンク・大規模コホートデータ解析スキル。UK Biobank /
-  BBJ / All of Us 等の大規模コホートデータに対するフェノタイプ
-  辞書検索・GWAS サマリー統計処理・PheWAS パイプライン。
+  Biobank cohort analysis skill. UK Biobank, All of Us, and large-scale cohort data integration, phenotype extraction, population stratification, and epidemiological analysis pipelines.
 tu_tools:
   - key: clinvar
     name: ClinVar
@@ -253,7 +251,7 @@ def biobank_pipeline(sumstat_file, pheno_file=None,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 epidemiology-public-health → biobank-cohort → population-genetics
@@ -263,7 +261,7 @@ epidemiology-public-health → biobank-cohort → population-genetics
      (因果推論)                            (Mendelian 解析)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -271,8 +269,27 @@ epidemiology-public-health → biobank-cohort → population-genetics
 | `results/manhattan_data.csv` | Manhattan プロットデータ | → GWAS 可視化 |
 | `results/phenotype_dict.csv` | フェノタイプ辞書 | → PheWAS |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `clinvar` | ClinVar | バリアント臨床的意義データ検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

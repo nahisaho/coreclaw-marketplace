@@ -1,10 +1,7 @@
 ---
 name: scientific-revision-tracker
 description: |
-  論文改訂の変更履歴追跡・差分管理スキル。原稿バージョン間の diff 生成、
-  変更箇所のハイライト（赤字削除/青字追加）、改訂サマリー自動生成、
-  査読コメントと改訂箇所のトレーサビリティ管理を行う。
-  「改訂をトラッキングして」「変更履歴を作って」「diff を出して」で発火。
+  Revision tracker skill. Manuscript revision tracking, diff generation between drafts, change log maintenance, and reviewer comment integration management.
 tu_tools:
   - key: crossref
     name: Crossref
@@ -491,9 +488,9 @@ def run_revision_tracker(original_path, revised_path, round_number=1,
     return diff, traceability
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `crossref` | Crossref | 改訂履歴の引用整合性検証 |
 
@@ -501,7 +498,7 @@ def run_revision_tracker(original_path, revised_path, round_number=1,
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `manuscript/versions/vN_original.md` | 改訂前スナップショット | Phase 1 |
 | `manuscript/versions/vN_revised.md` | 改訂後スナップショット | Phase 1 |
@@ -517,12 +514,31 @@ def run_revision_tracker(original_path, revised_path, round_number=1,
 | `latex` | `\textcolor{blue}{}` | `\st{\textcolor{red}{}}` | LaTeX 投稿用 |
 | `track_changes` | `[++text++]` | `[--text--]` | プレーンテキスト |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-peer-review-response` | `response_mapping.json` からコメント-改訂対応を参照 |
 | `scientific-academic-writing` | 改訂原稿 `manuscript.md` の作成 |
 | `scientific-critical-review` | 改訂後のセルフレビュー |
 | `scientific-paper-quality` | 改訂前後の品質メトリクス比較 |
 | `scientific-latex-formatter` | 改訂版 LaTeX にマークアップを反映 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

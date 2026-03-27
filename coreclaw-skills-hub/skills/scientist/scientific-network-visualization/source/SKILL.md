@@ -1,9 +1,7 @@
 ---
 name: scientific-network-visualization
 description: |
-  ネットワーク解析・可視化スキル。NetworkX グラフ構築・
-  コミュニティ検出 (Louvain/Leiden)・中心性指標・
-  PyVis インタラクティブ・ネットワーク統計量・動的ネットワーク。
+  Network visualization skill. Interactive network plots (Cytoscape.js/D3/NetworkX), layout algorithms, edge bundling, node clustering visualization, and publication-quality network figures.
 tu_tools:
   - key: string
     name: STRING
@@ -263,7 +261,7 @@ def interactive_network(G, output="network_interactive.html",
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 eda-correlation → network-visualization → advanced-visualization
@@ -273,7 +271,7 @@ eda-correlation → network-visualization → advanced-visualization
   (GNN)                                (ダッシュボード)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -281,8 +279,27 @@ eda-correlation → network-visualization → advanced-visualization
 | `centrality_analysis.csv` | 中心性指標 | → feature-importance |
 | `network_interactive.html` | PyVis 図 | → dashboard |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `string` | STRING | ネットワーク可視化・相互作用データ |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

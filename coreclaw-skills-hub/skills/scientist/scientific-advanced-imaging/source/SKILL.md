@@ -1,9 +1,7 @@
 ---
 name: scientific-advanced-imaging
 description: |
-  高度バイオイメージング解析スキル。CellProfiler によるモフォロジカル
-  プロファイリング・Cell Painting 解析、Cellpose による深層学習
-  セルセグメンテーション、napari によるインタラクティブ 3D 可視化。
+  Advanced imaging analysis skill. Microscopy image processing, segmentation, super-resolution, 3D reconstruction, fluorescence quantification, and multi-channel analysis pipelines.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -363,7 +361,7 @@ def imaging_pipeline(image_dir, output_dir, model_type="cyto2",
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 image-analysis → advanced-imaging → medical-imaging
@@ -376,7 +374,7 @@ fluorescence-microscopy ──┘               drug-target-profiling
                    (Cell Painting → 化合物活性)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -385,8 +383,27 @@ fluorescence-microscopy ──┘               drug-target-profiling
 | `results/cell_painting.csv` | Cell Painting プロファイル | → drug-target-profiling |
 | `results/model/` | 微調整 Cellpose モデル | — |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 高度イメージングツール検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

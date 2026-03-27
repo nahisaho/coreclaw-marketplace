@@ -1,9 +1,7 @@
 ---
 name: scientific-peer-review
 description: |
-  実験結果の査読・レビュースキル。再現性・統計的妥当性・方法論の
-  健全性を体系的に評価し、構造化されたレビューレポートを生成する。
-  「レビューして」「査読して」「実験結果を評価して」で発火。
+  Peer review skill. Structured peer review generation following journal guidelines, constructive critique formulation, statistical audit, and review scoring.
 ---
 
 # Scientific Peer Review
@@ -80,8 +78,27 @@ description: |
 - 「統計解析の妥当性を査読して」
 - 「再現性の観点から評価して」
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `crossref` | Crossref | 査読指摘の文献裏付け検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

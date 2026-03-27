@@ -1,10 +1,7 @@
 ---
 name: scientific-protein-design
 description: |
-  タンパク質設計スキル。ESM タンパク質言語モデル、de novo 設計、指向性進化の
-  計算的ガイド、安定性予測をカバー。ToolUniverse の Protein Therapeutic Design
-  パラダイムと claude-scientific-skills の ESM/Adaptyv スキルを統合。
-  「タンパク質を設計して」「ESM で評価して」「安定性を予測して」で発火。
+  Protein design skill. De novo protein design, directed evolution simulation, stability prediction, and protein engineering workflow support.
 ---
 
 # Scientific Protein Design
@@ -285,13 +282,13 @@ EXPRESSION_SYSTEMS = {
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `results/design_report.md` | 設計レポート（Markdown） | 全設計完了時 |
 | `results/design_candidates.json` | 設計候補データ（JSON） | スクリーニング完了時 |
 | `results/esm_scores.json` | ESM スコアデータ（JSON） | 変異スキャン完了時 |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -304,12 +301,31 @@ EXPRESSION_SYSTEMS = {
 | Proteins API | `proteins_api_get_variants` | 既知変異体情報 |
 | AlphaMissense | `AlphaMissense_get_residue_scores` | 残基レベル耐性予測 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-protein-structure-analysis` | ← ターゲット構造データの提供 |
 | `scientific-sequence-analysis` | ← 配列・進化情報 |
 | `scientific-lab-automation` | → 設計タンパク質の発現・精製プロトコル |
 | `scientific-admet-pharmacokinetics` | → タンパク質治療薬の PK 評価 |
 | `scientific-academic-writing` | → 研究成果の論文化 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,11 +1,7 @@
 ---
 name: scientific-epidemiology-public-health
 description: |
-  疫学・公衆衛生解析スキル。観察研究デザイン（コホート/症例対照/横断）・
-  リスク指標（RR/OR/HR/NNT）・標準化死亡比（SMR）・年齢調整率・
-  空間疫学（GIS / 空間クラスタリング）・因果推論ダイアグラム（DAG）・
-  WHO/CDC/EU 公衆衛生データ統合パイプライン。
-  ToolUniverse 連携: who_gho。
+  Epidemiology and public health skill. Disease surveillance, outbreak analysis, incidence/prevalence estimation, risk factor analysis, and population health metrics.
 tu_tools:
   - key: who_gho
     name: WHO GHO
@@ -304,7 +300,7 @@ def blocks_all_backdoor(G, X, Y, Z):
 | `figures/dag_diagram.png` | PNG |
 | `figures/forest_plot.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -322,7 +318,7 @@ def blocks_all_backdoor(G, X, Y, Z):
 | ClinicalTrials | `search_clinical_trials` | 臨床試験検索 |
 | PubMed | `PubMed_Guidelines_Search` | 公衆衛生ガイドライン |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 連携内容 |
 |---|---|
@@ -336,3 +332,22 @@ def blocks_all_backdoor(G, X, Y, Z):
 #### 依存パッケージ
 
 - geopandas, libpysal, esda, dowhy, lifelines, scipy, statsmodels
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

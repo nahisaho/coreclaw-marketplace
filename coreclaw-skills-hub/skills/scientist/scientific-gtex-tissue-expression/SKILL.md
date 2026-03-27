@@ -1,9 +1,7 @@
 ---
 name: scientific-gtex-tissue-expression
 description: |
-  GTEx 組織発現スキル。GTEx Portal REST API v2 による
-  組織特異的遺伝子発現パターン解析・eQTL ルックアップ・
-  多組織比較。ToolUniverse 連携: gtex_v2。
+  GTEx tissue expression skill. Tissue-specific gene expression queries from GTEx portal, eQTL analysis, cross-tissue comparison, and gene expression variation analysis.
 tu_tools:
   - key: gtex_v2
     name: GTEx v2
@@ -246,13 +244,13 @@ def gtex_pipeline(gene_ids, tissues=None,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | (direct) | GTEx Portal API v2 | 直接 REST API — TU 非連携 |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 gene-expression-transcriptomics → gtex-tissue-expression → variant-interpretation
@@ -265,10 +263,29 @@ gene-expression-transcriptomics → gtex-tissue-expression → variant-interpret
                         (疾患関連遺伝子)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/expression_*.csv` | 遺伝子別組織発現 | → disease-research |
 | `results/expression_matrix.csv` | 多遺伝子比較 | → pathway-enrichment |
 | `results/eqtl_results.csv` | eQTL 関連 | → variant-interpretation |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

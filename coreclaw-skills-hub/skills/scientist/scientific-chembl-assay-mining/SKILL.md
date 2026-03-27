@@ -1,10 +1,7 @@
 ---
 name: scientific-chembl-assay-mining
 description: |
-  ChEMBL アッセイ・活性データマイニングスキル。ChEMBL REST API による
-  アッセイ検索・バイオアクティビティデータ取得・IC50/Ki/EC50 SAR 解析・
-  ターゲット-化合物マッピング・選択性プロファイリング・ATC 分類検索・
-  構造アラート検出パイプライン。
+  ChEMBL assay mining skill. Bioactivity data retrieval, target-compound mapping, SAR analysis, assay type classification, and compound potency comparison from ChEMBL database.
 tu_tools:
   - key: chembl
     name: ChEMBL
@@ -469,7 +466,7 @@ def chembl_sar_pipeline(target_query, organism="Homo sapiens",
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 drug-target-profiling → chembl-assay-mining → admet-pharmacokinetics
@@ -479,7 +476,7 @@ compound-screening       selectivity_profile    molecular-docking
   (ZINC ライブラリ)       (マルチターゲット)       (Vina/DiffDock)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -488,7 +485,7 @@ compound-screening       selectivity_profile    molecular-docking
 | `results/selectivity_profile.csv` | 選択性プロファイル | → compound-screening |
 | `results/structural_alerts.json` | 構造アラート結果 | → molecular-docking |
 
-## 利用可能ツール (ToolUniverse SMCP)
+## Available Tools (ToolUniverse SMCP)
 
 | ツール名 | 用途 |
 |---------|------|
@@ -511,3 +508,22 @@ compound-screening       selectivity_profile    molecular-docking
 | `ChEMBL_search_binding_sites` | 結合サイト |
 | `ChEMBL_get_drug` | 薬剤情報 |
 | `ChEMBL_get_drug_mechanisms` | 薬剤作用機序 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

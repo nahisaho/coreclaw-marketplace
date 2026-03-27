@@ -1,10 +1,7 @@
 ---
 name: scientific-environmental-ecology
 description: |
-  環境科学・生態学解析スキル。種分布モデリング（SDM / MaxEnt）・
-  生物多様性指標（α/β/γ 多様性）・群集構造解析（NMDS/CCA/RDA）・
-  生態学的ニッチモデリング・保全優先順位評価・OBIS/GBIF データ統合パイプライン。
-  ToolUniverse 連携: gbif。
+  Environmental ecology skill. Biodiversity analysis, species distribution modeling, ecological niche analysis, community ecology metrics, and conservation assessment pipelines.
 tu_tools:
   - key: gbif
     name: GBIF
@@ -271,7 +268,7 @@ def conservation_priority(species_data, criteria_weights=None):
 | `figures/nmds_plot.png` | PNG |
 | `figures/diversity_comparison.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -285,7 +282,7 @@ def conservation_priority(species_data, criteria_weights=None):
 | OLS | `ols_search_terms` | 生態学オントロジー検索 |
 | PubMed | `PubMed_search_articles` | 生態学文献検索 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 連携内容 |
 |---|---|
@@ -298,3 +295,22 @@ def conservation_priority(species_data, criteria_weights=None):
 #### 依存パッケージ
 
 - scikit-bio, rasterio, geopandas, elapid, shapely, pygbif
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

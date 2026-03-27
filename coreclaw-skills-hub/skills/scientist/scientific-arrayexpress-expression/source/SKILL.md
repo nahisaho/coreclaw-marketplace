@@ -1,9 +1,7 @@
 ---
 name: scientific-arrayexpress-expression
 description: |
-  ArrayExpress 発現アーカイブスキル。BioStudies/ArrayExpress
-  REST API によるマイクロアレイ・RNA-seq 発現実験検索・メタ
-  データ取得・データ再解析。ToolUniverse 連携: arrayexpress。
+  ArrayExpress gene expression skill. Microarray and RNA-seq data retrieval from ArrayExpress/BioStudies, normalization, differential expression, and cross-study comparison.
 tu_tools:
   - key: arrayexpress
     name: ArrayExpress
@@ -236,13 +234,13 @@ def arrayexpress_pipeline(query, organism="Homo sapiens",
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `arrayexpress` | ArrayExpress | 発現実験検索・メタデータ・ファイル取得 |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 ebi-databases → arrayexpress-expression → gene-expression-transcriptomics
@@ -255,10 +253,29 @@ ebi-databases → arrayexpress-expression → gene-expression-transcriptomics
                   (統合解析)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/experiments.csv` | 実験一覧 | → geo-expression |
 | `results/sdrf.csv` | サンプル情報 | → gene-expression-transcriptomics |
 | `results/experiment_files.csv` | ファイルリスト | → data-preprocessing |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

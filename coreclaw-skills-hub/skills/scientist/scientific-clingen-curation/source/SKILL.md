@@ -1,10 +1,7 @@
 ---
 name: scientific-clingen-curation
 description: |
-  ClinGen 臨床ゲノム資源キュレーションスキル。ClinGen API に
-  よる遺伝子-疾患バリディティ、臨床アクショナビリティ、
-  投与量感受性、バリアントレベルエビデンス評価パイプライン。
-  ToolUniverse 連携: clingen。
+  ClinGen curation skill. Gene-disease validity classification, variant pathogenicity assessment, dosage sensitivity, and clinical actionability curation using ClinGen resources.
 tu_tools:
   - key: clingen
     name: ClinGen
@@ -233,13 +230,13 @@ def clingen_pipeline(gene_symbols,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `clingen` | ClinGen | ClinGen 臨床ゲノムリソース キュレーションデータ |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 variant-interpretation → clingen-curation → clinical-decision-support
@@ -249,10 +246,29 @@ variant-interpretation → clingen-curation → clinical-decision-support
     (SpliceAI/CADD)                       (PGx 処方)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/clingen_validity.csv` | 遺伝子-疾患バリディティ | → genetic-counseling |
 | `results/clingen_dosage.csv` | 投与量感受性 | → cnv-analysis |
 | `results/clingen_actionability.csv` | 臨床介入可能性 | → precision-medicine |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

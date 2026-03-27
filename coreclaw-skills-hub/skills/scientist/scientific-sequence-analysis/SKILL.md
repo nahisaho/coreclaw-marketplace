@@ -1,10 +1,7 @@
 ---
 name: scientific-sequence-analysis
 description: |
-  ゲノム配列解析スキル。コドン使用頻度（RSCU/CAI）、ペアワイズアラインメント
-  （Needleman-Wunsch/Smith-Waterman）、系統解析（Jukes-Cantor/UPGMA/ブートストラップ）、
-  ORF 探索、CpG 島検出、制限酵素マッピング、タンパク質特性（pI/GRAVY/疎水性プロファイル）
-  の解析テンプレート。Scientific Skills Exp-09 で確立したパターン。
+  Sequence analysis skill. DNA/RNA/protein sequence alignment, motif discovery, sequence feature extraction, homology search, and sequence comparison tools.
 ---
 
 # Scientific Sequence Analysis
@@ -384,7 +381,7 @@ def protein_properties(protein_seq):
 | `figures/phylogenetic_tree.png` | PNG |
 | `figures/hydrophobicity_profile.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -400,3 +397,22 @@ def protein_properties(protein_seq):
 #### 参照実験
 
 - **Exp-09**: コドン使用頻度、ペアワイズアラインメント、系統解析、ORF 探索、CpG 島検出
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

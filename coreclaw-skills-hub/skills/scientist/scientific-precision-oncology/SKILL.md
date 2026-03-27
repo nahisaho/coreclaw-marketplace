@@ -1,9 +1,7 @@
 ---
 name: scientific-precision-oncology
 description: |
-  精密腫瘍学スキル。CIViC・OncoKB・cBioPortal・COSMIC・GDC/TCGA を統合し、
-  腫瘍ゲノムプロファイリング・分子標的選定・バイオマーカー評価・治療推奨を支援。
-  「がんゲノム解析して」「腫瘍プロファイリングして」「OncoKB で検索して」で発火。
+  Precision oncology skill. Tumor molecular profiling, actionable mutation identification, treatment matching, clinical trial matching, and molecular tumor board support.
 tu_tools:
   - key: oncokb
     name: OncoKB
@@ -395,13 +393,13 @@ def generate_mtb_report(patient_id, variants, civic_data, oncokb_data,
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `results/mtb_report.json` | 分子腫瘍ボードレポート（JSON） | プロファイリング完了時 |
 | `results/mtb_report.md` | MTB レポート（Markdown） | レポート生成時 |
 | `results/variant_actionability.json` | バリアント臨床的意義（JSON） | アノテーション完了時 |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -415,9 +413,9 @@ def generate_mtb_report(patient_id, variants, civic_data, oncokb_data,
 | GDC | `GDC_get_mutation_frequency` | TCGA 変異頻度 |
 | ClinicalTrials | `search_clinical_trials` | 腫瘍学臨床試験マッチング |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-variant-interpretation` | ← 生殖細胞系変異の ACMG 分類 |
 | `scientific-clinical-decision-support` | → 治療推奨の臨床意思決定反映 |
@@ -427,3 +425,22 @@ def generate_mtb_report(patient_id, variants, civic_data, oncokb_data,
 | `scientific-disease-research` | ← がん種の疫学・遺伝的背景 |
 | `scientific-deep-research` | ← 腫瘍学最新文献リサーチ |
 | `scientific-pharmacogenomics` | ← PGx 代謝型・投与量調整 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

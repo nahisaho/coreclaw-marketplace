@@ -1,10 +1,7 @@
 ---
 name: scientific-metabolomics
 description: |
-  メタボロミクス解析スキル。Pareto スケーリング、PLS-DA + VIP スコア、置換検定（Q²）、
-  代謝パスウェイ濃縮解析（Fisher exact test）、代謝物相関ネットワーク、
-  Volcano プロット/箱ひげ図による差次代謝物同定パイプライン。
-  Scientific Skills Exp-07 で確立したパターン。
+  Metabolomics skill. LC-MS/GC-MS data processing, metabolite identification, pathway mapping, biomarker discovery, and metabolomics statistical analysis pipelines.
 tu_tools:
   - key: hmdb
     name: HMDB
@@ -328,7 +325,7 @@ def metabolite_correlation_network(df, metabolite_cols, method="spearman",
 | `figures/vip_barplot.png` | PNG |
 | `figures/metabolite_network.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -344,3 +341,22 @@ def metabolite_correlation_network(df, metabolite_cols, method="spearman",
 #### 参照実験
 
 - **Exp-07**: PLS-DA + VIP、Pareto スケーリング、パスウェイ濃縮、相関ネットワーク
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

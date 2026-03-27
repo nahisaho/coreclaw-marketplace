@@ -1,10 +1,7 @@
 ---
 name: scientific-systematic-review
 description: |
-  PRISMA 2020 準拠系統的レビュースキル。マルチ DB 検索戦略立案
-  (PubMed/Embase/Cochrane/Web of Science)、スクリーニングワークフロー
-  (タイトル/抄録→全文)、品質評価 (RoB 2/ROBINS-I/NOS)、データ抽出
-  テンプレート、PRISMA フロー図自動生成パイプライン。
+  Systematic review skill. PRISMA-compliant systematic review workflow, literature screening, data extraction, risk of bias assessment, and evidence synthesis.
 ---
 
 # Scientific Systematic Review
@@ -336,7 +333,7 @@ def create_extraction_template(study_type="RCT",
 | `figures/prisma_flow.mmd` | Mermaid |
 | `figures/prisma_flow.svg` | SVG |
 
-### 利用可能ツール
+### Available Tools
 
 > PubMed/EuropePMC ツールは `scientific-literature-search` スキルと共有。
 
@@ -346,7 +343,7 @@ def create_extraction_template(study_type="RCT",
 | PubMed | `PubMed_Guidelines_Search` | ガイドライン検索 |
 | EuropePMC | `EuropePMC_search_articles` | 欧州文献検索 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -359,3 +356,22 @@ def create_extraction_template(study_type="RCT",
 ### 依存パッケージ
 
 `pandas`, `json` (stdlib)
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

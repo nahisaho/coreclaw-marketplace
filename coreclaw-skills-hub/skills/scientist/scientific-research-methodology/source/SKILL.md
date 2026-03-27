@@ -1,10 +1,7 @@
 ---
 name: scientific-research-methodology
 description: |
-  研究方法論・研究デザインスキル。体系的な研究計画策定、ブレインストーミング
-  フレームワーク、批判的思考法、研究倫理・IRB、先行研究評価、
-  クロスドメイン着想法を含む研究者のメタスキル群。
-  「研究計画を立てて」「ブレインストーミングして」「研究デザインを設計して」で発火。
+  Research methodology skill. Study design planning, sampling strategy selection, measurement validity/reliability assessment, and methodological quality framework.
 tu_tools:
   - key: open_alex
     name: OpenAlex
@@ -318,9 +315,9 @@ BIAS_TYPES = {
 4. **バイアスを列挙**: 排除できないバイアスは limitation に明記
 5. **再現性を設計**: プロトコル・データ・コードの公開計画を含める
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `open_alex` | OpenAlex | 研究方法論の文献ベース構築 |
 
@@ -328,18 +325,37 @@ BIAS_TYPES = {
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `docs/methodology_design.md` | 方法論設計ドキュメント（Markdown） | デザイン完了時 |
 | `docs/study_design.json` | 研究デザイン構造化データ（JSON） | デザイン完了時 |
 | `docs/ethics_checklist.md` | 倫理チェックリスト（Markdown） | チェック完了時 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-hypothesis-pipeline` | ← 仮説に基づく方法論設計 |
 | `scientific-deep-research` | ← 先行研究の方法論調査 |
 | `scientific-grant-writing` | → 方法論を研究計画書に組み込み |
 | `scientific-doe` | → 研究デザインに基づく実験計画 |
 | `scientific-academic-writing` | → Methods セクション執筆 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

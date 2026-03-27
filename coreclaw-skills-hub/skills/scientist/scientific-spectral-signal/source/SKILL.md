@@ -1,9 +1,7 @@
 ---
 name: scientific-spectral-signal
 description: |
-  分光スペクトルおよび生体信号の前処理・解析スキル。ベースライン補正、フィルタリング、
-  ピーク検出、帯域パワー解析を行う際に使用。
-  Scientific Skills Exp-08（ECG/EEG）、Exp-11（ラマン分光）で確立したパターン。
+  Spectral signal processing skill. Spectroscopy data analysis (UV-Vis/NMR/MS), peak detection, spectral deconvolution, and signal-to-noise optimization.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -212,9 +210,9 @@ def spectral_similarity_matrix(spectra_dict, method="cosine"):
     return pd.DataFrame(sim_matrix, index=names, columns=names)
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | スペクトル信号処理ツール検索 |
 
@@ -235,3 +233,22 @@ def spectral_similarity_matrix(spectra_dict, method="cosine"):
 
 - **Exp-08**: ECG/EEG 生体信号処理（フィルタ、R 波検出、HRV、帯域パワー）
 - **Exp-11**: ラマン分光（ALS ベースライン、ピーク検出、類似度行列、クラスタリング）
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

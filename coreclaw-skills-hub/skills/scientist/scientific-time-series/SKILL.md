@@ -1,9 +1,7 @@
 ---
 name: scientific-time-series
 description: |
-  時系列解析・予測スキル。ARIMA/SARIMA/Prophet モデリング、変化点検出（PELT/Bayesian）、
-  周期解析（FFT/ウェーブレット）、季節分解（STL）、異常検出、Granger 因果性検定の
-  テンプレートを提供。実験データのトレンド解析・予測モデリングに適用。
+  Time series analysis skill. Trend decomposition, stationarity testing, ARIMA/SARIMA modeling, spectral analysis, and time series feature extraction.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -271,9 +269,9 @@ def anomaly_detection_zscore(series, window=30, threshold=3.0):
     return anomalies, z_scores
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 時系列解析ツール検索 |
 
@@ -299,3 +297,22 @@ def anomaly_detection_zscore(series, window=30, threshold=3.0):
 statsmodels>=0.14
 ruptures>=1.1
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

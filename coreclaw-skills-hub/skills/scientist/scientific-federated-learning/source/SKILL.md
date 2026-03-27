@@ -1,9 +1,7 @@
 ---
 name: scientific-federated-learning
 description: |
-  連合学習スキル。Flower フレームワークによる FL パイプライン・
-  FedAvg/FedProx/FedOpt 集約戦略・差分プライバシー (DP-SGD)・
-  非 IID データ分割・通信効率化。
+  Federated learning skill. Privacy-preserving distributed model training, federated averaging, differential privacy, secure aggregation, and cross-silo federation.
 tu_tools:
   - key: papers_with_code
     name: Papers with Code
@@ -226,7 +224,7 @@ def create_non_iid_splits(dataset_labels, n_clients=5,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 [プライバシー要件] → federated-learning → model-monitoring
@@ -236,7 +234,7 @@ def create_non_iid_splits(dataset_labels, n_clients=5,
                       (基盤 NN)       (転移学習)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -244,8 +242,27 @@ def create_non_iid_splits(dataset_labels, n_clients=5,
 | `dp_training_history.csv` | DP 学習履歴 | → model-monitoring |
 | `client_splits.json` | 非 IID 分割情報 | → FL クライアント |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `papers_with_code` | Papers with Code | 連合学習フレームワーク・ベンチマーク |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

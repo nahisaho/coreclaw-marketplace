@@ -1,9 +1,7 @@
 ---
 name: scientific-time-series-forecasting
 description: |
-  ML 時系列予測スキル。Prophet/NeuralProphet・N-BEATS・
-  Temporal Fusion Transformer (TFT)・時系列特徴量エンジニアリング・
-  バックテスト・多段階予測・アンサンブル予測。
+  Time series forecasting skill. Prophet/NeuralProphet/LSTM forecasting, ensemble forecasting, forecast evaluation metrics, and confidence interval estimation.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -231,7 +229,7 @@ def ts_backtest(df, date_col, value_col, model_fn,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 time-series → time-series-forecasting → model-monitoring
@@ -241,7 +239,7 @@ time-series → time-series-forecasting → model-monitoring
   (周波数解析)                       (異常検知)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -249,8 +247,27 @@ time-series → time-series-forecasting → model-monitoring
 | `ts_features.csv` | 時系列特徴量 | → ml-regression |
 | `backtest_results.csv` | バックテスト結果 | → model selection |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 時系列予測ツール検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,9 +1,7 @@
 ---
 name: scientific-ebi-databases
 description: |
-  EBI データベース群統合アクセススキル。EBI Search 横断検索、ENA Browser
-  ヌクレオチドアーカイブ、BioStudies 研究データ、dbfetch エントリ取得、
-  MetaboLights メタボロミクスリポジトリの統合パイプライン。
+  EBI databases skill. EMBL-EBI resource integration including UniProt, PDB, ChEMBL, Ensembl, InterPro, and cross-database querying strategies.
 ---
 
 # Scientific EBI Databases
@@ -249,7 +247,7 @@ def get_metabolights_study(study_id):
 
 ---
 
-## 利用可能ツール
+## Available Tools
 
 | ToolUniverse カテゴリ | 主なツール |
 |---|---|
@@ -259,7 +257,7 @@ def get_metabolights_study(study_id):
 | `dbfetch` | `dbfetch_get_entries` |
 | `metabolights` | `MetaboLights_search_studies`, `MetaboLights_get_study` |
 
-## パイプライン出力
+## Pipeline Output
 
 | 出力ファイル | 説明 | 連携先スキル |
 |---|---|---|
@@ -268,7 +266,7 @@ def get_metabolights_study(study_id):
 | `results/biostudies_metadata.json` | 研究プロジェクト情報 | → multi-omics, systematic-review |
 | `results/metabolights_study.json` | メタボロミクスデータ | → metabolomics, metabolomics-databases |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 genome-sequence-tools ──→ ebi-databases ──→ metabolomics-databases
@@ -278,3 +276,22 @@ genome-sequence-tools ──→ ebi-databases ──→ metabolomics-databases
                               ├──→ sequence-analysis (FASTA)
                               └──→ structural-proteomics (PDBe cross-ref)
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

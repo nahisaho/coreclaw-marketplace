@@ -1,8 +1,7 @@
 ---
 name: scientific-biothings-idmapping
 description: |
-  BioThings API (MyGene.info, MyVariant.info, MyChem.info) を活用した
-  遺伝子・変異・化合物の横断的 ID マッピングおよびアノテーション統合スキル。
+  BioThings ID mapping skill. Gene/variant/chemical/disease identifier conversion using MyGene.info, MyVariant.info, and MyChem.info APIs.
 tu_tools:
   - key: biothings
     name: BioThings
@@ -275,7 +274,7 @@ def batch_integrated_annotation(gene_symbols, include_variants=False):
 | `results/mychem_annotation.json` | JSON |
 | `results/id_mapping.csv` | CSV |
 
-### 利用可能ツール
+### Available Tools
 
 | カテゴリ | 主要ツール | 用途 |
 |---|---|---|
@@ -287,7 +286,7 @@ def batch_integrated_annotation(gene_symbols, include_variants=False):
 | BioThings | `MyChem_get_chemical_annotation` | 化合物アノテーション |
 | BioThings | `MyChem_query_chemicals` | 化合物検索 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -300,3 +299,22 @@ def batch_integrated_annotation(gene_symbols, include_variants=False):
 ### 依存パッケージ
 
 `requests`, `pandas`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

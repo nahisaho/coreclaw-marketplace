@@ -1,9 +1,7 @@
 ---
 name: scientific-publication-figures
 description: |
-  論文品質（Nature/Science/Cell レベル）の科学図表を作成するスキル。matplotlib rcParams 設定、
-  DPI 300、spines 制御、カラーパレット選択、マルチパネル構成を行う際に使用。
-  Scientific Skills Exp-10 で確立し、Exp-11〜13 で継承したパターン。
+  Publication figures skill. Journal-specification figure generation, multi-panel layout, color-blind safe palettes, resolution/DPI compliance, and figure annotation.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -200,9 +198,9 @@ def create_composite_figure(plot_functions, layout=(2, 3),
 | 2 カラム | (7.0, 5.0) | Nature 2 カラム幅 ≈ 183 mm |
 | フルページ | (7.0, 9.0) | A4 の余白を除いた高さ |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 可視化ツールレジストリ検索 |
 
@@ -220,3 +218,22 @@ def create_composite_figure(plot_functions, layout=(2, 3),
 
 - **Exp-10**: 15 種の図表テンプレートの完全セット
 - **Exp-11〜13**: rcParams 設定とカラーパレットの継承
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

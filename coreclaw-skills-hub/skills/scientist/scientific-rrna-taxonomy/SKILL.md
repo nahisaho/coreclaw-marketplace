@@ -1,9 +1,7 @@
 ---
 name: scientific-rrna-taxonomy
 description: |
-  rRNA リファレンス・分類学スキル。SILVA SSU/LSU rRNA データベース・
-  Greengenes2 系統分類・MGnify メタゲノム解析・QIIME2 分類器・
-  scikit-bio 配列解析・系統分類パイプライン。
+  rRNA taxonomy skill. 16S/18S/ITS rRNA-based taxonomic classification, OTU/ASV analysis, taxonomic database queries, and microbial diversity profiling.
 ---
 
 # Scientific rRNA Taxonomy
@@ -350,7 +348,7 @@ def rrna_taxonomy_pipeline(input_fasta, output_dir="results",
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 microbiome-metagenomics → rrna-taxonomy → phylogenetics
@@ -363,7 +361,7 @@ environmental-ecology ─────────┘           population-geneti
                     (微生物機能濃縮)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -372,8 +370,27 @@ environmental-ecology ─────────┘           population-geneti
 | `results/refs/` | SILVA/GG2 リファレンス | — |
 | `results/mgnify_taxonomy.csv` | MGnify 分類結果 | → environmental-ecology |
 
-### 利用可能ツール (ToolUniverse SMCP)
+### Available Tools (ToolUniverse SMCP)
 
 | Config Key | ツール数 | 主要機能 |
 |-----------|---------|---------|
 | `mgnify` | 3+ | メタゲノム研究検索・分類学的プロファイル・機能アノテーション |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

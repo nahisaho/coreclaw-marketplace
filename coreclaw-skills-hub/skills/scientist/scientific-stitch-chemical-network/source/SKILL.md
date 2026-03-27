@@ -1,10 +1,7 @@
 ---
 name: scientific-stitch-chemical-network
 description: |
-  STITCH 化学-タンパク質相互作用ネットワークスキル。STITCH
-  REST API を用いた化学物質-タンパク質インタラクション検索・
-  信頼度スコアリング・ネットワーク薬理学・ポリファーマコロジー解析。
-  ToolUniverse 連携: stitch。
+  STITCH chemical network skill. STITCH chemical-protein interaction queries, chemical similarity networks, and drug-target network construction.
 tu_tools:
   - key: stitch
     name: STITCH
@@ -293,13 +290,13 @@ def stitch_pipeline(chemicals, species=9606,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `stitch` | STITCH | 化学物質-タンパク質相互作用 (EMBL) |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 cheminformatics → stitch-chemical-network → drug-target-profiling
@@ -309,10 +306,29 @@ string-network-api ────────┘          pharmacology-targets
   (STRING PPI)                        (BindingDB/GtoPdb)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/stitch_interactions.csv` | 化学物質-標的 | → drug-target-profiling |
 | `results/stitch_network.csv` | ネットワーク | → string-network-api |
 | `results/polypharmacology.csv` | 多標的解析 | → pharmacology-targets |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

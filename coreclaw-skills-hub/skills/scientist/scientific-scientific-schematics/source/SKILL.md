@@ -1,10 +1,7 @@
 ---
 name: scientific-scientific-schematics
 description: |
-  科学図式・作図スキル。CONSORT フロー図 (臨床試験)、実験プロトコルフロー、
-  ニューラルネットワークアーキテクチャ図、分子パスウェイ図、
-  TikZ/SVG/Mermaid ベースの出版品質ベクター図の生成、
-  AI レビューによる図の反復改善。
+  Scientific schematics skill. Pathway diagrams, mechanism illustrations, experimental workflow diagrams, and scientific concept visualization generation.
 ---
 
 # Scientific Schematics
@@ -315,13 +312,13 @@ def generate_tikz_figure(tikz_code, output_file="figures/tikz_figure.tex",
 | `figures/tikz_figure.tex` | LaTeX/TikZ |
 | `figures/tikz_figure.pdf` | PDF |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
 なし — ローカル SVG/TikZ/Mermaid 生成。
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -334,3 +331,22 @@ def generate_tikz_figure(tikz_code, output_file="figures/tikz_figure.tex",
 ### 依存パッケージ
 
 `json`, `os`, `subprocess` (TikZ コンパイル時のみ `texlive`)
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

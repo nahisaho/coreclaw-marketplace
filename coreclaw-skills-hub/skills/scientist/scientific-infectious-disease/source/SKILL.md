@@ -1,10 +1,7 @@
 ---
 name: scientific-infectious-disease
 description: |
-  感染症ゲノミクス・疫学スキル。病原体ゲノム解析（SNP/系統樹）・
-  AMR（薬剤耐性）遺伝子検出・分子疫学（MLST/cgMLST）・
-  アウトブレイク調査トレーシング・疫学的 SIR/SEIR コンパートメントモデル・
-  伝播ネットワーク推定パイプライン。
+  Infectious disease skill. Pathogen genomics, antimicrobial resistance prediction, epidemiological modeling, phylogenetic tracking, and outbreak analysis pipelines.
 ---
 
 # Scientific Infectious Disease Genomics
@@ -312,7 +309,7 @@ def run_epidemic_simulation(model="SIR", N=1e6, I0=10, R0=2.5,
 | `figures/transmission_network.png` | PNG |
 | `figures/epidemic_curves.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -327,7 +324,7 @@ def run_epidemic_simulation(model="SIR", N=1e6, I0=10, R0=2.5,
 | PubMed | `PubMed_search_articles` | 感染症文献検索 |
 | ClinicalTrials | `search_clinical_trials` | 感染症治療臨床試験 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 連携内容 |
 |---|---|
@@ -340,3 +337,22 @@ def run_epidemic_simulation(model="SIR", N=1e6, I0=10, R0=2.5,
 #### 依存パッケージ
 
 - biopython, ete3, scipy, networkx, subprocess (fastp, bwa-mem2, freebayes, iqtree2)
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

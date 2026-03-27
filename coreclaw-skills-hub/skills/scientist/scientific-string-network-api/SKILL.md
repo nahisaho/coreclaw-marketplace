@@ -1,9 +1,7 @@
 ---
 name: scientific-string-network-api
 description: |
-  STRING/BioGRID/STITCH ネットワーク解析スキル。STRING タンパク質相互作用
-  ネットワーク直接 API、BioGRID 実験的 PPI、STITCH 化学-タンパク質ネットワーク、
-  ネットワークトポロジー解析・コミュニティ検出・機能濃縮統合パイプライン。
+  STRING network API skill. Protein-protein interaction network queries, functional enrichment via STRING, network clustering, and PPI confidence scoring.
 tu_tools:
   - key: ppi
     name: STRING/BioGRID PPI
@@ -348,7 +346,7 @@ def integrated_ppi_pipeline(genes, species=9606, score=700):
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 drug-target-profiling → string-network-api → pathway-enrichment
@@ -360,7 +358,7 @@ protein-interaction ───┘        │           ontology-enrichment
                        (既存スキル補完)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -369,7 +367,7 @@ protein-interaction ───┘        │           ontology-enrichment
 | `results/ppi_communities.csv` | コミュニティ割当 | → pathway-enrichment |
 | `results/string_enrichment.csv` | 機能濃縮結果 | → ontology-enrichment |
 
-## 利用可能ツール (ToolUniverse SMCP)
+## Available Tools (ToolUniverse SMCP)
 
 | ツール名 | 用途 |
 |---------|------|
@@ -378,3 +376,22 @@ protein-interaction ───┘        │           ontology-enrichment
 | `STITCH_get_chemical_protein_interactions` | STITCH 化合物-タンパク質 |
 | `STITCH_get_interaction_partners` | STITCH 相互作用パートナー |
 | `STITCH_resolve_identifier` | STITCH ID 解決 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,10 +1,7 @@
 ---
 name: scientific-active-learning
 description: |
-  アクティブラーニング (能動学習) スキル。不確実性サンプリング・
-  Query-by-Committee・期待モデル変化・プール型/ストリーム型・
-  バッチアクティブラーニング・停止基準判定・
-  モデル改善パイプライン。
+  Active learning skill. Uncertainty sampling, Query-by-Committee, expected model change, pool-based/stream-based, batch active learning, stopping criteria, and model improvement pipeline.
 tu_tools:
   - key: openml
     name: OpenML
@@ -271,7 +268,7 @@ def stopping_criterion(history_df, patience=5, min_improvement=0.001):
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 eda-correlation → active-learning → ml-classification
@@ -284,7 +281,7 @@ eda-correlation → active-learning → ml-classification
                             (不確実性定量化)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -292,8 +289,27 @@ eda-correlation → active-learning → ml-classification
 | `selected_samples.csv` | 選択サンプル | → ラベル付け |
 | `strategy_comparison.csv` | 戦略比較 | → advanced-visualization |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `openml` | OpenML | 能動学習データセット・評価指標 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

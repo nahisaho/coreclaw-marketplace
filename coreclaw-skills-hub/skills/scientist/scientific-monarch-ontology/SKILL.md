@@ -1,11 +1,7 @@
 ---
 name: scientific-monarch-ontology
 description: |
-  Monarch Initiative 疾患-表現型オントロジースキル。
-  Monarch Initiative API を用いた疾患-遺伝子-表現型
-  アソシエーション・HPO フェノタイピング・
-  遺伝子-疾患推定・オントロジーセマンティック検索。
-  ToolUniverse 連携: monarch。
+  Monarch ontology skill. Monarch Initiative queries for disease-gene associations, phenotype ontology navigation, cross-species phenotype comparison, and knowledge graph exploration.
 tu_tools:
   - key: monarch
     name: Monarch Initiative
@@ -235,13 +231,13 @@ def monarch_pipeline(disease_query,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `monarch` | Monarch Initiative | 疾患-表現型-遺伝子オントロジー統合 |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 disease-research → monarch-ontology → rare-disease-genetics
@@ -251,10 +247,29 @@ variant-interpretation ───┘       ontology-enrichment
   (ClinVar/ACMG)                 (EFO/OLS/Enrichr)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/monarch_diseases.csv` | 疾患検索結果 | → disease-research |
 | `results/monarch_genes.csv` | 関連遺伝子 | → variant-interpretation |
 | `results/monarch_phenotypes.csv` | HPO 表現型 | → rare-disease-genetics |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

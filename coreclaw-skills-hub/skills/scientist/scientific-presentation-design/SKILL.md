@@ -1,11 +1,7 @@
 ---
 name: scientific-presentation-design
 description: |
-  科学プレゼンテーション・ポスター・模式図設計スキル。学会発表スライド、
-  LaTeX/PPTX ポスター、科学模式図（ワークフロー図・メカニズム図）、
-  ビジュアルアブストラクトの作成を支援。claude-scientific-skills の
-  Scientific Communication カテゴリ（slides, posters, schematics）を統合。
-  「学会スライドを作成して」「ポスターのレイアウトを設計して」で発火。
+  Presentation design skill. Scientific slide design, figure layout optimization, conference poster creation, and data visualization for oral presentations.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -321,9 +317,9 @@ def create_workflow_schematic(steps, title="Workflow"):
 4. **3 メートルルール**: ポスターは遠距離から読めること
 5. **10-20-30 ルール**: 10 slides, 20 min, 30pt font (Kawasaki)
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | プレゼンテーション可視化ツール検索 |
 
@@ -331,17 +327,36 @@ def create_workflow_schematic(steps, title="Workflow"):
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `presentation/slides.md` | プレゼンテーション原稿（Markdown） | スライド構成完了時 |
 | `presentation/poster.tex` | ポスターテンプレート（LaTeX） | ポスター設計完了時 |
 | `figures/workflow_schematic.png` | ワークフロー模式図（PNG） | 図表生成完了時 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-publication-figures` | ← Figure 生成・カラーパレット |
 | `scientific-academic-writing` | ← 研究テキスト・要旨 |
 | `scientific-clinical-decision-support` | ← 臨床結果の発表素材 |
 | `scientific-latex-formatter` | ← LaTeX フォーマット支援 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,9 +1,7 @@
 ---
 name: scientific-ml-regression
 description: |
-  マルチターゲット回帰モデルの学習・評価・比較スキル。複数の回帰モデル（Ridge, Lasso,
-  Random Forest, Gradient Boosting, Extra Trees）を KFold 交差検証で比較する際に使用。
-  Scientific Skills Exp-12, 13 で確立したパターン。
+  ML regression skill. Linear/nonlinear regression, regularization (L1/L2/ElasticNet), polynomial features, cross-validation, and regression diagnostics pipelines.
 tu_tools:
   - key: openml
     name: OpenML
@@ -24,7 +22,7 @@ tu_tools:
 
 ## Quick Start
 
-## 標準パイプライン
+## Standard Pipeline
 
 ### 1. モデル定義
 
@@ -201,9 +199,9 @@ def plot_radar_comparison(results_df, target_name, figsize=(8, 8)):
     plt.close()
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `openml` | OpenML | 回帰ベンチマーク・データセット取得 |
 
@@ -223,3 +221,22 @@ def plot_radar_comparison(results_df, target_name, figsize=(8, 8)):
 - **Exp-12**: 6 モデル × 4 ターゲット（エッチング品質特性）
 - **Exp-13**: 5 モデル × 6 ターゲット（PSP 構造・物性）
 - **Exp-05**: レーダーチャートによるモデル比較
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

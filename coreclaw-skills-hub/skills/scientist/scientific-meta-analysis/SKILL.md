@@ -1,9 +1,7 @@
 ---
 name: scientific-meta-analysis
 description: |
-  メタ解析スキル。固定効果・ランダム効果モデル（DerSimonian-Laird）、Forest プロット、
-  異質性評価（I²/Q 検定/τ²）、出版バイアス検出（Funnel プロット/Egger/Begg 検定）、
-  サブグループ解析、メタ回帰、累積メタ解析のテンプレートを提供。
+  Meta-analysis skill. Effect size calculation, random/fixed effects models, heterogeneity assessment (I², Q-test), forest plots, funnel plots, and publication bias analysis.
 ---
 
 # Scientific Meta-Analysis
@@ -344,7 +342,7 @@ def cumulative_meta_analysis(studies_df, sort_by="year", model="random"):
 | `figures/funnel_plot.png` | PNG |
 | `figures/cumulative_meta.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -355,9 +353,9 @@ def cumulative_meta_analysis(studies_df, sort_by="year", model="random"):
 | EuropePMC | `EuropePMC_search_articles` | ヨーロッパ文献検索 |
 | Crossref | `Crossref_search_works` | 出版情報検索 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-survival-clinical` | ← 生存解析・値引 HR |
 | `scientific-statistical-testing` | ← 仮説検定・効果量算出 |
@@ -371,3 +369,22 @@ def cumulative_meta_analysis(studies_df, sort_by="year", model="random"):
 scipy>=1.10
 statsmodels>=0.14
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

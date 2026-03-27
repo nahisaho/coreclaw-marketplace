@@ -1,9 +1,7 @@
 ---
 name: scientific-scatac-signac
 description: |
-  scATAC-seq 解析スキル (Signac/SnapATAC2/episcanpy)。
-  ピークコーリング・モチーフ解析・Gene Activity スコア・
-  RNA+ATAC マルチモーダル統合 (WNN)。K-Dense: signac。
+  scATAC-seq Signac skill. Single-cell ATAC-seq analysis with Signac/ArchR, peak calling, motif enrichment, chromatin accessibility clustering, and gene activity scoring.
 tu_tools:
   - key: encode
     name: ENCODE
@@ -282,7 +280,7 @@ def scatac_pipeline(fragment_file, rna_h5ad=None, genome="hg38",
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 epigenomics-chromatin → scatac-signac → single-cell-genomics
@@ -295,7 +293,7 @@ epigenomics-chromatin → scatac-signac → single-cell-genomics
                   (GRN 推定)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -303,8 +301,27 @@ epigenomics-chromatin → scatac-signac → single-cell-genomics
 | `results/motif_enrichment.csv` | モチーフエンリッチメント | → gene-regulatory-network |
 | `results/multimodal_wnn.h5mu` | RNA+ATAC 統合 | → spatial-transcriptomics |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `encode` | ENCODE | scATAC-seq 参照エピゲノムデータ |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

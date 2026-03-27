@@ -1,11 +1,7 @@
 ---
 name: scientific-clinical-trials-analytics
 description: |
-  臨床試験レジストリ解析スキル。ClinicalTrials.gov API v2 経由の
-  多基準試験検索 (疾患×介入×地域×フェーズ×ステータス)、試験詳細取得
-  (適格基準・アウトカム・施設・有害事象)、競合ランドスケープ解析、
-  AI 支援試験デザイン (ClinicalTrialDesignAgent)、バルクデータ取得・CSV エクスポート
-  を統合した臨床研究支援パイプライン。
+  Clinical trials analytics skill. Trial design comparison, enrollment simulation, interim analysis, survival analysis, and adverse event signal detection from ClinicalTrials.gov data.
 ---
 
 # Scientific Clinical Trials Analytics
@@ -309,7 +305,7 @@ def trial_design_summary(trials_df):
 | `figures/trial_phase_distribution.png` | PNG |
 | `figures/trial_timeline.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -325,7 +321,7 @@ def trial_design_summary(trials_df):
 | FDA | `FDA_get_clinical_studies_info_by_drug_name` | 薬物名で臨床研究情報 |
 | FDA | `FDA_get_drug_names_by_clinical_studies` | 臨床研究から薬物名 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -338,3 +334,22 @@ def trial_design_summary(trials_df):
 ### 依存パッケージ
 
 `pandas`, `numpy`, `requests`, `json`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

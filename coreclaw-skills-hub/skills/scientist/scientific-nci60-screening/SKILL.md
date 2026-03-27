@@ -1,9 +1,7 @@
 ---
 name: scientific-nci60-screening
 description: |
-  NCI-60 がん細胞株薬剤応答スキル。CellMiner API 薬剤感受性・
-  NCI-60 GI50/LC50 データ・DepMap cancer dependency 統合・
-  薬剤-分子マーカー相関・細胞株パネル比較解析。
+  NCI-60 screening skill. NCI-60 cancer cell line panel data analysis, drug sensitivity profiling, COMPARE algorithm, and multi-drug response comparison.
 tu_tools:
   - key: nci60
     name: NCI-60
@@ -288,7 +286,7 @@ def nci60_screening_pipeline(drug_name=None, nsc_id=None,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 compound-screening → nci60-screening → precision-oncology
@@ -301,7 +299,7 @@ drug-target-profiling ──────┘          cancer-genomics
                    (Cellosaurus)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -310,8 +308,27 @@ drug-target-profiling ──────┘          cancer-genomics
 | `results/marker_correlations.csv` | 薬剤-マーカー相関 | → drug-target-profiling |
 | `results/depmap_dependency.csv` | DepMap 依存性スコア | → cell-line-resources |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `nci60` | NCI-60 | がん細胞株スクリーニングデータ検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

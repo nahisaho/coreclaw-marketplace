@@ -1,10 +1,7 @@
 ---
 name: scientific-gnomad-variants
 description: |
-  gnomAD バリアントスキル。gnomAD (Genome Aggregation Database)
-  GraphQL API を用いた集団アレル頻度・遺伝子制約スコア
-  (pLI/LOEUF)・リージョンクエリ・トランスクリプトレベル
-  データ取得。ToolUniverse 連携: gnomad。
+  gnomAD variant skill. Population allele frequency queries, variant filtering, loss-of-function constraint metrics, and clinical variant annotation from gnomAD database.
 tu_tools:
   - key: gnomad
     name: gnomAD
@@ -328,13 +325,13 @@ def gnomad_pipeline(gene_symbol, chrom, start, stop,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `gnomad` | gnomAD | ゲノム集約データベース GraphQL (~7 tools) |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 variant-interpretation → gnomad-variants → variant-effect-prediction
@@ -347,10 +344,29 @@ variant-interpretation → gnomad-variants → variant-effect-prediction
               (OT 遺伝的関連)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/gnomad_constraint.csv` | 遺伝子制約 | → rare-disease-genetics |
 | `results/gnomad_region.csv` | リージョンバリアント | → variant-interpretation |
 | `results/gnomad_rare.csv` | レアバリアント | → variant-effect-prediction |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

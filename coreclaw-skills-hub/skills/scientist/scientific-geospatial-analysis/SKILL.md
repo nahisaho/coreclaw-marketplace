@@ -1,9 +1,7 @@
 ---
 name: scientific-geospatial-analysis
 description: |
-  地理空間データ解析スキル。GeoPandas ベクターデータ処理・
-  Rasterio ラスター解析・Folium/Kepler.gl インタラクティブ地図・
-  空間自己相関 (Moran's I)・クリギング補間・CRS 変換。
+  Geospatial analysis skill. Spatial data processing with GeoPandas, coordinate transformations, spatial statistics, map visualization, and geospatial machine learning.
 tu_tools:
   - key: gbif
     name: GBIF
@@ -259,7 +257,7 @@ def interactive_map(gdf, value_col=None, popup_cols=None,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 environmental-geodata → geospatial-analysis → advanced-visualization
@@ -269,7 +267,7 @@ environmental-geodata → geospatial-analysis → advanced-visualization
     (空間疫学)                              (ダッシュボード)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -277,8 +275,27 @@ environmental-geodata → geospatial-analysis → advanced-visualization
 | `kriging_result.png` | クリギング補間 | → visualization |
 | `interactive_map.html` | Folium 地図 | → dashboard |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `gbif` | GBIF | 地理空間生物多様性データ取得 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

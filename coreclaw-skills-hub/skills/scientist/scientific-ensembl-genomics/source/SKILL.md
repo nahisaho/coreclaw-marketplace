@@ -1,9 +1,7 @@
 ---
 name: scientific-ensembl-genomics
 description: |
-  Ensembl REST API ゲノミクススキル。遺伝子ルックアップ・配列取得・
-  VEP (Variant Effect Predictor) バリアントアノテーション・
-  クロスリファレンス・制御要素・系統樹・相同性検索・分類学統合パイプライン。
+  Ensembl genomics skill. Genome browser API queries, gene annotation retrieval, variant effect prediction, comparative genomics, and regulatory feature mapping via Ensembl REST API.
 ---
 
 # Scientific Ensembl Genomics
@@ -334,7 +332,7 @@ def _count_leaves(node):
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 bioinformatics ───→ ensembl-genomics ───→ variant-interpretation
@@ -347,7 +345,7 @@ genome-sequence-tools ──┘    │              variant-effect-prediction
                     (RegulomeDB/ReMap)    (ChIP-seq/ATAC-seq)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -356,7 +354,7 @@ genome-sequence-tools ──┘    │              variant-effect-prediction
 | `results/homology_table.csv` | オルソログ/パラログ | → phylogenetics |
 | `results/regulatory_features.csv` | 制御要素 | → regulatory-genomics |
 
-## 利用可能ツール (ToolUniverse SMCP)
+## Available Tools (ToolUniverse SMCP)
 
 | ツール名 | 用途 |
 |---------|------|
@@ -376,3 +374,22 @@ genome-sequence-tools ──┘    │              variant-effect-prediction
 | `ensembl_get_species` | 生物種一覧 |
 | `ensembl_get_ontology_term` | GO オントロジー |
 | `ensembl_get_overlap_features` | 領域オーバーラップ |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

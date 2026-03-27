@@ -1,9 +1,7 @@
 ---
 name: scientific-human-protein-atlas
 description: |
-  Human Protein Atlas (HPA) 統合スキル。組織/細胞タンパク質発現、
-  がん予後バイオマーカー、RNA 発現プロファイル、細胞内局在、
-  タンパク質相互作用の包括的検索・解析パイプライン。
+  Human Protein Atlas skill. Protein expression data retrieval, tissue/cell/pathology atlas queries, subcellular localization, and protein classification from HPA database.
 tu_tools:
   - key: hpa
     name: Human Protein Atlas
@@ -214,7 +212,7 @@ def get_hpa_protein_interactions(gene_name):
 | `results/hpa_subcellular.csv` | CSV |
 | `results/hpa_interactions.csv` | CSV |
 
-### 利用可能ツール
+### Available Tools
 
 | カテゴリ | 主要ツール | 用途 |
 |---|---|---|
@@ -233,7 +231,7 @@ def get_hpa_protein_interactions(gene_name):
 | HPA | `HPA_get_gene_tsv_data_by_ensembl_id` | TSV データ |
 | HPA | `HPA_search_genes_by_query` | 遺伝子検索 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -246,3 +244,22 @@ def get_hpa_protein_interactions(gene_name):
 ### 依存パッケージ
 
 `requests`, `pandas`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

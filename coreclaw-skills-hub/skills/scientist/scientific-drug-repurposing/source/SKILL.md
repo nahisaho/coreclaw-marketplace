@@ -1,10 +1,7 @@
 ---
 name: scientific-drug-repurposing
 description: |
-  ドラッグリポジショニング（既存薬再創薬）スキル。ToolUniverse の Drug Repurposing
-  パラダイムに準拠し、7 つの戦略（ターゲット型、化合物型、疾患駆動型、メカニズム型、
-  ネットワーク型、表現型、構造型）で候補を体系的に探索。
-  「ドラッグリポジショニングして」「既存薬の新規適応を探して」で発火。
+  Drug repurposing skill. Computational drug repositioning, network-based prediction, molecular similarity-based repurposing, and clinical trial evidence mining for new indications.
 tu_tools:
   - key: pharos
     name: Pharos
@@ -236,13 +233,13 @@ def network_proximity(drug_targets, disease_genes, ppi_network):
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `results/repurposing_candidates.json` | リポジショニング候補リスト（JSON） | 多基準スコアリング完了時 |
 | `results/repurposing_report.md` | リポジショニング評価レポート（Markdown） | 全解析完了時 |
 | `results/network_proximity.json` | ネットワーク近接スコア（JSON） | ネットワーク解析完了時 |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -256,9 +253,9 @@ def network_proximity(drug_targets, disease_genes, ppi_network):
 | FAERS | `FAERS_count_reactions_by_drug_event` | 有害事象データ |
 | PubMed | `PubMed_search_articles` | リポジショニング文献 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-drug-target-profiling` | ← ターゲット情報の利用 |
 | `scientific-admet-pharmacokinetics` | ← ADMET フィルタリング済み化合物 |
@@ -266,3 +263,22 @@ def network_proximity(drug_targets, disease_genes, ppi_network):
 | `scientific-deep-research` | ← 文献エビデンス収集 |
 | `scientific-clinical-decision-support` | → 候補薬の臨床意思決定 |
 | `scientific-academic-writing` | → 研究成果の論文化 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

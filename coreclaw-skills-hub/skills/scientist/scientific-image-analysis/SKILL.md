@@ -1,9 +1,7 @@
 ---
 name: scientific-image-analysis
 description: |
-  科学画像解析スキル。顕微鏡画像のセグメンテーション（Otsu/Watershed/Felzenszwalb）、
-  粒径分布解析、形態計測（面積・周囲長・真円度・アスペクト比）、テクスチャ解析
-  （GLCM/LBP）、強度プロファイル、マルチチャネル蛍光画像合成の解析テンプレート。
+  Image analysis skill. Scientific image processing, segmentation, morphological analysis, particle detection, colocalization analysis, and quantitative microscopy pipelines.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -293,9 +291,9 @@ def merge_fluorescence_channels(channels, colors=None, figsize=(10, 10)):
     return np.clip(merged, 0, 1)
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 画像解析ツールレジストリ検索 |
 
@@ -318,3 +316,22 @@ def merge_fluorescence_channels(channels, colors=None, figsize=(10, 10)):
 scikit-image>=0.21
 scipy>=1.10
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

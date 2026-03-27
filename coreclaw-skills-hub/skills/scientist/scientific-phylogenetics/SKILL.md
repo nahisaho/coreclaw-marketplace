@@ -1,9 +1,7 @@
 ---
 name: scientific-phylogenetics
 description: |
-  系統解析スキル。ete3/ETE Toolkit による系統樹構築・可視化、
-  scikit-bio 系統的多様性、配列アライメントベース進化解析、
-  分子時計・分岐年代推定、祖先配列再構成パイプライン。
+  Phylogenetics skill. Phylogenetic tree construction (ML/Bayesian), multiple sequence alignment, divergence time estimation, and evolutionary analysis pipelines.
 tu_tools:
   - key: ncbi_taxonomy
     name: NCBI Taxonomy
@@ -279,7 +277,7 @@ def ancestral_sequence_reconstruction(alignment_file, tree_file, model="JTT"):
 
 ---
 
-## パイプライン出力
+## Pipeline Output
 
 | 出力ファイル | 説明 | 連携先スキル |
 |---|---|---|
@@ -289,7 +287,7 @@ def ancestral_sequence_reconstruction(alignment_file, tree_file, model="JTT"):
 | `results/ancestral_sequences.fasta` | 祖先配列 | → protein-design, sequence-analysis |
 | `results/phylo_diversity.json` | 系統的多様性 | → microbiome-metagenomics |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 sequence-analysis ──→ phylogenetics ──→ infectious-disease
@@ -300,8 +298,27 @@ sequence-analysis ──→ phylogenetics ──→ infectious-disease
                            └──→ environmental-ecology (系統的多様性)
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `ncbi_taxonomy` | NCBI Taxonomy | 系統分類・分岐学データ検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,10 +1,7 @@
 ---
 name: scientific-interactive-dashboard
 description: |
-  インタラクティブダッシュボードスキル。
-  Streamlit / Dash / Panel / Voilà による
-  科学データダッシュボード構築・リアルタイムパラメータ探索 UI ・
-  ウィジェット連動・データアップロード・解析パイプライン UI 化。
+  Interactive dashboard skill. Streamlit/Plotly Dash scientific dashboard creation, real-time data visualization, parameter exploration interfaces, and research result presentation.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -330,7 +327,7 @@ def compare_dashboard_frameworks():
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 advanced-visualization → interactive-dashboard → presentation-design
@@ -340,7 +337,7 @@ advanced-visualization → interactive-dashboard → presentation-design
     (欠損値解析)                                (図式デザイン)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -349,8 +346,27 @@ advanced-visualization → interactive-dashboard → presentation-design
 | `panel_app.py` | Panel ダッシュボード | → deployment |
 | `framework_comparison.csv` | フレームワーク比較 | → 選択指針 |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | インタラクティブ可視化ツール検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

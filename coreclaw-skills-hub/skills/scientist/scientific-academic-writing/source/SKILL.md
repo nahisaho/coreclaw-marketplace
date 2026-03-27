@@ -1,10 +1,7 @@
 ---
 name: scientific-academic-writing
 description: |
-  科学技術・学術論文の執筆スキル。IMRaD 標準、Nature/Science 系、ACS 系、IEEE 系、
-  Elsevier 系のジャーナル形式に対応した論文構成・セクション設計・文章パターンを提供。
-  「論文を書いて」「Abstract を作成して」「Methods セクションを書いて」で発火。
-  assets/ に主要ジャーナル形式の Markdown テンプレートを同梱。
+  Academic paper writing skill. Supports IMRaD standard, Nature/Science, ACS, IEEE, and Elsevier journal formats with section design, writing patterns, and citation management.
 tu_tools:
   - key: crossref
     name: Crossref
@@ -468,9 +465,9 @@ needed and take full responsibility for the content of the publication.
 [SI 内でのみ引用した文献]
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `crossref` | Crossref | 論文メタデータ検索・引用情報取得 |
 
@@ -498,9 +495,9 @@ needed and take full responsibility for the content of the publication.
 | `assets/elsevier_article.md` | Elsevier 系ジャーナル |
 | `assets/qiita_technical_article.md` | Qiita 技術記事（AI for Science シリーズ） |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-hypothesis-pipeline` | `docs/hypothesis.md` を読み込み、Introduction の研究仮説・Methods の解析計画に自動反映 |
 | `scientific-critical-review` | 草稿完成後のセルフレビュー。投稿前に必ず実行を推奨 |
@@ -520,3 +517,22 @@ hypothesis-pipeline → pipeline-scaffold → academic-writing → critical-revi
 - `docs/workflow_design.md` — 解析ワークフロー（Methods に反映）
 - `results/analysis_summary.json` — 解析結果サマリー（Results に反映）
 - `figures/*.png` — 図表（本文中に `![Figure N](figures/...)` で埋め込み）
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

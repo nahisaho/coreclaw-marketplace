@@ -1,10 +1,7 @@
 ---
 name: scientific-hypothesis-pipeline
 description: |
-  ユーザーのプロンプト（研究テーマ・データ記述）から仮説を立案し、
-  検証用の解析パイプラインを自動生成するスキル。PICO/PECO フレームワークによる
-  仮説構造化、適切な統計検定の選択、パイプラインコード生成を行う。
-  「仮説を立てて」「このデータで何がわかる？」「解析パイプラインを作って」で発火。
+  Hypothesis pipeline skill. Structured hypothesis generation, testable prediction formulation, experimental design derivation, and hypothesis-driven research workflow orchestration.
 tu_tools:
   - key: open_alex
     name: OpenAlex
@@ -289,7 +286,7 @@ def save_workflow_design(hypothesis, steps, filepath=None):
     for i, step in enumerate(steps):
         content += f"""### Step {i+1}: {step['name']}
 
-| 項目 | 内容 |
+| Item | Description |
 |---|---|
 | **使用スキル** | {step.get('skill', 'N/A')} |
 | **入力** | {', '.join(step.get('inputs', ['—']))} |
@@ -754,9 +751,9 @@ def manage_hypotheses(hypotheses_list):
     return sorted_h
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `open_alex` | OpenAlex | 仮説関連文献の網羅的検索 |
 
@@ -791,3 +788,22 @@ def manage_hypotheses(hypotheses_list):
 | `scientific-critical-review` | 論文草稿の批判的レビュー（仮説と結論の整合性検証） |
 
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

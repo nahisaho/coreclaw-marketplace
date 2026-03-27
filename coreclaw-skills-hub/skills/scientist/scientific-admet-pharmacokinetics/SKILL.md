@@ -1,10 +1,7 @@
 ---
 name: scientific-admet-pharmacokinetics
 description: |
-  ADMET 予測・薬物動態モデリングスキル。吸収(A)・分布(D)・代謝(M)・排泄(E)・毒性(T)の
-  包括的予測パイプライン。DeepChem/ADMET-AI/PyTDC を活用した分子特性予測、
-  PK/PD モデリング、ドラッグライクネス最適化、リード最適化戦略を提供。
-  「ADMET 予測して」「薬物動態を評価して」「lead optimization して」で発火。
+  ADMET and pharmacokinetics prediction skill. Absorption, Distribution, Metabolism, Excretion, Toxicity modeling with RDKit, DeepChem, and PK/PD simulation pipelines.
 tu_tools:
   - key: pubchem
     name: PubChem
@@ -348,13 +345,13 @@ def one_compartment_pk(dose, ka, ke, vd, time_points):
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `results/admet_profile.json` | ADMET プロファイル（JSON） | 全 5 段階評価完了時 |
 | `results/admet_report.md` | ADMET 評価レポート（Markdown） | 全解析完了時 |
 | `results/pk_model.json` | PK モデルパラメータ（JSON） | PK モデリング完了時 |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -368,9 +365,9 @@ def one_compartment_pk(dose, ka, ke, vd, time_points):
 | ChEMBL | `ChEMBL_get_molecule` | 分子情報取得 |
 | ChEMBL | `ChEMBL_get_activity` | バイオアッセイデータ |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-drug-target-profiling` | ← ターゲットに結合する化合物の ADMET 評価 |
 | `scientific-cheminformatics` | ← 分子記述子・構造情報の提供 |
@@ -378,3 +375,22 @@ def one_compartment_pk(dose, ka, ke, vd, time_points):
 | `scientific-clinical-decision-support` | → PK パラメータの臨床応用 |
 | `scientific-academic-writing` | → 研究成果の論文化 |
 | `scientific-regulatory-science` | → FDA 規制申請・承認履歴 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

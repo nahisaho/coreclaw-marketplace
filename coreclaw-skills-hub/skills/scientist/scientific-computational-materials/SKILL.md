@@ -1,10 +1,7 @@
 ---
 name: scientific-computational-materials
 description: |
-  計算材料科学スキル。pymatgen による結晶構造操作・対称性解析、
-  Materials Project API による材料データベース照会、
-  相図計算 (凸包解析)、電子バンド構造・状態密度 (DOS) 可視化、
-  VASP/Quantum ESPRESSO 入出力、高スループットスクリーニングパイプライン。
+  Computational materials science skill. DFT calculations, molecular dynamics for materials, crystal structure prediction, band structure analysis, and materials property prediction.
 ---
 
 # Scientific Computational Materials
@@ -333,13 +330,13 @@ def parse_vasp_output(vasprun_file="vasprun.xml"):
 | `figures/dos.png` | PNG |
 | `vasp_inputs/` | VASP input set |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
 なし — Materials Project API (mp-api) を直接利用。
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -351,3 +348,22 @@ def parse_vasp_output(vasprun_file="vasprun.xml"):
 ### 依存パッケージ
 
 `pymatgen`, `mp-api`, `pandas`, `numpy`, `matplotlib`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

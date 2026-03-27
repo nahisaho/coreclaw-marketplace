@@ -1,6 +1,6 @@
 {
   "name": "scientific-preprint-archive",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Supports literature review workflows for researchers who need structured search, relevance filtering, citation awareness, and evidence synthesis.",
   "entrypoint": "main.py"
 }

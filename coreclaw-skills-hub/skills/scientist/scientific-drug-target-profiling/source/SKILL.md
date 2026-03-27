@@ -1,10 +1,7 @@
 ---
 name: scientific-drug-target-profiling
 description: |
-  創薬ターゲットプロファイリングスキル。ToolUniverse / Open Targets / ChEMBL / UniProt
-  を活用したドラッグターゲットインテリジェンス。ドラッガビリティ評価、安全性プロファイリング、
-  ターゲット-疾患アソシエーション、競合パイプライン分析を統合的に実行。
-  「ターゲット評価して」「druggability 分析して」「標的タンパク質を調べて」で発火。
+  Drug-target profiling skill. Target identification, binding affinity prediction, selectivity profiling, polypharmacology analysis, and target deconvolution pipelines.
 tu_tools:
   - key: dgidb
     name: DGIdb
@@ -311,13 +308,13 @@ def grade_disease_association(target_id, disease_id, evidence_sources):
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `results/target_profile_report.md` | ターゲットプロファイルレポート（Markdown） | 全解析完了時 |
 | `results/target_profile.json` | 構造化プロファイルデータ（JSON） | 全解析完了時 |
 | `results/druggability_matrix.json` | ドラッガビリティマトリクス（JSON） | Druggability 評価完了時 |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -331,9 +328,9 @@ def grade_disease_association(target_id, disease_id, evidence_sources):
 | DGIdb | `DGIdb_get_gene_druggability` | ドラッガビリティ評価 |
 | DGIdb | `DGIdb_get_drug_gene_interactions` | 薬物-遺伝子相互作用 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-hypothesis-pipeline` | ← 仮説定義からターゲット同定への入力 |
 | `scientific-deep-research` | ← 文献深層調査で標的エビデンス収集 |
@@ -343,3 +340,22 @@ def grade_disease_association(target_id, disease_id, evidence_sources):
 | `scientific-protein-structure-analysis` | → ターゲットタンパク質の構造解析 |
 | `scientific-drug-repurposing` | → ターゲットベースのリポジショニング |
 | `scientific-academic-writing` | → 研究成果の論文化 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,9 +1,7 @@
 ---
 name: scientific-spatial-multiomics
 description: |
-  空間マルチオミクス統合スキル。MERFISH/Visium 等の空間
-  トランスクリプトームと空間プロテオミクスのマルチモーダル
-  統合・空間共検出解析・セル近傍グラフ構築パイプライン。
+  Spatial multi-omics skill. Spatially resolved transcriptomics + proteomics integration, spatial niche identification, and multi-modal spatial data analysis.
 tu_tools:
   - key: cellxgene
     name: CellxGene
@@ -278,7 +276,7 @@ def spatial_multiomics_pipeline(
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 spatial-transcriptomics → spatial-multiomics → multi-omics
@@ -288,7 +286,7 @@ spatial-transcriptomics → spatial-multiomics → multi-omics
     (HCA atlas)                      (scRNA-seq 参照)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -296,8 +294,27 @@ spatial-transcriptomics → spatial-multiomics → multi-omics
 | `results/codetection.csv` | 共検出ペア | → pathway-analysis |
 | `results/communities.csv` | 空間コミュニティ | → spatial-transcriptomics |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `cellxgene` | CellxGene | 空間マルチオミクスデータ検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

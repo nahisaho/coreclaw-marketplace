@@ -1,8 +1,7 @@
 ---
 name: scientific-statistical-simulation
 description: |
-  統計シミュレーションスキル。Monte Carlo 法・Bootstrap 推論・
-  Permutation Test・統計的検出力分析・確率的リスク評価。
+  Statistical simulation skill. Monte Carlo methods, bootstrap confidence intervals, permutation tests, power simulation, and simulation-based inference.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -212,7 +211,7 @@ def power_analysis(effect_size_range=None, n_range=None,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 [仮説設計] → statistical-simulation → statistical-testing
@@ -222,7 +221,7 @@ def power_analysis(effect_size_range=None, n_range=None,
            (実験計画)   (適応実験)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -230,8 +229,27 @@ def power_analysis(effect_size_range=None, n_range=None,
 | `bootstrap_ci.csv` | 信頼区間 | → 統計レポート |
 | `power_analysis.csv` | 検出力カーブ | → DOE サンプルサイズ |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 統計シミュレーションツール検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

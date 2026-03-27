@@ -1,9 +1,7 @@
 ---
 name: scientific-data-profiling
 description: |
-  データプロファイリング・品質スキル。ydata-profiling 自動 EDA ・
-  Great Expectations データバリデーション・データ品質スコア・
-  型推論・相関検出・外れ値フラグ・データカタログ生成。
+  Data profiling skill. Automated dataset characterization, distribution analysis, data quality metrics, schema inference, and statistical summary generation.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -18,7 +16,7 @@ tu_tools:
 ## When to Use
 
 - 新しいデータセットの全体像を素早く把握するとき
-- データ品質スコアを算出して品質基準をチェックするとき
+- データ品質スコアを算出してQuality Criteriaをチェックするとき
 - ydata-profiling で自動 EDA レポートを生成するとき
 - Great Expectations でデータバリデーションルールを定義するとき
 - データカタログ (辞書) を自動生成するとき
@@ -232,7 +230,7 @@ def _auto_generate_expectations(df):
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 [データ取得] → data-profiling → eda-correlation
@@ -242,7 +240,7 @@ def _auto_generate_expectations(df):
             (欠損補完)             (異常検知)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -250,8 +248,27 @@ def _auto_generate_expectations(df):
 | `quality_score.json` | データ品質スコア | → 品質管理 |
 | `validation_results.csv` | バリデーション結果 | → データ修正 |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | データプロファイリングツール検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

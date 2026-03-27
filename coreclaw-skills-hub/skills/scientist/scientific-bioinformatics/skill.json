@@ -1,6 +1,6 @@
 {
   "name": "scientific-bioinformatics",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Supports omics researchers with reproducible analysis planning, interpretable comparisons, and biologically grounded result framing.",
   "entrypoint": "main.py"
 }

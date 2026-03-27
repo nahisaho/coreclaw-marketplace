@@ -1,9 +1,7 @@
 ---
 name: scientific-protein-domain-family
 description: |
-  タンパク質ドメイン・ファミリー解析スキル。InterPro アノテーション検索、
-  InterProScan によるシーケンスベースドメイン予測、Pfam/SMART/CDD
-  ドメイン分類、ドメインアーキテクチャ可視化、ファミリー系統樹構築。
+  Protein domain and family skill. InterPro/Pfam domain annotation, protein family classification, domain architecture analysis, and functional domain prediction.
 ---
 
 # Scientific Protein Domain & Family Analysis
@@ -343,7 +341,7 @@ def compare_domain_architectures(protein_list):
 | `results/domain_comparison.json` | JSON |
 | `figures/domain_architecture.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 | カテゴリ | 主要ツール | 用途 |
 |---|---|---|
@@ -354,7 +352,7 @@ def compare_domain_architectures(protein_list):
 | InterProScan | `InterProScan_get_job_status` | ジョブステータス |
 | InterProScan | `InterProScan_get_job_results` | 結果取得 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -367,3 +365,22 @@ def compare_domain_architectures(protein_list):
 ### 依存パッケージ
 
 `requests`, `pandas`, `matplotlib`, `json` (stdlib), `time` (stdlib)
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

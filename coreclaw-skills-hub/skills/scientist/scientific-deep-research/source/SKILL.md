@@ -1,11 +1,7 @@
 ---
 name: scientific-deep-research
 description: |
-  科学文献の深層リサーチスキル。SHIKIGAMI の WebResearcher パラダイム
-  （Think→Report→Action 反復サイクル）を科学研究に特化させた実装。
-  学術データベース検索、エビデンス階層評価、ソース追跡、交差検証、
-  ハルシネーション防止を統合した反復的深層調査を提供。
-  「文献調査して」「先行研究を調べて」「systematic review して」で発火。
+  Deep research skill. Iterative literature research following the SHIKIGAMI WebResearcher paradigm (Think→Report→Action cycle) with academic database search, evidence hierarchy assessment, source tracking, and hallucination prevention.
 ---
 
 # Scientific Deep Research
@@ -496,7 +492,7 @@ SHIKIGAMIの Think→Report→Action サイクルを科学研究に最適化:
 
 ---
 
-## 品質ゲート（Quality Gates）
+## Quality Gates（Quality Gates）
 
 ```markdown
 ## Deep Research 完了チェックリスト
@@ -581,7 +577,7 @@ AND
 
 ---
 
-## 他スキルとの連携
+## Inter-Skill Integration
 
 ### パイプライン上の位置づけ
 
@@ -694,7 +690,7 @@ confidence_score: XX%
 
 ## References
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -706,3 +702,22 @@ confidence_score: XX%
 | Crossref | `Crossref_search_works` | 出版情報検索 |
 | OpenAlex | `OpenAlex_Guidelines_Search` | オープンアクセス文献 |
 | ArXiv | `ArXiv_search_papers` | プレプリント検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

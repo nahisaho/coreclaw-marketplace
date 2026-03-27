@@ -1,9 +1,7 @@
 ---
 name: scientific-reactome-pathways
 description: |
-  Reactome パスウェイスキル。Reactome Content Service
-  REST API によるパスウェイ検索・階層取得・UniProt マッピング・
-  パスウェイ図データ取得。ToolUniverse 連携: reactome。
+  Reactome pathways skill. Reactome pathway queries, pathway hierarchy navigation, pathway enrichment analysis, and pathway diagram generation.
 tu_tools:
   - key: reactome
     name: Reactome
@@ -218,13 +216,13 @@ def reactome_pipeline(query_or_uniprot,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `reactome` | Reactome | パスウェイデータベース REST API |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 pathway-enrichment → reactome-pathways → systems-biology
@@ -234,9 +232,28 @@ uniprot-proteome ──────────┘       metabolomics-databases
   (UniProt ID)                     (MetaCyc 代謝)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/reactome_pathways.csv` | パスウェイ一覧 | → pathway-enrichment |
 | `results/reactome_participants.csv` | 参加者 | → protein-interaction-network |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

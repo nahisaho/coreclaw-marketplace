@@ -1,9 +1,7 @@
 ---
 name: scientific-marine-ecology
 description: |
-  海洋生態学統合スキル。OBIS 海洋生物分布・WoRMS 海洋分類体系・
-  GBIF 生物多様性レコード・FishBase 魚類データ。ToolUniverse
-  連携: obis, worms, gbif。
+  Marine ecology skill. Ocean biodiversity analysis, marine species distribution modeling, fisheries data analysis, coral reef assessment, and marine environmental monitoring.
 tu_tools:
   - key: obis
     name: OBIS (Ocean Biodiversity Information System)
@@ -398,15 +396,15 @@ def marine_ecology_pipeline(taxon_name, region_wkt=None,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `obis` | OBIS | 海洋生物出現・分布レコード検索 |
 | `worms` | WoRMS | 海洋種分類学的検証・階層取得 |
 | `gbif` | GBIF | 生物多様性出現レコード検索 |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 environmental-ecology → marine-ecology → phylogenetics
@@ -419,7 +417,7 @@ environmental-ecology → marine-ecology → phylogenetics
                   (水産資源管理)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -427,3 +425,22 @@ environmental-ecology → marine-ecology → phylogenetics
 | `results/obis_occurrences.csv` | OBIS 出現記録 | → species-distribution |
 | `results/gbif_occurrences.csv` | GBIF 出現記録 | → biodiversity-db |
 | `results/classification.csv` | 分類階層 | → environmental-ecology |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

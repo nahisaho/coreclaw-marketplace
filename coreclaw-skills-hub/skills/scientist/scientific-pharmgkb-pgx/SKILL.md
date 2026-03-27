@@ -1,9 +1,7 @@
 ---
 name: scientific-pharmgkb-pgx
 description: |
-  PharmGKB 薬理ゲノミクススキル。PharmGKB REST API による
-  臨床アノテーション・薬物遺伝子関連・投与量ガイドライン・
-  スターアレル解析。ToolUniverse 連携: pharmgkb。
+  PharmGKB pharmacogenomics skill. PharmGKB clinical annotation queries, drug-gene interaction lookup, dosing guideline retrieval, and pharmacogenomic pathway analysis.
 tu_tools:
   - key: pharmgkb
     name: PharmGKB
@@ -277,13 +275,13 @@ def pharmgkb_pipeline(drug_name, genes=None,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `pharmgkb` | PharmGKB | 臨床アノテーション・薬物遺伝子・PGx ガイドライン |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 pharmacogenomics → pharmgkb-pgx → clinical-decision-support
@@ -296,7 +294,7 @@ pharmacogenomics → pharmgkb-pgx → clinical-decision-support
            (変異臨床解釈)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -304,3 +302,22 @@ pharmacogenomics → pharmgkb-pgx → clinical-decision-support
 | `results/annotations.csv` | 臨床アノテーション | → variant-interpretation |
 | `results/guidelines.csv` | 投与量ガイドライン | → clinical-decision-support |
 | `results/gene_annotations.csv` | 遺伝子別アノテーション | → pharmacogenomics |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

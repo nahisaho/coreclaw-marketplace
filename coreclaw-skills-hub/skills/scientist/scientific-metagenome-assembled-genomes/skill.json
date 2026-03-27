@@ -1,6 +1,6 @@
 {
   "name": "scientific-metagenome-assembled-genomes",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Supports researchers working on metagenome assembled genomes with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
   "entrypoint": "main.py"
 }

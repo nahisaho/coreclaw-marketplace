@@ -1,10 +1,7 @@
 ---
 name: scientific-regulatory-science
 description: |
-  規制科学パイプラインスキル。FDA (医薬品/医療機器/食品)・EMA・PMDA 規制データベース横断照会、
-  Orange Book 承認履歴・特許・排他性情報、510(k) デバイスクリアランス、
-  ISO 13485 品質管理システム (設計管理/CAPA/リスク管理)、
-  USPTO 特許検索を統合した薬事・規制情報パイプライン。
+  Regulatory science skill. FDA/EMA regulatory guidance, clinical trial regulation, drug approval pathway analysis, and regulatory document preparation.
 ---
 
 # Scientific Regulatory Science
@@ -226,7 +223,7 @@ def search_patents(query, start_date=None, end_date=None,
 | `results/patent_search.csv` | CSV |
 | `figures/patent_timeline.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -241,7 +238,7 @@ def search_patents(query, start_date=None, end_date=None,
 | FAERS | `FAERS_search_adverse_event_reports` | 有害事象レポート検索 |
 | FAERS | `FAERS_calculate_disproportionality` | 不均衡分析 (ROR/PRR/IC) |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -254,3 +251,22 @@ def search_patents(query, start_date=None, end_date=None,
 ### 依存パッケージ
 
 `pandas`, `numpy`, `requests`, `json`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

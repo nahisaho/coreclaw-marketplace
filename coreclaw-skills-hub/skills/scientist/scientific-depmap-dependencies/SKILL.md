@@ -1,9 +1,7 @@
 ---
 name: scientific-depmap-dependencies
 description: |
-  DepMap 依存性スキル。Cancer Dependency Map (DepMap) Portal
-  API によるがん細胞株 CRISPR/RNAi 依存性スコア・薬剤
-  感受性データ・遺伝子効果取得。ToolUniverse 連携: depmap。
+  DepMap dependency skill. Cancer cell line dependency data from DepMap/CRISPR screens, gene essentiality scoring, and functional genomics analysis.
 tu_tools:
   - key: depmap
     name: DepMap
@@ -214,13 +212,13 @@ def depmap_pipeline(gene_symbol,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `depmap` | DepMap | がん細胞株依存性マップ API |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 cancer-genomics → depmap-dependencies → precision-oncology
@@ -230,10 +228,29 @@ expression-analysis ──────┘       drug-target-profiling
   (発現リスト)                    (標的プロファイリング)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/depmap_dependency.csv` | 依存性スコア | → cancer-genomics |
 | `results/depmap_drugs.csv` | 薬剤感受性 | → drug-target-profiling |
 | `results/depmap_top_dependent.csv` | 依存細胞株 | → precision-oncology |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

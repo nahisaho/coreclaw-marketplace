@@ -1,9 +1,7 @@
 ---
 name: scientific-causal-inference
 description: |
-  因果推論スキル。傾向スコアマッチング（PSM）、逆確率重み付け（IPW / IPTW）、
-  操作変数法（2SLS）、差分の差分法（DID）、回帰不連続デザイン（RDD）、
-  DAG ベースの共変量選択（backdoor criterion）、感度分析テンプレートを提供。
+  Causal inference skill. DoWhy/EconML-based causal analysis, propensity score matching, instrumental variables, difference-in-differences, regression discontinuity, and DAG-based causal reasoning.
 tu_tools:
   - key: open_alex
     name: OpenAlex
@@ -329,9 +327,9 @@ def rosenbaum_sensitivity(matched_outcomes_treated, matched_outcomes_control,
     return pd.DataFrame(results)
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `open_alex` | OpenAlex | 因果推論関連文献検索 |
 
@@ -355,3 +353,22 @@ statsmodels>=0.14
 scikit-learn>=1.3
 networkx>=3.0
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

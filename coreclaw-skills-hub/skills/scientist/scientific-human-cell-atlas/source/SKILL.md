@@ -1,9 +1,7 @@
 ---
 name: scientific-human-cell-atlas
 description: |
-  Human Cell Atlas (HCA) データポータルスキル。HCA Data Portal API
-  プロジェクト検索・ファイルダウンロード・CELLxGENE Census 統合・
-  細胞型アノテーション・アトラス構築。ToolUniverse 連携: hca_tools。
+  Human Cell Atlas skill. HCA data portal queries, cell type reference mapping, organ-specific cell atlases, and single-cell study integration across the Human Cell Atlas project.
 tu_tools:
   - key: hca_tools
     name: Human Cell Atlas Tools
@@ -269,13 +267,13 @@ def hca_atlas_pipeline(organ, disease=None, output_dir="results"):
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `hca_tools` | HCA Tools | プロジェクト検索・ファイルダウンロード |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 single-cell-genomics → human-cell-atlas → scvi-integration
@@ -288,10 +286,29 @@ single-cell-genomics → human-cell-atlas → scvi-integration
                    (大規模処理)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/hca_projects.csv` | HCA プロジェクト一覧 | → single-cell-genomics |
 | `results/hca_atlas.h5ad` | アトラス AnnData | → scvi-integration |
 | `results/cell_type_composition.csv` | 細胞型構成比 | → spatial-transcriptomics |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,12 +1,7 @@
 ---
 name: scientific-cancer-genomics
 description: |
-  がんゲノミクスポータル統合スキル。COSMIC (体細胞変異カタログ)、
-  cBioPortal (がんゲノミクスデータ解析)、DepMap (がん細胞依存性) の
-  3 大がんゲノミクスデータベースを統合した変異プロファイリング、
-  変異シグネチャー解析、遺伝子依存性 (essentiality) 評価、
-  コピー数変化・がん種横断解析パイプライン。
-  13 の ToolUniverse SMCP ツールと連携。
+  Cancer genomics skill. Somatic mutation analysis, copy number variation, tumor mutational burden, microsatellite instability, driver gene identification, and oncological pathway analysis.
 tu_tools:
   - key: cosmic
     name: COSMIC
@@ -259,7 +254,7 @@ def mutational_signature_analysis(mutations_df, genome="GRCh38",
 | `figures/mutation_spectrum.png` | PNG |
 | `figures/signature_profiles.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -279,7 +274,7 @@ def mutational_signature_analysis(mutations_df, genome="GRCh38",
 | DepMap | `DepMap_search_cell_lines` | 細胞株検索 |
 | DepMap | `DepMap_search_genes` | 遺伝子検索 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -292,3 +287,22 @@ def mutational_signature_analysis(mutations_df, genome="GRCh38",
 ### 依存パッケージ
 
 `pandas`, `numpy`, `requests`, `scikit-learn`, `matplotlib`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

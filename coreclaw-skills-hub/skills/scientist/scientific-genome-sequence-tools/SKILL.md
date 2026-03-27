@@ -1,9 +1,7 @@
 ---
 name: scientific-genome-sequence-tools
 description: |
-  ゲノム配列解析総合スキル。Ensembl ゲノムブラウザ、dbSNP 変異データ、
-  BLAST 相同性検索、NCBI Nucleotide 配列取得、GDC がんゲノミクスデータの
-  統合パイプライン。
+  Genome sequence tools skill. BLAST searches, multiple sequence alignment, genome annotation, primer design, and sequence manipulation utilities.
 ---
 
 # Scientific Genome Sequence Tools
@@ -269,7 +267,7 @@ def integrated_variant_pipeline(rsid, gene_symbol=None):
 | `results/ncbi_sequence.fasta` | FASTA |
 | `results/gdc_mutations.csv` | CSV |
 
-### 利用可能ツール
+### Available Tools
 
 | カテゴリ | 主要ツール | 用途 |
 |---|---|---|
@@ -289,7 +287,7 @@ def integrated_variant_pipeline(rsid, gene_symbol=None):
 | GDC | `GDC_search_cases` | 症例検索 |
 | GDC | `GDC_list_files` | ファイル一覧 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -302,3 +300,22 @@ def integrated_variant_pipeline(rsid, gene_symbol=None):
 ### 依存パッケージ
 
 `requests`, `pandas`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

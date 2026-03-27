@@ -1,11 +1,7 @@
 ---
 name: scientific-metagenome-assembled-genomes
 description: |
-  メタゲノムアセンブルゲノム (MAG) 解析スキル。
-  MetaBAT2 / CONCOCT / MaxBin2 ビニング・CheckM2 品質評価・
-  GTDB-Tk 分類学的分類・dRep 脱重複・Prokka アノテーション・
-  MAG アセンブリ品質レポートパイプライン。
-  TU 外スキル (CLI ラッパー + Python ライブラリ)。
+  Metagenome-assembled genomes (MAG) skill. Metagenomic binning, genome quality assessment (CheckM), taxonomic classification, and functional annotation of MAGs.
 tu_tools:
   - key: mgnify
     name: MGnify
@@ -323,7 +319,7 @@ def mag_pipeline(assembly_fasta, bam_file,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 microbiome-metagenomics → metagenome-assembled-genomes → environmental-ecology
@@ -333,7 +329,7 @@ microbiome-metagenomics → metagenome-assembled-genomes → environmental-ecolo
     (ロングリードアセンブリ)                            (系統解析)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -342,8 +338,27 @@ microbiome-metagenomics → metagenome-assembled-genomes → environmental-ecolo
 | `gtdbtk_out/*.summary.tsv` | 分類結果 | → phylogenomics |
 | `drep_out/dereplicated_genomes/` | 脱重複 MAG | → environmental-ecology |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `mgnify` | MGnify | メタゲノムアセンブル・MAG データ検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

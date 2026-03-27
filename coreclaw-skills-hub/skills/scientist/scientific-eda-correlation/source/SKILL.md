@@ -1,8 +1,7 @@
 ---
 name: scientific-eda-correlation
 description: |
-  探索的データ解析（EDA）と相関分析のスキル。データの分布可視化、相関ヒートマップ、
-  散布図行列の作成を行う際に使用。Scientific Skills Exp-02, 12, 13 で確立したパターン。
+  EDA and correlation analysis skill. Exploratory data analysis, correlation matrices, distribution visualization, multivariate analysis, and automated EDA report generation.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -23,7 +22,7 @@ tu_tools:
 
 ## Quick Start
 
-## 標準パイプライン
+## Standard Pipeline
 
 ### 1. 記述統計量の算出
 
@@ -127,9 +126,9 @@ def psp_block_correlation(df, process_cols, structure_cols, property_cols):
     return ps_corr, sp_corr, pp_corr
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 統計解析ツール検索 |
 
@@ -149,3 +148,22 @@ def psp_block_correlation(df, process_cols, structure_cols, property_cols):
 - **Exp-02**: `sns.heatmap` 相関ヒートマップの基本パターン
 - **Exp-12**: 8 プロセスパラメータの EDA
 - **Exp-13**: PSP 3 ブロック相関行列
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

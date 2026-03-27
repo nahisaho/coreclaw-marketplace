@@ -1,9 +1,7 @@
 ---
 name: scientific-rare-disease-genetics
 description: |
-  希少疾患遺伝学スキル。OMIM 遺伝子-疾患マッピング、Orphanet 希少疾患
-  分類・遺伝子照会、DisGeNET 疾患-遺伝子関連スコア、IMPC マウス表現型
-  参照、遺伝子-表現型統合解析パイプライン。
+  Rare disease genetics skill. Rare variant prioritization, exome/genome sequencing analysis, phenotype-driven gene ranking, and diagnostic yield optimization.
 tu_tools:
   - key: orphanet
     name: Orphanet
@@ -294,7 +292,7 @@ def rare_disease_gene_analysis(gene_symbol, omim_api_key=None,
 | `results/impc_phenotypes.csv` | CSV |
 | `results/rare_disease_profile.json` | JSON |
 
-### 利用可能ツール
+### Available Tools
 
 | カテゴリ | 主要ツール | 用途 |
 |---|---|---|
@@ -316,7 +314,7 @@ def rare_disease_gene_analysis(gene_symbol, omim_api_key=None,
 | IMPC | `IMPC_get_phenotypes_by_gene` | 表現型取得 |
 | IMPC | `IMPC_get_gene_phenotype_hits` | ヒット数 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -329,3 +327,22 @@ def rare_disease_gene_analysis(gene_symbol, omim_api_key=None,
 ### 依存パッケージ
 
 `requests`, `pandas`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

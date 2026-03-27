@@ -1,9 +1,7 @@
 ---
 name: scientific-icgc-cancer-data
 description: |
-  ICGC がんゲノムデータスキル。ICGC ARGO DCC API および
-  レガシー API による国際がんゲノムデータ検索・ドナー/
-  検体/変異解析。直接 API (ToolUniverse 非連携)。
+  ICGC cancer data skill. International Cancer Genome Consortium data retrieval, pan-cancer mutation analysis, driver mutation identification, and multi-project comparison.
 tu_tools: []
 ---
 
@@ -323,13 +321,13 @@ def icgc_pipeline(gene_symbols, cancer_site=None,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | (direct) | ICGC DCC API | 直接 REST API — TU 非連携 |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 cancer-genomics → icgc-cancer-data → precision-oncology
@@ -342,10 +340,29 @@ cancer-genomics → icgc-cancer-data → precision-oncology
           (変異臨床解釈)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/projects.csv` | プロジェクト一覧 | → cancer-genomics |
 | `results/mutations.csv` | 体細胞変異 | → variant-interpretation |
 | `results/cancer_stats.csv` | がん種統計 | → precision-oncology |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

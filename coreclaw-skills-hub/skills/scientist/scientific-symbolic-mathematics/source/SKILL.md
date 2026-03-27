@@ -1,9 +1,7 @@
 ---
 name: scientific-symbolic-mathematics
 description: |
-  記号数学スキル。SymPy による解析的微積分・線形代数・微分方程式求解、
-  記号式の LaTeX 変換、数値計算との統合、科学モデリング用
-  記号計算パイプライン。
+  Symbolic mathematics skill. SymPy-based symbolic computation, equation solving, calculus, linear algebra, and mathematical proof assistance.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -260,7 +258,7 @@ def export_equations_latex(equations, output_file="equations.tex"):
 
 ---
 
-## パイプライン出力
+## Pipeline Output
 
 | 出力ファイル | 説明 | 連携先スキル |
 |---|---|---|
@@ -269,7 +267,7 @@ def export_equations_latex(equations, output_file="equations.tex"):
 | `equations.tex` | LaTeX 数式集 | → latex-formatter |
 | `figures/symbolic_plot.png` | 記号解の可視化 | → publication-figures |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 systems-biology ──→ symbolic-mathematics ──→ latex-formatter
@@ -280,8 +278,27 @@ systems-biology ──→ symbolic-mathematics ──→ latex-formatter
                            └──→ computational-materials (バンド理論)
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 数式処理・解析ツール検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

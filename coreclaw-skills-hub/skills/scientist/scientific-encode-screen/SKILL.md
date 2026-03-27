@@ -1,10 +1,7 @@
 ---
 name: scientific-encode-screen
 description: |
-  ENCODE / ChIP-Atlas エピゲノムアトラススキル。ENCODE REST API
-  実験・ファイル・バイオサンプル検索、SCREEN cis 制御エレメント、
-  ChIP-Atlas エンリッチメント解析、エピゲノムアノテーション統合。
-  ToolUniverse 連携: encode, chipatlas。
+  ENCODE screen skill. ENCODE project data access, regulatory element annotation, epigenomic data analysis, and functional genomics screen result interpretation.
 tu_tools:
   - key: encode
     name: ENCODE
@@ -286,14 +283,14 @@ def encode_epigenome_pipeline(gene_name, biosample="K562",
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `encode` | ENCODE | 実験・バイオサンプル・ファイル検索 |
 | `chipatlas` | ChIP-Atlas | 転写因子エンリッチメント解析 |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 regulatory-genomics → encode-screen → epigenomics-chromatin
@@ -306,10 +303,29 @@ regulatory-genomics → encode-screen → epigenomics-chromatin
                   (GRN 推定)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/screen_ccres.csv` | cCRE アノテーション | → variant-interpretation |
 | `results/encode_experiments.csv` | ENCODE 実験メタデータ | → epigenomics-chromatin |
 | `results/chipatlas_enrichment.csv` | TF エンリッチメント | → gene-regulatory-network |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

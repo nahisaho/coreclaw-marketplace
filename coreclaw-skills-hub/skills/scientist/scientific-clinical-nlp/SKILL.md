@@ -1,11 +1,7 @@
 ---
 name: scientific-clinical-nlp
 description: |
-  臨床自然言語処理スキル。MedSpaCy / cTAKES / scispaCy
-  による臨床テキスト NER、セクション検出、否定文検出、
-  ICD-10/SNOMED-CT エンティティリンキング、
-  匿名化 (De-identification) パイプライン。
-  TU 外スキル (直接 Python ライブラリ)。
+  Clinical NLP skill. MedSpaCy/cTAKES/scispaCy-based clinical text NER, section detection, negation detection, ICD-10/SNOMED-CT entity linking, and de-identification pipelines.
 tu_tools:
   - key: umls
     name: UMLS
@@ -235,7 +231,7 @@ def clinical_nlp_pipeline(texts,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 text-mining-nlp → clinical-nlp → clinical-reporting
@@ -245,7 +241,7 @@ text-mining-nlp → clinical-nlp → clinical-reporting
     (scispaCy)                   (PGx 処方支援)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -253,8 +249,27 @@ text-mining-nlp → clinical-nlp → clinical-reporting
 | `results/clinical_sections.csv` | セクション分類 | → clinical-reporting |
 | `results/entity_linking.csv` | UMLS/SNOMED リンキング | → disease-research |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `umls` | UMLS | 医学用語統一システム検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

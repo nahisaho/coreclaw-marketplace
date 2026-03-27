@@ -1,10 +1,7 @@
 ---
 name: scientific-text-mining-nlp
 description: |
-  科学テキストマイニング・NLP スキル。生物医学 NER（遺伝子/疾患/薬物/化合物）・
-  関係抽出（PPI / DDI / GDA）・文献ベースナレッジグラフ構築・
-  エビデンス要約・トピックモデリング・引用ネットワーク解析パイプライン。
-  PubTator / SemanticScholar / EuropePMC データ統合。
+  Text mining and NLP skill. Scientific text mining, named entity recognition, relation extraction, topic modeling, and biomedical NLP pipelines.
 ---
 
 # Scientific Text Mining & NLP
@@ -325,7 +322,7 @@ def citation_network_analysis(papers_df, citations_df):
 | `figures/topic_distribution.png` | PNG |
 | `figures/citation_network.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -343,7 +340,7 @@ def citation_network_analysis(papers_df, citations_df):
 | OpenAlex | `openalex_search_works` | OpenAlex 検索 |
 | DBLP | `DBLP_search_publications` | CS 文献検索 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 連携内容 |
 |---|---|
@@ -356,3 +353,22 @@ def citation_network_analysis(papers_df, citations_df):
 #### 依存パッケージ
 
 - scispacy, spacy, transformers, bertopic, sentence-transformers, networkx
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

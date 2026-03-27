@@ -1,9 +1,7 @@
 ---
 name: scientific-semantic-scholar
 description: |
-  Semantic Scholar 学術グラフスキル。Semantic Scholar Academic
-  Graph API による論文検索・著者プロファイル・引用グラフ・
-  推薦・TLDR 要約。ToolUniverse 連携: semantic_scholar。
+  Semantic Scholar skill. Academic paper search via Semantic Scholar API, citation graph exploration, author profiling, and research impact metrics retrieval.
 tu_tools:
   - key: semantic_scholar
     name: Semantic Scholar
@@ -269,13 +267,13 @@ def semantic_scholar_pipeline(query, year_range=None,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `semantic_scholar` | Semantic Scholar | 論文検索・引用解析・著者・TLDR |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 literature-search → semantic-scholar → deep-research
@@ -288,7 +286,7 @@ literature-search → semantic-scholar → deep-research
             (論文引用データからの解析)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -296,3 +294,22 @@ literature-search → semantic-scholar → deep-research
 | `results/citations.csv` | 被引用論文 | → citation-checker |
 | `results/references.csv` | 引用論文 | → meta-analysis |
 | `results/yearly_trend.csv` | 年次引用傾向 | → bibliometrics |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

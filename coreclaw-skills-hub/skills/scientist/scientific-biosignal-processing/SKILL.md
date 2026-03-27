@@ -1,10 +1,7 @@
 ---
 name: scientific-biosignal-processing
 description: |
-  生体信号処理スキル。ECG（R波検出・HRV時間/周波数ドメイン・Poincaréプロット）、
-  EEG（マルチチャネル・バンドパワーδ/θ/α/β/γ・スペクトログラム・ERP）、
-  EMG（バースト検出・包絡線）、呼吸信号（RSA）の解析パイプライン。
-  Scientific Skills Exp-08 で確立したパターン。
+  Biosignal processing skill. EEG, ECG, EMG signal processing with filtering, spectral analysis, wavelet transforms, and time-frequency analysis pipelines.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -356,12 +353,31 @@ def detect_muscle_bursts(envelope, fs, threshold_factor=2.0,
     return bursts
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 生体信号処理ツール検索 |
 
 ## References
 
 - **Exp-08**: ECG R波検出・HRV・Poincaré、EEG バンドパワー・スペクトログラム・ERP、EMG バースト
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

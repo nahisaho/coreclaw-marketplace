@@ -1,10 +1,7 @@
 ---
 name: scientific-supplementary-generator
 description: |
-  学術論文の Supplementary Information (SI) を自動生成するスキル。
-  本文から溢れた図表・手法詳細・追加データを構造化し、ジャーナル規定に準拠した
-  SI ドキュメントを生成する。「SIを作って」「補足資料を生成して」「Supplementary を作成して」で発火。
-  scientific-academic-writing で本文を作成した後に使用。
+  Supplementary materials generator skill. Supplementary data preparation, extended methods writing, supplementary table/figure organization, and SI document formatting.
 tu_tools:
   - key: crossref
     name: Crossref
@@ -427,9 +424,9 @@ def run_si_pipeline(manuscript_path, figures_dir=None, results_dir=None,
     return {"si_path": si_path, "crossref": crossref}
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `crossref` | Crossref | 補足資料の引用メタデータ参照 |
 
@@ -437,14 +434,14 @@ def run_si_pipeline(manuscript_path, figures_dir=None, results_dir=None,
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `manuscript/supplementary.md` | SI ドキュメント（Markdown） | Phase 2 完了時 |
 | `manuscript/si_crossref_report.json` | 相互参照チェック結果（JSON） | Phase 3 完了時 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-academic-writing` | 本文原稿 (`manuscript/manuscript.md`) を入力として使用 |
 | `scientific-publication-figures` | `figures/` の未使用図を SI 候補として自動検出 |
@@ -453,3 +450,22 @@ def run_si_pipeline(manuscript_path, figures_dir=None, results_dir=None,
 | `scientific-latex-formatter` | SI の LaTeX 変換に使用 |
 
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

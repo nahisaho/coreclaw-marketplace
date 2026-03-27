@@ -1,10 +1,7 @@
 ---
 name: scientific-paper-quality
 description: |
-  論文品質の定量的評価スキル。可読性スコア、セクションバランス分析、
-  語彙多様性、学術語使用率、冗長表現検出、ジャーナル要件適合チェック、
-  再現可能性チェックを実行する。
-  「論文の品質をチェックして」「可読性スコアを出して」「投稿前チェック」で発火。
+  Paper quality assessment skill. Manuscript quality scoring, structural completeness checking, statistical reporting assessment, and writing clarity evaluation.
 tu_tools:
   - key: crossref
     name: Crossref
@@ -793,9 +790,9 @@ def _vocabulary_score(vocabulary):
     return max(0.0, round(score, 2))
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `crossref` | Crossref | 引用品質・ジャーナルメトリクス参照 |
 
@@ -803,7 +800,7 @@ def _vocabulary_score(vocabulary):
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `manuscript/quality_report.json` | 品質スコアカード | チェック完了時 |
 
@@ -820,12 +817,31 @@ def _vocabulary_score(vocabulary):
 | 適合性 | 語数制限 | ジャーナル依存 |
 | 再現性 | 統計手法記載 | 必須 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-academic-writing` | 原稿 `manuscript/manuscript.md` の品質を評価 |
 | `scientific-critical-review` | セルフレビュー結果と品質スコアの照合 |
 | `scientific-peer-review-response` | 改訂後の品質改善を定量的に検証 |
 | `scientific-revision-tracker` | 改訂前後の品質スコア比較 |
-| `scientific-latex-formatter` | 投稿前の最終品質ゲート |
+| `scientific-latex-formatter` | 投稿前の最終Quality Gates |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

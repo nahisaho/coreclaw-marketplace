@@ -1,10 +1,7 @@
 ---
 name: scientific-graph-neural-networks
 description: |
-  グラフニューラルネットワーク (GNN) スキル。PyTorch Geometric・TorchDrug・
-  DeepChem を活用し、分子特性予測・タンパク質モデリング・知識グラフ推論・
-  ノード/グラフ分類を支援。
-  「GNN で分子特性を予測して」「グラフ分類して」「ナレッジグラフ推論して」で発火。
+  Graph neural networks skill. GNN architectures (GCN/GAT/GraphSAGE), molecular graph learning, knowledge graph embeddings, and graph-level prediction tasks.
 ---
 
 # Scientific Graph Neural Networks
@@ -363,14 +360,14 @@ def scaffold_split(dataset, train_ratio=0.8, val_ratio=0.1):
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `results/gnn_predictions.json` | GNN 予測結果（JSON） | 推論完了時 |
 | `results/gnn_benchmark.json` | ベンチマーク比較（JSON） | 評価完了時 |
 | `figures/gnn_training_curve.png` | 学習曲線プロット | トレーニング完了時 |
 | `figures/gnn_explanation.png` | GNNExplainer 可視化 | 解釈性分析時 |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -382,9 +379,9 @@ def scaffold_split(dataset, train_ratio=0.8, val_ratio=0.1):
 | UniProt | `UniProt_get_entry_by_accession` | タンパク質グラフ構築用 |
 | BindingDB | `BindingDB_get_ligands_by_uniprot` | リガンド-ターゲットデータ |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-cheminformatics` | ← SMILES 前処理・分子記述子 |
 | `scientific-drug-target-profiling` | → 標的予測・活性予測の GNN 応用 |
@@ -393,3 +390,22 @@ def scaffold_split(dataset, train_ratio=0.8, val_ratio=0.1):
 | `scientific-deep-learning` | ← NN アーキテクチャ設計・トレーニング手法 |
 | `scientific-explainable-ai` | → GNN 予測の説明可能性 |
 | `scientific-protein-structure-analysis` | ← タンパク質グラフの構築 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

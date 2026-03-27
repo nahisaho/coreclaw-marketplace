@@ -1,9 +1,7 @@
 ---
 name: scientific-regulatory-genomics
 description: |
-  レギュラトリーゲノミクススキル。RegulomeDB バリアント制御機能スコア、
-  ReMap 転写因子結合マッピング、4D Nucleome (4DN) 三次元ゲノム構造
-  解析の統合パイプライン。
+  Regulatory genomics skill. Enhancer/promoter annotation, transcription factor binding, regulatory variant analysis, and chromatin state classification.
 ---
 
 # Scientific Regulatory Genomics
@@ -246,7 +244,7 @@ def regulatory_variant_pipeline(variants, genome="hg38"):
 
 ---
 
-## 利用可能ツール
+## Available Tools
 
 | ToolUniverse カテゴリ | 主なツール |
 |---|---|
@@ -254,7 +252,7 @@ def regulatory_variant_pipeline(variants, genome="hg38"):
 | `remap` | `ReMap_search_peaks`, `ReMap_get_tf_targets` |
 | `fourdn_portal` | `FourDN_search_experiments` |
 
-## パイプライン出力
+## Pipeline Output
 
 | 出力ファイル | 説明 | 連携先スキル |
 |---|---|---|
@@ -262,7 +260,7 @@ def regulatory_variant_pipeline(variants, genome="hg38"):
 | `results/remap_binding.csv` | TF 結合マッピング | → epigenomics-chromatin, disease-research |
 | `results/4dn_contacts.json` | 3D ゲノム構造データ | → single-cell-genomics, epigenomics-chromatin |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 variant-interpretation ──→ regulatory-genomics ──→ epigenomics-chromatin
@@ -272,3 +270,22 @@ variant-interpretation ──→ regulatory-genomics ──→ epigenomics-chrom
                                     ├──→ gene-expression (eQTL/制御)
                                     └──→ noncoding-rna (ncRNA 制御)
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

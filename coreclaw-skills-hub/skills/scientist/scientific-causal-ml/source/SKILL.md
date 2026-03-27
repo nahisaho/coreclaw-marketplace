@@ -1,9 +1,7 @@
 ---
 name: scientific-causal-ml
 description: |
-  因果機械学習スキル。DoWhy 因果モデル・EconML CATE 推定・
-  Double/Debiased ML・Causal Forest・メタラーナー (S/T/X)・
-  異質的処置効果 (HTE)・因果特徴量選択。
+  Causal machine learning skill. Heterogeneous treatment effects, CATE estimation, causal forests, meta-learners (S/T/X), uplift modeling, and policy optimization.
 tu_tools:
   - key: openml
     name: OpenML
@@ -225,7 +223,7 @@ def meta_learner(df, treatment, outcome, features,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 causal-inference → causal-ml → feature-importance
@@ -235,7 +233,7 @@ causal-inference → causal-ml → feature-importance
    (臨床試験)                   (説明可能 AI)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -243,8 +241,27 @@ causal-inference → causal-ml → feature-importance
 | `cate_estimates.csv` | CATE 推定値 | → precision-medicine |
 | `causal_feature_importance.csv` | 因果特徴量重要度 | → explainable-ai |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `openml` | OpenML | 因果推論 ML データセット参照 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

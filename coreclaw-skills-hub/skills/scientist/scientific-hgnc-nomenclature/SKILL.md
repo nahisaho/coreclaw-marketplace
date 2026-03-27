@@ -1,11 +1,7 @@
 ---
 name: scientific-hgnc-nomenclature
 description: |
-  HGNC 遺伝子命名法スキル。HUGO Gene Nomenclature Committee
-  REST API による公式遺伝子シンボル検索・エイリアス解決・
-  遺伝子ファミリー/グループクエリ・ID クロスリファレンス
-  パイプライン。
-  TU 外スキル (直接 REST API)。
+  HGNC nomenclature skill. Official gene symbol resolution, gene name standardization, symbol history tracking, and gene family classification via HGNC database.
 tu_tools:
   - key: hgnc
     name: HGNC
@@ -267,7 +263,7 @@ def hgnc_pipeline(symbols, aliases=None,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 biothings-idmapping → hgnc-nomenclature → genome-sequence-tools
@@ -277,7 +273,7 @@ biothings-idmapping → hgnc-nomenclature → genome-sequence-tools
     (RNA-seq)                          (バリアント解釈)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -285,8 +281,27 @@ biothings-idmapping → hgnc-nomenclature → genome-sequence-tools
 | `results/hgnc_alias_resolved.csv` | エイリアス解決 | → biothings-idmapping |
 | `results/hgnc_xref.csv` | ID 相互参照 | → genome-sequence-tools |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `hgnc` | HGNC | 遺伝子命名法・シンボル検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,10 +1,7 @@
 ---
 name: scientific-automl
 description: |
-  AutoML パイプラインスキル。Optuna ハイパーパラメータ最適化・
-  FLAML 高速 AutoML・Auto-sklearn モデル選択・
-  NAS (Neural Architecture Search)・
-  特徴量エンジニアリング自動化・モデル比較パイプライン。
+  AutoML pipeline skill. Optuna hyperparameter optimization, FLAML fast AutoML, Auto-sklearn model selection, NAS, automated feature engineering, and model comparison pipelines.
 tu_tools:
   - key: openml
     name: OpenML
@@ -246,7 +243,7 @@ def automl_report(study, output_dir="results"):
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 eda-correlation → automl → ensemble-methods
@@ -259,7 +256,7 @@ eda-correlation → automl → ensemble-methods
     (能動学習)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -267,8 +264,27 @@ eda-correlation → automl → ensemble-methods
 | `param_importance.png` | パラメータ重要度 | → レポート |
 | `model_comparison.csv` | モデル比較 | → ensemble-methods |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `openml` | OpenML | AutoML ベンチマーク・タスク参照 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

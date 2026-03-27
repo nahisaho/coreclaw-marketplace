@@ -1,11 +1,7 @@
 ---
 name: scientific-pathway-enrichment
 description: |
-  パスウェイ・Gene Ontology 富化解析スキル。KEGG パスウェイ検索・マッピング、
-  Reactome パスウェイ階層解析、Gene Ontology (BP/MF/CC) アノテーション、
-  WikiPathways コミュニティパスウェイ、Pathway Commons 統合相互作用を横断的に
-  利用した ORA (Over-Representation Analysis)、GSEA (Gene Set Enrichment Analysis)、
-  トポロジーベース富化解析パイプライン。34+ の ToolUniverse SMCP ツールと連携。
+  Pathway enrichment skill. GSEA, ORA, KEGG/Reactome/WikiPathways enrichment, gene set analysis, leading-edge analysis, and pathway crosstalk identification.
 ---
 
 # Scientific Pathway & Enrichment Analysis
@@ -391,7 +387,7 @@ def integrated_enrichment_heatmap(ora_results_dict, top_n=20,
 | `figures/enrichment_heatmap.png` | PNG |
 | `figures/gsea_running_sum.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -432,7 +428,7 @@ def integrated_enrichment_heatmap(ora_results_dict, top_n=20,
 | Pathway Commons | `pc_search_pathways` | 統合パスウェイ検索 |
 | Pathway Commons | `pc_get_interactions` | 分子間相互作用取得 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -447,3 +443,22 @@ def integrated_enrichment_heatmap(ora_results_dict, top_n=20,
 ### 依存パッケージ
 
 `scipy`, `statsmodels`, `pandas`, `numpy`, `matplotlib`, `requests`, `gseapy` (optional)
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

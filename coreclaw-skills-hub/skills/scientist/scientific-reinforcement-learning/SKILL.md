@@ -1,9 +1,7 @@
 ---
 name: scientific-reinforcement-learning
 description: |
-  強化学習スキル。Stable-Baselines3 による RL エージェント訓練、
-  Gymnasium 環境構築、PufferLib 大規模マルチエージェント、
-  科学応用 (分子生成・実験最適化・ロボット制御) パイプライン。
+  Reinforcement learning skill. Policy gradient methods, Q-learning, actor-critic architectures, environment design, reward shaping, and RL experiment management.
 tu_tools:
   - key: papers_with_code
     name: Papers with Code
@@ -263,7 +261,7 @@ def rl_experiment_optimizer(parameter_ranges, objective_fn,
 
 ---
 
-## パイプライン出力
+## Pipeline Output
 
 | 出力ファイル | 説明 | 連携先スキル |
 |---|---|---|
@@ -272,7 +270,7 @@ def rl_experiment_optimizer(parameter_ranges, objective_fn,
 | `results/rl_optimization.json` | 最適化パラメータ | → doe, process-optimization |
 | `figures/rl_reward_curve.png` | 報酬曲線 | → presentation-design |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 doe ──→ reinforcement-learning ──→ lab-automation
@@ -283,8 +281,27 @@ doe ──→ reinforcement-learning ──→ lab-automation
                     └──→ deep-learning (DRL パイプライン)
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `papers_with_code` | Papers with Code | 強化学習環境・ベンチマーク検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

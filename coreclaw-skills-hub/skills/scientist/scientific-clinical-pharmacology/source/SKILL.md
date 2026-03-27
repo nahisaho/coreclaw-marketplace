@@ -1,11 +1,7 @@
 ---
 name: scientific-clinical-pharmacology
 description: |
-  臨床薬理学モデリングスキル。PopPK (NLME 混合効果モデル)・
-  PBPK シミュレーション・TDM 投与量最適化・
-  Emax/Sigmoid PD モデリング・薬物間相互作用予測・
-  臨床薬理パイプライン。
-  TU 外スキル (Python + nlmixr2/mrgsolve ラッパー)。
+  Clinical pharmacology skill. Dose-response modeling, PK/PD simulation, drug interaction prediction, therapeutic drug monitoring, and population pharmacokinetics.
 tu_tools:
   - key: drugbank
     name: DrugBank
@@ -346,7 +342,7 @@ def clinical_pharmacology_pipeline(
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 admet-pharmacokinetics → clinical-pharmacology → pharmacogenomics
@@ -356,7 +352,7 @@ admet-pharmacokinetics → clinical-pharmacology → pharmacogenomics
     (薬剤リパーパシング)                       (臨床意思決定)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -364,8 +360,27 @@ admet-pharmacokinetics → clinical-pharmacology → pharmacogenomics
 | `popk_estimates.json` | PopPK パラメータ | → pharmacogenomics |
 | `tdm_recommendation.json` | TDM 推奨用量 | → clinical-decision |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `drugbank` | DrugBank | 薬物動態・相互作用データ検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

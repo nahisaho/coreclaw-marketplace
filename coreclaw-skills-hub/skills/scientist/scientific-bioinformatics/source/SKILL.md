@@ -1,9 +1,7 @@
 ---
 name: scientific-bioinformatics
 description: |
-  バイオインフォマティクス解析パイプラインのスキル。scRNA-seq（Scanpy）、ゲノム配列解析
-  （BioPython）、PPI ネットワーク解析（NetworkX）、メタボロミクスの前処理を行う際に使用。
-  Scientific Skills Exp-01, 04, 07, 09 で確立したパターン。
+  Bioinformatics workflow skill. Sequence alignment, variant calling, genome assembly, annotation, phylogenetic analysis, and multi-omics data integration pipelines.
 ---
 
 # Scientific Bioinformatics Pipelines
@@ -212,7 +210,7 @@ def metabolomics_preprocessing(df, metabolite_cols, group_col=None):
 | `figures/umap_clusters.png` | PNG |
 | `figures/network_visualization.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -231,3 +229,22 @@ def metabolomics_preprocessing(df, metabolite_cols, group_col=None):
 - **Exp-04**: PPI ネットワーク（NetworkX + Louvain）
 - **Exp-07**: メタボロミクス（KNN + PLS-DA + VIP）
 - **Exp-09**: ゲノム配列（BioPython + 系統樹 + RSCU）
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

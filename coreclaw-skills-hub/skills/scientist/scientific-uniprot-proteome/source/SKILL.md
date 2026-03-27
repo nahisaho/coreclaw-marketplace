@@ -1,9 +1,7 @@
 ---
 name: scientific-uniprot-proteome
 description: |
-  UniProt プロテオームスキル。UniProt REST API による
-  タンパク質検索・ID マッピング・配列取得・機能アノテーション・
-  UniRef/UniParc 横断検索。ToolUniverse 連携: uniprot。
+  UniProt proteome skill. UniProt protein sequence/annotation retrieval, proteome-wide queries, functional annotation extraction, and protein feature analysis.
 tu_tools:
   - key: uniprot
     name: UniProt
@@ -246,13 +244,13 @@ def uniprot_pipeline(gene_names, organism="9606",
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `uniprot` | UniProt | タンパク質検索・ID マッピング・配列・機能アノテーション |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 protein-structure-analysis → uniprot-proteome → protein-design
@@ -265,9 +263,28 @@ protein-structure-analysis → uniprot-proteome → protein-design
                   (InterPro/Pfam)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/uniprot_entries.csv` | タンパク質検索結果 | → protein-structure-analysis |
 | `results/protein_features.csv` | 機能フィーチャー | → protein-domain-family |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

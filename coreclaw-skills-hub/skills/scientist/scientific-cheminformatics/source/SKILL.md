@@ -1,9 +1,7 @@
 ---
 name: scientific-cheminformatics
 description: |
-  ケモインフォマティクス解析のスキル。RDKit を用いた分子記述子計算、Morgan フィンガープリント、
-  Tanimoto 類似度、構造アラート検出、Lipinski Rule of 5 評価を行う際に使用。
-  Scientific Skills Exp-02, 05 で確立したパターン。
+  Cheminformatics skill. RDKit molecular property calculation, SMILES/InChI handling, molecular fingerprints, substructure search, chemical similarity, and ADMET prediction.
 ---
 
 # Scientific Cheminformatics Analysis
@@ -22,7 +20,7 @@ RDKit を用いた分子解析パイプラインスキル。SMILES → 分子記
 
 ## Quick Start
 
-## 標準パイプライン
+## Standard Pipeline
 
 ### 1. SMILES → 分子オブジェクト変換
 
@@ -190,7 +188,7 @@ def scaffold_analysis(smiles_list, names=None):
 | `figures/chemical_space_pca.png` | PNG |
 | `figures/similarity_heatmap.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -207,3 +205,22 @@ def scaffold_analysis(smiles_list, names=None):
 
 - **Exp-02**: EGFR 阻害剤 SAR 解析（記述子、Tanimoto、MCS、Scaffold）
 - **Exp-05**: 毒性予測（構造アラート、Morgan FP 分類モデル）
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

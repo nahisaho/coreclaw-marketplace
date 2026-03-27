@@ -1,11 +1,7 @@
 ---
 name: scientific-variant-effect-prediction
 description: |
-  計算バリアント効果予測スキル。AlphaMissense (タンパク質構造ベース病原性予測)、
-  CADD (統合アノテーションスコア)、SpliceAI (スプライシング影響予測) の
-  3 大予測ツールを統合したコンセンサス病原性評価パイプライン。
-  Ensembl VEP 連携、バリアントフィルタリング、優先順位付け対応。
-  9 の ToolUniverse SMCP ツールと連携。
+  Variant effect prediction skill. CADD/REVEL/AlphaMissense scoring, splice variant prediction, regulatory variant impact, and variant pathogenicity classification.
 tu_tools:
   - key: spliceai
     name: SpliceAI
@@ -301,7 +297,7 @@ def consensus_pathogenicity(am_df, cadd_df, spliceai_df,
 | `results/consensus_pathogenicity.csv` | CSV |
 | `figures/variant_score_distribution.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -317,7 +313,7 @@ def consensus_pathogenicity(am_df, cadd_df, spliceai_df,
 | SpliceAI | `SpliceAI_predict_pangolin` | Pangolin スプライシング予測 |
 | SpliceAI | `SpliceAI_get_max_delta` | 最大Δスコア取得 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -330,3 +326,22 @@ def consensus_pathogenicity(am_df, cadd_df, spliceai_df,
 ### 依存パッケージ
 
 `pandas`, `numpy`, `requests`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

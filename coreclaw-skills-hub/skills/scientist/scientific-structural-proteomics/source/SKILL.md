@@ -1,9 +1,7 @@
 ---
 name: scientific-structural-proteomics
 description: |
-  構造プロテオミクス統合スキル。EMDB クライオ EM、PDBe 構造データ、
-  Proteins API (UniProt)、Complex Portal 複合体、DeepGO 機能予測、
-  EVE 変異影響評価の統合パイプライン。
+  Structural proteomics skill. Cross-linking mass spectrometry analysis, HDX-MS data processing, native MS, and structural biology data integration.
 ---
 
 # Scientific Structural Proteomics
@@ -265,7 +263,7 @@ def get_eve_variant_score(gene_name, variant=None):
 | `results/deepgo_predictions.json` | JSON |
 | `results/eve_scores.json` | JSON |
 
-### 利用可能ツール
+### Available Tools
 
 | カテゴリ | 主要ツール | 用途 |
 |---|---|---|
@@ -302,7 +300,7 @@ def get_eve_variant_score(gene_name, variant=None):
 | EVE | `EVE_get_gene_info` | 遺伝子情報 |
 | EVE | `EVE_get_variant_score` | 変異スコア |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -315,3 +313,22 @@ def get_eve_variant_score(gene_name, variant=None):
 ### 依存パッケージ
 
 `requests`, `pandas`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

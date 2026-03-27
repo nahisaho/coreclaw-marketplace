@@ -1,9 +1,7 @@
 ---
 name: scientific-streaming-analytics
 description: |
-  ストリーミング解析スキル。River オンライン学習・
-  リアルタイム異常検知・ストリーミング統計・
-  増分データ可視化・概念ドリフト検出。
+  Streaming analytics skill. Real-time data processing, stream windowing, online learning, event-driven analysis, and streaming aggregation pipelines.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -206,7 +204,7 @@ def concept_drift_detection(stream_data, target_col="y",
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 [データストリーム] → streaming-analytics → model-monitoring
@@ -216,7 +214,7 @@ def concept_drift_detection(stream_data, target_col="y",
                       (バッチ異常検知)    (データ品質)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -224,8 +222,27 @@ def concept_drift_detection(stream_data, target_col="y",
 | `stream_anomalies.csv` | 異常検知結果 | → alerting |
 | `drift_report.csv` | ドリフト検出点 | → model-monitoring |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | ストリーミング解析ツール検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

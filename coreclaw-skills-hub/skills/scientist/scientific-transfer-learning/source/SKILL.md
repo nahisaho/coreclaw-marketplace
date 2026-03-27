@@ -1,9 +1,7 @@
 ---
 name: scientific-transfer-learning
 description: |
-  転移学習・ドメイン適応スキル。事前学習モデルファインチューニング・
-  Few-shot / Zero-shot 学習・ドメイン適応 (DA)・
-  知識蒸留・マルチタスク学習・科学ドメイン特化モデル転移。
+  Transfer learning skill. Domain adaptation, fine-tuning pretrained models, feature extraction, few-shot learning, and transfer learning strategy selection.
 tu_tools:
   - key: papers_with_code
     name: Papers with Code
@@ -283,7 +281,7 @@ def knowledge_distillation(teacher, student, train_loader,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 deep-learning → transfer-learning → active-learning
@@ -293,7 +291,7 @@ deep-learning → transfer-learning → active-learning
     (臨床 AI)                    (アンサンブル)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -301,8 +299,27 @@ deep-learning → transfer-learning → active-learning
 | `ft_history.csv` | 学習履歴 | → visualization |
 | `few_shot_predictions.csv` | Few-shot 予測 | → 評価 |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `papers_with_code` | Papers with Code | 転移学習モデル・事前学習済みモデル検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

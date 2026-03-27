@@ -1,11 +1,7 @@
 ---
 name: scientific-glycomics
 description: |
-  糖鎖構造解析スキル。GlyConnect / GlyGen / GlyCosmos
-  糖鎖データベース統合検索・糖鎖構造描画・糖タンパク質
-  グリコシル化部位予測・レクチンバインディング・
-  糖鎖マスフラグメンテーション解析パイプライン。
-  TU 外スキル (直接 REST API + Python ライブラリ)。
+  Glycomics skill. Glycan structure analysis, glycosylation site prediction, glycoproteomics data processing, and carbohydrate database queries.
 tu_tools:
   - key: glygen
     name: GlyGen
@@ -260,7 +256,7 @@ def glycomics_pipeline(uniprot_ids,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 proteomics-mass-spectrometry → glycomics → pathway-enrichment
@@ -270,15 +266,34 @@ proteomics-mass-spectrometry → glycomics → pathway-enrichment
     (糖鎖結合サイト構造)               (抗体グリコシル化)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/glycosites.csv` | グリコシル化部位 | → protein-structure-analysis |
 | `results/glycan_details.csv` | 糖鎖詳細 | → pathway-enrichment |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `glygen` | GlyGen | 糖鎖構造・機能データベース検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

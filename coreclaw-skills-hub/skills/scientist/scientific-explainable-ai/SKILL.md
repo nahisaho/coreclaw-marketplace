@@ -1,9 +1,7 @@
 ---
 name: scientific-explainable-ai
 description: |
-  説明可能 AI (XAI) スキル。SHAP・LIME・Captum・InterpretML を活用し、
-  モデル予測の根拠説明・特徴量寄与分解・反実仮想説明・公平性監査を支援。
-  「モデルの予測を説明して」「SHAP 値を計算して」「LIME で説明して」で発火。
+  Explainable AI skill. SHAP values, LIME explanations, feature importance, partial dependence plots, model-agnostic interpretability, and explanation report generation.
 tu_tools:
   - key: papers_with_code
     name: Papers with Code
@@ -338,9 +336,9 @@ def fairness_audit(model, X_test, y_test, sensitive_feature,
 - [ ] 公平性監査（機密属性がある場合）
 - [ ] 説明レポート生成
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `papers_with_code` | Papers with Code | XAI 手法・ベンチマーク検索 |
 
@@ -348,16 +346,16 @@ def fairness_audit(model, X_test, y_test, sensitive_feature,
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `results/xai_report.json` | XAI 結果サマリー（JSON） | 説明分析完了時 |
 | `figures/shap_summary.png` | SHAP summary plot | グローバル説明時 |
 | `figures/shap_waterfall.png` | SHAP waterfall plot | ローカル説明時 |
 | `figures/shap_interaction.png` | 相互作用ヒートマップ | Interaction 分析時 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-feature-importance` | ← Permutation/Tree importance との比較 |
 | `scientific-ml-classification` | ← 分類モデルの説明 |
@@ -365,3 +363,22 @@ def fairness_audit(model, X_test, y_test, sensitive_feature,
 | `scientific-deep-learning` | ← DNN モデルの DeepSHAP/Captum 説明 |
 | `scientific-graph-neural-networks` | ← GNN モデルの GNNExplainer 説明 |
 | `scientific-clinical-decision-support` | → 臨床 AI の説明責任 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

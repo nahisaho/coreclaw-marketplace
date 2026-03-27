@@ -1,10 +1,7 @@
 ---
 name: scientific-clinical-decision-support
 description: |
-  臨床意思決定支援スキル。エビデンスに基づく治療推奨、臨床パスウェイアルゴリズム、
-  患者コホート解析、バイオマーカー分類、精密腫瘍学（ToolUniverse の Precision Oncology
-  パラダイム + claude-scientific-skills の CDS/Treatment Plans を統合）。
-  「治療推奨を作成して」「臨床パスウェイを設計して」「精密医療の解析して」で発火。
+  Clinical decision support skill. Evidence-based clinical guidelines, risk scoring models, diagnostic algorithms, treatment pathway selection, and clinical prediction rules.
 ---
 
 # Scientific Clinical Decision Support
@@ -269,13 +266,13 @@ Clinical decisions must be made by qualified healthcare professionals.
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `results/clinical_decision_report.md` | 臨床意思決定レポート（Markdown） | 全解析完了時 |
 | `results/clinical_recommendation.json` | 推奨事項データ（JSON） | GRADE 評価完了時 |
 | `results/trial_matches.json` | 臨床試験マッチング結果（JSON） | 試験検索完了時 |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -289,9 +286,9 @@ Clinical decisions must be made by qualified healthcare professionals.
 | DGIdb | `DGIdb_get_drug_gene_interactions` | 薬物-遺伝子相互作用 |
 | PubMed | `PubMed_search_articles` | エビデンス検索 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-variant-interpretation` | ← バリアント解釈結果の臨床応用 |
 | `scientific-drug-repurposing` | ← リポジショニング候補の臨床評価 |
@@ -302,3 +299,22 @@ Clinical decisions must be made by qualified healthcare professionals.
 | `scientific-academic-writing` | → 研究成果の論文化 |
 | `scientific-clinical-trials-analytics` | ← 臨床試験マッチング・競合解析 |
 | `scientific-pharmacogenomics` | ← PGx バイオマーカー・投与量調整 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

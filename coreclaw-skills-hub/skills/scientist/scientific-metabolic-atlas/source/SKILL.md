@@ -1,10 +1,7 @@
 ---
 name: scientific-metabolic-atlas
 description: |
-  代謝アトラススキル。Metabolic Atlas / Human-GEM REST API による
-  代謝反応・代謝産物・コンパートメント検索、フラックス解析統合、
-  代謝ネットワーク可視化。K-Dense 連携: metabolic-atlas。
-  ToolUniverse 連携: metabolic_atlas。
+  Metabolic atlas skill. Genome-scale metabolic model queries, metabolic pathway visualization, flux balance analysis results, and cross-species metabolic comparison.
 tu_tools: []
 kdense_ref: metabolic-atlas
 tu_tools:
@@ -239,13 +236,13 @@ def metabolic_atlas_pipeline(query, model="Human-GEM",
 
 ---
 
-## K-Dense 連携
+## K-Dense Integration
 
 | K-Dense Key | 参照内容 |
 |-------------|---------|
 | `metabolic-atlas` | 代謝モデル構造・反応データベース |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 metabolic-modeling → metabolic-atlas → systems-biology
@@ -258,7 +255,7 @@ metabolic-modeling → metabolic-atlas → systems-biology
                  (メタボロミクス統合)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -267,8 +264,27 @@ metabolic-modeling → metabolic-atlas → systems-biology
 | `results/metabolic_network.graphml` | 代謝ネットワーク | → systems-biology |
 | `results/hub_metabolites.csv` | ハブ代謝産物 | → multi-omics |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `metabolic_atlas` | Metabolic Atlas | ヒトゲノム規模代謝モデル検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

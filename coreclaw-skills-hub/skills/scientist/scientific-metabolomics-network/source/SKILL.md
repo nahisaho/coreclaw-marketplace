@@ -1,11 +1,7 @@
 ---
 name: scientific-metabolomics-network
 description: |
-  代謝物ネットワーク構築スキル。KEGG/Reactome 代謝パスウェイ
-  グラフ抽出・代謝物相関ネットワーク構築 (GGM/WGCNA)・
-  ハブ代謝物同定・MetaboAnalyst 統合エンリッチメント
-  パイプライン。
-  TU 外スキル (直接 Python ライブラリ + REST API)。
+  Metabolomics network skill. Metabolite correlation networks, pathway-level network analysis, metabolite-gene interaction mapping, and multi-omics network integration.
 tu_tools:
   - key: hmdb
     name: HMDB
@@ -296,7 +292,7 @@ def metabolomics_network_pipeline(
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 metabolomics → metabolomics-network → pathway-enrichment
@@ -306,7 +302,7 @@ metabolomics → metabolomics-network → pathway-enrichment
     (脂質サブクラス)                 (マルチオミクス統合)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -314,8 +310,27 @@ metabolomics → metabolomics-network → pathway-enrichment
 | `results/hub_metabolites.csv` | ハブ代謝物 | → biomarker-discovery |
 | `results/pathway_enrichment.csv` | パスウェイエンリッチメント | → pathway-enrichment |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `hmdb` | HMDB | 代謝物ネットワーク・代謝経路検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

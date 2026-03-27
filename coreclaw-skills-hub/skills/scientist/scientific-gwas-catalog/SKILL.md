@@ -1,9 +1,7 @@
 ---
 name: scientific-gwas-catalog
 description: |
-  GWAS カタログスキル。NHGRI-EBI GWAS Catalog REST API によるゲノム
-  ワイド関連研究メタデータ・関連シグナル・形質・遺伝子座検索。
-  ToolUniverse 連携: gwas。
+  GWAS Catalog skill. Genome-wide association study result queries, trait-variant associations, LD analysis, and polygenic risk score construction from GWAS Catalog data.
 tu_tools:
   - key: gwas
     name: GWAS Catalog
@@ -239,13 +237,13 @@ def gwas_catalog_pipeline(trait_query, output_dir="results"):
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `gwas` | GWAS Catalog | 関連シグナル・形質・研究メタデータ検索 |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 disease-research → gwas-catalog → variant-interpretation
@@ -258,10 +256,29 @@ disease-research → gwas-catalog → variant-interpretation
                   (臨床的意義判定)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/gwas_studies.csv` | GWAS 研究メタデータ | → literature-search |
 | `results/gwas_associations.csv` | 関連シグナル | → variant-interpretation |
 | `results/phewas.csv` | PheWAS 結果 | → disease-research |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

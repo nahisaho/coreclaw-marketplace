@@ -1,9 +1,7 @@
 ---
 name: scientific-geo-expression
 description: |
-  GEO (Gene Expression Omnibus) 発現プロファイルスキル。GEO REST
-  API データセット検索・サンプル情報・発現マトリクス取得・バルク
-  RNA-seq/マイクロアレイ差次的発現解析。ToolUniverse 連携: geo。
+  GEO expression skill. Gene Expression Omnibus data retrieval, microarray/RNA-seq dataset processing, GEO2R analysis, and cross-platform data normalization.
 tu_tools:
   - key: geo
     name: GEO (Gene Expression Omnibus)
@@ -247,13 +245,13 @@ def geo_expression_pipeline(gse_id, group_col="condition",
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `geo` | GEO | データセット検索・サンプル情報・発現データ |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 ebi-databases → geo-expression → gene-expression-transcriptomics
@@ -266,9 +264,28 @@ ebi-databases → geo-expression → gene-expression-transcriptomics
                   (統合解析)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/samples.csv` | サンプルメタデータ | → gene-expression-transcriptomics |
 | `results/deg_results.csv` | 差次的発現結果 | → pathway-enrichment |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

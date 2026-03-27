@@ -1,9 +1,7 @@
 ---
 name: scientific-experiment-fork
 description: |
-  派生実験設計スキル。既存の実験をベースに条件を変更した派生実験を
-  設計する。実験計画法（DOE）に基づくパラメータ探索を支援。
-  「派生実験を設計して」「条件を変えて実験」「パラメータ探索」で発火。
+  Experiment forking skill. A/B test branching, experiment versioning, parameter variation management, and parallel experimental workflow orchestration.
 ---
 
 # Scientific Experiment Fork
@@ -62,8 +60,27 @@ description: |
 - 「このPCR条件をベースにアニーリング温度を最適化して」
 - 「薬剤濃度の用量反応曲線実験を設計して」
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 実験計画法・パラメータ探索ツール検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

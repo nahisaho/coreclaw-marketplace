@@ -1,6 +1,6 @@
 {
   "name": "scientific-environmental-ecology",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Supports environmental and spatial researchers with data-integration planning, comparative analysis, and context-aware interpretation.",
   "entrypoint": "main.py"
 }

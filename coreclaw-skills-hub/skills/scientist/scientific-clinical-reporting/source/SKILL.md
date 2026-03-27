@@ -1,9 +1,7 @@
 ---
 name: scientific-clinical-reporting
 description: |
-  臨床レポート自動生成スキル。検査結果サマリー (SOAP ノート)、バイオマーカー
-  プロファイルレポート、薬理ゲノミクスレポート、臨床試験要約を構造化テンプレート
-  (PDF/LaTeX/HTML) で出力。HL7 FHIR DiagnosticReport 形式にも対応。
+  Clinical reporting skill. Structured clinical study reports, CONSORT/STROBE compliance, patient demographics tables, efficacy/safety summaries, and regulatory submission formatting.
 ---
 
 # Scientific Clinical Reporting
@@ -301,7 +299,7 @@ def export_clinical_report(report, output_format="html",
 | `reports/clinical_report.tex` | LaTeX |
 | `reports/clinical_report.fhir.json` | FHIR JSON |
 
-### 利用可能ツール
+### Available Tools
 
 > 本スキルは ToolUniverse ツールに直接依存しない。
 
@@ -309,7 +307,7 @@ def export_clinical_report(report, output_format="html",
 |---|---|---|
 | — | — | — |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -322,3 +320,22 @@ def export_clinical_report(report, output_format="html",
 ### 依存パッケージ
 
 `pandas`, `json` (stdlib), `datetime` (stdlib)
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

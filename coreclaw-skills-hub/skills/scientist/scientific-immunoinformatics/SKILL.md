@@ -1,10 +1,7 @@
 ---
 name: scientific-immunoinformatics
 description: |
-  免疫情報学スキル。エピトープ予測（MHC-I/II バインディング）・
-  T 細胞/B 細胞エピトープマッピング・抗体構造解析（CDR ループ）・
-  免疫レパトア解析（TCR/BCR クロノタイプ）・ワクチン候補設計・
-  IEDB/IMGT/SAbDab データベース統合パイプライン。
+  Immunoinformatics skill. Epitope prediction, MHC binding analysis, TCR/BCR repertoire analysis, immune cell deconvolution, and vaccine design support.
 tu_tools:
   - key: iedb
     name: IEDB
@@ -319,7 +316,7 @@ def vaccine_candidate_ranking(antigens_df, weights=None):
 | `figures/epitope_map.png` | PNG |
 | `figures/repertoire_clonality.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -339,7 +336,7 @@ def vaccine_candidate_ranking(antigens_df, weights=None):
 | TheraSAbDab | `TheraSAbDab_search_by_target` | 標的別治療用抗体 |
 | UniProt | `UniProt_get_entry_by_accession` | タンパク質情報取得 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 連携内容 |
 |---|---|
@@ -352,3 +349,22 @@ def vaccine_candidate_ranking(antigens_df, weights=None):
 #### 依存パッケージ
 
 - mhcflurry, anarci, biopython, immcantation, scirpy
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

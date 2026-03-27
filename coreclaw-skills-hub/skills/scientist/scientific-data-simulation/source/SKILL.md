@@ -1,9 +1,7 @@
 ---
 name: scientific-data-simulation
 description: |
-  物理・化学・生物学に基づく合成データ生成のスキル。実験データが不足する場合に、
-  ドメイン知識を反映したシミュレーションデータを生成する際に使用。
-  Scientific Skills Exp-06, 07, 08, 09, 12, 13 で確立したパターン。
+  Data simulation skill. Synthetic data generation, Monte Carlo simulation, bootstrap resampling, parametric/non-parametric simulation, and power analysis via simulation.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -230,9 +228,9 @@ def generate_ecg_beat(t, hr=72):
 - [ ] 変数間の相関構造が既知の物理法則と一致するか
 - [ ] 群間差が効果量として検出可能な水準か
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | シミュレーションツールレジストリ検索 |
 
@@ -252,3 +250,22 @@ def generate_ecg_beat(t, hr=72):
 - **Exp-09**: コドンバイアス反映ゲノム配列
 - **Exp-12**: エッチングプロセスデータ（500 サンプル × 8 パラメータ）
 - **Exp-13**: 薄膜成膜データ（600 サンプル × 6 材料 × PSP 3 階層）
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

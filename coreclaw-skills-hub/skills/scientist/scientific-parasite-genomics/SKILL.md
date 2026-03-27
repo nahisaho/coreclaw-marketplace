@@ -1,9 +1,7 @@
 ---
 name: scientific-parasite-genomics
 description: |
-  寄生虫ゲノミクススキル。PlasmoDB/VectorBase/ToxoDB REST API
-  による寄生虫ゲノム検索・遺伝子情報・薬剤標的同定・比較
-  ゲノミクス。直接 REST API 連携 (TU 外)。
+  Parasite genomics skill. Parasite genome analysis, drug resistance marker identification, population genetics of parasites, and host-parasite interaction genomics.
 tu_tools: []
 ---
 
@@ -254,11 +252,11 @@ def parasite_genomics_pipeline(organism, query,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
 直接 REST API 使用 (VEuPathDB は ToolUniverse 外)。
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 infectious-disease → parasite-genomics → phylogenetics
@@ -271,10 +269,29 @@ infectious-disease → parasite-genomics → phylogenetics
                   (パスウェイ解析)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/genes.csv` | 遺伝子一覧 | → phylogenetics |
 | `results/annotations.csv` | 機能アノテーション | → pathway-enrichment |
 | `results/drug_targets.csv` | 薬剤標的候補 | → drug-discovery |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

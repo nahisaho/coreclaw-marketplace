@@ -1,10 +1,7 @@
 ---
 name: scientific-doe
 description: |
-  実験計画法（DOE）スキル。直交配列表（L9/L16/L27）、中心複合計画（CCD）、
-  Box-Behnken 設計、D-最適計画、応答曲面法（RSM）、交互作用解析、
-  ベイズ最適化（Gaussian Process）、効果プロット（主効果/交互作用/pareto）の
-  テンプレートを提供。
+  Design of Experiments (DOE) skill. Factorial design, response surface methodology, Latin hypercube sampling, Taguchi methods, and optimal experimental design generation.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -343,9 +340,9 @@ def interaction_plot(design_df, response_col, factor1, factor2, figsize=(8, 6)):
     plt.close()
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 実験計画法ツールレジストリ検索 |
 
@@ -368,3 +365,22 @@ def interaction_plot(design_df, response_col, factor1, factor2, figsize=(8, 6)):
 scipy>=1.10
 scikit-learn>=1.3
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

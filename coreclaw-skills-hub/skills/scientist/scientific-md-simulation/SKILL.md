@@ -1,9 +1,7 @@
 ---
 name: scientific-md-simulation
 description: |
-  分子動力学シミュレーション解析スキル。MDAnalysis によるトラジェクトリ解析・
-  RMSD/RMSF/Rg 時系列指標・水素結合解析・二次構造変化追跡・
-  OpenFF Toolkit力場パラメータ化・溶媒和自由エネルギー推定パイプライン。
+  Molecular dynamics simulation skill. GROMACS/OpenMM simulation setup, force field selection, trajectory analysis, free energy calculations, and enhanced sampling methods.
 tu_tools:
   - key: pdb
     name: PDB
@@ -297,7 +295,7 @@ def md_analysis_pipeline(topology, trajectory, selection="protein"):
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 molecular-docking ──→ md-simulation ──→ admet-pharmacokinetics
@@ -309,7 +307,7 @@ protein-structure ──┘        │              drug-target-profiling
                     (pymatgen/VASP 連携)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -318,8 +316,27 @@ protein-structure ──┘        │              drug-target-profiling
 | `results/hbond_analysis.csv` | 水素結合解析 | → molecular-docking |
 | `results/md_summary.json` | 統合サマリ | → admet-pharmacokinetics |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `pdb` | PDB | 分子構造データベース参照 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

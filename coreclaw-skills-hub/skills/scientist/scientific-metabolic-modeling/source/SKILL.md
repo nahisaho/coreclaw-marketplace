@@ -1,9 +1,7 @@
 ---
 name: scientific-metabolic-modeling
 description: |
-  代謝モデリングスキル。BiGG Models ゲノムスケール代謝モデル、
-  BioModels SBML リポジトリを統合した代謝ネットワーク解析・
-  モデル検索パイプライン。
+  Metabolic modeling skill. Constraint-based metabolic modeling (COBRApy), genome-scale model construction, gene knockout simulation, and metabolic engineering predictions.
 tu_tools:
   - key: biomodels
     name: BioModels
@@ -261,7 +259,7 @@ def metabolic_model_exploration(organism_query):
 | `results/biomodels_search.csv` | CSV |
 | `results/biomodels_model.json` | JSON |
 
-### 利用可能ツール
+### Available Tools
 
 | カテゴリ | 主要ツール | 用途 |
 |---|---|---|
@@ -278,7 +276,7 @@ def metabolic_model_exploration(organism_query):
 | BioModels | `BioModels_download_model` | モデル DL |
 | BioModels | `BioModels_search_parameters` | パラメータ検索 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -290,3 +288,22 @@ def metabolic_model_exploration(organism_query):
 ### 依存パッケージ
 
 `requests`, `pandas`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

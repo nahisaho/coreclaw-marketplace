@@ -1,10 +1,7 @@
 ---
 name: scientific-grant-writing
 description: |
-  研究グラント（助成金申請書）執筆スキル。NIH R01/R21、NSF、JSPS 科研費、
-  ERC 等のフォーマットに対応。Specific Aims、Research Strategy、予算計画、
-  Biosketch の構造化作成を支援。
-  「グラント申請書を書いて」「科研費を作成して」「Specific Aims を書いて」で発火。
+  Grant writing skill. Research proposal drafting, specific aims composition, budget justification, significance/innovation statements, and funding agency format compliance.
 ---
 
 # Scientific Grant Writing
@@ -287,13 +284,13 @@ BUDGET_JUSTIFICATION_TEMPLATE = """
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `grants/specific_aims.md` | Specific Aims ページ（Markdown） | Aims 策定完了時 |
 | `grants/research_strategy.md` | Research Strategy（Markdown） | 全セクション完了時 |
 | `grants/budget.json` | 予算計画（JSON） | 予算見積完了時 |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -305,9 +302,9 @@ BUDGET_JUSTIFICATION_TEMPLATE = """
 | Crossref | `Crossref_search_works` | DOI・出版情報検索 |
 | OpenAlex | `OpenAlex_Guidelines_Search` | オープンアクセス文献検索 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-research-methodology` | ← 研究デザイン・方法論の提供 |
 | `scientific-hypothesis-pipeline` | ← 仮説定義・課題設定 |
@@ -315,3 +312,22 @@ BUDGET_JUSTIFICATION_TEMPLATE = """
 | `scientific-academic-writing` | ← アカデミックライティングスキル |
 | `scientific-scientific-schematics` | ← 研究計画図・フロー図生成 |
 | `scientific-regulatory-science` | ← 規制戦略セクション |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

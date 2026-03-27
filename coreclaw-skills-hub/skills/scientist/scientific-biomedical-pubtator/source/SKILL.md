@@ -1,9 +1,7 @@
 ---
 name: scientific-biomedical-pubtator
 description: |
-  バイオメディカルテキストマイニングスキル。PubTator3 API による
-  遺伝子・疾患・化合物・変異・種のエンティティ認識、関係抽出、
-  バイオメディカル文献アノテーション自動化パイプライン。
+  PubTator biomedical text mining skill. Named entity recognition for genes, diseases, chemicals, mutations, and species from PubMed literature using PubTator3 API.
 ---
 
 # Scientific Biomedical PubTator
@@ -304,13 +302,13 @@ def build_entity_network(pmids, min_cooccurrence=2):
 
 ---
 
-## 利用可能ツール
+## Available Tools
 
 | ToolUniverse カテゴリ | 主なツール |
 |---|---|
 | `pubtator` | `PubTator_annotate`, `PubTator_search` |
 
-## パイプライン出力
+## Pipeline Output
 
 | 出力ファイル | 説明 | 連携先スキル |
 |---|---|---|
@@ -319,7 +317,7 @@ def build_entity_network(pmids, min_cooccurrence=2):
 | `results/entity_network.graphml` | エンティティ共起ネットワーク | → graph-neural-networks |
 | `figures/pubtator_dashboard.png` | アノテーション集計 | → publication-figures |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 literature-search ──→ biomedical-pubtator ──→ text-mining-nlp
@@ -329,3 +327,22 @@ literature-search ──→ biomedical-pubtator ──→ text-mining-nlp
                             ├──→ drug-target-profiling (CGA 関係)
                             └──→ preprint-archive (プレプリント NER)
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

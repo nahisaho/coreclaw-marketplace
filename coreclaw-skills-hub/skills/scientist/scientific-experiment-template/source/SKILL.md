@@ -1,9 +1,7 @@
 ---
 name: scientific-experiment-template
 description: |
-  実験テンプレート生成スキル。研究目的・仮説・手法・実験条件・評価基準・
-  スケジュールを構造化した実験計画書を自動作成する。
-  「実験テンプレート作成して」「実験計画を立てて」「実験プロトコルを作成」で発火。
+  Experiment template skill. Standardized experimental protocol generation, reproducible experiment setup, parameter configuration templates, and lab notebook formatting.
 ---
 
 # Scientific Experiment Template
@@ -78,8 +76,27 @@ description: |
 - 「CRISPR-Cas9によるノックアウト実験の計画を立てて」
 - 「薬物動態試験のプロトコルを作成して」
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 実験プロトコル標準化ツール検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,12 +1,7 @@
 ---
 name: scientific-epigenomics-chromatin
 description: |
-  エピゲノミクス・クロマチン生物学解析スキル。ChIP-seq ピーク呼び出し (MACS2/MACS3)、
-  ATAC-seq ヌクレオソームフリー領域検出、DNA メチル化パターン解析 (WGBS/RRBS)、
-  ヒストン修飾クロマチン状態モデリング (ChromHMM)、Hi-C 接触マップ・TAD 検出、
-  転写因子結合サイト予測 (モチーフ濃縮)、差次結合解析 (DiffBind) を統合した
-  計算エピゲノミクスパイプライン。ChIP-Atlas 43 万+実験との連携対応。
-  ToolUniverse 連携: chipatlas。
+  Epigenomics and chromatin skill. ChIP-seq/ATAC-seq analysis, histone modification mapping, chromatin accessibility, DNA methylation analysis, and epigenetic regulatory networks.
 tu_tools:
   - key: chipatlas
     name: ChIP-Atlas
@@ -538,7 +533,7 @@ def differential_binding_analysis(sample_sheet, peaks_dir,
 | `figures/chromatin_state_heatmap.png` | PNG |
 | `figures/hic_contact_map.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -557,7 +552,7 @@ def differential_binding_analysis(sample_sheet, peaks_dir,
 | ENCODE | `ENCODE_get_experiment` | ENCODE 実験詳細取得 |
 | ENCODE | `ENCODE_list_files` | ENCODE ファイル一覧 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -570,3 +565,22 @@ def differential_binding_analysis(sample_sheet, peaks_dir,
 ### 依存パッケージ
 
 `macs3`, `cooler`, `pybedtools`, `deeptools`, `scikit-learn`, `scipy`, `pandas`, `numpy`, `biopython`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,9 +1,7 @@
 ---
 name: scientific-reproducible-reporting
 description: |
-  再現可能レポーティングスキル。Quarto 科学文書・
-  Jupyter Book 多章構成・Papermill パラメトリック実行・
-  nbconvert 自動変換・Sphinx-Gallery コード例ドキュメント。
+  Reproducible reporting skill. Jupyter/Quarto/R Markdown report automation, computational reproducibility, environment snapshot, and version-controlled analysis reports.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -137,9 +135,9 @@ plt.show()
 
 解析結果のサマリーを記載する。
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 再現可能レポーティングツール検索 |
 
@@ -321,7 +319,7 @@ def batch_convert_notebooks(notebook_dir, output_format="html",
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 [解析完了] → reproducible-reporting → presentation-design
@@ -331,10 +329,29 @@ def batch_convert_notebooks(notebook_dir, output_format="html",
               (ダッシュボード)           (論文執筆)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `quarto_project/` | Quarto プロジェクト | → quarto render |
 | `papermill_runs/` | パラメトリック実行結果 | → 集計 |
 | `jupyter_book/` | Jupyter Book プロジェクト | → jb build |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

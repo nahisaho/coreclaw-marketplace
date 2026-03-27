@@ -1,6 +1,6 @@
 {
   "name": "scientific-systematic-review",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Guides researchers through systematic review work, from search framing and screening logic to evidence synthesis and traceable reporting.",
   "entrypoint": "main.py"
 }

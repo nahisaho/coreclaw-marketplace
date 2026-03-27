@@ -1,10 +1,7 @@
 ---
 name: scientific-civic-evidence
 description: |
-  CIViC 臨床エビデンススキル。CIViC (Clinical Interpretation
-  of Variants in Cancer) REST API を用いたバリアント臨床解釈・
-  エビデンスアイテム・分子プロファイル・アサーション検索。
-  ToolUniverse 連携: civic。
+  CIViC clinical interpretation skill. Clinical Interpretations of Variants in Cancer (CIViC) database queries, evidence level assessment, and clinical actionability evaluation.
 tu_tools:
   - key: civic
     name: CIViC
@@ -263,13 +260,13 @@ def civic_pipeline(gene_name, variant_name=None,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `civic` | CIViC | がんバリアント臨床解釈 (~12 tools) |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 variant-interpretation → civic-evidence → precision-oncology
@@ -282,7 +279,7 @@ variant-interpretation → civic-evidence → precision-oncology
              (OT 標的-疾患)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -290,3 +287,22 @@ variant-interpretation → civic-evidence → precision-oncology
 | `results/civic_variants.csv` | バリアント一覧 | → variant-interpretation |
 | `results/civic_evidence.csv` | エビデンス | → precision-oncology |
 | `results/civic_assertions.csv` | アサーション | → pharmacogenomics |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

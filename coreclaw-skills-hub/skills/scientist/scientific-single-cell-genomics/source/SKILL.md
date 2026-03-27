@@ -1,10 +1,7 @@
 ---
 name: scientific-single-cell-genomics
 description: |
-  シングルセルゲノミクス解析スキル。scRNA-seq データの品質管理・正規化・
-  次元削減（PCA/UMAP）・クラスタリング（Leiden）・差次発現遺伝子（DEG）同定・
-  セルタイプアノテーション・RNA velocity・細胞間コミュニケーション推定パイプライン。
-  Scanpy / AnnData フレームワークに準拠。
+  Single-cell genomics skill. scRNA-seq analysis (Scanpy/Seurat), cell clustering, trajectory inference, cell type annotation, and gene regulatory network inference.
 ---
 
 # Scientific Single-Cell Genomics
@@ -330,7 +327,7 @@ def sc_visualization_panel(adata, deg_df=None, save_dir="figures"):
 | `figures/velocity_stream.png` | PNG |
 | `figures/deg_dotplot.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -346,7 +343,7 @@ def sc_visualization_panel(adata, deg_df=None, save_dir="figures"):
 | HCA | `hca_get_file_manifest` | HCA ファイルマニフェスト取得 |
 | HPA | `HPA_get_rna_expression_by_source` | 組織別 RNA 発現データ |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 連携内容 |
 |---|---|
@@ -361,3 +358,22 @@ def sc_visualization_panel(adata, deg_df=None, save_dir="figures"):
 #### 依存パッケージ
 
 - scanpy, anndata, scvelo, cellchat, leidenalg, umap-learn
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

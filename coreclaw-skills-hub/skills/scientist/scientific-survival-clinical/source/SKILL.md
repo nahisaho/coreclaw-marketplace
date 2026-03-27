@@ -1,9 +1,7 @@
 ---
 name: scientific-survival-clinical
 description: |
-  生存解析と臨床統計のスキル。Kaplan-Meier 曲線、Cox 比例ハザードモデル、Log-rank 検定、
-  検出力分析、NNT/NNH 算出を行う際に使用。
-  Scientific Skills Exp-03, 06 で確立したパターン。
+  Survival and clinical analysis skill. Kaplan-Meier estimation, Cox proportional hazards, time-to-event analysis, competing risks, and clinical outcome modeling.
 ---
 
 # Scientific Survival & Clinical Statistics
@@ -20,7 +18,7 @@ description: |
 
 ## Quick Start
 
-## 標準パイプライン
+## Standard Pipeline
 
 ### 1. 検出力分析・サンプルサイズ算出
 
@@ -233,7 +231,7 @@ def bayesian_sequential_update(successes_list, trials_list,
 | `figures/cox_ph_forest.png` | PNG |
 | `figures/bayesian_update.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -245,9 +243,9 @@ def bayesian_sequential_update(successes_list, trials_list,
 | GDC | `GDC_search_cases` | TCGA 臨床データ |
 | PubMed | `PubMed_search_articles` | 臨床文献検索 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-causal-inference` | ← 傾向スコア・因果推論 |
 | `scientific-meta-analysis` | ← 統合解析・エビデンス統合 |
@@ -260,3 +258,22 @@ def bayesian_sequential_update(successes_list, trials_list,
 
 - **Exp-03**: Kaplan-Meier + Cox PH（がん生存解析）
 - **Exp-06**: Phase III RCT 統計解析（検出力、頻度論+ベイズ、安全性）
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

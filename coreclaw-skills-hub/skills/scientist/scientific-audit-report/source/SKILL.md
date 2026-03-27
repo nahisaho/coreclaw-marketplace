@@ -1,10 +1,7 @@
 ---
 name: scientific-audit-report
 description: |
-  実験の監査レポート・データ来歴（プロベナンス）生成スキル。
-  データ変換履歴・使用ツールのバージョン・データ整合性チェックを
-  含むトレーサビリティレポートを自動生成する。
-  「監査レポート作成」「データ来歴を記録」「トレーサビリティ」で発火。
+  Research audit report skill. Systematic quality assessment of experimental designs, statistical analyses, reproducibility, and reporting standards compliance.
 ---
 
 # Scientific Audit Report
@@ -84,8 +81,27 @@ description: |
 - 「データ来歴を記録して」
 - 「GLP準拠のトレーサビリティレポートを生成して」
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | データ来歴追跡・再現性確保ツール検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

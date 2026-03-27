@@ -1,11 +1,7 @@
 ---
 name: scientific-radiology-ai
 description: |
-  放射線診断支援 AI スキル。CADe/CADx パイプライン・
-  CT/MRI 分類・セグメンテーション・Grad-CAM 説明可能性・
-  構造化レポート・AI-RADS グレーディング。
-  ※ scientific-medical-imaging (DICOM/WSI/Radiomics) の
-  放射線診断 AI 特化拡張。
+  Radiology AI skill. Medical image classification, detection, and segmentation for radiology, DICOM handling, radiomics, and clinical AI model evaluation.
 tu_tools:
   - key: tcia
     name: TCIA
@@ -270,7 +266,7 @@ Age: {patient_info.get('age', 'N/A')} | Sex: {patient_info.get('sex', 'N/A')}
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 [DICOM 取得] → medical-imaging → radiology-ai → clinical-report
@@ -280,7 +276,7 @@ Age: {patient_info.get('age', 'N/A')} | Sex: {patient_info.get('sex', 'N/A')}
                                (説明可能性)     (基盤学習)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -288,8 +284,27 @@ Age: {patient_info.get('age', 'N/A')} | Sex: {patient_info.get('sex', 'N/A')}
 | `gradcam_radiology.png` | Grad-CAM 可視化 | → レポート |
 | `structured_report.md` | 構造化レポート | → clinical-report |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `tcia` | TCIA | 放射線画像データセット検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

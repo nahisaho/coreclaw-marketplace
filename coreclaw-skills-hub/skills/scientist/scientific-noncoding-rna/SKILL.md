@@ -1,9 +1,7 @@
 ---
 name: scientific-noncoding-rna
 description: |
-  非コード RNA (ncRNA) 解析スキル。Rfam RNA ファミリー検索、
-  RNAcentral 統合 ncRNA データベース、共分散モデル、構造マッピング、
-  系統樹解析パイプライン。
+  Non-coding RNA skill. miRNA target prediction, lncRNA functional annotation, ncRNA expression analysis, small RNA-seq processing, and RNA secondary structure prediction.
 ---
 
 # Scientific Noncoding RNA
@@ -234,7 +232,7 @@ def ncRNA_integrated_search(sequence, rfam_acc=None):
 | `results/rfam_structures.json` | JSON |
 | `results/rnacentral_search.csv` | CSV |
 
-### 利用可能ツール
+### Available Tools
 
 | カテゴリ | 主要ツール | 用途 |
 |---|---|---|
@@ -248,7 +246,7 @@ def ncRNA_integrated_search(sequence, rfam_acc=None):
 | RNAcentral | `RNAcentral_search` | ncRNA 検索 |
 | RNAcentral | `RNAcentral_get_by_accession` | 詳細取得 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -260,3 +258,22 @@ def ncRNA_integrated_search(sequence, rfam_acc=None):
 ### 依存パッケージ
 
 `requests`, `pandas`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

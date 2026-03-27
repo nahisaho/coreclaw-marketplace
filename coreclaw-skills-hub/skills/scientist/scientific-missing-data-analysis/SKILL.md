@@ -1,9 +1,7 @@
 ---
 name: scientific-missing-data-analysis
 description: |
-  欠損データ解析スキル。欠損パターン診断 (MCAR/MAR/MNAR) ・
-  Little's MCAR テスト・多重代入法 (MICE) ・KNN 補完・
-  MissForest・VAE/GAIN 補完・欠損パターン可視化・Rubin's Rules。
+  Missing data analysis skill. Missing data pattern detection, MCAR/MAR/MNAR classification, multiple imputation (MICE), sensitivity analysis, and missing data reporting.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -296,7 +294,7 @@ def missforest_imputation(df, n_estimators=100, max_iter=10):
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 eda-correlation → missing-data-analysis → ml-classification
@@ -306,7 +304,7 @@ eda-correlation → missing-data-analysis → ml-classification
    (統計検定)                         (結果可視化)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -315,8 +313,27 @@ eda-correlation → missing-data-analysis → ml-classification
 | `imputed_datasets/` | MICE 多重代入データ | → ml-classification |
 | `imputation_comparison.csv` | 補完手法比較 | → 最終選択 |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 欠損データ処理ツール検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

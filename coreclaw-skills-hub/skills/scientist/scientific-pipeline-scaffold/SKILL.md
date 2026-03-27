@@ -1,9 +1,7 @@
 ---
 name: scientific-pipeline-scaffold
 description: |
-  科学データ解析パイプラインの基盤スキル。ディレクトリ構造の自動構築、再現性のためのシード管理、
-  進捗ログ出力、実行時間計測、JSON サマリー生成、ダッシュボード総括図の作成を行う際に使用。
-  全 13 実験に共通する足場パターンを統合。
+  Pipeline scaffold skill. Bioinformatics pipeline scaffolding with Snakemake/Nextflow, workflow configuration, reproducible analysis environment setup.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -347,17 +345,17 @@ Exp-XX/
     └── analysis_summary.json  # JSON サマリー
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | パイプライン構成ツール検索 |
 
 ## References
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-hypothesis-pipeline` | Step 0: 仮説立案・ワークフロー設計の保存 |
 | `scientific-data-preprocessing` | Step 1/3: データ読み込み・前処理 |
@@ -373,3 +371,22 @@ Exp-XX/
 - **全 13 実験**: ディレクトリ構造、シード管理、warnings 抑制
 - **Exp-12, 13**: `main()` + 実行時間計測 + JSON サマリー + 総括パネル
 - **Exp-10**: `save_fig()` / `write_summary()` ユーティリティ
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

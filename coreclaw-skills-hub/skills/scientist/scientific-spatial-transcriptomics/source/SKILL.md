@@ -1,10 +1,7 @@
 ---
 name: scientific-spatial-transcriptomics
 description: |
-  空間トランスクリプトミクス解析スキル。10x Visium / MERFISH / Slide-seq データの
-  前処理・空間的遺伝子発現パターン検出（Moran's I / SpatialDE）・
-  空間ドメイン同定（BayesSpace / STAGATE）・細胞-細胞近接解析・
-  Deconvolution（cell2location）パイプライン。Squidpy フレームワーク準拠。
+  Spatial transcriptomics skill. Visium/MERFISH/Slide-seq data analysis, spatial gene expression mapping, spatial clustering, and tissue region deconvolution.
 ---
 
 # Scientific Spatial Transcriptomics
@@ -254,7 +251,7 @@ def spatial_visualization_panel(adata, svg_df=None, save_dir="figures"):
 | `figures/spatial_domains.png` | PNG |
 | `figures/morans_i_dist.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -266,7 +263,7 @@ def spatial_visualization_panel(adata, svg_df=None, save_dir="figures"):
 | HCA | `hca_search_projects` | HCA 空間データ検索 |
 | HPA | `HPA_get_rna_expression_by_source` | 組織発現参照データ |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 連携内容 |
 |---|---|
@@ -279,3 +276,22 @@ def spatial_visualization_panel(adata, svg_df=None, save_dir="figures"):
 #### 依存パッケージ
 
 - squidpy, scanpy, anndata, cell2location, bayesspace, SpatialDE
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,11 +1,7 @@
 ---
 name: scientific-proteomics-mass-spectrometry
 description: |
-  プロテオミクス・質量分析解析スキル。LC-MS/MS データ前処理、ペプチド同定 (PSM/FDR 制御)、
-  蛋白質定量 (LFQ/TMT/SILAC/iBAQ)、翻訳後修飾 (PTM) マッピング、
-  スペクトル類似度スコアリング (コサイン/修正コサイン)、分子ネットワーキング (GNPS)、
-  化合物アノテーション (HMDB/MassBank) を統合した質量分析パイプライン。
-  pyOpenMS / matchms ベースの包括的ワークフロー。
+  Proteomics and mass spectrometry skill. MS data processing, peptide identification, protein quantification (LFQ/TMT/iTRAQ), and proteomics statistical analysis.
 ---
 
 # Scientific Proteomics & Mass Spectrometry
@@ -372,7 +368,7 @@ def differential_protein_expression(intensity_matrix, groups,
 | `figures/volcano_proteomics.png` | PNG |
 | `figures/molecular_network.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -386,7 +382,7 @@ def differential_protein_expression(intensity_matrix, groups,
 | KEGG | `kegg_get_pathway_info` | 蛋白質パスウェイ情報 |
 | Reactome | `reactome_pathway_analysis` | パスウェイ濃縮解析 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -399,3 +395,22 @@ def differential_protein_expression(intensity_matrix, groups,
 ### 依存パッケージ
 
 `pyopenms`, `matchms`, `pandas`, `numpy`, `scipy`, `scikit-learn`, `networkx`, `statsmodels`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

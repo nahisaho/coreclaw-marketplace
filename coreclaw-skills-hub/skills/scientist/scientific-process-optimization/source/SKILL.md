@@ -1,9 +1,7 @@
 ---
 name: scientific-process-optimization
 description: |
-  応答曲面法（ML-RSM）とパレート多目的最適化のスキル。プロセスパラメータの最適条件探索、
-  コンターマップ、プロセスウィンドウ可視化を行う際に使用。
-  Scientific Skills Exp-12, 13 で確立したパターン。
+  Process optimization skill. Industrial process optimization, response surface methodology, constraint optimization, and process parameter tuning pipelines.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -25,7 +23,7 @@ tu_tools:
 
 ## Quick Start
 
-## 標準パイプライン
+## Standard Pipeline
 
 ### 1. ML ベース応答曲面（コンターマップ）
 
@@ -202,9 +200,9 @@ def grid_search_optimum(model, feature_names, bounds,
     return optimal_conditions
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | プロセス最適化ツール検索 |
 
@@ -223,3 +221,22 @@ def grid_search_optimum(model, feature_names, bounds,
 
 - **Exp-12**: エッチング速度 vs 選択比のパレート最適化、ML-RSM
 - **Exp-13**: TCO 膜の粗さ vs 透過率パレート最適化、成膜条件 RSM
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

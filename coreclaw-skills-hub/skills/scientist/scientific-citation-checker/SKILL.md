@@ -1,10 +1,7 @@
 ---
 name: scientific-citation-checker
 description: |
-  原稿中の引用文献の自動検索・網羅性チェックを行うスキル。
-  参照リスト抽出、DOI/タイトルベース自動検索、引用カバレッジ分析、
-  フォーマット一貫性検証、重複検出を実行する。
-  「引用をチェックして」「参考文献を検索」「citation check」で発火。
+  Citation checking skill. Reference validation, DOI verification, retraction detection, citation consistency checking, and bibliography formatting compliance.
 ---
 
 # Scientific Citation Checker
@@ -414,11 +411,11 @@ def run_citation_check(manuscript_path, citation_style="numeric", filepath=None)
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `manuscript/citation_report.json` | JSON レポート | チェック完了時 |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -441,9 +438,9 @@ def run_citation_check(manuscript_path, citation_style="numeric", filepath=None)
 | 引用不足の主張 | エビデンス記述に引用なし | Info |
 | セクション引用密度 | Introduction/Discussion の引用が極端に少ない | Info |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-academic-writing` | 入力: `manuscript/manuscript.md` の引用を検証 |
 | `scientific-latex-formatter` | 検証後の引用キーを BibTeX に変換 |
@@ -451,3 +448,22 @@ def run_citation_check(manuscript_path, citation_style="numeric", filepath=None)
 | `scientific-hypothesis-pipeline` | 仮説と引用エビデンスの対応を確認 |
 
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

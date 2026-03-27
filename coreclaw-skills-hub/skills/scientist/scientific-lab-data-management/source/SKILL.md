@@ -1,10 +1,7 @@
 ---
 name: scientific-lab-data-management
 description: |
-  ラボデータ管理スキル。Benchling (ELN/DNA 設計/レジストリ)、
-  DNAnexus (ゲノミクス PaaS)、LatchBio (ワークフロー)、
-  OMERO (バイオイメージング)、Protocols.io (プロトコル共有)
-  を統合したウェット・ドライラボデータ管理パイプライン。
+  Lab data management skill. Research data organization, metadata management, electronic lab notebook integration, data versioning, and FAIR data compliance.
 ---
 
 # Scientific Lab Data Management
@@ -313,13 +310,13 @@ def fork_protocol(original_protocol_id, modifications):
 | `results/omero_image_metadata.json` | JSON |
 | `results/protocol.json` | JSON |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
 なし — 各プラットフォームの REST API を直接利用。
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -332,3 +329,22 @@ def fork_protocol(original_protocol_id, modifications):
 ### 依存パッケージ
 
 `requests`, `json`, `pandas` (各プラットフォーム SDK: `benchling-sdk`, `dxpy`, `omero-py`)
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

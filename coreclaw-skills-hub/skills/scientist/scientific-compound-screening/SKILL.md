@@ -1,9 +1,7 @@
 ---
 name: scientific-compound-screening
 description: |
-  化合物スクリーニングスキル。ZINC データベースを活用した購入可能化合物検索、
-  SMILES/名前ベースの類似性検索、カタログフィルタリング、
-  バーチャルスクリーニング前処理パイプライン。
+  Compound screening skill. High-throughput screening data analysis, hit identification, dose-response curve fitting, Z-factor calculation, and compound library management.
 tu_tools:
   - key: zinc
     name: ZINC
@@ -225,7 +223,7 @@ def virtual_screening_prep(query_smiles, lipinski=True, max_compounds=100):
 | `results/zinc_catalogs.csv` | CSV |
 | `results/vs_library.csv` | CSV |
 
-### 利用可能ツール
+### Available Tools
 
 | カテゴリ | 主要ツール | 用途 |
 |---|---|---|
@@ -234,7 +232,7 @@ def virtual_screening_prep(query_smiles, lipinski=True, max_compounds=100):
 | ZINC | `ZINC_get_substance` | 化合物詳細 |
 | ZINC | `ZINC_get_catalogs` | カタログ一覧 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -247,3 +245,22 @@ def virtual_screening_prep(query_smiles, lipinski=True, max_compounds=100):
 ### 依存パッケージ
 
 `requests`, `pandas`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

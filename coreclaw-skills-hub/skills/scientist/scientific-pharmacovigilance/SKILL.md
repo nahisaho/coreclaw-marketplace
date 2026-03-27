@@ -1,10 +1,7 @@
 ---
 name: scientific-pharmacovigilance
 description: |
-  ファーマコビジランス（医薬品安全性監視）スキル。FAERS/FDA 有害事象報告データベースを活用し、
-  不均衡分析（PRR/ROR/IC）、MedDRA 階層構造、時系列トレンド、人口統計層別化を実施。
-  市販後安全性シグナル検出と定量的評価を支援。
-  「有害事象を分析して」「FAERS データを解析して」「安全性シグナルを検出して」で発火。
+  Pharmacovigilance skill. Adverse event signal detection, FAERS/VAERS data analysis, disproportionality analysis, and drug safety signal evaluation.
 ---
 
 # Scientific Pharmacovigilance
@@ -482,14 +479,14 @@ def generate_pv_report(target_drug, signals_df, ebgm_df, output_dir="results"):
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `results/pv_signal_report.json` | シグナル検出結果（JSON） | 不均衡分析完了時 |
 | `results/pv_signal_report.md` | シグナルレポート（Markdown） | レポート生成時 |
 | `figures/pv_temporal_trend.png` | 時系列トレンド図 | トレンド分析時 |
 | `figures/pv_demographics.png` | 人口統計分布図 | 層別化分析時 |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -504,9 +501,9 @@ def generate_pv_report(target_drug, signals_df, ebgm_df, output_dir="results"):
 | PharmGKB | `PharmGKB_get_dosing_guidelines` | PGx 用量ガイドライン |
 | CPIC | `CPIC_get_guidelines` | CPIC ガイドライン取得 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-survival-clinical` | ← 臨床安全性解析・有害事象グレーディング |
 | `scientific-statistical-testing` | ← χ² 検定・多重比較補正 |
@@ -517,3 +514,22 @@ def generate_pv_report(target_drug, signals_df, ebgm_df, output_dir="results"):
 | `scientific-clinical-trials-analytics` | ← 臨床試験データベース照会 |
 | `scientific-regulatory-science` | → FDA/FAERS 規制データ統合 |
 | `scientific-pharmacogenomics` | ← PGx 代謝型別安全性評価 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

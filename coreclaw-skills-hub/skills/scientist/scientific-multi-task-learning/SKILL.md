@@ -1,9 +1,7 @@
 ---
 name: scientific-multi-task-learning
 description: |
-  マルチタスク学習スキル。Hard/Soft Parameter Sharing・
-  GradNorm 勾配正規化・PCGrad 勾配投影・
-  タスクバランシング・補助タスク設計。
+  Multi-task learning skill. Shared representation learning, task-specific heads, gradient balancing, auxiliary task selection, and multi-task model evaluation.
 tu_tools:
   - key: openml
     name: OpenML
@@ -223,7 +221,7 @@ def gradnorm_balance(model, task_losses, train_loader,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 [複数タスク定義] → multi-task-learning → feature-importance
@@ -233,7 +231,7 @@ def gradnorm_balance(model, task_losses, train_loader,
                     (基盤 NN)        (転移学習)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -241,8 +239,27 @@ def gradnorm_balance(model, task_losses, train_loader,
 | `mtl_history.csv` | タスク別学習履歴 | → 可視化 |
 | `gradnorm_weights.csv` | 動的タスク重み推移 | → バランシング分析 |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `openml` | OpenML | マルチタスク学習データセット参照 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

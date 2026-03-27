@@ -1,9 +1,7 @@
 ---
 name: scientific-multi-omics
 description: |
-  マルチオミクス統合解析スキル。ゲノム・トランスクリプトーム・プロテオーム・メタボローム
-  データの統合手法（MOFA/SNF/DIABLO）、オミクス間相関解析、CCA/PLS 統合、
-  パスウェイレベル統合、ネットワーク統合のテンプレートを提供。
+  Multi-omics integration skill. Genomics/transcriptomics/proteomics/metabolomics data integration, multi-omics factor analysis (MOFA), pathway-level integration, and cross-omics correlation.
 ---
 
 # Scientific Multi-Omics Integration
@@ -295,7 +293,7 @@ def multiomics_clustering(fused_similarity, n_clusters, labels_true=None):
 | `figures/snf_heatmap.png` | PNG |
 | `figures/multiomics_umap.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -314,3 +312,22 @@ def multiomics_clustering(fused_similarity, n_clusters, labels_true=None):
 scikit-learn>=1.3
 scipy>=1.10
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

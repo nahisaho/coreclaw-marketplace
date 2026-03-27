@@ -1,6 +1,6 @@
 {
   "name": "scientific-time-series",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Supports researchers working on time series with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
   "entrypoint": "main.py"
 }

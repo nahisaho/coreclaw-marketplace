@@ -1,10 +1,7 @@
 ---
 name: scientific-clinical-standards
 description: |
-  臨床標準用語・コードマッピングスキル。LOINC 臨床検査コード・
-  ICD-10/ICD-11 疾病分類・FHIR R4 リソースマッピング・
-  SNOMED CT 用語変換・臨床用語相互運用パイプライン。
-  ToolUniverse 連携: loinc。
+  Clinical standards skill. CDISC SDTM/ADaM data standards, HL7 FHIR resource mapping, LOINC/SNOMED coding, and regulatory data submission format compliance.
 tu_tools:
   - key: loinc
     name: LOINC
@@ -430,7 +427,7 @@ def clinical_standards_pipeline(
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 clinical-reporting → clinical-standards → clinical-decision-support
@@ -440,7 +437,7 @@ clinical-reporting → clinical-standards → clinical-decision-support
     (公衆衛生データ)                     (ゲノム薬理学)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -448,8 +445,27 @@ clinical-reporting → clinical-standards → clinical-decision-support
 | `icd_mappings.csv` | ICD コードマッピング | → epidemiology |
 | `fhir_bundle.json` | FHIR R4 バンドル | → EHR 統合 |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `loinc` | LOINC | 臨床検査コード標準検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

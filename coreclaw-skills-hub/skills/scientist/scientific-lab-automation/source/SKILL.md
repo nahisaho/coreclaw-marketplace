@@ -1,11 +1,7 @@
 ---
 name: scientific-lab-automation
 description: |
-  実験室自動化・プロトコル管理スキル。PyLabRobot（液体ハンドリング）、
-  Protocols.io（プロトコル共有）、Benchling/LabArchives（ELN/LIMS 統合）、
-  Opentrons（ロボティクス）による実験自動化と再現性確保を支援。
-  claude-scientific-skills の Lab Automation カテゴリを統合。
-  「実験プロトコルを作成して」「液体ハンドリングを自動化して」で発火。
+  Lab automation skill. Laboratory workflow automation, instrument control scripting, sample tracking, experimental protocol automation, and LIMS integration.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -256,9 +252,9 @@ def create_protocol_io_entry(protocol_data):
 4. **ピペッティング精度を検証**: 蛍光色素/重量法で実測値を確認
 5. **バージョン管理**: プロトコルの変更を Git で追跡
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 実験自動化ツールレジストリ検索 |
 
@@ -266,18 +262,37 @@ def create_protocol_io_entry(protocol_data):
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `protocols/protocol.py` | 自動化プロトコル（Python） | プロトコル設計完了時 |
 | `protocols/sop.md` | SOP テンプレート（Markdown） | SOP 作成完了時 |
 | `results/qc_report.json` | QC レポート（JSON） | バリデーション完了時 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-protein-design` | ← 設計タンパク質の発現・精製プロトコル |
 | `scientific-doe` | ← 実験計画に基づく自動化プロトコル設計 |
 | `scientific-process-optimization` | ← 最適化パラメータの実装 |
 | `scientific-data-preprocessing` | → 自動取得データの前処理 |
 | `scientific-academic-writing` | → 自動化手法の Methods 記載 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

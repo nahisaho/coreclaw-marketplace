@@ -1,9 +1,7 @@
 ---
 name: scientific-adaptive-experiments
 description: |
-  適応的実験計画スキル。多腕バンディット (Thompson Sampling/UCB)・
-  ベイズ適応設計・逐次検定 (SPRT)・
-  Response-Adaptive Randomization・早期停止規則。
+  Adaptive experiment design skill. Sequential experiment optimization, Bayesian optimization, multi-armed bandit, response-adaptive randomization, and interim analysis for efficient experimental workflows.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -272,7 +270,7 @@ def bayesian_adaptive_dose_finding(dose_levels, n_patients=30,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 [実験目的] → adaptive-experiments → statistical-testing
@@ -282,7 +280,7 @@ def bayesian_adaptive_dose_finding(dose_levels, n_patients=30,
           (古典計画)    (検出力分析)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -290,8 +288,27 @@ def bayesian_adaptive_dose_finding(dose_levels, n_patients=30,
 | `sprt_history.csv` | SPRT 検定履歴 | → 判定結果 |
 | `dose_finding.csv` | 用量探索結果 | → MTD 推定 |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 適応的実験設計ツール検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

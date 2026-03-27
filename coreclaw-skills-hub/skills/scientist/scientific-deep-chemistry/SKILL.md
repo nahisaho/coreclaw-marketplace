@@ -1,9 +1,7 @@
 ---
 name: scientific-deep-chemistry
 description: |
-  深層学習分子特性予測スキル。DeepChem による GCN/MPNN/AttentiveFP
-  分子特性予測・MoleculeNet ベンチマーク・ChemBERTa/GROVER
-  事前学習モデル・分子フィンガープリントフィーチャライザ。
+  Deep chemistry skill. Graph neural networks for molecular property prediction, molecular generation with VAE/GAN, reaction prediction, and retrosynthesis planning.
 tu_tools:
   - key: chembl
     name: ChEMBL
@@ -331,7 +329,7 @@ def molecular_prediction_pipeline(smiles_list, property_name="solubility",
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 cheminformatics → deep-chemistry → drug-target-profiling
@@ -344,7 +342,7 @@ molecular-docking ───────┘         admet-pharmacokinetics
                   (分子動力学検証)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -353,8 +351,27 @@ molecular-docking ───────┘         admet-pharmacokinetics
 | `results/embeddings.npy` | ChemBERTa 埋込み | → cheminformatics |
 | `results/model/` | 訓練済みモデル | → admet-pharmacokinetics |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `chembl` | ChEMBL | 化学的活性・化合物データ検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

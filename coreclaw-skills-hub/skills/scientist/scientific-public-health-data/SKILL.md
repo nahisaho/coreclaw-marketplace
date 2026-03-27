@@ -1,10 +1,7 @@
 ---
 name: scientific-public-health-data
 description: |
-  公衆衛生データアクセススキル。NHANES 疫学調査データ、MedlinePlus 一般向け
-  健康情報、RxNorm 薬剤標準語彙、ODPHP 健康目標・ガイドライン、
-  Health Disparities 健康格差データ統合パイプライン。
-  ToolUniverse 連携: nhanes, medlineplus, odphp。
+  Public health data skill. WHO/CDC/national health data retrieval, health indicator analysis, demographic health survey processing, and public health metric calculation.
 tu_tools:
   - key: nhanes
     name: NHANES
@@ -301,7 +298,7 @@ def search_clinical_guidelines(query, source="uspstf"):
 
 ---
 
-## 利用可能ツール
+## Available Tools
 
 | ToolUniverse カテゴリ | 主なツール |
 |---|---|
@@ -312,7 +309,7 @@ def search_clinical_guidelines(query, source="uspstf"):
 | `rxnorm` | `RxNorm_get_rxcui` |
 | `guidelines_tools` | `Guidelines_search`, `Guidelines_get_recommendations` |
 
-## パイプライン出力
+## Pipeline Output
 
 | 出力ファイル | 説明 | 連携先スキル |
 |---|---|---|
@@ -321,7 +318,7 @@ def search_clinical_guidelines(query, source="uspstf"):
 | `results/health_guidelines.json` | 臨床ガイドライン | → clinical-decision-support |
 | `results/health_disparities.csv` | 健康格差指標 | → epidemiology-public-health, causal-inference |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 epidemiology-public-health ──→ public-health-data ──→ clinical-decision-support
@@ -331,3 +328,22 @@ epidemiology-public-health ──→ public-health-data ──→ clinical-decis
                                       ├──→ pharmacogenomics (RxNorm + PGx)
                                       └──→ survival-clinical (NHANES コホート)
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,10 +1,7 @@
 ---
 name: scientific-deep-learning
 description: |
-  深層学習スキル。PyTorch Lightning・Hugging Face Transformers・timm を活用し、
-  NN アーキテクチャ設計・転移学習・分散トレーニング・ハイパーパラメータ最適化・
-  モデルデプロイを支援。
-  「ニューラルネットで学習して」「Transformer を Fine-tune して」「深層学習モデルを構築して」で発火。
+  Deep learning skill. PyTorch/TensorFlow model building, CNN/RNN/Transformer architectures, training optimization, GPU acceleration, and deep learning experiment management.
 tu_tools:
   - key: papers_with_code
     name: Papers with Code
@@ -355,9 +352,9 @@ def export_model(model, sample_input, export_dir="models"):
 - [ ] モデルエクスポート (ONNX)
 - [ ] モデルカード作成
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `papers_with_code` | Papers with Code | 深層学習モデル・ベンチマーク検索 |
 
@@ -365,16 +362,16 @@ def export_model(model, sample_input, export_dir="models"):
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `results/dl_training_log.json` | トレーニングログ（JSON） | トレーニング完了時 |
 | `models/model.onnx` | ONNX モデル | エクスポート時 |
 | `figures/dl_learning_curve.png` | 学習曲線 | トレーニング完了時 |
 | `figures/optuna_history.png` | Optuna 最適化履歴 | HPO 完了時 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-ml-classification` | ← 従来 ML との比較ベースライン |
 | `scientific-ml-regression` | ← 回帰タスクの DL 拡張 |
@@ -384,3 +381,22 @@ def export_model(model, sample_input, export_dir="models"):
 | `scientific-medical-imaging` | → 医用画像の DL モデル |
 | `scientific-quantum-computing` | ← 量子-古典ハイブリッド ML |
 | `scientific-neuroscience-electrophysiology` | ← 神経デコーディング・スパイクソート DL |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,9 +1,7 @@
 ---
 name: scientific-plant-biology
 description: |
-  植物バイオロジー統合スキル。Plant Reactome 代謝パスウェイ・
-  TAIR Arabidopsis ゲノム情報・Phytozome 比較ゲノミクス・
-  Ensembl Plants 種間オーソログ解析。
+  Plant biology skill. Plant genomics, transcriptomics, phenomics data analysis, crop improvement, and plant-specific database queries (TAIR, Phytozome).
 tu_tools:
   - key: tair
     name: TAIR
@@ -303,7 +301,7 @@ def plant_biology_pipeline(gene_query, species="Oryza sativa",
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 pathway-enrichment → plant-biology → environmental-ecology
@@ -316,7 +314,7 @@ pathway-enrichment → plant-biology → environmental-ecology
                (Ensembl 比較)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -324,8 +322,27 @@ pathway-enrichment → plant-biology → environmental-ecology
 | `results/tair_genes.csv` | TAIR Arabidopsis 遺伝子 | → gene-annotation |
 | `results/orthologs.csv` | 種間オーソログ | → comparative-genomics |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `tair` | TAIR | シロイヌナズナゲノム・植物データ検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

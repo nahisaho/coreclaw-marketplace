@@ -1,11 +1,7 @@
 ---
 name: scientific-literature-search
 description: |
-  学術文献検索・取得スキル。PubMed E-utilities、Semantic Scholar、
-  OpenAlex、EuropePMC、CrossRef の 5 大学術データベース API を統合した
-  文献検索パイプライン。MeSH 構造化検索、引用ネットワーク分析、
-  著者/機関メトリクス、全文取得、PICO ベース検索戦略対応。
-  29 の ToolUniverse SMCP ツールと連携。
+  Literature search skill. PubMed/Scopus/Web of Science search strategy design, systematic search query construction, citation screening, and reference manager integration.
 ---
 
 # Scientific Literature Search
@@ -391,7 +387,7 @@ def build_citation_network(seed_pmids, depth=1, max_per_level=20):
 | `results/citation_network.graphml` | GraphML |
 | `figures/citation_network.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -427,7 +423,7 @@ def build_citation_network(seed_pmids, depth=1, max_per_level=20):
 | CrossRef | `Crossref_list_funders` | 助成機関一覧 |
 | CrossRef | `Crossref_list_types` | 出版タイプ一覧 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -441,3 +437,22 @@ def build_citation_network(seed_pmids, depth=1, max_per_level=20):
 ### 依存パッケージ
 
 `requests`, `pandas`, `networkx`, `xml.etree.ElementTree` (stdlib)
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

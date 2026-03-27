@@ -1,9 +1,7 @@
 ---
 name: scientific-alphafold-structures
 description: |
-  AlphaFold 構造予測スキル。AlphaFold Protein Structure Database
-  REST API による予測構造取得・pLDDT 信頼度解析・PAE 残基間
-  距離予測・構造カバレッジ分析。ToolUniverse 連携: alphafold。
+  AlphaFold structure prediction skill. Protein structure retrieval from AlphaFold DB, pLDDT confidence scoring, structural alignment, and downstream structural analysis.
 tu_tools:
   - key: alphafold
     name: AlphaFold Database
@@ -228,13 +226,13 @@ def alphafold_pipeline(uniprot_ids, output_dir="results"):
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `alphafold` | AlphaFold Database | 予測構造・pLDDT・PAE 取得 |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 protein-structure-analysis → alphafold-structures → protein-design
@@ -247,10 +245,29 @@ protein-structure-analysis → alphafold-structures → protein-design
                     (構造ベース変異評価)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/predictions.csv` | 予測メタデータ | → protein-structure-analysis |
 | `results/plddt_profiles.csv` | 残基別 pLDDT | → protein-design |
 | `results/AF-*.cif` | 予測構造ファイル | → molecular-docking |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

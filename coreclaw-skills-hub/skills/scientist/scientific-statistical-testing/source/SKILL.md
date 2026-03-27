@@ -1,9 +1,7 @@
 ---
 name: scientific-statistical-testing
 description: |
-  統計検定・多重比較・エンリッチメント解析のスキル。t検定、カイ二乗検定、ANOVA、
-  Bonferroni/BH 補正、Fisher 正確検定、ベイズ推論を行う際に使用。
-  Scientific Skills Exp-03, 04, 06, 07 で確立したパターン。
+  Statistical testing skill. Frequentist hypothesis testing (t-test, ANOVA, chi-square, nonparametric tests), multiple testing correction, effect size calculation, and power analysis.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -25,7 +23,7 @@ tu_tools:
 
 ## Quick Start
 
-## 標準パイプライン
+## Standard Pipeline
 
 ### 1. 2 群間検定
 
@@ -225,9 +223,9 @@ def survival_analysis(df, time_col, event_col, group_col):
     return lr.p_value if len(groups) == 2 else None
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 統計検定ツールレジストリ |
 
@@ -248,3 +246,22 @@ def survival_analysis(df, time_col, event_col, group_col):
 - **Exp-04**: Fisher パスウェイエンリッチメント + Louvain コミュニティ
 - **Exp-06**: 頻度論 + ベイズ推論 + 検出力分析
 - **Exp-07**: Welch t 検定 + BH 補正 + PLS-DA VIP
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

@@ -1,11 +1,7 @@
 ---
 name: scientific-gene-expression-transcriptomics
 description: |
-  遺伝子発現・トランスクリプトミクス解析スキル。GEO (Gene Expression Omnibus) からの
-  公開データセット取得・前処理、DESeq2 (PyDESeq2) による差次発現解析、
-  GTEx 組織発現参照・eQTL 解析、Expression Atlas (EBI GXA) 統合照会、
-  遺伝子セット濃縮解析 (GSEA)、バルク RNA-seq カウントデータの
-  標準解析パイプライン。
+  Gene expression and transcriptomics skill. RNA-seq analysis pipeline, gene quantification, isoform analysis, co-expression networks, and transcriptome-wide association.
 ---
 
 # Scientific Gene Expression & Transcriptomics
@@ -294,7 +290,7 @@ def overrepresentation_analysis(gene_list, background=None,
 | `figures/ma_plot.png` | PNG |
 | `figures/gsea_dotplot.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -315,7 +311,7 @@ def overrepresentation_analysis(gene_list, background=None,
 | Expression Atlas | `ExpressionAtlas_search_differential` | 差次発現実験 |
 | ArrayExpress | `arrayexpress_search_experiments` | ArrayExpress 実験検索 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -328,3 +324,22 @@ def overrepresentation_analysis(gene_list, background=None,
 ### 依存パッケージ
 
 `pydeseq2`, `GEOparse`, `gseapy`, `pandas`, `numpy`, `matplotlib`, `scipy`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

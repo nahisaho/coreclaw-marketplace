@@ -1,9 +1,7 @@
 ---
 name: scientific-anomaly-detection
 description: |
-  異常検知・外れ値検出スキル。Isolation Forest・LOF・
-  One-Class SVM・Autoencoder 異常検知・統計的工程管理 (SPC)・
-  多変量異常検知・異常スコアリング・閾値最適化。
+  Anomaly detection skill. Isolation Forest, LOF, One-Class SVM, autoencoders, statistical control charts, time-series anomaly detection, and multivariate outlier analysis.
 tu_tools:
   - key: openml
     name: OpenML
@@ -281,7 +279,7 @@ def spc_control_chart(data, column, subgroup_size=1,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 eda-correlation → anomaly-detection → ml-classification
@@ -291,7 +289,7 @@ eda-correlation → anomaly-detection → ml-classification
   (データ品質)                     (モデル監視)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -299,8 +297,27 @@ eda-correlation → anomaly-detection → ml-classification
 | `autoencoder_anomaly.json` | AE 異常スコア | → reporting |
 | `spc_control_chart.png` | SPC 管理図 | → process-optimization |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `openml` | OpenML | 異常検知ベンチマーク・データセット |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

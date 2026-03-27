@@ -1,6 +1,6 @@
 {
   "name": "scientific-molecular-docking",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Supports computational researchers using simulation-heavy methods, with attention to model assumptions, scenario design, and scientific interpretation.",
   "entrypoint": "main.py"
 }

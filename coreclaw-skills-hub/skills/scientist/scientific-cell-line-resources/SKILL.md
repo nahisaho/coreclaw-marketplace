@@ -1,9 +1,7 @@
 ---
 name: scientific-cell-line-resources
 description: |
-  細胞株リソーススキル。Cellosaurus 細胞株データベース検索、
-  STR プロファイルマッチング、コンタミネーション検出、
-  細胞株メタデータ (由来組織・疾患・種) 取得パイプライン。
+  Cell line resource skill. Cellosaurus, ATCC, DepMap cell line data retrieval, cell line authentication, STR profiling, and cross-reference between cell line databases.
 tu_tools:
   - key: cellosaurus
     name: Cellosaurus
@@ -236,13 +234,13 @@ def check_contamination_status(cell_line_names):
 
 ---
 
-## 利用可能ツール
+## Available Tools
 
 | ToolUniverse カテゴリ | 主なツール |
 |---|---|
 | `cellosaurus` | `Cellosaurus_search`, `Cellosaurus_get_cell_line`, `Cellosaurus_get_str_profile` |
 
-## パイプライン出力
+## Pipeline Output
 
 | 出力ファイル | 説明 | 連携先スキル |
 |---|---|---|
@@ -250,7 +248,7 @@ def check_contamination_status(cell_line_names):
 | `results/str_verification.json` | STR 検証結果 | → lab-automation, lab-data-management |
 | `results/contamination_report.json` | コンタミレポート | → research-methodology |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 cancer-genomics ──→ cell-line-resources ──→ lab-automation
@@ -260,3 +258,22 @@ cancer-genomics ──→ cell-line-resources ──→ lab-automation
                            ├──→ disease-research (疾患モデル)
                            └──→ human-protein-atlas (発現データ)
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

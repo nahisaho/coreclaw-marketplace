@@ -1,10 +1,7 @@
 ---
 name: scientific-latex-export
 description: |
-  実験結果を論文形式（LaTeX / IMRaD）にエクスポートするスキル。
-  Introduction・Materials & Methods・Results・Discussion の構造で
-  出版準備用の原稿を自動生成する。
-  「論文にして」「LaTeX出力」「出版準備」で発火。
+  LaTeX export skill. Markdown-to-LaTeX conversion, journal-specific LaTeX template generation, bibliography management, and publication-ready PDF compilation.
 ---
 
 # Scientific LaTeX Export
@@ -81,8 +78,27 @@ figures/        # 図ファイル
 - 「IMRaD形式でLaTeX出力して」
 - 「bioRxiv投稿用のプレプリントを準備して」
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `crossref` | Crossref | 参考文献メタデータ・DOI 解決 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

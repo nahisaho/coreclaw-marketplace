@@ -1,11 +1,7 @@
 ---
 name: scientific-model-organism-db
 description: |
-  モデル生物データベース統合スキル。FlyBase (ショウジョウバエ)、
-  WormBase (線虫)、ZFIN (ゼブラフィッシュ)、RGD (ラット)、
-  MGI (マウス) の REST API を統合した
-  モデル生物遺伝子・表現型・疾患モデル横断検索パイプライン。
-  ToolUniverse 連携: impc, mpd。
+  Model organism database skill. FlyBase/WormBase/SGD/ZFIN/MGI queries, ortholog mapping, phenotype data retrieval, and cross-species gene function comparison.
 tu_tools:
   - key: impc
     name: IMPC
@@ -317,7 +313,7 @@ def get_mgi_phenotypes(mgi_id):
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 ensembl-genomics ──→ model-organism-db ──→ disease-research
@@ -328,10 +324,29 @@ biothings-idmapping ──┘      ↓          rare-disease-genetics
                     (種間系統解析)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/model_orthologs.csv` | モデル生物オルソログ | → ensembl-genomics |
 | `results/mgi_phenotypes.csv` | マウス表現型 | → disease-research |
 | `results/cross_species.json` | 横断比較結果 | → phylogenetics |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

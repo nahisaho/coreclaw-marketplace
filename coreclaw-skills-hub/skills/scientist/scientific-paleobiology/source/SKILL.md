@@ -1,9 +1,7 @@
 ---
 name: scientific-paleobiology
 description: |
-  古生物学データベーススキル。Paleobiology Database (PBDB) REST
-  API による化石産出記録・分類群・コレクション検索、地質年代
-  多様性曲線・古地理解析。ToolUniverse 連携: paleobiology。
+  Paleobiology skill. Fossil record analysis, paleobiodiversity estimation, extinction rate calculation, stratigraphic data processing, and macroevolutionary pattern analysis.
 tu_tools:
   - key: paleobiology
     name: Paleobiology Database
@@ -236,13 +234,13 @@ def paleobiology_pipeline(taxon, interval=None,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `paleobiology` | Paleobiology Database | 化石産出・分類群・コレクション検索 |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 phylogenetics → paleobiology → environmental-ecology
@@ -255,7 +253,7 @@ phylogenetics → paleobiology → environmental-ecology
          (大進化パターン)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -263,3 +261,22 @@ phylogenetics → paleobiology → environmental-ecology
 | `results/taxa.csv` | 分類群情報 | → phylogenetics |
 | `results/diversity.csv` | 多様性曲線 | → macroevolution |
 | `results/geo_summary.csv` | 古地理サマリ | → environmental-geodata |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

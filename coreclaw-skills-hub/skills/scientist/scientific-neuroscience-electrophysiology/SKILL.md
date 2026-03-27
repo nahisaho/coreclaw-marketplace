@@ -1,11 +1,7 @@
 ---
 name: scientific-neuroscience-electrophysiology
 description: |
-  神経科学・電気生理学解析スキル。Neuropixels/マルチ電極アレイの
-  スパイクソーティング (SpikeInterface + Kilosort4)、品質指標 (SNR/ISI 違反率)、
-  EEG マイクロステート・事象関連電位 (MNE-Python)、ECG HRV 解析、
-  EDA 皮膚コンダクタンス応答、EMG 筋活動解析 (NeuroKit2)、
-  脳結合性解析 (機能的/実効的) を統合した神経科学パイプライン。
+  Neuroscience electrophysiology skill. Spike sorting, LFP analysis, neural oscillation characterization, connectivity analysis, and electrophysiology data preprocessing.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -372,9 +368,9 @@ def graph_theory_brain_network(conn_matrix, ch_names, threshold=0.3):
     return G
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 電気生理学解析ツール検索 |
 
@@ -395,7 +391,7 @@ def graph_theory_brain_network(conn_matrix, ch_names, threshold=0.3):
 | `figures/erp_waveforms.png` | PNG |
 | `figures/hrv_poincare.png` | PNG |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -408,3 +404,22 @@ def graph_theory_brain_network(conn_matrix, ch_names, threshold=0.3):
 ### 依存パッケージ
 
 `spikeinterface`, `mne`, `mne-connectivity`, `neurokit2`, `numpy`, `pandas`, `scipy`, `scikit-learn`, `networkx`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

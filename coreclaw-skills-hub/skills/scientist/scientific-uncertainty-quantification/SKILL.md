@@ -1,9 +1,7 @@
 ---
 name: scientific-uncertainty-quantification
 description: |
-  不確実性定量化スキル。Conformal Prediction・MC Dropout・
-  深層アンサンブル・アレアトリック / エピステミック分離・
-  Calibration Curve・予測区間推定・Expected Calibration Error。
+  Uncertainty quantification skill. Aleatory/epistemic uncertainty estimation, ensemble uncertainty, conformal prediction, calibration, and uncertainty propagation.
 tu_tools:
   - key: papers_with_code
     name: Papers with Code
@@ -270,7 +268,7 @@ def calibration_analysis(y_true, y_proba, n_bins=10):
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 ensemble-methods → uncertainty-quantification → explainable-ai
@@ -280,7 +278,7 @@ ensemble-methods → uncertainty-quantification → explainable-ai
   (能動学習)                                (ベイズ統計)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -289,8 +287,27 @@ ensemble-methods → uncertainty-quantification → explainable-ai
 | `calibration_analysis.png` | 校正曲線 | → presentation |
 | `uncertainty_decomposition.json` | 分離結果 | → explainable-ai |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `papers_with_code` | Papers with Code | 不確実性定量化手法・ベンチマーク |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

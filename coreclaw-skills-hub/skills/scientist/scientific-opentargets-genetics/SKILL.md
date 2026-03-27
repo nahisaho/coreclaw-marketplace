@@ -1,10 +1,7 @@
 ---
 name: scientific-opentargets-genetics
 description: |
-  Open Targets Platform 遺伝学スキル。Open Targets Platform
-  GraphQL API を用いた標的-疾患アソシエーション・薬剤
-  エビデンス・L2G 遺伝的関連・ファーマコゲノミクス検索。
-  ToolUniverse 連携: opentarget。
+  Open Targets Genetics skill. GWAS trait-gene associations, L2G scoring, colocation analysis, and variant-to-gene mapping from Open Targets Genetics portal.
 tu_tools:
   - key: opentarget
     name: Open Targets
@@ -272,13 +269,13 @@ def ot_pipeline(gene_symbol, ensembl_id,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `opentarget` | Open Targets | 標的-疾患アソシエーション GraphQL (~55 tools) |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 disease-research → opentargets-genetics → drug-target-profiling
@@ -291,9 +288,28 @@ variant-interpretation ────┘          pharmacogenomics
             (集団頻度)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/ot_associations.csv` | 標的-疾患スコア | → disease-research |
 | `results/ot_drugs.csv` | 薬剤エビデンス | → drug-target-profiling |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

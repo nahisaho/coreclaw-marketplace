@@ -1,11 +1,7 @@
 ---
 name: scientific-peer-review-response
 description: |
-  査読コメントへの体系的対応とリバッタルレター生成スキル。
-  査読コメントの構造化解析（Major/Minor/Editorial 分類）、
-  ポイント・バイ・ポイント回答生成、改訂箇所マッピング、
-  複数ラウンド対応を行う。
-  「査読に回答して」「reviewer response を作成して」「リバッタルを書いて」で発火。
+  Peer review response skill. Point-by-point response to reviewer comments, revision tracking, rebuttal letter drafting, and manuscript revision management.
 tu_tools:
   - key: crossref
     name: Crossref
@@ -617,9 +613,9 @@ def _generate_template_responses(parsed):
     return responses
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `crossref` | Crossref | 査読指摘の文献裏付け検索 |
 
@@ -627,7 +623,7 @@ def _generate_template_responses(parsed):
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `manuscript/response_to_reviewers.md` | 回答レター（Markdown） | パイプライン完了時 |
 | `manuscript/response_mapping.json` | コメント-改訂マッピング | パイプライン完了時 |
@@ -650,12 +646,31 @@ def _generate_template_responses(parsed):
 | Rebut | エビデンスに基づき反論 | 丁寧な反論 + 根拠 |
 | New Data | 追加実験/解析が必要 | 感謝 + 新データ提示 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-academic-writing` | Cover Letter テンプレート・Response to Reviewers 雛形 |
 | `scientific-critical-review` | セルフレビュー → 査読前の事前対策 |
 | `scientific-revision-tracker` | 改訂箇所の追跡・diff 生成 |
 | `scientific-paper-quality` | 改訂後の品質メトリクス再評価 |
 | `scientific-citation-checker` | 査読で追加を求められた引用の検証 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

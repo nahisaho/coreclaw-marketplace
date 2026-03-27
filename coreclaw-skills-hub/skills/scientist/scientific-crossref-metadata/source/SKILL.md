@@ -1,9 +1,7 @@
 ---
 name: scientific-crossref-metadata
 description: |
-  CrossRef メタデータスキル。CrossRef REST API による
-  DOI 解決・論文メタデータ・引用数・ジャーナル情報・
-  助成金情報検索。ToolUniverse 連携: crossref。
+  Crossref metadata skill. Scholarly publication metadata retrieval, citation count tracking, DOI resolution, funder information extraction, and bibliometric analysis via Crossref API.
 tu_tools:
   - key: crossref
     name: CrossRef
@@ -285,13 +283,13 @@ def crossref_pipeline(query, dois=None,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `crossref` | CrossRef | DOI 解決・メタデータ・引用・ジャーナル情報 |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 literature-search → crossref-metadata → citation-checker
@@ -304,10 +302,29 @@ literature-search → crossref-metadata → citation-checker
                (書誌計量分析)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/works.csv` | 論文検索結果 | → semantic-scholar |
 | `results/doi_resolved.csv` | DOI メタデータ | → citation-checker |
 | `results/citation_stats.csv` | 引用統計 | → bibliometrics |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

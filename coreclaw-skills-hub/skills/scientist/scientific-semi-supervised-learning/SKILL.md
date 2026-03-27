@@ -1,8 +1,7 @@
 ---
 name: scientific-semi-supervised-learning
 description: |
-  半教師あり学習スキル。Self-Training・Label Propagation・
-  MixMatch/FixMatch・Pseudo-Labeling・ラベル効率評価。
+  Semi-supervised learning skill. Self-training, co-training, label propagation, MixMatch/FixMatch, and semi-supervised model evaluation pipelines.
 tu_tools:
   - key: openml
     name: OpenML
@@ -195,7 +194,7 @@ def evaluate_pseudo_labels(y_true_unlabeled, pseudo_labels,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 [少量ラベル] → semi-supervised-learning → ml-classification
@@ -205,7 +204,7 @@ def evaluate_pseudo_labels(y_true_unlabeled, pseudo_labels,
                   (能動学習)       (データ品質)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -213,8 +212,27 @@ def evaluate_pseudo_labels(y_true_unlabeled, pseudo_labels,
 | `pseudo_label_quality.csv` | 疑似ラベル品質 | → 閾値選択 |
 | `propagated_labels.npy` | 伝播ラベル | → ml-classification |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `openml` | OpenML | 半教師あり学習ベンチマーク |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

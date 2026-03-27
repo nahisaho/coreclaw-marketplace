@@ -1,9 +1,7 @@
 ---
 name: scientific-data-submission
 description: |
-  科学データ登録・アーカイブスキル。GenBank/SRA 配列登録・
-  ENA 配列アーカイブ・GEO 発現データ登録・BioProject/BioSample
-  メタデータ管理・FAIR 原則準拠データ共有。
+  Data submission skill. GEO/SRA/ENA/DDBJ data deposition, metadata preparation, compliance with FAIR principles, and repository-specific format conversion.
 tu_tools:
   - key: ena
     name: ENA
@@ -338,7 +336,7 @@ def fair_checklist(submission_package):
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 bioinformatics → data-submission → literature-search
@@ -351,7 +349,7 @@ lab-data-management ───┘           academic-writing
                  (ENA/BioStudies 連携)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -360,8 +358,27 @@ lab-data-management ───┘           academic-writing
 | `geo_submission/submission.soft` | GEO SOFT テンプレート | → gene-expression |
 | `submission/fair_report.json` | FAIR チェックリスト結果 | → academic-writing |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `ena` | ENA | データ登録・アクセッション管理 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

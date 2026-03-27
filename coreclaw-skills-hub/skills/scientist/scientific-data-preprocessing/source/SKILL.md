@@ -1,9 +1,7 @@
 ---
 name: scientific-data-preprocessing
 description: |
-  科学データの前処理パイプラインスキル。欠損値補完（KNNImputer/SimpleImputer）、
-  エンコーディング（LabelEncoder/OneHot/ダミー変数）、スケーリング（Standard/MinMax/Robust/Pareto）、
-  対数変換、外れ値処理のテンプレートを提供。全 Exp-01〜13 に横断的に適用される基盤スキル。
+  Data preprocessing skill. Missing value imputation, outlier detection, normalization, feature scaling, encoding, and data cleaning pipelines for scientific datasets.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -428,9 +426,9 @@ def preprocessing_pipeline(df, target_col=None, config=None):
     return df, {"encoders": encoders, "scaler": scaler}
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | データ前処理ツールレジストリ検索 |
 
@@ -443,3 +441,22 @@ def preprocessing_pipeline(df, target_col=None, config=None):
 - **Exp-07**: Pareto scaling — メタボロミクスデータ
 - **Exp-12**: `MinMaxScaler`, `RobustScaler` — プロセスデータ
 - **Exp-13**: `LabelEncoder`, ダミー変数 — 材料タイプエンコーディング
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

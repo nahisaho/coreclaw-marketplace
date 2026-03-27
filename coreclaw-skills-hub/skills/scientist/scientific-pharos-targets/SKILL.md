@@ -1,11 +1,7 @@
 ---
 name: scientific-pharos-targets
 description: |
-  Pharos/TCRD ターゲットプロファイリングスキル。Illuminating
-  the Druggable Genome (IDG) Pharos GraphQL API による
-  ターゲット開発レベル (TDL) 分類・疾患関連・リガンド検索・
-  既存薬候補スクリーニングパイプライン。
-  ToolUniverse 連携: pharos。
+  Pharos targets skill. Target Development Level (TDL) classification, understudied protein identification, Illuminating the Druggable Genome (IDG) resource queries.
 tu_tools:
   - key: pharos
     name: Pharos
@@ -251,13 +247,13 @@ def pharos_pipeline(gene_symbols,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `pharos` | Pharos | IDG Pharos/TCRD ターゲットナレッジベース |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 drug-target-profiling → pharos-targets → drug-repurposing
@@ -267,10 +263,29 @@ drug-target-profiling → pharos-targets → drug-repurposing
     (BindingDB/GtoPdb)             (ZINC ライブラリ)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/pharos_targets.csv` | TDL 分類結果 | → drug-target-profiling |
 | `results/pharos_diseases.csv` | 疾患関連 | → disease-research |
 | `results/pharos_ligands.csv` | リガンド/薬剤 | → drug-repurposing |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

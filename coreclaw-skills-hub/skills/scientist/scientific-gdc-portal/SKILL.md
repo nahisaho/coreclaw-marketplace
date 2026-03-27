@@ -1,10 +1,7 @@
 ---
 name: scientific-gdc-portal
 description: |
-  NCI Genomic Data Commons ポータルスキル。GDC REST API
-  を用いたがんゲノムプロジェクト横断検索・ケースメタデータ・
-  体細胞変異 (SSM)・遺伝子発現・ファイル取得。
-  ToolUniverse 連携: gdc。
+  GDC Portal skill. Genomic Data Commons cancer data retrieval, mutation frequency analysis, clinical-genomic correlation, and multi-project data integration.
 tu_tools:
   - key: gdc
     name: GDC
@@ -255,13 +252,13 @@ def gdc_pipeline(project_id, gene_symbol=None,
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `gdc` | GDC | NCI Genomic Data Commons REST API |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 cancer-genomics → gdc-portal → precision-oncology
@@ -271,10 +268,29 @@ icgc-cancer-data ───────┘    variant-interpretation
   (ICGC DCC)                 (ClinVar/ACMG)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/gdc_projects.csv` | プロジェクト一覧 | → cancer-genomics |
 | `results/gdc_cases.csv` | ケースメタデータ | → precision-oncology |
 | `results/gdc_ssm.csv` | 体細胞変異 | → variant-interpretation |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

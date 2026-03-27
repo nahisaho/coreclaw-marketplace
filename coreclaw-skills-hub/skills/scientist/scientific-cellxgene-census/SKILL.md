@@ -1,11 +1,7 @@
 ---
 name: scientific-cellxgene-census
 description: |
-  CELLxGENE Census 大規模シングルセルアトラススキル。
-  CZ CELLxGENE Census API によるヒト/マウス全アトラスの
-  メタデータ検索・遺伝子発現クエリ・セルタイプ分布解析・
-  データセット横断統合パイプライン。
-  ToolUniverse 連携: cellxgene_census。
+  CellxGene Census skill. Single-cell RNA-seq data retrieval from CZ CELLxGENE, cell type annotation, cross-dataset comparison, and gene expression atlas queries.
 tu_tools:
   - key: cellxgene_census
     name: CELLxGENE Census
@@ -232,13 +228,13 @@ def census_pipeline(organism="Homo sapiens",
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `cellxgene_census` | CELLxGENE Census | 大規模シングルセルアトラス API |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 human-cell-atlas → cellxgene-census → single-cell-genomics
@@ -248,10 +244,29 @@ human-cell-atlas → cellxgene-census → single-cell-genomics
     (空間統合)                   (scVI/scANVI)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/census_datasets.csv` | データセット一覧 | → human-cell-atlas |
 | `results/celltype_distribution.csv` | セルタイプ分布 | → single-cell-genomics |
 | `results/census_expression.h5ad` | 発現行列 (AnnData) | → scvi-integration |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

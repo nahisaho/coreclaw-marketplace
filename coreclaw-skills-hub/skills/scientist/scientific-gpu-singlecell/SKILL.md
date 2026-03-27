@@ -1,10 +1,7 @@
 ---
 name: scientific-gpu-singlecell
 description: |
-  GPU アクセラレーション シングルセル解析スキル。
-  rapids-singlecell / cuML / cuGraph による GPU 並列処理。
-  大規模 (>1M cells) データの高速前処理・クラスタリング・
-  次元削減。K-Dense: rapids-singlecell。
+  GPU-accelerated single-cell skill. RAPIDS/cuML-based single-cell analysis, GPU-accelerated dimensionality reduction, clustering, and differential expression on large datasets.
 tu_tools:
   - key: cellxgene
     name: CellxGene
@@ -278,7 +275,7 @@ def gpu_singlecell_pipeline(input_files, output_dir="results",
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 single-cell-genomics → gpu-singlecell → scvi-integration
@@ -291,7 +288,7 @@ single-cell-genomics → gpu-singlecell → scvi-integration
                   (大規模アトラス)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -299,8 +296,27 @@ single-cell-genomics → gpu-singlecell → scvi-integration
 | `results/markers.csv` | マーカー遺伝子 | → cell-type-annotation |
 | `results/benchmark.json` | CPU/GPU 比較結果 | → atlas-construction |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `cellxgene` | CellxGene | シングルセルデータセット検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

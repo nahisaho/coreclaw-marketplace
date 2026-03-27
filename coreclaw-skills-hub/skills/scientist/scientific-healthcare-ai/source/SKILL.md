@@ -1,9 +1,7 @@
 ---
 name: scientific-healthcare-ai
 description: |
-  ヘルスケア AI スキル。PyHealth 臨床 ML パイプライン、
-  フローサイトメトリー (FlowIO) 解析、電子健康記録 (EHR) 処理、
-  臨床予測モデル構築のガイダンス。
+  Healthcare AI skill. Clinical prediction models, patient risk stratification, medical image classification, electronic health record analysis, and clinical decision support ML.
 ---
 
 # Scientific Healthcare AI
@@ -248,7 +246,7 @@ def evaluate_clinical_model(trainer, test_dataset):
 | `results/fcs_processed.csv` | CSV |
 | `results/code_mapping.json` | JSON |
 
-### 利用可能ツール
+### Available Tools
 
 | カテゴリ | 主要ツール | 用途 |
 |---|---|---|
@@ -258,7 +256,7 @@ def evaluate_clinical_model(trainer, test_dataset):
 > **注**: 本スキルは ToolUniverse ツールを持たず、
 > K-Dense-AI Scientific Skills からの参照のみ。
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -271,3 +269,22 @@ def evaluate_clinical_model(trainer, test_dataset):
 ### 依存パッケージ
 
 `pyhealth`, `flowio`, `numpy`, `pandas`, `scikit-learn`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

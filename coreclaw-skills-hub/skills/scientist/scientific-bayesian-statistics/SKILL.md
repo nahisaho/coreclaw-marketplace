@@ -1,9 +1,7 @@
 ---
 name: scientific-bayesian-statistics
 description: |
-  ベイズ統計スキル。PyMC・Stan・ArviZ を活用し、ベイズ回帰・階層モデル・
-  MCMC サンプリング・ベイズ最適化・事後予測チェック・モデル比較を支援。
-  「ベイズ回帰して」「MCMC で推定して」「事後分布を求めて」で発火。
+  Bayesian statistics skill. PyMC/Stan/ArviZ-based Bayesian regression, hierarchical models, MCMC sampling, Bayesian optimization, posterior predictive checks, and model comparison.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -153,7 +151,7 @@ def hierarchical_model(df):
 # az.plot_forest(trace, var_names=["alpha", "beta"], combined=True)
 ```
 
-### 3. 事後予測チェック (PPC)
+### 3. Posterior predictive check (PPC)
 
 ```python
 def posterior_predictive_check(model, trace, observed_y):
@@ -349,18 +347,18 @@ model {
 
 ## Completeness Checklist
 
-- [ ] モデル仕様 (尤度・事前分布) の定義
+- [ ] Model specification (likelihood and priors)
 - [ ] Prior predictive check
-- [ ] MCMC サンプリング完了
-- [ ] 収束診断 (Rhat, ESS, divergences)
-- [ ] 事後分布の要約 (mean, HDI)
-- [ ] 事後予測チェック (PPC)
-- [ ] モデル比較 (LOO-CV / WAIC)
-- [ ] 結果レポート・プロット生成
+- [ ] MCMC sampling complete
+- [ ] Convergence diagnostics (Rhat, ESS, divergences)
+- [ ] Posterior summary (mean, HDI)
+- [ ] Posterior predictive check (PPC)
+- [ ] Model comparison (LOO-CV / WAIC)
+- [ ] Result report and plot generation
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | ベイズ統計ツールレジストリ検索 |
 
@@ -368,16 +366,16 @@ model {
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `results/bayesian_summary.json` | 事後分布サマリー（JSON） | サンプリング完了時 |
 | `figures/bayesian_trace.png` | トレースプロット | MCMC 完了時 |
 | `figures/bayesian_ppc.png` | 事後予測チェック図 | PPC 完了時 |
 | `figures/bayesian_model_comparison.png` | モデル比較プロット | 比較完了時 |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-statistical-testing` | ← 頻度論検定との比較基盤 |
 | `scientific-ml-regression` | ← 回帰モデルのベイズ拡張 |
@@ -385,3 +383,22 @@ model {
 | `scientific-causal-inference` | ← ベイズ因果モデル |
 | `scientific-quantum-computing` | → VQE パラメータのベイズ最適化 |
 | `scientific-meta-analysis` | ← ベイズメタ分析 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

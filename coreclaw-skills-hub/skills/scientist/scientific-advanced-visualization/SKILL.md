@@ -1,9 +1,7 @@
 ---
 name: scientific-advanced-visualization
 description: |
-  科学データ高度可視化スキル。Plotly インタラクティブ 3D ・
-  Altair 宣言的可視化・Seaborn 統計プロット・
-  アニメーション・Parallel Coordinates・出版品質図。
+  Advanced scientific visualization skill. Multi-panel figures, 3D plots, interactive dashboards, heatmaps, volcano plots, Manhattan plots, and publication-quality figure generation.
 tu_tools:
   - key: biotools
     name: bio.tools
@@ -294,7 +292,7 @@ def create_animation(data_frames, x_col, y_col, time_col,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 eda-correlation → advanced-visualization → presentation-design
@@ -304,7 +302,7 @@ eda-correlation → advanced-visualization → presentation-design
   (次元削減)                           (ダッシュボード)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -313,8 +311,27 @@ eda-correlation → advanced-visualization → presentation-design
 | `parallel_coordinates.html` | 多変量可視化 | → reporting |
 | `animation.html` | アニメーション | → presentation |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `biotools` | bio.tools | 高度可視化ツール検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

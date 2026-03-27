@@ -1,9 +1,7 @@
 ---
 name: scientific-expression-comparison
 description: |
-  Expression Atlas / GTEx / HPA 統合発現比較スキル。EBI Expression Atlas
-  ベースライン/差次的発現検索、実験アクセション取得、組織間・条件間
-  発現比較、マルチソース統合発現プロファイリングパイプライン。
+  Gene expression comparison skill. Differential expression analysis (DESeq2/edgeR/limma), multi-condition comparison, volcano plots, and enrichment analysis pipelines.
 ---
 
 # Scientific Expression Comparison
@@ -272,7 +270,7 @@ def plot_expression_heatmap(matrix, title="Gene Expression Comparison",
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 gene-expression-transcriptomics → expression-comparison → multi-omics
@@ -284,7 +282,7 @@ human-protein-atlas ────────────┘        │          
                               (EFO 形質マッピング)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -293,7 +291,7 @@ human-protein-atlas ────────────┘        │          
 | `results/expression_matrix.csv` | 発現マトリクス | → multi-omics |
 | `figures/expression_heatmap.png` | ヒートマップ | → publication-figures |
 
-## 利用可能ツール (ToolUniverse SMCP)
+## Available Tools (ToolUniverse SMCP)
 
 | ツール名 | 用途 |
 |---------|------|
@@ -301,3 +299,22 @@ human-protein-atlas ────────────┘        │          
 | `ExpressionAtlas_search_differential` | 差次的発現検索 |
 | `ExpressionAtlas_search_experiments` | 実験検索 |
 | `ExpressionAtlas_get_experiment` | 実験詳細 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

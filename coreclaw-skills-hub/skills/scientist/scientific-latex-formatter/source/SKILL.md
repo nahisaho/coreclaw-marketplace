@@ -1,10 +1,7 @@
 ---
 name: scientific-latex-formatter
 description: |
-  Markdown 原稿を LaTeX 形式に変換し、ジャーナル指定のテンプレート（.cls/.sty）に
-  適合するフォーマッティングを行うスキル。数式・図表・引用・相互参照の LaTeX 構文変換、
-  ジャーナル別スタイル適用、コンパイル可能な .tex ファイル生成を担う。
-  「LaTeX に変換して」「投稿用 TeX を作って」「ジャーナルフォーマットにして」で発火。
+  LaTeX formatter skill. LaTeX document formatting, equation typesetting, table formatting, figure placement optimization, and style file customization.
 tu_tools:
   - key: crossref
     name: Crossref
@@ -503,9 +500,9 @@ def run_latex_pipeline(manuscript_path, journal_format="elsevier",
     return tex_path
 ```
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `crossref` | Crossref | 参考文献メタデータ・DOI 解決 |
 
@@ -513,7 +510,7 @@ def run_latex_pipeline(manuscript_path, journal_format="elsevier",
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generated When |
 |---|---|---|
 | `manuscript/manuscript.tex` | LaTeX メインファイル | 変換完了時 |
 | `manuscript/references.bib` | BibTeX 参照データベース | 変換完了時 |
@@ -529,9 +526,9 @@ def run_latex_pipeline(manuscript_path, journal_format="elsevier",
 | Elsevier 系 | `elsarticle` | `elsarticle-num` |
 | APS/PRL 系 | `revtex4-2` | `apsrev4-2` |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
 | `scientific-academic-writing` | 入力: `manuscript/manuscript.md` (Markdown 原稿) |
 | `scientific-supplementary-generator` | SI の LaTeX 変換にも対応 |
@@ -539,3 +536,22 @@ def run_latex_pipeline(manuscript_path, journal_format="elsevier",
 | `scientific-publication-figures` | `figures/` の図パスを `\includegraphics` に変換 |
 
 ```
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

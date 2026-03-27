@@ -1,10 +1,7 @@
 ---
 name: scientific-squidpy-advanced
 description: |
-  高度 Squidpy 空間解析スキル。空間自己相関・共起解析・空間
-  近傍・リガンド受容体空間マッピング・ニッチ同定。
-  K-Dense 連携: squidpy-advanced。
-  ToolUniverse 連携: cellxgene。
+  Squidpy advanced skill. Spatial omics analysis with Squidpy: neighborhood enrichment, spatial autocorrelation, ligand-receptor analysis, and image feature extraction.
 tu_tools: []
 kdense_ref: squidpy-advanced
 tu_tools:
@@ -226,13 +223,13 @@ def squidpy_advanced_pipeline(adata, cluster_key="cell_type",
 
 ---
 
-## K-Dense 連携
+## K-Dense Integration
 
 | K-Dense Key | 参照内容 |
 |-------------|---------|
 | `squidpy-advanced` | 高度空間統計・ニッチ解析手法 |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 spatial-transcriptomics → squidpy-advanced → single-cell-genomics
@@ -245,7 +242,7 @@ spatial-transcriptomics → squidpy-advanced → single-cell-genomics
                     (空間マルチモーダル)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -255,8 +252,27 @@ spatial-transcriptomics → squidpy-advanced → single-cell-genomics
 | `results/centrality_scores.csv` | 中心性スコア | → spatial-transcriptomics |
 | `results/adata_spatial.h5ad` | AnnData (全結果) | → multi-omics |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `cellxgene` | CellxGene | 空間トランスクリプトミクスデータ検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

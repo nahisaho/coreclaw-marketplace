@@ -1,9 +1,7 @@
 ---
 name: scientific-pharmacology-targets
 description: |
-  薬理学的ターゲットプロファイリングスキル。BindingDB 結合親和性、
-  GPCRdb GPCR 構造-活性、GtoPdb 薬理学、BRENDA 酵素動態、
-  Pharos 未解明ターゲット(TDL)の統合解析パイプライン。
+  Pharmacology targets skill. Target validation, druggability assessment, target prioritization scoring, and pharmacological target-disease mapping.
 tu_tools:
   - key: bindingdb
     name: BindingDB
@@ -291,7 +289,7 @@ def integrated_target_profile(uniprot_id, gene_symbol):
 | `results/pharos_targets.csv` | CSV |
 | `results/integrated_target_profile.json` | JSON |
 
-### 利用可能ツール
+### Available Tools
 
 | カテゴリ | 主要ツール | 用途 |
 |---|---|---|
@@ -318,7 +316,7 @@ def integrated_target_profile(uniprot_id, gene_symbol):
 | Pharos | `Pharos_get_tdl_summary` | TDL サマリー |
 | Pharos | `Pharos_get_disease_targets` | 疾患→ターゲット |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -331,3 +329,22 @@ def integrated_target_profile(uniprot_id, gene_symbol):
 ### 依存パッケージ
 
 `requests`, `pandas`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

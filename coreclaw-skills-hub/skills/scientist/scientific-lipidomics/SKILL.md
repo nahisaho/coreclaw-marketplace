@@ -1,11 +1,7 @@
 ---
 name: scientific-lipidomics
 description: |
-  リピドミクス解析スキル。LipidMAPS / SwissLipids / LION
-  脂質データベース統合検索・脂質サブクラス分類・
-  脂質 MS/MS スペクトル同定・脂質パスウェイエンリッチメント・
-  脂質プロファイリングパイプライン。
-  TU 外スキル (直接 REST API + Python ライブラリ)。
+  Lipidomics skill. Lipid species identification, quantification, lipid class profiling, lipidome-wide association, and lipidomics pathway analysis.
 tu_tools:
   - key: lipidmaps
     name: LIPID MAPS
@@ -270,7 +266,7 @@ def lipidomics_pipeline(data, groups,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 metabolomics → lipidomics → pathway-enrichment
@@ -280,15 +276,34 @@ metabolomics → lipidomics → pathway-enrichment
     (代謝物相関)               (オミクス統合)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/lipid_da.csv` | 差次脂質 | → biomarker-discovery |
 | `results/lipid_annotations.csv` | LipidMAPS 注釈 | → pathway-enrichment |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `lipidmaps` | LIPID MAPS | 脂質構造・分類データベース検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

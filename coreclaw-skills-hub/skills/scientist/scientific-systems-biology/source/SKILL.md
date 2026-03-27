@@ -1,11 +1,7 @@
 ---
 name: scientific-systems-biology
 description: |
-  システム生物学解析スキル。動的モデリング（ODE / SBML）・
-  代謝フラックス解析（FBA / pFBA）・遺伝子制御ネットワーク推定（GRN）・
-  シグナル伝達経路モデリング・パラメータ推定・感度解析・
-  BioModels/Reactome/KEGG/BiGG 統合パイプライン。
-  ToolUniverse 連携: bigg_models, complex_portal, wikipathways。
+  Systems biology skill. Network modeling, flux balance analysis, dynamical systems simulation, and multi-scale biological system analysis.
 tu_tools:
   - key: bigg_models
     name: BiGG Models
@@ -288,7 +284,7 @@ def global_sensitivity_analysis(model_func, param_names, param_bounds,
 | `figures/flux_map.png` | PNG |
 | `figures/grn_graph.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -306,7 +302,7 @@ def global_sensitivity_analysis(model_func, param_names, param_bounds,
 | KEGG | `kegg_get_pathway_info` | KEGG パスウェイ |
 | KEGG | `kegg_get_gene_info` | KEGG 遺伝子情報 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 連携内容 |
 |---|---|
@@ -319,3 +315,22 @@ def global_sensitivity_analysis(model_func, param_names, param_bounds,
 #### 依存パッケージ
 
 - cobra (cobrapy), roadrunner (libroadrunner), arboreto, SALib, scipy, networkx
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

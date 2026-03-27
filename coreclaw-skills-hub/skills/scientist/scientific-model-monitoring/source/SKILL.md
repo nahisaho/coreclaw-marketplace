@@ -1,9 +1,7 @@
 ---
 name: scientific-model-monitoring
 description: |
-  MLOps モデル監視スキル。データドリフト検出 (Evidently/NannyML)・
-  モデル性能劣化検出・特徴量ドリフト・コンセプトドリフト・
-  A/B テスト統計・モデルレジストリ・再学習トリガー。
+  Model monitoring skill. ML model performance tracking, data drift detection, prediction quality monitoring, model degradation alerts, and A/B test monitoring.
 tu_tools:
   - key: openml
     name: OpenML
@@ -232,7 +230,7 @@ def ab_test_models(y_true, preds_a, preds_b, metric="accuracy",
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 ensemble-methods → model-monitoring → anomaly-detection
@@ -242,7 +240,7 @@ ensemble-methods → model-monitoring → anomaly-detection
    (AutoML)                        (再学習)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
@@ -250,8 +248,27 @@ ensemble-methods → model-monitoring → anomaly-detection
 | `performance_monitoring.png` | 性能推移 | → reporting |
 | `ab_test_result.json` | A/B テスト結果 | → デプロイ判断 |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `openml` | OpenML | モデルモニタリング指標・ベンチマーク |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

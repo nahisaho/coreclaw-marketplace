@@ -1,11 +1,7 @@
 ---
 name: scientific-protein-interaction-network
 description: |
-  タンパク質-タンパク質相互作用 (PPI) ネットワーク解析スキル。STRING、IntAct、
-  BioGRID、STITCH (化学-タンパク質) 相互作用データベースを統合した
-  ネットワーク構築・解析パイプライン。GO/KEGG 富化、相互作用パートナー発見、
-  組織特異的ネットワーク (HumanBase)、化合物-標的ネットワーク対応。
-  14 の ToolUniverse SMCP ツールと連携。
+  Protein interaction network skill. STRING/BioGRID PPI data integration, interaction confidence scoring, network topology analysis, and protein complex identification.
 tu_tools:
   - key: intact
     name: IntAct
@@ -320,7 +316,7 @@ def visualize_ppi_network(G, partition=None, hub_proteins=None,
 | `results/ppi_network.graphml` | GraphML |
 | `figures/ppi_network.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -341,7 +337,7 @@ def visualize_ppi_network(G, partition=None, hub_proteins=None,
 | STITCH | `STITCH_resolve_identifier` | 化合物 ID 解決 |
 | HumanBase | `humanbase_ppi_analysis` | 組織特異的 PPI 解析 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -354,3 +350,22 @@ def visualize_ppi_network(G, partition=None, hub_proteins=None,
 ### 依存パッケージ
 
 `networkx`, `requests`, `pandas`, `matplotlib`, `python-louvain` (community)
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

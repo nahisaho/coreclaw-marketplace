@@ -1,10 +1,7 @@
 ---
 name: scientific-microbiome-metagenomics
 description: |
-  マイクロバイオーム・メタゲノミクス解析スキル。16S rRNA アンプリコン解析（DADA2）・
-  ショットガンメタゲノム解析（MetaPhlAn / HUMAnN）・α/β 多様性・
-  差次存在量解析（DESeq2 / ANCOM-BC）・機能的プロファイリング・
-  組成データ解析（CoDA）パイプライン。
+  Microbiome and metagenomics skill. 16S rRNA analysis, shotgun metagenomics, diversity metrics, taxonomic profiling, functional metagenomics, and microbiome association studies.
 tu_tools:
   - key: mgnify
     name: MGnify
@@ -325,7 +322,7 @@ def functional_profiling(fastq_files, method="humann"):
 | `figures/pcoa_plot.png` | PNG |
 | `figures/barplot_taxonomy.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -338,7 +335,7 @@ def functional_profiling(fastq_files, method="humann"):
 | MetaCyc | `MetaCyc_search_pathways` | 代謝経路検索 |
 | PubMed | `PubMed_search_articles` | マイクロバイオーム文献検索 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 連携内容 |
 |---|---|
@@ -351,3 +348,22 @@ def functional_profiling(fastq_files, method="humann"):
 #### 依存パッケージ
 
 - scikit-bio, biom-format, qiime2, dada2 (R), ANCOM-BC (R), DESeq2 (R), HUMAnN, MetaPhlAn
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

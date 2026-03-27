@@ -1,9 +1,7 @@
 ---
 name: scientific-metabolic-flux
 description: |
-  代謝フラックス解析スキル。13C/15N 安定同位体トレーサー
-  データを用いた代謝フラックス推定・EMU モデリング・
-  フラックスバランス制約統合パイプライン。
+  Metabolic flux analysis skill. ¹³C metabolic flux analysis, flux balance analysis, flux variability analysis, and metabolic network constraint-based modeling.
 tu_tools:
   - key: bigg
     name: BiGG Models
@@ -292,7 +290,7 @@ def metabolic_flux_pipeline(mid_file, reactions,
 
 ---
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 metabolic-modeling → metabolic-flux → systems-biology
@@ -302,15 +300,34 @@ flux-balance-analysis ───┘    pathway-enrichment
   (制約ベース)                (パスウェイ集積)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
 | ファイル | 説明 | 次スキル |
 |---------|------|---------|
 | `results/mid_corrected.csv` | 補正済み MID | → metabolic-modeling |
 | `results/fluxes.csv` | 推定フラックス | → systems-biology |
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
 | `bigg` | BiGG Models | 代謝フラックスモデル検索 |
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

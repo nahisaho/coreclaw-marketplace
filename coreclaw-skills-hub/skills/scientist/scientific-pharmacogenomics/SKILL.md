@@ -1,11 +1,7 @@
 ---
 name: scientific-pharmacogenomics
 description: |
-  ファーマコゲノミクス (薬理ゲノム学) 解析スキル。PharmGKB/ClinPGx による
-  遺伝子-薬物相互作用照会、CPIC ガイドライン取得・解釈、Star アレル分類、
-  代謝酵素表現型判定 (PM/IM/NM/RM/UM)、FDA 薬理ゲノムバイオマーカー、
-  投与量レコメンデーション、PGx レポート生成を統合した
-  個別化薬物療法支援パイプライン。
+  Pharmacogenomics skill. Genotype-drug response associations, pharmacogenomic variant annotation, dosing guideline integration, and PGx biomarker analysis.
 tu_tools:
   - key: fda_pharmacogenomic_biomarkers
     name: FDA PGx Biomarkers
@@ -313,7 +309,7 @@ def generate_pgx_report(patient_results, output_file="results/pgx_report.json"):
 | `results/dosing_recommendations.csv` | CSV |
 | `figures/pgx_phenotype_summary.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -331,7 +327,7 @@ def generate_pgx_report(patient_results, output_file="results/pgx_report.json"):
 | FDA | `FDA_get_drug_name_by_pharmacogenomics` | PGx から薬物名取得 |
 | OpenTargets | `OpenTargets_drug_pharmacogenomics_data` | 薬物 PGx データ |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -344,3 +340,22 @@ def generate_pgx_report(patient_results, output_file="results/pgx_report.json"):
 ### 依存パッケージ
 
 `pandas`, `numpy`, `json`
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only

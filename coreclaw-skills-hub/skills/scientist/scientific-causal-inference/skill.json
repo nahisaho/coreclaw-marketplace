@@ -1,6 +1,6 @@
 {
   "name": "scientific-causal-inference",
-  "version": "v0.1.0",
+  "version": "v0.2.0",
   "description": "Supports quantitative researchers with method selection logic, explicit assumptions, uncertainty treatment, and interpretable statistical conclusions.",
   "entrypoint": "main.py"
 }

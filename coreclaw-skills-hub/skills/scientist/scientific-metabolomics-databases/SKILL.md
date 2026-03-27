@@ -1,11 +1,7 @@
 ---
 name: scientific-metabolomics-databases
 description: |
-  メタボロミクスデータベース統合スキル。HMDB (Human Metabolome Database、
-  220,000+ 代謝物)、MetaCyc (代謝パスウェイ)、Metabolomics Workbench
-  (NIH メタボロミクスリポジトリ) の 3 大メタボロミクス DB を統合した
-  代謝物同定、パスウェイマッピング、バイオマーカー発見、
-  RefMet 標準化命名パイプライン。13 の ToolUniverse SMCP ツールと連携。
+  Metabolomics databases skill. HMDB/METLIN/MassBank database queries, metabolite annotation, spectral library matching, and cross-database metabolite identification.
 tu_tools:
   - key: metacyc
     name: MetaCyc
@@ -257,7 +253,7 @@ def refmet_standardize(metabolite_names):
 | `results/refmet_standardized.csv` | CSV |
 | `figures/metabolite_class_distribution.png` | PNG |
 
-### 利用可能ツール
+### Available Tools
 
 > [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
 
@@ -277,7 +273,7 @@ def refmet_standardize(metabolite_names):
 | MWB | `MetabolomicsWorkbench_search_by_mz` | m/z 値検索 |
 | MWB | `MetabolomicsWorkbench_get_compound_by_pubchem_cid` | PubChem CID 検索 |
 
-### 参照スキル
+### Related Skills
 
 | スキル | 関連 |
 |---|---|
@@ -290,3 +286,22 @@ def refmet_standardize(metabolite_names):
 ### 依存パッケージ
 
 `requests`, `pandas`, `numpy`, `xml.etree.ElementTree` (stdlib)
+
+---
+
+## Verification Loop (v0.2.0)
+
+```
+PLAN   → define scope, inputs, expected outputs
+EXECUTE → run analysis pipeline
+VERIFY  → check outputs against quality gates
+REPORT  → save all artifacts, generate report.md
+```
+
+### Quality Gates
+
+- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
+- [ ] Numeric results saved as JSON/CSV in `results/`
+- [ ] Report includes methods, results, and discussion
+- [ ] All figure text is English-only
