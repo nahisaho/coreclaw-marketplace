@@ -1,6 +1,6 @@
 # agent-skills-builder
 
-Builds CoreClaw skill packages from requirements using `docs/SKILLS_GUIDE.md`-compliant structures, optional sub-agent scaffolding, and downloadable ZIP outputs.
+Builds CoreClaw skill packages from requirements using `docs/SKILLS_GUIDE.md`-compliant structures, minimal auto-generated templates, suite-style group scaffolding, and artifact-visible ZIP outputs.
 
 ## Features
 
@@ -9,10 +9,13 @@ Builds CoreClaw skill packages from requirements using `docs/SKILLS_GUIDE.md`-co
 - Discovers the user's true objective behind the initial request
 - Proactive proposal generation to surface hidden needs
 - Creates complete skill package structures aligned to `docs/SKILLS_GUIDE.md`
+- Auto-generates a minimal 5-file skill scaffold when explicit file contents are not provided
+- Auto-generates suite-style group packages with `group.json`, a root skill, an orchestrator, and specialized sub-skill templates
 - Optionally scaffolds sub-agents (sub-skills) when complexity requires role separation
 - Generates valid `skill.json`, `README.md`, and `SKILL.md`
 - Applies naming/versioning conventions
 - Performs pre-release validation checks
+- Saves generated deliverables under `coreclaw-skills-hub/.artifacts/generated-skills/`
 - Bundles generated deliverables into ZIP for download
 - Produces release tag suggestions
 - Enforces authoring limits (main skill <= 1500 chars, sub-skills <= 2000 chars)
@@ -23,30 +26,88 @@ Builds CoreClaw skill packages from requirements using `docs/SKILLS_GUIDE.md`-co
 python main.py
 ```
 
+## Artifact Output
+
+Generated skills are saved to a workspace-visible location so they can be surfaced in Artifacts:
+
+- Default directory: `coreclaw-skills-hub/.artifacts/generated-skills/<skill-name>/`
+- ZIP bundle: `coreclaw-skills-hub/.artifacts/generated-skills/<skill-name>.zip`
+- If `output_dir` points outside the workspace, the builder falls back to the artifact-visible default path
+
+When `skill_name` and a small set of metadata are provided, the builder auto-generates these files if they are missing:
+
+- `skill.json`
+- `main.py`
+- `README.md`
+- `SKILL.md`
+- `source/SKILL.md`
+
+When suite-style input is provided, the builder can also auto-generate:
+
+- `group.json`
+- root suite files in the group directory
+- `<group>-orchestrator/` with the required orchestrator sections
+- specialized sub-skill directories with their own 5-file scaffolds
+
 ## ZIP Bundle Example
 
-Create a downloadable zip from generated artifacts:
+Create a downloadable zip from generated artifacts and let the builder scaffold the files:
 
 ```bash
 python - <<'PY'
-from pathlib import Path
 from main import run
 
-out = Path("/tmp/agent-skills-builder-demo")
-out.mkdir(parents=True, exist_ok=True)
-(out / "skill.json").write_text('{"name":"demo","version":"v0.1.0","description":"demo","entrypoint":"main.py"}\n', encoding="utf-8")
-(out / "README.md").write_text('# Demo Skill\n', encoding="utf-8")
-
-result = run({"create_zip": True, "output_dir": str(out)})
+result = run({
+	"skill_name": "agent-skills-builder-demo",
+	"description": "Demonstrates artifact-visible scaffold generation.",
+	"true_objective": "Provide a reviewable starter skill package in Artifacts.",
+	"create_zip": True,
+})
 print(result["zip_bundle"])
+print(result["artifact_output"])
 PY
 ```
 
 Expected output includes:
 
 - `created: True`
-- `zip_path: .../agent-skills-builder-demo.zip`
-- `files_packed: <number>`
+- `zip_path: coreclaw-skills-hub/.artifacts/generated-skills/agent-skills-builder-demo.zip`
+- `output_dir: coreclaw-skills-hub/.artifacts/generated-skills/agent-skills-builder-demo`
+- `generated_template_files: ["skill.json", "main.py", "README.md", "SKILL.md", "source/SKILL.md"]`
+- `files_packed: 5`
+
+## Suite Example
+
+Create a suite-style package with a group root, orchestrator, and specialized sub-skills:
+
+```bash
+python - <<'PY'
+from main import run
+
+result = run({
+	"structure_type": "suite",
+	"group_name": "research-ops",
+	"group_title": "Research Ops",
+	"description": "Coordinates intake, evidence synthesis, and report assembly for research teams.",
+	"subskills": [
+		"research-ops-intake",
+		{"name": "research-ops-synthesis", "title": "Research Ops Synthesis"},
+	],
+	"create_zip": True,
+})
+print(result["template_summary"])
+print(result["artifact_output"])
+PY
+```
+
+Expected output includes:
+
+- `template_mode: suite`
+- `group.json`
+- root suite files under `coreclaw-skills-hub/.artifacts/generated-skills/research-ops/`
+- `research-ops-orchestrator/`
+- specialized sub-skill directories such as `research-ops-intake/`
+- a ZIP bundle containing the full suite directory tree
 
 ## Output
 
@@ -55,8 +116,10 @@ This skill helps generate:
 - `skill.json` with required fields
 - `main.py` entrypoint template
 - `README.md` and `SKILL.md` documentation
-- optional `group.json` for top-level groups
-- optional sub-agent (sub-skill) directories with required files
+- `source/SKILL.md` mirror
+- `group.json` for suite-style groups
+- orchestrator and specialized sub-skill directories with required files
+- artifact-visible output directory inside the workspace
 - downloadable ZIP bundle including generated artifacts
 - release-ready tag format (`<skill-path>/vX.Y.Z`)
 

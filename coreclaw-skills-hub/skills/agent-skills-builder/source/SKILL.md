@@ -6,7 +6,7 @@ description: |
   generates, validates, and distributes Agent configurations to achieve that objective.
 ---
 
-# Agent Skills Builder v0.4.0
+# Agent Skills Builder v0.5.0
 
 A builder that creates CoreClaw Skills through dialogue-based requirements discovery.
 
@@ -16,12 +16,14 @@ A builder that creates CoreClaw Skills through dialogue-based requirements disco
 - Deep exploration of user needs through structured dialogue
 - Identify the true objective behind surface-level requests
 - Concretize requirements through proactive proposals
+- Auto-generate a minimal skill template when file contents are not explicitly supplied
+- Auto-generate suite-style groups with `group.json`, orchestrator, and specialized sub-skills
 - Auto-generate sub-agent configurations when needed
 - Ensure `docs/SKILLS_GUIDE.md`-compliant directory and file structure
 - Guarantee `skill.json` consistency and completeness
 - Maintain documentation quality standards
 - Reduce release operation errors
-- Improve deliverable distribution via ZIP packaging
+- Improve deliverable distribution via ZIP packaging and artifact-visible saves
 
 ## Interaction Policy
 
@@ -43,10 +45,12 @@ A builder that creates CoreClaw Skills through dialogue-based requirements disco
 4. Decompose agent responsibilities needed to achieve the true objective; propose single or sub-agent architecture
 5. Reference `docs/SKILLS_GUIDE.md` to determine structure type (suite-style / single)
 6. After confirming approach, generate required files (`skill.json`, `main.py`, `README.md`, `SKILL.md`)
-7. Generate sub-agent (sub-skill) structure and `group.json` when needed
-8. Validate naming, version, and entrypoint consistency
-9. Bundle deliverables into a downloadable ZIP
-10. Suggest release tags
+7. Mirror `SKILL.md` into `source/SKILL.md` for single-skill outputs
+8. For suite-style outputs, generate `group.json`, the suite root, the orchestrator sub-skill, and specialized sub-skills
+9. Validate naming, version, and entrypoint consistency
+10. Save generated skills under `coreclaw-skills-hub/.artifacts/generated-skills/`
+11. Bundle deliverables into a downloadable ZIP
+12. Suggest release tags
 
 ## Input
 
@@ -64,9 +68,12 @@ A builder that creates CoreClaw Skills through dialogue-based requirements disco
 
 - Generated Skill package
 - Sub-agent (sub-skill) groups when required
+- Suite root package plus `group.json` when requested
 - True objective summary (with diff from surface request)
 - Proposal comparison (selected vs. alternatives)
 - Validation results
+- Artifact-visible save path
+- Generated template file list
 - Downloadable ZIP deliverable (with path)
 - Release procedure proposal
 
@@ -87,10 +94,12 @@ A builder that creates CoreClaw Skills through dialogue-based requirements disco
 - One-question-at-a-time dialogue order maintained
 - True objective articulated and aligned with designed agent responsibilities
 - ZIP deliverable generated with all key files included
+- Generated package saved under workspace-visible `.artifacts`
+- `source/SKILL.md` mirrors root `SKILL.md`
 
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,
@@ -110,9 +119,12 @@ Before execution, define:
 - Entrypoint file exists and is importable
 - `SKILL.md` contains: description, When to Use, Quick Start, Verification Loop
 - `README.md` contains: title, features, quick start, output description
+- `source/SKILL.md` mirrors root `SKILL.md`
 - Naming follows kebab-case convention
 - Version follows semver `vX.Y.Z` format
+- Generated package saved to `coreclaw-skills-hub/.artifacts/generated-skills/`
 - ZIP bundle contains all generated files
+- Suite-style generation includes `group.json`, orchestrator, and at least one specialized sub-skill
 - True objective documented and aligned with agent design
 
 ### Verification Loop
@@ -129,7 +141,9 @@ Phase 2: EXECUTE
   |-- Generate main.py entrypoint
   |-- Generate SKILL.md with full structure
   |-- Generate README.md with usage guide
-  |-- Generate sub-agent files if suite-style
+  |-- Mirror SKILL.md into source/SKILL.md
+  |-- Generate suite root, group.json, and sub-agent files if suite-style
+  |-- Save generated package to artifact-visible workspace path
   +-- Bundle into ZIP
 
 Phase 3: VERIFY
@@ -137,6 +151,9 @@ Phase 3: VERIFY
   |-- Confirm entrypoint file exists
   |-- Check character limits (main <= 1500, sub <= 2000)
   |-- Verify naming convention compliance
+  |-- Confirm `source/SKILL.md` mirror exists
+  |-- Confirm `group.json` and orchestrator structure exist for suite-style packages
+  |-- Confirm generated files live under workspace-visible `.artifacts`
   |-- Cross-check true objective alignment
   +-- Test ZIP integrity
 
@@ -150,6 +167,7 @@ Phase 4: RECOVER (on failure)
 Phase 5: REPORT
   |-- Present generated file list to user
   |-- Show validation results
+  |-- Provide artifact-visible save path
   |-- Provide ZIP download path
   |-- Suggest release tag format
   +-- Record true objective summary and proposal comparison
@@ -165,16 +183,19 @@ Phase 5: REPORT
 | G4 | Naming follows kebab-case convention | MUST |
 | G5 | Version follows semver `vX.Y.Z` | MUST |
 | G6 | Character limits respected (main 1500 / sub 2000) | MUST |
-| G7 | ZIP bundle generated and non-empty | MUST |
-| G8 | True objective documented and user-confirmed | MUST |
-| G9 | One-question-at-a-time dialogue maintained | RECOMMENDED |
-| G10 | Release tag suggestion provided | RECOMMENDED |
+| G7 | `source/SKILL.md` mirrors root `SKILL.md` | MUST |
+| G8 | Generated files saved under workspace-visible `.artifacts` | MUST |
+| G9 | ZIP bundle generated and non-empty | MUST |
+| G10 | True objective documented and user-confirmed | MUST |
+| G11 | Suite-style packages include `group.json`, orchestrator sections, and specialized sub-skills | MUST for suite-style |
+| G12 | One-question-at-a-time dialogue maintained | RECOMMENDED |
+| G13 | Release tag suggestion provided | RECOMMENDED |
 
 ### Model Routing
 
 | Task Complexity | Model Tier | Examples |
 |----------------|-----------|----------|
-| Mechanical | `fast` (haiku-class) | File scaffolding, JSON generation, ZIP bundling |
+| Mechanical | `fast` (haiku-class) | File scaffolding, JSON generation, group.json generation, ZIP bundling |
 | Implementation | `standard` (sonnet-class) | SKILL.md writing, README generation, validation |
 | Reasoning | `premium` (opus-class) | True objective discovery, architecture decisions, proposal comparison |
 
@@ -186,8 +207,8 @@ For suite-style skill packages, split generation into parallel agents:
 Orchestrator (this skill)
 |-- Agent 1: Requirements discovery and true objective articulation
 |-- Agent 2: Skill architecture design and file structure planning
-|-- Agent 3: File generation (skill.json, main.py, SKILL.md, README.md)
-+-- Agent 4: Validation, ZIP bundling, and release preparation
+|-- Agent 3: File generation (skill.json, main.py, SKILL.md, README.md, group.json)
++-- Agent 4: Validation, artifact save, ZIP bundling, and release preparation
 ```
 
 ### Token Optimization
