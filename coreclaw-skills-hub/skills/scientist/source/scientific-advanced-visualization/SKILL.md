@@ -333,7 +333,7 @@ After data acquisition, generate a structured report:
 
 1. Save raw results to `results/` as CSV/JSON
 2. Create visualizations in `figures/`
-3. Write `report.md` summarizing methods, results, and interpretation
+3. Write `report.md` in the same language as the user's input, summarizing methods, results, and interpretation
 
 ---
 
@@ -354,7 +354,7 @@ Before execution, define:
 #### Pass Criteria
 - All figures saved to disk (never plt.show())
 - Figures embedded in report.md with captions
-- Text is English-only, font size >= 8pt
+- Figure text is English-only, font size >= 8pt
 - Accessibility: contrast ratio >= 4.5:1
 - Vector format (SVG/PDF) provided when requested
 ### Verification Loop
@@ -387,7 +387,7 @@ Phase 4: RECOVER (on failure)
   +-- If unrecoverable: document limitation and partial results
 
 Phase 5: REPORT
-  |-- Generate report.md with all sections
+  |-- Generate report.md with all sections in the user's input language
   |-- Embed all figures with captions
   |-- Save numeric results as JSON/CSV
   |-- List all generated files
@@ -402,7 +402,7 @@ Phase 5: REPORT
 | G2 | All figures embedded in `report.md` | MUST |
 | G3 | Numeric results saved as JSON/CSV in `results/` | MUST |
 | G4 | Report includes methods, results, discussion | MUST |
-| G5 | All figure/table text is English-only | MUST |
+| G5 | All figure/table text is English-only; report.md body matches the user's input language | MUST |
 | G6 | No hardcoded paths (use `Path` / config) | MUST |
 | G7 | Random seed set and documented | MUST |
 | G8 | Execution time logged | RECOMMENDED |

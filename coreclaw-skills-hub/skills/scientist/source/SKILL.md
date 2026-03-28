@@ -12,13 +12,13 @@ description: |
 
 A harness-optimized collection of 195 scientific research skills, organized
 as sub-skill directories within this skill package. v0.3.0 applies token
-optimization (English-only prompts) and structured verification loops
+optimization and structured verification loops
 inspired by the everything-claude-code harness performance system.
 
-## Required: All Charts and Figures Must Use English (All Sub-Skills)
+## Required: report.md Uses the User's Input Language, Charts and Figures Use English (All Sub-Skills)
 
-**When creating graphs, charts, or figures (matplotlib / seaborn / plotly / any
-visualization library), all text elements MUST be written in English.**
+**When creating `report.md`, use the user's input language. When creating graphs, charts, or figures
+(matplotlib / seaborn / plotly / any visualization library), all figure text elements MUST be written in English.**
 
 | Text Element | Rule |
 |---|---|
@@ -138,7 +138,7 @@ Every sub-skill execution follows a structured verification loop:
 Step 1: PLAN — Define scope, inputs, expected outputs
 Step 2: EXECUTE — Run analysis pipeline
 Step 3: VERIFY — Check outputs against quality gates
-Step 4: REPORT — Save all artifacts, generate report.md
+Step 4: REPORT — Save all artifacts, generate report.md in the user's input language
 ```
 
 ### Quality Gates
