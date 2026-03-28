@@ -1,6 +1,6 @@
 # agent-skills-builder
 
-Builds CoreClaw skill packages from requirements using `docs/SKILLS_GUIDE.md`-compliant structures, minimal auto-generated templates, suite-style group scaffolding, and artifact-visible ZIP outputs.
+Builds CoreClaw skill packages from requirements using `docs/SKILLS_GUIDE.md`-compliant structures, minimal auto-generated templates, profile-based suite-style group scaffolding, profile-specific orchestrator contracts, and artifact-visible ZIP outputs.
 
 ## Features
 
@@ -10,7 +10,8 @@ Builds CoreClaw skill packages from requirements using `docs/SKILLS_GUIDE.md`-co
 - Proactive proposal generation to surface hidden needs
 - Creates complete skill package structures aligned to `docs/SKILLS_GUIDE.md`
 - Auto-generates a minimal 5-file skill scaffold when explicit file contents are not provided
-- Auto-generates suite-style group packages with `group.json`, a root skill, an orchestrator, and specialized sub-skill templates
+- Auto-generates suite-style group packages with `group.json`, a root skill, an orchestrator, and profile-specific specialized sub-skill templates
+- Switches orchestrator Input Contract, Output Contract, Quality Gates, and Fallback Policy by suite profile
 - Optionally scaffolds sub-agents (sub-skills) when complexity requires role separation
 - Generates valid `skill.json`, `README.md`, and `SKILL.md`
 - Applies naming/versioning conventions
@@ -48,6 +49,29 @@ When suite-style input is provided, the builder can also auto-generate:
 - root suite files in the group directory
 - `<group>-orchestrator/` with the required orchestrator sections
 - specialized sub-skill directories with their own 5-file scaffolds
+
+If no explicit `subskills` are provided, the builder chooses a preset from `suite_profile` and generates role-based sub-skills automatically.
+
+Supported presets:
+
+- `ops`: `intake`, `execution`, `reporting`
+- `research`: `intake`, `evidence-synthesis`, `report-assembly`
+- `consulting`: `problem-structuring`, `analysis`, `executive-storyline`
+
+Each preset also changes the generated orchestrator sections:
+
+- `Input Contract`
+- `Output Contract`
+- `Quality Gates`
+- `Fallback Policy`
+
+If `suite_profile` is omitted, the default preset is `ops`.
+
+Example default `ops` output:
+
+- `<group>-intake`
+- `<group>-execution`
+- `<group>-reporting`
 
 ## ZIP Bundle Example
 
@@ -109,6 +133,35 @@ Expected output includes:
 - specialized sub-skill directories such as `research-ops-intake/`
 - a ZIP bundle containing the full suite directory tree
 
+If `subskills` is omitted, the builder still produces a suite with default role coverage for intake, execution, and reporting.
+
+## Profile Example
+
+Create a research-oriented suite without explicitly listing sub-skills:
+
+```bash
+python - <<'PY'
+from main import run
+
+result = run({
+	"structure_type": "suite",
+	"suite_profile": "research",
+	"group_name": "lab-workflow",
+	"group_title": "Lab Workflow",
+	"description": "Coordinates intake, evidence synthesis, and report assembly for a research workflow.",
+})
+print(result["template_summary"])
+PY
+```
+
+Expected `template_summary.subskills`:
+
+- `lab-workflow-intake`
+- `lab-workflow-evidence-synthesis`
+- `lab-workflow-report-assembly`
+
+The returned `template_summary.orchestrator_contracts` also reflects the selected suite profile.
+
 ## Output
 
 This skill helps generate:
@@ -119,6 +172,8 @@ This skill helps generate:
 - `source/SKILL.md` mirror
 - `group.json` for suite-style groups
 - orchestrator and specialized sub-skill directories with required files
+- profile-based default sub-skill sets for suite templates without explicit sub-skill input
+- profile-specific orchestrator contracts in `template_summary` and generated `SKILL.md`
 - artifact-visible output directory inside the workspace
 - downloadable ZIP bundle including generated artifacts
 - release-ready tag format (`<skill-path>/vX.Y.Z`)

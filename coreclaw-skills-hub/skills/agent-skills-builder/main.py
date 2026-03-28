@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Entrypoint for imported skill: agent-skills-builder (v0.5.0).
+"""Entrypoint for imported skill: agent-skills-builder (v0.8.0).
 
 Harness-optimized with 5-phase verification loops, domain-specific eval criteria,
 model routing, sub-agent orchestration, and error recovery protocol.
@@ -14,10 +14,20 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 
 SKILL_NAME = "agent-skills-builder"
-SKILL_VERSION = "v0.5.0"
+SKILL_VERSION = "v0.8.0"
 WORKSPACE_ROOT = Path(__file__).resolve().parents[3]
 ARTIFACT_ROOT = WORKSPACE_ROOT / "coreclaw-skills-hub" / ".artifacts" / "generated-skills"
 DEFAULT_GROUP_ICON = "🧰"
+SUITE_PROFILE_ALIASES = {
+    "default": "ops",
+    "standard": "ops",
+    "ops": "ops",
+    "operations": "ops",
+    "research": "research",
+    "researcher": "research",
+    "consulting": "consulting",
+    "consultant": "consulting",
+}
 
 
 def _slugify(value: str) -> str:
@@ -70,6 +80,78 @@ def _default_orchestrator_description(group_title: str) -> str:
 
 def _default_subskill_description(skill_title: str, group_title: str) -> str:
     return f"Executes the {skill_title.lower()} step inside the {group_title.lower()} workflow."
+
+
+def _workflow_label(group_title: str) -> str:
+    label = group_title.lower().strip()
+    return label if label.endswith("workflow") else f"{label} workflow"
+
+
+def _suite_profile(payload: dict) -> str:
+    raw = _stringify(
+        payload.get("suite_profile")
+        or payload.get("profile")
+        or payload.get("domain")
+        or payload.get("workflow_type")
+    ).lower()
+    return SUITE_PROFILE_ALIASES.get(raw, "ops")
+
+
+def _default_subskill_role_specs(group_name: str, group_title: str, profile: str) -> list[dict[str, str]]:
+    presets = {
+        "ops": [
+            {
+                "name": f"{group_name}-intake",
+                "title": f"{group_title} Intake",
+                "description": f"Captures the request scope, constraints, dependencies, and handoff requirements for the {group_title.lower()} workflow.",
+            },
+            {
+                "name": f"{group_name}-execution",
+                "title": f"{group_title} Execution",
+                "description": f"Performs the core execution step for the {group_title.lower()} workflow and produces the primary working artifacts.",
+            },
+            {
+                "name": f"{group_name}-reporting",
+                "title": f"{group_title} Reporting",
+                "description": f"Consolidates outputs, verifies quality gates, and prepares final deliverables for the {group_title.lower()} workflow.",
+            },
+        ],
+        "research": [
+            {
+                "name": f"{group_name}-intake",
+                "title": f"{group_title} Intake",
+                "description": f"Frames the research objective, scope, data sources, and evaluation criteria for the {group_title.lower()} workflow.",
+            },
+            {
+                "name": f"{group_name}-evidence-synthesis",
+                "title": f"{group_title} Evidence Synthesis",
+                "description": f"Synthesizes evidence, methods, and intermediate findings for the {group_title.lower()} workflow.",
+            },
+            {
+                "name": f"{group_name}-report-assembly",
+                "title": f"{group_title} Report Assembly",
+                "description": f"Assembles validated findings, limitations, and conclusions into final research deliverables for the {group_title.lower()} workflow.",
+            },
+        ],
+        "consulting": [
+            {
+                "name": f"{group_name}-problem-structuring",
+                "title": f"{group_title} Problem Structuring",
+                "description": f"Defines the decision problem, hypotheses, constraints, and workplan for the {group_title.lower()} workflow.",
+            },
+            {
+                "name": f"{group_name}-analysis",
+                "title": f"{group_title} Analysis",
+                "description": f"Builds the fact base, analysis outputs, and implications for the {group_title.lower()} workflow.",
+            },
+            {
+                "name": f"{group_name}-executive-storyline",
+                "title": f"{group_title} Executive Storyline",
+                "description": f"Converts analysis into executive recommendations, storyline structure, and client-ready deliverables for the {group_title.lower()} workflow.",
+            },
+        ],
+    }
+    return presets.get(profile, presets["ops"])
 
 
 def _suite_requested(payload: dict, explicit_files: dict[str, str]) -> bool:
@@ -440,17 +522,104 @@ def _render_package(
     }
 
 
-def _default_subskill_specs(group_name: str, group_title: str) -> list[dict[str, str]]:
-    skill_name = f"{group_name}-specialized-skill"
-    return [{
-        "name": skill_name,
-        "title": f"{group_title} Specialized Skill",
-        "description": _default_subskill_description(f"{group_title} Specialized Skill", group_title),
-    }]
+def _default_subskill_specs(group_name: str, group_title: str, profile: str) -> list[dict[str, str]]:
+    return _default_subskill_role_specs(group_name, group_title, profile)
+
+
+def _orchestrator_profile_contracts(group_title: str, profile: str) -> dict[str, list[str]]:
+    workflow_label = _workflow_label(group_title)
+    defaults = {
+        "input_contract": [
+            f"Workflow objective for {workflow_label}",
+            "Shared context, constraints, and quality gates",
+            "Expected output format for downstream delivery",
+        ],
+        "output_contract": [
+            "Ordered execution plan across sub-skills",
+            "Consolidated artifact summary with assumptions",
+            "Final recommendation and next actions",
+        ],
+        "quality_gates": [
+            "Upstream outputs are complete and parseable before moving to the next skill.",
+            "Each step records assumptions, constraints, and confidence levels.",
+            "The final response includes recommended next actions.",
+        ],
+        "fallback_policy": [
+            "If a sub-skill output is insufficient, request clarification and rerun that step.",
+            "If constraints conflict, present at least two viable alternatives.",
+        ],
+    }
+    profiles = {
+        "ops": {
+            "input_contract": [
+                f"Operational objective and service boundaries for the {workflow_label}",
+                "Runbook constraints, dependencies, and escalation paths",
+                "Required artifact formats for downstream operators",
+            ],
+            "output_contract": [
+                "Sequenced operational handoff across sub-skills",
+                "Validated execution artifacts with blockers and mitigations",
+                "Actionable rollout or remediation plan",
+            ],
+            "quality_gates": [
+                "Every stage records dependencies, owners, and rollback conditions.",
+                "Execution artifacts are complete enough for downstream operational handoff.",
+                "The final response includes operational next actions and risk notes.",
+            ],
+            "fallback_policy": [
+                "If an execution dependency is missing, stop the chain and surface the blocking prerequisite.",
+                "If a rollback or escalation path is unclear, return a safe fallback plan before continuing.",
+            ],
+        },
+        "research": {
+            "input_contract": [
+                f"Research objective, hypothesis scope, and evaluation criteria for the {workflow_label}",
+                "Data sources, methodological constraints, and evidence standards",
+                "Required artifact formats for analysis and final reporting",
+            ],
+            "output_contract": [
+                "Ordered research workflow across intake, synthesis, and reporting",
+                "Traceable evidence summary with assumptions and limitations",
+                "Final findings, conclusions, and recommended next studies",
+            ],
+            "quality_gates": [
+                "Each stage preserves source traceability, assumptions, and limitations.",
+                "Synthesis outputs are methodologically consistent before report assembly begins.",
+                "The final response separates evidence, interpretation, and recommendations.",
+            ],
+            "fallback_policy": [
+                "If evidence quality is insufficient, document the gap and narrow the claim scope before continuing.",
+                "If methods conflict, present the competing interpretations and required follow-up validation.",
+            ],
+        },
+        "consulting": {
+            "input_contract": [
+                f"Decision objective, client constraints, and success metrics for the {workflow_label}",
+                "Hypotheses, stakeholder context, and available fact base",
+                "Expected deliverable format for executive communication",
+            ],
+            "output_contract": [
+                "Structured consulting workplan across problem structuring, analysis, and storyline development",
+                "Implication-led synthesis with risks, assumptions, and trade-offs",
+                "Executive recommendation set with implementation next steps",
+            ],
+            "quality_gates": [
+                "Problem structuring clearly defines the decision, scope, and hypotheses.",
+                "Analysis outputs connect facts to implications without unexplained gaps.",
+                "The storyline is executive-ready and ends with decisive recommendations.",
+            ],
+            "fallback_policy": [
+                "If the fact base is weak, state the implication limits and propose the minimum additional analysis needed.",
+                "If recommendation paths conflict, present the trade-offs and decision criteria explicitly.",
+            ],
+        },
+    }
+    return profiles.get(profile, defaults)
 
 
 def _normalize_subskills(payload: dict, group_name: str, group_title: str) -> list[dict[str, str]]:
     raw = payload.get("subskills") or payload.get("sub_skills") or payload.get("sub_agents") or []
+    profile = _suite_profile(payload)
     normalized: list[dict[str, str]] = []
     for index, item in enumerate(raw, start=1):
         if isinstance(item, str):
@@ -468,7 +637,7 @@ def _normalize_subskills(payload: dict, group_name: str, group_title: str) -> li
             "title": title,
             "description": description,
         })
-    return normalized or _default_subskill_specs(group_name, group_title)
+    return normalized or _default_subskill_specs(group_name, group_title, profile)
 
 
 def _render_single_files(payload: dict) -> dict[str, str]:
@@ -496,6 +665,8 @@ def _render_suite_files(payload: dict) -> tuple[dict[str, str], dict[str, object
     root_description = _default_description(payload, group_title)
     group_description = _stringify(payload.get("group_description")) or _default_group_description(group_title, root_description)
     group_icon = _stringify(payload.get("group_icon")) or DEFAULT_GROUP_ICON
+    suite_profile = _suite_profile(payload)
+    orchestrator_contracts = _orchestrator_profile_contracts(group_title, suite_profile)
     subskills = _normalize_subskills(payload, group_name, group_title)
 
     files: dict[str, str] = {
@@ -538,25 +709,10 @@ def _render_suite_files(payload: dict) -> tuple[dict[str, str], dict[str, object
                 _display_name(orchestrator_name),
                 orchestrator_description,
                 flow,
-                [
-                    f"Workflow objective for {group_title.lower()}",
-                    "Shared context, constraints, and quality gates",
-                    "Expected output format for downstream delivery",
-                ],
-                [
-                    "Ordered execution plan across sub-skills",
-                    "Consolidated artifact summary with assumptions",
-                    "Final recommendation and next actions",
-                ],
-                [
-                    "Upstream outputs are complete and parseable before moving to the next skill.",
-                    "Each step records assumptions, constraints, and confidence levels.",
-                    "The final response includes recommended next actions.",
-                ],
-                [
-                    "If a sub-skill output is insufficient, request clarification and rerun that step.",
-                    "If constraints conflict, present at least two viable alternatives.",
-                ],
+                orchestrator_contracts["input_contract"],
+                orchestrator_contracts["output_contract"],
+                orchestrator_contracts["quality_gates"],
+                orchestrator_contracts["fallback_policy"],
                 version,
             ),
             _render_subskill_readme(_display_name(orchestrator_name), orchestrator_description, "Routes and validates suite execution across sub-skills."),
@@ -581,11 +737,13 @@ def _render_suite_files(payload: dict) -> tuple[dict[str, str], dict[str, object
 
     metadata = {
         "structure_type": "suite",
+        "suite_profile": suite_profile,
         "group_name": group_name,
         "group_title": group_title,
         "root_skill_name": root_skill_name,
         "orchestrator_name": orchestrator_name,
         "subskills": [item["name"] for item in subskills],
+        "orchestrator_contracts": orchestrator_contracts,
     }
     return files, metadata
 
@@ -704,6 +862,8 @@ def run(input_data: dict | None = None) -> dict:
             "zip-bundling",
             "minimal-template-generation",
             "suite-template-generation",
+            "suite-profile-presets",
+            "profile-specific-orchestrator-contracts",
         ],
         "artifact_output": {
             "workspace_root": str(WORKSPACE_ROOT),
@@ -729,6 +889,8 @@ def run(input_data: dict | None = None) -> dict:
                 "artifact-visible-output",
                 "minimal-template-generated",
                 "suite-group-generated",
+                "suite-profile-selected",
+                "profile-orchestrator-contracts-generated",
             ],
             "model_routing": {
                 "fast": "File scaffolding, JSON generation, ZIP bundling",

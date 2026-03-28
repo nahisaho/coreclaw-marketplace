@@ -6,7 +6,7 @@ description: |
   generates, validates, and distributes Agent configurations to achieve that objective.
 ---
 
-# Agent Skills Builder v0.5.0
+# Agent Skills Builder v0.8.0
 
 A builder that creates CoreClaw Skills through dialogue-based requirements discovery.
 
@@ -17,7 +17,8 @@ A builder that creates CoreClaw Skills through dialogue-based requirements disco
 - Identify the true objective behind surface-level requests
 - Concretize requirements through proactive proposals
 - Auto-generate a minimal skill template when file contents are not explicitly supplied
-- Auto-generate suite-style groups with `group.json`, orchestrator, and specialized sub-skills
+- Auto-generate suite-style groups with `group.json`, orchestrator, and profile-based specialized sub-skills
+- Generate profile-specific orchestrator contracts for input, output, quality, and fallback handling
 - Auto-generate sub-agent configurations when needed
 - Ensure `docs/SKILLS_GUIDE.md`-compliant directory and file structure
 - Guarantee `skill.json` consistency and completeness
@@ -47,10 +48,12 @@ A builder that creates CoreClaw Skills through dialogue-based requirements disco
 6. After confirming approach, generate required files (`skill.json`, `main.py`, `README.md`, `SKILL.md`)
 7. Mirror `SKILL.md` into `source/SKILL.md` for single-skill outputs
 8. For suite-style outputs, generate `group.json`, the suite root, the orchestrator sub-skill, and specialized sub-skills
-9. Validate naming, version, and entrypoint consistency
-10. Save generated skills under `coreclaw-skills-hub/.artifacts/generated-skills/`
-11. Bundle deliverables into a downloadable ZIP
-12. Suggest release tags
+9. When `subskills` are omitted, select a suite profile and generate its default role templates
+10. Generate the orchestrator's contracts and fallback policy from the selected suite profile
+11. Validate naming, version, and entrypoint consistency
+12. Save generated skills under `coreclaw-skills-hub/.artifacts/generated-skills/`
+13. Bundle deliverables into a downloadable ZIP
+14. Suggest release tags
 
 ## Input
 
@@ -62,6 +65,7 @@ A builder that creates CoreClaw Skills through dialogue-based requirements disco
 - Sub-agent requirement (number of roles and responsibility split when needed)
 - Required input/output formats
 - Version policy (typically starts at `v0.1.0`)
+- Optional suite profile (`ops`, `research`, `consulting`)
 - Operational conditions (deadline, quality requirements, dependencies)
 
 ## Output
@@ -99,7 +103,7 @@ A builder that creates CoreClaw Skills through dialogue-based requirements disco
 
 ---
 
-## Harness Optimization (v0.5.0)
+## Harness Optimization (v0.8.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,
@@ -125,6 +129,8 @@ Before execution, define:
 - Generated package saved to `coreclaw-skills-hub/.artifacts/generated-skills/`
 - ZIP bundle contains all generated files
 - Suite-style generation includes `group.json`, orchestrator, and at least one specialized sub-skill
+- Default suite generation applies the selected suite profile when no explicit sub-skills are supplied
+- Orchestrator contracts match the selected suite profile
 - True objective documented and aligned with agent design
 
 ### Verification Loop
@@ -143,6 +149,8 @@ Phase 2: EXECUTE
   |-- Generate README.md with usage guide
   |-- Mirror SKILL.md into source/SKILL.md
   |-- Generate suite root, group.json, and sub-agent files if suite-style
+  |-- Apply selected suite profile roles when no sub-skills are specified
+  |-- Generate profile-specific orchestrator contracts
   |-- Save generated package to artifact-visible workspace path
   +-- Bundle into ZIP
 
@@ -188,14 +196,16 @@ Phase 5: REPORT
 | G9 | ZIP bundle generated and non-empty | MUST |
 | G10 | True objective documented and user-confirmed | MUST |
 | G11 | Suite-style packages include `group.json`, orchestrator sections, and specialized sub-skills | MUST for suite-style |
-| G12 | One-question-at-a-time dialogue maintained | RECOMMENDED |
-| G13 | Release tag suggestion provided | RECOMMENDED |
+| G12 | Default suite templates honor the selected suite profile when `subskills` are omitted | MUST for default suite mode |
+| G13 | Orchestrator contracts match the selected suite profile | MUST for profile-based suite mode |
+| G14 | One-question-at-a-time dialogue maintained | RECOMMENDED |
+| G15 | Release tag suggestion provided | RECOMMENDED |
 
 ### Model Routing
 
 | Task Complexity | Model Tier | Examples |
 |----------------|-----------|----------|
-| Mechanical | `fast` (haiku-class) | File scaffolding, JSON generation, group.json generation, ZIP bundling |
+| Mechanical | `fast` (haiku-class) | File scaffolding, JSON generation, suite profile expansion, contract generation, group.json generation, ZIP bundling |
 | Implementation | `standard` (sonnet-class) | SKILL.md writing, README generation, validation |
 | Reasoning | `premium` (opus-class) | True objective discovery, architecture decisions, proposal comparison |
 

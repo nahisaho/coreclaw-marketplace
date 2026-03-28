@@ -1,6 +1,6 @@
 {
   "name": "agent-skills-builder",
-  "version": "v0.5.0",
-  "description": "Discovers the user's true objective through one-question dialogue, then designs docs/SKILLS_GUIDE.md-compliant CoreClaw agents, auto-generates single-skill or suite-style templates into workspace-visible .artifacts, and bundles ZIP deliverables.",
+  "version": "v0.8.0",
+  "description": "Discovers the user's true objective through one-question dialogue, then designs docs/SKILLS_GUIDE.md-compliant CoreClaw agents, auto-generates single-skill or profile-based suite-style templates with profile-specific orchestrator contracts into workspace-visible .artifacts, and bundles ZIP deliverables.",
   "entrypoint": "main.py"
 }
