@@ -1,38 +1,38 @@
 ---
 name: scientific-marine-ecology
 description: |
-  Marine ecology skill. Ocean biodiversity analysis, marine species distribution modeling, fisheries data analysis, coral reef assessment, and marine environmental monitoring.
+ Marine ecology skill. Ocean biodiversity analysis, marine species distribution modeling, fisheries data analysis, coral reef assessment, and marine environmental monitoring.
 tu_tools:
-  - key: obis
-    name: OBIS (Ocean Biodiversity Information System)
-    description: 海洋生物の出現・分布データを提供する国際プラットフォーム
-  - key: worms
-    name: WoRMS (World Register of Marine Species)
-    description: 海洋生物種の権威ある分類学的参照データベース
-  - key: gbif
-    name: GBIF (Global Biodiversity Information Facility)
-    description: 生物多様性データの国際的なオープンアクセスインフラ
+ - key: obis
+ name: OBIS (Ocean Biodiversity Information System)
+ description: 'sdistributiondata is provided
+ - key: worms
+ name: WoRMS (World Register of Marine Species)
+ description: organism/species's classificationreferencedatabase
+ - key: gbif
+ name: GBIF (Global Biodiversity Information Facility)
+ description: data's
 ---
 
 # Scientific Marine Ecology
 
-OBIS / WoRMS / GBIF / FishBase を活用した海洋生物多様性・
-分布解析パイプラインを提供する。
+OBIS / WoRMS / GBIF / FishBase utilizing
+distributionanalysispipeline is provided。
 
 ## When to Use
 
-- 海洋生物の地理的分布データを取得するとき
-- 海洋生物の分類学的情報 (WoRMS) を検証するとき
-- 生物多様性ホットスポットを解析するとき
-- 魚類の生態・形態データ (FishBase) を取得するとき
-- 海洋保全区域の生物多様性評価を行うとき
-- 海洋環境変動と種分布の関係を分析するとき
+- 'sdistributiondata is retrievedand
+- 's classificationinformation (WoRMS) verificationwhen needed
+- analysiswhen needed
+- 's shapedata (FishBase) is retrievedand
+- all'sevaluation is performedand
+- environment and typedistribution's minwhen needed
 
 ---
 
 ## Quick Start
 
-## 1. OBIS 海洋生物分布
+## 1. OBIS distribution
 
 ```python
 import requests
@@ -43,355 +43,355 @@ OBIS_BASE = "https://api.obis.org/v3"
 
 
 def obis_occurrence_search(taxon_name=None, taxon_id=None,
-                            geometry=None, year_range=None, limit=1000):
-    """
-    OBIS — 海洋生物出現記録検索。
+ geometry=None, year_range=None, limit=1000):
+ """
+ OBIS — search。
 
-    Parameters:
-        taxon_name: str — 学名 (例: "Delphinidae")
-        taxon_id: int — AphiaID
-        geometry: str — WKT ジオメトリ (例: "POLYGON((...))")
-        year_range: tuple — (start_year, end_year)
-        limit: int — 最大取得件数
-    """
-    url = f"{OBIS_BASE}/occurrence"
-    params = {"size": min(limit, 5000)}
+ Parameters:
+ taxon_name: str — (example: "Delphinidae")
+ taxon_id: int — AphiaID
+ geometry: str — WKT (example: "POLYGON((...))")
+ year_range: tuple — (start_year, end_year)
+ limit: int — retrievalitemsnumber/count
+ """
+ url = f"{OBIS_BASE}/occurrence"
+ params = {"size": min(limit, 5000)}
 
-    if taxon_name:
-        params["scientificname"] = taxon_name
-    if taxon_id:
-        params["taxonid"] = taxon_id
-    if geometry:
-        params["geometry"] = geometry
-    if year_range:
-        params["startdate"] = f"{year_range[0]}-01-01"
-        params["enddate"] = f"{year_range[1]}-12-31"
+ if taxon_name:
+ params["scientificname"] = taxon_name
+ if taxon_id:
+ params["taxonid"] = taxon_id
+ if geometry:
+ params["geometry"] = geometry
+ if year_range:
+ params["startdate"] = f"{year_range[0]}-01-01"
+ params["enddate"] = f"{year_range[1]}-12-31"
 
-    resp = requests.get(url, params=params, timeout=60)
-    resp.raise_for_status()
-    data = resp.json()
+ resp = requests.get(url, params=params, timeout=60)
+ resp.raise_for_status
+ data = resp.json
 
-    records = []
-    for rec in data.get("results", []):
-        records.append({
-            "scientific_name": rec.get("scientificName", ""),
-            "aphia_id": rec.get("aphiaID", ""),
-            "latitude": rec.get("decimalLatitude", None),
-            "longitude": rec.get("decimalLongitude", None),
-            "depth": rec.get("depth", None),
-            "date": rec.get("date_mid", ""),
-            "dataset_id": rec.get("dataset_id", ""),
-            "basis_of_record": rec.get("basisOfRecord", ""),
-        })
+ records = []
+ for rec in data.get("results", []):
+ records.append({
+ "scientific_name": rec.get("scientificName", ""),
+ "aphia_id": rec.get("aphiaID", ""),
+ "latitude": rec.get("decimalLatitude", None),
+ "longitude": rec.get("decimalLongitude", None),
+ "depth": rec.get("depth", None),
+ "date": rec.get("date_mid", ""),
+ "dataset_id": rec.get("dataset_id", ""),
+ "basis_of_record": rec.get("basisOfRecord", ""),
+ })
 
-    df = pd.DataFrame(records)
-    print(f"OBIS: '{taxon_name or taxon_id}' → {len(df)} occurrences")
-    return df
+ df = pd.DataFrame(records)
+ print(f"OBIS: '{taxon_name or taxon_id}' → {len(df)} occurrences")
+ return df
 
 
 def obis_checklist(geometry=None, area_id=None):
-    """
-    OBIS — 地域別種チェックリスト。
+ """
+ OBIS — type。
 
-    Parameters:
-        geometry: str — WKT ジオメトリ
-        area_id: int — OBIS エリア ID
-    """
-    url = f"{OBIS_BASE}/checklist"
-    params = {"size": 5000}
-    if geometry:
-        params["geometry"] = geometry
-    if area_id:
-        params["areaid"] = area_id
+ Parameters:
+ geometry: str — WKT 
+ area_id: int — OBIS ID
+ """
+ url = f"{OBIS_BASE}/checklist"
+ params = {"size": 5000}
+ if geometry:
+ params["geometry"] = geometry
+ if area_id:
+ params["areaid"] = area_id
 
-    resp = requests.get(url, params=params, timeout=60)
-    resp.raise_for_status()
-    data = resp.json()
+ resp = requests.get(url, params=params, timeout=60)
+ resp.raise_for_status
+ data = resp.json
 
-    species = []
-    for sp in data.get("results", []):
-        species.append({
-            "scientific_name": sp.get("scientificName", ""),
-            "aphia_id": sp.get("taxonID", ""),
-            "records": sp.get("records", 0),
-            "kingdom": sp.get("kingdom", ""),
-            "phylum": sp.get("phylum", ""),
-            "class": sp.get("class", ""),
-            "order": sp.get("order", ""),
-            "family": sp.get("family", ""),
-        })
+ species = []
+ for sp in data.get("results", []):
+ species.append({
+ "scientific_name": sp.get("scientificName", ""),
+ "aphia_id": sp.get("taxonID", ""),
+ "records": sp.get("records", 0),
+ "kingdom": sp.get("kingdom", ""),
+ "phylum": sp.get("phylum", ""),
+ "class": sp.get("class", ""),
+ "order": sp.get("order", ""),
+ "family": sp.get("family", ""),
+ })
 
-    df = pd.DataFrame(species)
-    print(f"OBIS checklist: {len(df)} species")
-    return df
+ df = pd.DataFrame(species)
+ print(f"OBIS checklist: {len(df)} species")
+ return df
 ```
 
-## 2. WoRMS 分類学検索
+## 2. WoRMS classificationsearch
 
 ```python
 WORMS_BASE = "https://www.marinespecies.org/rest"
 
 
 def worms_taxon_search(name, fuzzy=True, marine_only=True):
-    """
-    WoRMS — 海洋生物分類学的検索。
+ """
+ WoRMS — classificationsearch。
 
-    Parameters:
-        name: str — 種名/属名
-        fuzzy: bool — ファジー検索
-        marine_only: bool — 海洋種のみ
-    """
-    url = f"{WORMS_BASE}/AphiaRecordsByName/{name}"
-    params = {
-        "like": str(fuzzy).lower(),
-        "marine_only": str(marine_only).lower(),
-    }
-    resp = requests.get(url, params=params, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
+ Parameters:
+ name: str — species name/
+ fuzzy: bool — search
+ marine_only: bool — type's
+ """
+ url = f"{WORMS_BASE}/AphiaRecordsByName/{name}"
+ params = {
+ "like": str(fuzzy).lower,
+ "marine_only": str(marine_only).lower,
+ }
+ resp = requests.get(url, params=params, timeout=30)
+ resp.raise_for_status
+ data = resp.json
 
-    results = []
-    for taxon in data if isinstance(data, list) else [data]:
-        results.append({
-            "aphia_id": taxon.get("AphiaID", ""),
-            "scientific_name": taxon.get("scientificname", ""),
-            "authority": taxon.get("authority", ""),
-            "status": taxon.get("status", ""),
-            "rank": taxon.get("rank", ""),
-            "valid_name": taxon.get("valid_name", ""),
-            "kingdom": taxon.get("kingdom", ""),
-            "phylum": taxon.get("phylum", ""),
-            "class": taxon.get("class", ""),
-            "order": taxon.get("order", ""),
-            "family": taxon.get("family", ""),
-            "genus": taxon.get("genus", ""),
-            "is_marine": taxon.get("isMarine", 0),
-            "is_brackish": taxon.get("isBrackish", 0),
-            "is_freshwater": taxon.get("isFreshwater", 0),
-        })
+ results = []
+ for taxon in data if isinstance(data, list) else [data]:
+ results.append({
+ "aphia_id": taxon.get("AphiaID", ""),
+ "scientific_name": taxon.get("scientificname", ""),
+ "authority": taxon.get("authority", ""),
+ "status": taxon.get("status", ""),
+ "rank": taxon.get("rank", ""),
+ "valid_name": taxon.get("valid_name", ""),
+ "kingdom": taxon.get("kingdom", ""),
+ "phylum": taxon.get("phylum", ""),
+ "class": taxon.get("class", ""),
+ "order": taxon.get("order", ""),
+ "family": taxon.get("family", ""),
+ "genus": taxon.get("genus", ""),
+ "is_marine": taxon.get("isMarine", 0),
+ "is_brackish": taxon.get("isBrackish", 0),
+ "is_freshwater": taxon.get("isFreshwater", 0),
+ })
 
-    df = pd.DataFrame(results)
-    print(f"WoRMS: '{name}' → {len(df)} taxa")
-    return df
+ df = pd.DataFrame(results)
+ print(f"WoRMS: '{name}' → {len(df)} taxa")
+ return df
 
 
 def worms_classification(aphia_id):
-    """
-    WoRMS — 完全分類階層取得。
+ """
+ WoRMS — allclassificationretrieval。
 
-    Parameters:
-        aphia_id: int — AphiaID
-    """
-    url = f"{WORMS_BASE}/AphiaClassificationByAphiaID/{aphia_id}"
-    resp = requests.get(url, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
+ Parameters:
+ aphia_id: int — AphiaID
+ """
+ url = f"{WORMS_BASE}/AphiaClassificationByAphiaID/{aphia_id}"
+ resp = requests.get(url, timeout=30)
+ resp.raise_for_status
+ data = resp.json
 
-    hierarchy = []
-    node = data
-    while node:
-        hierarchy.append({
-            "aphia_id": node.get("AphiaID", ""),
-            "name": node.get("scientificname", ""),
-            "rank": node.get("rank", ""),
-        })
-        node = node.get("child")
+ hierarchy = []
+ node = data
+ while node:
+ hierarchy.append({
+ "aphia_id": node.get("AphiaID", ""),
+ "name": node.get("scientificname", ""),
+ "rank": node.get("rank", ""),
+ })
+ node = node.get("child")
 
-    df = pd.DataFrame(hierarchy)
-    print(f"WoRMS classification: {len(df)} levels")
-    return df
+ df = pd.DataFrame(hierarchy)
+ print(f"WoRMS classification: {len(df)} levels")
+ return df
 ```
 
-## 3. GBIF 生物多様性レコード
+## 3. GBIF record
 
 ```python
 GBIF_BASE = "https://api.gbif.org/v1"
 
 
 def gbif_species_search(name, limit=20):
-    """
-    GBIF — 種名検索・分類マッチング。
+ """
+ GBIF — species namesearchclassification。
 
-    Parameters:
-        name: str — 種名
-        limit: int — 結果上限
-    """
-    url = f"{GBIF_BASE}/species/search"
-    params = {"q": name, "limit": limit}
-    resp = requests.get(url, params=params, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
+ Parameters:
+ name: str — species name
+ limit: int — results
+ """
+ url = f"{GBIF_BASE}/species/search"
+ params = {"q": name, "limit": limit}
+ resp = requests.get(url, params=params, timeout=30)
+ resp.raise_for_status
+ data = resp.json
 
-    results = []
-    for sp in data.get("results", []):
-        results.append({
-            "taxon_key": sp.get("key", ""),
-            "scientific_name": sp.get("scientificName", ""),
-            "canonical_name": sp.get("canonicalName", ""),
-            "status": sp.get("taxonomicStatus", ""),
-            "rank": sp.get("rank", ""),
-            "kingdom": sp.get("kingdom", ""),
-            "phylum": sp.get("phylum", ""),
-            "class": sp.get("class", ""),
-            "order": sp.get("order", ""),
-            "family": sp.get("family", ""),
-            "num_occurrences": sp.get("numOccurrences", 0),
-        })
+ results = []
+ for sp in data.get("results", []):
+ results.append({
+ "taxon_key": sp.get("key", ""),
+ "scientific_name": sp.get("scientificName", ""),
+ "canonical_name": sp.get("canonicalName", ""),
+ "status": sp.get("taxonomicStatus", ""),
+ "rank": sp.get("rank", ""),
+ "kingdom": sp.get("kingdom", ""),
+ "phylum": sp.get("phylum", ""),
+ "class": sp.get("class", ""),
+ "order": sp.get("order", ""),
+ "family": sp.get("family", ""),
+ "num_occurrences": sp.get("numOccurrences", 0),
+ })
 
-    df = pd.DataFrame(results)
-    print(f"GBIF species: '{name}' → {len(df)} taxa")
-    return df
+ df = pd.DataFrame(results)
+ print(f"GBIF species: '{name}' → {len(df)} taxa")
+ return df
 
 
 def gbif_occurrence_search(taxon_key=None, country=None,
-                            year_range=None, limit=300):
-    """
-    GBIF — 出現記録検索。
+ year_range=None, limit=300):
+ """
+ GBIF — search。
 
-    Parameters:
-        taxon_key: int — GBIF taxon key
-        country: str — ISO 国コード (例: "JP")
-        year_range: tuple — (start, end)
-        limit: int — 最大件数
-    """
-    url = f"{GBIF_BASE}/occurrence/search"
-    params = {"limit": min(limit, 300)}
+ Parameters:
+ taxon_key: int — GBIF taxon key
+ country: str — ISO (example: "JP")
+ year_range: tuple — (start, end)
+ limit: int — itemsnumber/count
+ """
+ url = f"{GBIF_BASE}/occurrence/search"
+ params = {"limit": min(limit, 300)}
 
-    if taxon_key:
-        params["taxonKey"] = taxon_key
-    if country:
-        params["country"] = country
-    if year_range:
-        params["year"] = f"{year_range[0]},{year_range[1]}"
+ if taxon_key:
+ params["taxonKey"] = taxon_key
+ if country:
+ params["country"] = country
+ if year_range:
+ params["year"] = f"{year_range[0]},{year_range[1]}"
 
-    resp = requests.get(url, params=params, timeout=60)
-    resp.raise_for_status()
-    data = resp.json()
+ resp = requests.get(url, params=params, timeout=60)
+ resp.raise_for_status
+ data = resp.json
 
-    records = []
-    for rec in data.get("results", []):
-        records.append({
-            "gbif_id": rec.get("gbifID", ""),
-            "scientific_name": rec.get("scientificName", ""),
-            "latitude": rec.get("decimalLatitude", None),
-            "longitude": rec.get("decimalLongitude", None),
-            "country": rec.get("country", ""),
-            "year": rec.get("year", ""),
-            "basis_of_record": rec.get("basisOfRecord", ""),
-            "institution": rec.get("institutionCode", ""),
-        })
+ records = []
+ for rec in data.get("results", []):
+ records.append({
+ "gbif_id": rec.get("gbifID", ""),
+ "scientific_name": rec.get("scientificName", ""),
+ "latitude": rec.get("decimalLatitude", None),
+ "longitude": rec.get("decimalLongitude", None),
+ "country": rec.get("country", ""),
+ "year": rec.get("year", ""),
+ "basis_of_record": rec.get("basisOfRecord", ""),
+ "institution": rec.get("institutionCode", ""),
+ })
 
-    df = pd.DataFrame(records)
-    print(f"GBIF occurrences: {len(df)} records (total: {data.get('count', 0)})")
-    return df
+ df = pd.DataFrame(records)
+ print(f"GBIF occurrences: {len(df)} records (total: {data.get('count', 0)})")
+ return df
 ```
 
-## 4. FishBase 魚類データ
+## 4. FishBase data
 
 ```python
 FISHBASE_BASE = "https://fishbase.ropensci.org"
 
 
 def fishbase_species(genus=None, species=None, family=None):
-    """
-    FishBase — 魚類種データ取得。
+ """
+ FishBase — typeData Retrieval。
 
-    Parameters:
-        genus: str — 属名
-        species: str — 種小名
-        family: str — 科名
-    """
-    url = f"{FISHBASE_BASE}/species"
-    params = {"limit": 100}
-    if genus:
-        params["Genus"] = genus
-    if species:
-        params["Species"] = species
-    if family:
-        params["Family"] = family
+ Parameters:
+ genus: str — 
+ species: str — type
+ family: str — 
+ """
+ url = f"{FISHBASE_BASE}/species"
+ params = {"limit": 100}
+ if genus:
+ params["Genus"] = genus
+ if species:
+ params["Species"] = species
+ if family:
+ params["Family"] = family
 
-    resp = requests.get(url, params=params, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
+ resp = requests.get(url, params=params, timeout=30)
+ resp.raise_for_status
+ data = resp.json
 
-    records = []
-    for fish in data.get("data", []):
-        records.append({
-            "spec_code": fish.get("SpecCode", ""),
-            "genus": fish.get("Genus", ""),
-            "species": fish.get("Species", ""),
-            "family": fish.get("Family", ""),
-            "body_shape": fish.get("BodyShapeI", ""),
-            "max_length": fish.get("Length", None),
-            "vulnerability": fish.get("Vulnerability", None),
-            "importance": fish.get("Importance", ""),
-            "habitat": fish.get("DemersPelag", ""),
-            "depth_range": f"{fish.get('DepthRangeShallow', '')}-{fish.get('DepthRangeDeep', '')}",
-        })
+ records = []
+ for fish in data.get("data", []):
+ records.append({
+ "spec_code": fish.get("SpecCode", ""),
+ "genus": fish.get("Genus", ""),
+ "species": fish.get("Species", ""),
+ "family": fish.get("Family", ""),
+ "body_shape": fish.get("BodyShapeI", ""),
+ "max_length": fish.get("Length", None),
+ "vulnerability": fish.get("Vulnerability", None),
+ "importance": fish.get("Importance", ""),
+ "habitat": fish.get("DemersPelag", ""),
+ "depth_range": f"{fish.get('DepthRangeShallow', '')}-{fish.get('DepthRangeDeep', '')}",
+ })
 
-    df = pd.DataFrame(records)
-    print(f"FishBase: {len(df)} species")
-    return df
+ df = pd.DataFrame(records)
+ print(f"FishBase: {len(df)} species")
+ return df
 ```
 
-## 5. 海洋生態学統合パイプライン
+## 5. ecologyintegrationpipeline
 
 ```python
 def marine_ecology_pipeline(taxon_name, region_wkt=None,
-                             output_dir="results"):
-    """
-    OBIS + WoRMS + GBIF + FishBase 統合パイプライン。
+ output_dir="results"):
+ """
+ OBIS + WoRMS + GBIF + FishBase integrationpipeline。
 
-    Parameters:
-        taxon_name: str — 分類群名
-        region_wkt: str — 調査海域 WKT
-        output_dir: str — 出力ディレクトリ
-    """
-    from pathlib import Path
-    output_dir = Path(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
+ Parameters:
+ taxon_name: str — classificationgroup
+ region_wkt: str — investigation WKT
+ output_dir: str — output directory
+ """
+ from pathlib import Path
+ output_dir = Path(output_dir)
+ output_dir.mkdir(parents=True, exist_ok=True)
 
-    # 1) WoRMS 分類検証
-    taxonomy = worms_taxon_search(taxon_name)
-    taxonomy.to_csv(output_dir / "worms_taxonomy.csv", index=False)
+ # 1) WoRMS classificationverification
+ taxonomy = worms_taxon_search(taxon_name)
+ taxonomy.to_csv(output_dir / "worms_taxonomy.csv", index=False)
 
-    aphia_id = None
-    if len(taxonomy) > 0:
-        aphia_id = taxonomy.iloc[0]["aphia_id"]
-        classification = worms_classification(aphia_id)
-        classification.to_csv(output_dir / "classification.csv", index=False)
+ aphia_id = None
+ if len(taxonomy) > 0:
+ aphia_id = taxonomy.iloc[0]["aphia_id"]
+ classification = worms_classification(aphia_id)
+ classification.to_csv(output_dir / "classification.csv", index=False)
 
-    # 2) OBIS 海洋分布
-    obis_data = obis_occurrence_search(
-        taxon_name=taxon_name,
-        taxon_id=aphia_id,
-        geometry=region_wkt,
-    )
-    obis_data.to_csv(output_dir / "obis_occurrences.csv", index=False)
+ # 2) OBIS distribution
+ obis_data = obis_occurrence_search(
+ taxon_name=taxon_name,
+ taxon_id=aphia_id,
+ geometry=region_wkt,
+ )
+ obis_data.to_csv(output_dir / "obis_occurrences.csv", index=False)
 
-    # 3) GBIF 補完
-    gbif_sp = gbif_species_search(taxon_name)
-    if len(gbif_sp) > 0:
-        taxon_key = gbif_sp.iloc[0]["taxon_key"]
-        gbif_occ = gbif_occurrence_search(taxon_key=taxon_key)
-        gbif_occ.to_csv(output_dir / "gbif_occurrences.csv", index=False)
-    else:
-        gbif_occ = pd.DataFrame()
+ # 3) GBIF 
+ gbif_sp = gbif_species_search(taxon_name)
+ if len(gbif_sp) > 0:
+ taxon_key = gbif_sp.iloc[0]["taxon_key"]
+ gbif_occ = gbif_occurrence_search(taxon_key=taxon_key)
+ gbif_occ.to_csv(output_dir / "gbif_occurrences.csv", index=False)
+ else:
+ gbif_occ = pd.DataFrame
 
-    # 4) 多様性指標
-    if len(obis_data) > 0:
-        n_species = obis_data["scientific_name"].nunique()
-        lat_range = (obis_data["latitude"].min(), obis_data["latitude"].max())
-        depth_range = (obis_data["depth"].min(), obis_data["depth"].max())
-        print(f"Diversity: {n_species} species, "
-              f"lat {lat_range}, depth {depth_range}")
+ # 4) 
+ if len(obis_data) > 0:
+ n_species = obis_data["scientific_name"].nunique
+ lat_range = (obis_data["latitude"].min, obis_data["latitude"].max)
+ depth_range = (obis_data["depth"].min, obis_data["depth"].max)
+ print(f"Diversity: {n_species} species, "
+ f"lat {lat_range}, depth {depth_range}")
 
-    print(f"Marine ecology pipeline: {output_dir}")
-    return {
-        "taxonomy": taxonomy,
-        "obis_occurrences": obis_data,
-        "gbif_occurrences": gbif_occ,
-    }
+ print(f"Marine ecology pipeline: {output_dir}")
+ return {
+ "taxonomy": taxonomy,
+ "obis_occurrences": obis_data,
+ "gbif_occurrences": gbif_occ,
+ }
 ```
 
 ---
@@ -400,46 +400,46 @@ def marine_ecology_pipeline(taxon_name, region_wkt=None,
 
 | TU Key | Tool Name | Integration |
 |--------|---------|---------|
-| `obis` | OBIS | 海洋生物出現・分布レコード検索 |
-| `worms` | WoRMS | 海洋種分類学的検証・階層取得 |
-| `gbif` | GBIF | 生物多様性出現レコード検索 |
+| `obis` | OBIS | distributionrecordsearch |
+| `worms` | WoRMS | typeclassificationverificationretrieval |
+| `gbif` | GBIF | recordsearch |
 
 ## Pipeline Integration
 
 ```
 environmental-ecology → marine-ecology → phylogenetics
-  (陸域生態学)          (OBIS/WoRMS/GBIF)  (系統解析)
-       │                      │               ↓
-  biodiversity-db ───────────┘         species-distribution
-  (ENA/BOLD)           │               (空間分布モデル)
-                       ↓
-                  fisheries-management
-                  (水産資源管理)
+ (ecology) (OBIS/WoRMS/GBIF) (phylogenyanalysis)
+ │ │ ↓
+ biodiversity-db ───────────┘ species-distribution
+ (ENA/BOLD) │ (distribution)
+ ↓
+ fisheries-management
+ 
 ```
 
 ## Pipeline Output
 
-| ファイル | 説明 | 次スキル |
+| File | Description | Next Skill |
 |---------|------|---------|
-| `results/worms_taxonomy.csv` | WoRMS 分類情報 | → phylogenetics |
-| `results/obis_occurrences.csv` | OBIS 出現記録 | → species-distribution |
-| `results/gbif_occurrences.csv` | GBIF 出現記録 | → biodiversity-db |
-| `results/classification.csv` | 分類階層 | → environmental-ecology |
+| `results/worms_taxonomy.csv` | WoRMS classificationinformation | → phylogenetics |
+| `results/obis_occurrences.csv` | OBIS | → species-distribution |
+| `results/gbif_occurrences.csv` | GBIF | → biodiversity-db |
+| `results/classification.csv` | classification | → environmental-ecology |
 
 ---
 
 ## Verification Loop (v0.3.0)
 
 ```
-PLAN   → define scope, inputs, expected outputs
+PLAN → define scope, inputs, expected outputs
 EXECUTE → run analysis pipeline
-VERIFY  → check outputs against quality gates
-REPORT  → save all artifacts, generate report.md
+VERIFY → check outputs against quality gates
+REPORT → save all artifacts, generate report.md
 ```
 
 ### Quality Gates
 
-- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures saved to `figures/` (not plt.show)
 - [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
 - [ ] Numeric results saved as JSON/CSV in `results/`
 - [ ] Report includes methods, results, and discussion

@@ -1,32 +1,32 @@
 ---
 name: scientific-monarch-ontology
 description: |
-  Monarch ontology skill. Monarch Initiative queries for disease-gene associations, phenotype ontology navigation, cross-species phenotype comparison, and knowledge graph exploration.
+ Monarch ontology skill. Monarch Initiative queries for disease-gene associations, phenotype ontology navigation, cross-species phenotype comparison, and knowledge graph exploration.
 tu_tools:
-  - key: monarch
-    name: Monarch Initiative
-    description: 疾患-表現型-遺伝子オントロジー統合 API
+ - key: monarch
+ name: Monarch Initiative
+ description: disease-tabletype-geneintegration API
 ---
 
 # Scientific Monarch Initiative Ontology
 
-Monarch Initiative API を活用した疾患-遺伝子-表現型
-アソシエーション取得・HPO ベースフェノタイピング・
-セマンティックオントロジー検索パイプラインを提供する。
+Monarch Initiative API utilizingdisease-gene-tabletype
+retrievalHPO 
+searchpipeline is provided。
 
 ## When to Use
 
-- 疾患の関連遺伝子・表現型 (HPO) を検索するとき
-- 遺伝子から関連疾患・表現型を逆引きするとき
-- HPO 用語でフェノタイプマッチングするとき
-- オントロジー用語間の意味的類似度を計算するとき
-- 疾患-表現型-遺伝子の三者間アソシエーションを統合するとき
+- disease's genetabletype (HPO) is searchedand
+- genefromdiseasetabletypewhen needed
+- HPO forwhen needed
+- for's degreecalculationwhen needed
+- disease-tabletype-gene'sintegrationwhen needed
 
 ---
 
 ## Quick Start
 
-## 1. 疾患-遺伝子-表現型アソシエーション
+## 1. disease-gene-tabletype
 
 ```python
 import requests
@@ -36,197 +36,197 @@ MONARCH_API = "https://api.monarchinitiative.org/v3/api"
 
 
 def monarch_disease_genes(disease_id, limit=50):
-    """
-    Monarch — 疾患→関連遺伝子取得。
+ """
+ Monarch — disease→generetrieval。
 
-    Parameters:
-        disease_id: str — 疾患 ID
-            (例: "MONDO:0007254" = breast cancer)
-        limit: int — 最大結果数
-    """
-    url = f"{MONARCH_API}/association"
-    params = {
-        "subject": disease_id,
-        "category": "biolink:GeneToDiseaseAssociation",
-        "limit": limit,
-    }
-    resp = requests.get(url, params=params, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
+ Parameters:
+ disease_id: str — disease ID
+ (example: "MONDO:0007254" = breast cancer)
+ limit: int — maximum results
+ """
+ url = f"{MONARCH_API}/association"
+ params = {
+ "subject": disease_id,
+ "category": "biolink:GeneToDiseaseAssociation",
+ "limit": limit,
+ }
+ resp = requests.get(url, params=params, timeout=30)
+ resp.raise_for_status
+ data = resp.json
 
-    rows = []
-    for item in data.get("items", []):
-        obj = item.get("object", {})
-        rows.append({
-            "disease_id": disease_id,
-            "gene_id": obj.get("id", ""),
-            "gene_label": obj.get("label", ""),
-            "relation": item.get("predicate", ""),
-            "source": "; ".join(
-                item.get("provided_by", [])),
-        })
+ rows = []
+ for item in data.get("items", []):
+ obj = item.get("object", {})
+ rows.append({
+ "disease_id": disease_id,
+ "gene_id": obj.get("id", ""),
+ "gene_label": obj.get("label", ""),
+ "relation": item.get("predicate", ""),
+ "source": "; ".join(
+ item.get("provided_by", [])),
+ })
 
-    df = pd.DataFrame(rows)
-    print(f"Monarch disease→genes: {disease_id} "
-          f"→ {len(df)} genes")
-    return df
+ df = pd.DataFrame(rows)
+ print(f"Monarch disease→genes: {disease_id} "
+ f"→ {len(df)} genes")
+ return df
 
 
 def monarch_disease_phenotypes(disease_id, limit=100):
-    """
-    Monarch — 疾患→表現型 (HPO) 取得。
+ """
+ Monarch — disease→tabletype (HPO) retrieval。
 
-    Parameters:
-        disease_id: str — 疾患 ID
-        limit: int — 最大結果数
-    """
-    url = f"{MONARCH_API}/association"
-    params = {
-        "subject": disease_id,
-        "category":
-            "biolink:DiseaseToPhenotypicFeatureAssociation",
-        "limit": limit,
-    }
-    resp = requests.get(url, params=params, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
+ Parameters:
+ disease_id: str — disease ID
+ limit: int — maximum results
+ """
+ url = f"{MONARCH_API}/association"
+ params = {
+ "subject": disease_id,
+ "category":
+ "biolink:DiseaseToPhenotypicFeatureAssociation",
+ "limit": limit,
+ }
+ resp = requests.get(url, params=params, timeout=30)
+ resp.raise_for_status
+ data = resp.json
 
-    rows = []
-    for item in data.get("items", []):
-        obj = item.get("object", {})
-        rows.append({
-            "disease_id": disease_id,
-            "phenotype_id": obj.get("id", ""),
-            "phenotype_label": obj.get("label", ""),
-            "frequency": item.get("frequency_qualifier",
-                                  ""),
-            "onset": item.get("onset_qualifier", ""),
-        })
+ rows = []
+ for item in data.get("items", []):
+ obj = item.get("object", {})
+ rows.append({
+ "disease_id": disease_id,
+ "phenotype_id": obj.get("id", ""),
+ "phenotype_label": obj.get("label", ""),
+ "frequency": item.get("frequency_qualifier",
+ ""),
+ "onset": item.get("onset_qualifier", ""),
+ })
 
-    df = pd.DataFrame(rows)
-    print(f"Monarch disease→phenotypes: {disease_id} "
-          f"→ {len(df)} HPO terms")
-    return df
+ df = pd.DataFrame(rows)
+ print(f"Monarch disease→phenotypes: {disease_id} "
+ f"→ {len(df)} HPO terms")
+ return df
 ```
 
-## 2. 遺伝子→疾患逆引き
+## 2. gene→disease
 
 ```python
 def monarch_gene_diseases(gene_id, limit=50):
-    """
-    Monarch — 遺伝子→関連疾患取得。
+ """
+ Monarch — gene→diseaseretrieval。
 
-    Parameters:
-        gene_id: str — 遺伝子 ID
-            (例: "HGNC:1100" = BRCA1)
-        limit: int — 最大結果数
-    """
-    url = f"{MONARCH_API}/association"
-    params = {
-        "subject": gene_id,
-        "category": "biolink:GeneToDiseaseAssociation",
-        "limit": limit,
-    }
-    resp = requests.get(url, params=params, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
+ Parameters:
+ gene_id: str — gene ID
+ (example: "HGNC:1100" = BRCA1)
+ limit: int — maximum results
+ """
+ url = f"{MONARCH_API}/association"
+ params = {
+ "subject": gene_id,
+ "category": "biolink:GeneToDiseaseAssociation",
+ "limit": limit,
+ }
+ resp = requests.get(url, params=params, timeout=30)
+ resp.raise_for_status
+ data = resp.json
 
-    rows = []
-    for item in data.get("items", []):
-        obj = item.get("object", {})
-        rows.append({
-            "gene_id": gene_id,
-            "disease_id": obj.get("id", ""),
-            "disease_label": obj.get("label", ""),
-            "relation": item.get("predicate", ""),
-        })
+ rows = []
+ for item in data.get("items", []):
+ obj = item.get("object", {})
+ rows.append({
+ "gene_id": gene_id,
+ "disease_id": obj.get("id", ""),
+ "disease_label": obj.get("label", ""),
+ "relation": item.get("predicate", ""),
+ })
 
-    df = pd.DataFrame(rows)
-    print(f"Monarch gene→diseases: {gene_id} "
-          f"→ {len(df)} diseases")
-    return df
+ df = pd.DataFrame(rows)
+ print(f"Monarch gene→diseases: {gene_id} "
+ f"→ {len(df)} diseases")
+ return df
 ```
 
-## 3. エンティティ検索・オントロジー用語
+## 3. searchfor
 
 ```python
 def monarch_search(query, category=None, limit=25):
-    """
-    Monarch — エンティティテキスト検索。
+ """
+ Monarch — search。
 
-    Parameters:
-        query: str — 検索クエリ
-        category: str — カテゴリフィルタ
-            (例: "biolink:Disease", "biolink:Gene",
-             "biolink:PhenotypicFeature")
-        limit: int — 最大結果数
-    """
-    url = f"{MONARCH_API}/search"
-    params = {"q": query, "limit": limit}
-    if category:
-        params["category"] = category
+ Parameters:
+ query: str — search query
+ category: str — filter
+ (example: "biolink:Disease", "biolink:Gene",
+ "biolink:PhenotypicFeature")
+ limit: int — maximum results
+ """
+ url = f"{MONARCH_API}/search"
+ params = {"q": query, "limit": limit}
+ if category:
+ params["category"] = category
 
-    resp = requests.get(url, params=params, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
+ resp = requests.get(url, params=params, timeout=30)
+ resp.raise_for_status
+ data = resp.json
 
-    rows = []
-    for item in data.get("items", []):
-        rows.append({
-            "id": item.get("id", ""),
-            "label": item.get("name", ""),
-            "category": item.get("category", ""),
-            "description": (item.get("description", "")
-                            or "")[:200],
-        })
+ rows = []
+ for item in data.get("items", []):
+ rows.append({
+ "id": item.get("id", ""),
+ "label": item.get("name", ""),
+ "category": item.get("category", ""),
+ "description": (item.get("description", "")
+ or "")[:200],
+ })
 
-    df = pd.DataFrame(rows)
-    print(f"Monarch search: '{query}' → {len(df)}")
-    return df
+ df = pd.DataFrame(rows)
+ print(f"Monarch search: '{query}' → {len(df)}")
+ return df
 ```
 
-## 4. Monarch 統合パイプライン
+## 4. Monarch integrationpipeline
 
 ```python
 def monarch_pipeline(disease_query,
-                        output_dir="results"):
-    """
-    Monarch 統合パイプライン。
+ output_dir="results"):
+ """
+ Monarch integrationpipeline。
 
-    Parameters:
-        disease_query: str — 疾患名 or ID
-        output_dir: str — 出力ディレクトリ
-    """
-    from pathlib import Path
-    output_dir = Path(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
+ Parameters:
+ disease_query: str — disease or ID
+ output_dir: str — output directory
+ """
+ from pathlib import Path
+ output_dir = Path(output_dir)
+ output_dir.mkdir(parents=True, exist_ok=True)
 
-    # 1) 疾患検索
-    diseases = monarch_search(disease_query,
-                              category="biolink:Disease")
-    diseases.to_csv(output_dir / "monarch_diseases.csv",
-                    index=False)
+ # 1) diseasesearch
+ diseases = monarch_search(disease_query,
+ category="biolink:Disease")
+ diseases.to_csv(output_dir / "monarch_diseases.csv",
+ index=False)
 
-    if diseases.empty:
-        print(f"Monarch: '{disease_query}' not found")
-        return {"diseases": diseases}
+ if diseases.empty:
+ print(f"Monarch: '{disease_query}' not found")
+ return {"diseases": diseases}
 
-    disease_id = diseases.iloc[0]["id"]
+ disease_id = diseases.iloc[0]["id"]
 
-    # 2) 関連遺伝子
-    genes = monarch_disease_genes(disease_id)
-    genes.to_csv(output_dir / "monarch_genes.csv",
-                 index=False)
+ # 2) gene
+ genes = monarch_disease_genes(disease_id)
+ genes.to_csv(output_dir / "monarch_genes.csv",
+ index=False)
 
-    # 3) 表現型 (HPO)
-    phenotypes = monarch_disease_phenotypes(disease_id)
-    phenotypes.to_csv(
-        output_dir / "monarch_phenotypes.csv",
-        index=False)
+ # 3) tabletype (HPO)
+ phenotypes = monarch_disease_phenotypes(disease_id)
+ phenotypes.to_csv(
+ output_dir / "monarch_phenotypes.csv",
+ index=False)
 
-    print(f"Monarch pipeline: {disease_query} "
-          f"→ {output_dir}")
-    return {"genes": genes, "phenotypes": phenotypes}
+ print(f"Monarch pipeline: {disease_query} "
+ f"→ {output_dir}")
+ return {"genes": genes, "phenotypes": phenotypes}
 ```
 
 ---
@@ -235,40 +235,40 @@ def monarch_pipeline(disease_query,
 
 | TU Key | Tool Name | Integration |
 |--------|---------|---------|
-| `monarch` | Monarch Initiative | 疾患-表現型-遺伝子オントロジー統合 |
+| `monarch` | Monarch Initiative | disease-tabletype-geneintegration |
 
 ## Pipeline Integration
 
 ```
 disease-research → monarch-ontology → rare-disease-genetics
-  (GWAS/DisGeNET)   (Monarch API)     (OMIM/Orphanet)
-        │                  │                 ↓
-variant-interpretation ───┘       ontology-enrichment
-  (ClinVar/ACMG)                 (EFO/OLS/Enrichr)
+ (GWAS/DisGeNET) (Monarch API) (OMIM/Orphanet)
+ │ │ ↓
+variant-interpretation ───┘ ontology-enrichment
+ (ClinVar/ACMG) (EFO/OLS/Enrichr)
 ```
 
 ## Pipeline Output
 
-| ファイル | 説明 | 次スキル |
+| File | Description | Next Skill |
 |---------|------|---------|
-| `results/monarch_diseases.csv` | 疾患検索結果 | → disease-research |
-| `results/monarch_genes.csv` | 関連遺伝子 | → variant-interpretation |
-| `results/monarch_phenotypes.csv` | HPO 表現型 | → rare-disease-genetics |
+| `results/monarch_diseases.csv` | diseasesearchresults | → disease-research |
+| `results/monarch_genes.csv` | gene | → variant-interpretation |
+| `results/monarch_phenotypes.csv` | HPO tabletype | → rare-disease-genetics |
 
 ---
 
 ## Verification Loop (v0.3.0)
 
 ```
-PLAN   → define scope, inputs, expected outputs
+PLAN → define scope, inputs, expected outputs
 EXECUTE → run analysis pipeline
-VERIFY  → check outputs against quality gates
-REPORT  → save all artifacts, generate report.md
+VERIFY → check outputs against quality gates
+REPORT → save all artifacts, generate report.md
 ```
 
 ### Quality Gates
 
-- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures saved to `figures/` (not plt.show)
 - [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
 - [ ] Numeric results saved as JSON/CSV in `results/`
 - [ ] Report includes methods, results, and discussion

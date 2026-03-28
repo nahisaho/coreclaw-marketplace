@@ -1,31 +1,31 @@
 ---
 name: scientific-biothings-idmapping
 description: |
-  BioThings ID mapping skill. Gene/variant/chemical/disease identifier conversion using MyGene.info, MyVariant.info, and MyChem.info APIs.
+ BioThings ID mapping skill. Gene/variant/chemical/disease identifier conversion using MyGene.info, MyVariant.info, and MyChem.info APIs.
 tu_tools:
-  - key: biothings
-    name: BioThings
-    description: MyGene/MyVariant/MyChem 統合アノテーション API
+ - key: biothings
+ name: BioThings
+ description: MyGene/MyVariant/MyChem integrationannotation API
 ---
 
 # Scientific BioThings ID Mapping
 
-BioThings API スイート (MyGene, MyVariant, MyChem) を活用した
-多データベース横断の ID 変換・アノテーション取得パイプラインを提供する。
+BioThings API (MyGene, MyVariant, MyChem) utilizing
+databasecross-cutting's ID transformationannotationretrievalpipeline is provided。
 
 ## When to Use
 
-- 遺伝子 ID 間の変換 (Entrez ↔ Ensembl ↔ Symbol ↔ UniProt) を行うとき
-- 変異 ID のアノテーション (ClinVar, dbSNP, CADD 等) を取得するとき
-- 化合物 ID の変換 (DrugBank ↔ ChEMBL ↔ InChIKey ↔ PubChem) を行うとき
-- バッチクエリで多数の ID を一括アノテーションするとき
-- 複数データベースのメタ情報を統合するとき
+- gene ID 'stransformation (Entrez ↔ Ensembl ↔ Symbol ↔ UniProt) is performedand
+- variant/mutation ID 's annotation (ClinVar, dbSNP, CADD ) is retrievedand
+- compound ID 's transformation (DrugBank ↔ ChEMBL ↔ InChIKey ↔ PubChem) is performedand
+- batchnumber/count's ID annotationwhen needed
+- multipledatabase's informationintegrationwhen needed
 
 ---
 
 ## Quick Start
 
-## 1. MyGene.info 遺伝子アノテーション
+## 1. MyGene.info geneannotation
 
 ```python
 import requests
@@ -35,239 +35,239 @@ MYGENE_API = "https://mygene.info/v3"
 
 
 def mygene_query(query, fields=None, species="human", size=10):
-    """
-    MyGene.info で遺伝子検索。
+ """
+ MyGene.info genesearch。
 
-    Parameters:
-        query: str — gene symbol, Entrez ID, or keyword
-        fields: str | None — comma-separated fields
-        species: str — "human", "mouse", etc.
+ Parameters:
+ query: str — gene symbol, Entrez ID, or keyword
+ fields: str | None — comma-separated fields
+ species: str — "human", "mouse", etc.
 
-    ToolUniverse:
-        MyGene_query_genes(q=query, fields=fields, species=species)
-    """
-    params = {
-        "q": query,
-        "species": species,
-        "size": size,
-    }
-    if fields:
-        params["fields"] = fields
+ ToolUniverse:
+ MyGene_query_genes(q=query, fields=fields, species=species)
+ """
+ params = {
+ "q": query,
+ "species": species,
+ "size": size,
+ }
+ if fields:
+ params["fields"] = fields
 
-    resp = requests.get(f"{MYGENE_API}/query", params=params)
-    resp.raise_for_status()
-    data = resp.json()
+ resp = requests.get(f"{MYGENE_API}/query", params=params)
+ resp.raise_for_status
+ data = resp.json
 
-    hits = data.get("hits", [])
-    print(f"MyGene query '{query}': {data.get('total', 0)} total, "
-          f"{len(hits)} returned")
-    return hits
+ hits = data.get("hits", [])
+ print(f"MyGene query '{query}': {data.get('total', 0)} total, "
+ f"{len(hits)} returned")
+ return hits
 
 
 def mygene_get_gene(gene_id, fields=None):
-    """
-    MyGene.info 遺伝子詳細アノテーション取得。
+ """
+ MyGene.info genedetailsannotationretrieval。
 
-    ToolUniverse:
-        MyGene_get_gene_annotation(gene_id=gene_id, fields=fields)
-    """
-    params = {}
-    if fields:
-        params["fields"] = fields
+ ToolUniverse:
+ MyGene_get_gene_annotation(gene_id=gene_id, fields=fields)
+ """
+ params = {}
+ if fields:
+ params["fields"] = fields
 
-    resp = requests.get(f"{MYGENE_API}/gene/{gene_id}", params=params)
-    resp.raise_for_status()
-    data = resp.json()
+ resp = requests.get(f"{MYGENE_API}/gene/{gene_id}", params=params)
+ resp.raise_for_status
+ data = resp.json
 
-    print(f"MyGene gene {gene_id}: {data.get('symbol', '?')} "
-          f"({data.get('name', '')})")
-    return data
+ print(f"MyGene gene {gene_id}: {data.get('symbol', '?')} "
+ f"({data.get('name', '')})")
+ return data
 
 
 def mygene_batch_query(gene_ids, fields=None, species="human"):
-    """
-    MyGene.info バッチ遺伝子アノテーション。
+ """
+ MyGene.info batchgeneannotation。
 
-    ToolUniverse:
-        MyGene_batch_query(ids=gene_ids, fields=fields, species=species)
-    """
-    payload = {
-        "ids": ",".join(str(g) for g in gene_ids),
-        "species": species,
-    }
-    if fields:
-        payload["fields"] = fields
+ ToolUniverse:
+ MyGene_batch_query(ids=gene_ids, fields=fields, species=species)
+ """
+ payload = {
+ "ids": ",".join(str(g) for g in gene_ids),
+ "species": species,
+ }
+ if fields:
+ payload["fields"] = fields
 
-    resp = requests.post(f"{MYGENE_API}/gene", json=payload)
-    resp.raise_for_status()
-    data = resp.json()
+ resp = requests.post(f"{MYGENE_API}/gene", json=payload)
+ resp.raise_for_status
+ data = resp.json
 
-    print(f"MyGene batch: {len(gene_ids)} queried → {len(data)} results")
-    return data
+ print(f"MyGene batch: {len(gene_ids)} queried → {len(data)} results")
+ return data
 ```
 
-## 2. MyVariant.info 変異アノテーション
+## 2. MyVariant.info variant annotation
 
 ```python
 MYVARIANT_API = "https://myvariant.info/v1"
 
 
 def myvariant_get(variant_id, fields=None):
-    """
-    MyVariant.info 変異アノテーション取得。
+ """
+ MyVariant.info variant annotationretrieval。
 
-    Parameters:
-        variant_id: str — HGVS notation (e.g., "chr17:g.7674220C>T")
+ Parameters:
+ variant_id: str — HGVS notation (e.g., "chr17:g.7674220C>T")
 
-    ToolUniverse:
-        MyVariant_get_variant_annotation(variant_id=variant_id, fields=fields)
-    """
-    params = {}
-    if fields:
-        params["fields"] = fields
+ ToolUniverse:
+ MyVariant_get_variant_annotation(variant_id=variant_id, fields=fields)
+ """
+ params = {}
+ if fields:
+ params["fields"] = fields
 
-    resp = requests.get(f"{MYVARIANT_API}/variant/{variant_id}", params=params)
-    resp.raise_for_status()
-    data = resp.json()
+ resp = requests.get(f"{MYVARIANT_API}/variant/{variant_id}", params=params)
+ resp.raise_for_status
+ data = resp.json
 
-    clinvar = data.get("clinvar", {})
-    cadd = data.get("cadd", {})
-    print(f"MyVariant {variant_id}: "
-          f"ClinVar={clinvar.get('clinical_significance', 'N/A')}, "
-          f"CADD={cadd.get('phred', 'N/A')}")
-    return data
+ clinvar = data.get("clinvar", {})
+ cadd = data.get("cadd", {})
+ print(f"MyVariant {variant_id}: "
+ f"ClinVar={clinvar.get('clinical_significance', 'N/A')}, "
+ f"CADD={cadd.get('phred', 'N/A')}")
+ return data
 
 
 def myvariant_query(query, fields=None, size=10):
-    """
-    MyVariant.info 変異検索。
+ """
+ MyVariant.info variant/mutationsearch。
 
-    ToolUniverse:
-        MyVariant_query_variants(q=query, fields=fields, size=size)
-    """
-    params = {"q": query, "size": size}
-    if fields:
-        params["fields"] = fields
+ ToolUniverse:
+ MyVariant_query_variants(q=query, fields=fields, size=size)
+ """
+ params = {"q": query, "size": size}
+ if fields:
+ params["fields"] = fields
 
-    resp = requests.get(f"{MYVARIANT_API}/query", params=params)
-    resp.raise_for_status()
-    data = resp.json()
+ resp = requests.get(f"{MYVARIANT_API}/query", params=params)
+ resp.raise_for_status
+ data = resp.json
 
-    hits = data.get("hits", [])
-    print(f"MyVariant query '{query}': {data.get('total', 0)} total")
-    return hits
+ hits = data.get("hits", [])
+ print(f"MyVariant query '{query}': {data.get('total', 0)} total")
+ return hits
 ```
 
-## 3. MyChem.info 化合物アノテーション
+## 3. MyChem.info compoundannotation
 
 ```python
 MYCHEM_API = "https://mychem.info/v1"
 
 
 def mychem_get(chem_id, fields=None):
-    """
-    MyChem.info 化合物アノテーション取得。
+ """
+ MyChem.info compoundannotationretrieval。
 
-    Parameters:
-        chem_id: str — InChIKey, DrugBank ID, ChEMBL ID, etc.
+ Parameters:
+ chem_id: str — InChIKey, DrugBank ID, ChEMBL ID, etc.
 
-    ToolUniverse:
-        MyChem_get_chemical_annotation(chem_id=chem_id, fields=fields)
-    """
-    params = {}
-    if fields:
-        params["fields"] = fields
+ ToolUniverse:
+ MyChem_get_chemical_annotation(chem_id=chem_id, fields=fields)
+ """
+ params = {}
+ if fields:
+ params["fields"] = fields
 
-    resp = requests.get(f"{MYCHEM_API}/chem/{chem_id}", params=params)
-    resp.raise_for_status()
-    data = resp.json()
+ resp = requests.get(f"{MYCHEM_API}/chem/{chem_id}", params=params)
+ resp.raise_for_status
+ data = resp.json
 
-    drugbank = data.get("drugbank", {})
-    print(f"MyChem {chem_id}: {drugbank.get('name', 'N/A')}")
-    return data
+ drugbank = data.get("drugbank", {})
+ print(f"MyChem {chem_id}: {drugbank.get('name', 'N/A')}")
+ return data
 
 
 def mychem_query(query, fields=None, size=10):
-    """
-    MyChem.info 化合物検索。
+ """
+ MyChem.info compoundsearch。
 
-    ToolUniverse:
-        MyChem_query_chemicals(q=query, fields=fields, size=size)
-    """
-    params = {"q": query, "size": size}
-    if fields:
-        params["fields"] = fields
+ ToolUniverse:
+ MyChem_query_chemicals(q=query, fields=fields, size=size)
+ """
+ params = {"q": query, "size": size}
+ if fields:
+ params["fields"] = fields
 
-    resp = requests.get(f"{MYCHEM_API}/query", params=params)
-    resp.raise_for_status()
-    data = resp.json()
+ resp = requests.get(f"{MYCHEM_API}/query", params=params)
+ resp.raise_for_status
+ data = resp.json
 
-    hits = data.get("hits", [])
-    print(f"MyChem query '{query}': {data.get('total', 0)} total")
-    return hits
+ hits = data.get("hits", [])
+ print(f"MyChem query '{query}': {data.get('total', 0)} total")
+ return hits
 ```
 
-## 4. クロスデータベース ID マッピング
+## 4. database ID mapping
 
 ```python
 def cross_db_id_mapping(gene_symbol):
-    """
-    遺伝子シンボルから Entrez, Ensembl, UniProt, RefSeq を一括取得。
+ """
+ gene symbolfrom Entrez, Ensembl, UniProt, RefSeq retrieval。
 
-    ToolUniverse (横断):
-        MyGene_query_genes(q=gene_symbol, fields="entrezgene,ensembl.gene,uniprot,refseq")
-    """
-    fields = "entrezgene,ensembl.gene,uniprot.Swiss-Prot,refseq.rna,symbol,name"
-    hits = mygene_query(gene_symbol, fields=fields)
+ ToolUniverse (cross-cutting):
+ MyGene_query_genes(q=gene_symbol, fields="entrezgene,ensembl.gene,uniprot,refseq")
+ """
+ fields = "entrezgene,ensembl.gene,uniprot.Swiss-Prot,refseq.rna,symbol,name"
+ hits = mygene_query(gene_symbol, fields=fields)
 
-    results = []
-    for hit in hits:
-        ensembl = hit.get("ensembl", {})
-        if isinstance(ensembl, list):
-            ensembl = ensembl[0] if ensembl else {}
-        uniprot = hit.get("uniprot", {})
+ results = []
+ for hit in hits:
+ ensembl = hit.get("ensembl", {})
+ if isinstance(ensembl, list):
+ ensembl = ensembl[0] if ensembl else {}
+ uniprot = hit.get("uniprot", {})
 
-        results.append({
-            "symbol": hit.get("symbol", ""),
-            "name": hit.get("name", ""),
-            "entrez_id": hit.get("entrezgene", ""),
-            "ensembl_gene": ensembl.get("gene", ""),
-            "uniprot_swissprot": uniprot.get("Swiss-Prot", ""),
-            "refseq_rna": hit.get("refseq", {}).get("rna", []),
-        })
+ results.append({
+ "symbol": hit.get("symbol", ""),
+ "name": hit.get("name", ""),
+ "entrez_id": hit.get("entrezgene", ""),
+ "ensembl_gene": ensembl.get("gene", ""),
+ "uniprot_swissprot": uniprot.get("Swiss-Prot", ""),
+ "refseq_rna": hit.get("refseq", {}).get("rna", []),
+ })
 
-    df = pd.DataFrame(results)
-    print(f"ID mapping '{gene_symbol}': {len(df)} entries")
-    return df
+ df = pd.DataFrame(results)
+ print(f"ID mapping '{gene_symbol}': {len(df)} entries")
+ return df
 ```
 
-## 5. バッチ統合アノテーション
+## 5. batchintegrationannotation
 
 ```python
 def batch_integrated_annotation(gene_symbols, include_variants=False):
-    """
-    複数遺伝子のバッチ統合アノテーション。
+ """
+ multiplegene'sbatchintegrationannotation。
 
-    ToolUniverse (横断):
-        MyGene_batch_query(ids=entrez_ids, fields=fields)
-        MyVariant_query_variants(q=gene_query) [optional]
-    """
-    # Step 1: Batch gene annotation
-    all_hits = []
-    for symbol in gene_symbols:
-        hits = mygene_query(symbol, fields="entrezgene,symbol,name,summary")
-        all_hits.extend(hits[:1])  # top hit per symbol
+ ToolUniverse (cross-cutting):
+ MyGene_batch_query(ids=entrez_ids, fields=fields)
+ MyVariant_query_variants(q=gene_query) [optional]
+ """
+ # Step 1: Batch gene annotation
+ all_hits = []
+ for symbol in gene_symbols:
+ hits = mygene_query(symbol, fields="entrezgene,symbol,name,summary")
+ all_hits.extend(hits[:1]) # top hit per symbol
 
-    df = pd.DataFrame(all_hits)
-    print(f"Batch annotation: {len(gene_symbols)} genes → {len(df)} results")
-    return df
+ df = pd.DataFrame(all_hits)
+ print(f"Batch annotation: {len(gene_symbols)} genes → {len(df)} results")
+ return df
 ```
 
 ## References
 
 ### Output Files
 
-| ファイル | 形式 |
+| File | Format |
 |---|---|
 | `results/mygene_annotation.json` | JSON |
 | `results/myvariant_annotation.json` | JSON |
@@ -276,27 +276,27 @@ def batch_integrated_annotation(gene_symbols, include_variants=False):
 
 ### Available Tools
 
-| カテゴリ | 主要ツール | 用途 |
+| Category | Key Tools | Usage |
 |---|---|---|
-| BioThings | `MyGene_query_genes` | 遺伝子検索 |
-| BioThings | `MyGene_get_gene_annotation` | 遺伝子詳細 |
-| BioThings | `MyGene_batch_query` | バッチアノテーション |
-| BioThings | `MyVariant_get_variant_annotation` | 変異アノテーション |
-| BioThings | `MyVariant_query_variants` | 変異検索 |
-| BioThings | `MyChem_get_chemical_annotation` | 化合物アノテーション |
-| BioThings | `MyChem_query_chemicals` | 化合物検索 |
+| BioThings | `MyGene_query_genes` | genesearch |
+| BioThings | `MyGene_get_gene_annotation` | genedetails |
+| BioThings | `MyGene_batch_query` | batchannotation |
+| BioThings | `MyVariant_get_variant_annotation` | variant annotation |
+| BioThings | `MyVariant_query_variants` | variant/mutationsearch |
+| BioThings | `MyChem_get_chemical_annotation` | compoundannotation |
+| BioThings | `MyChem_query_chemicals` | compoundsearch |
 
 ### Related Skills
 
-| スキル | 関連 |
+| Skill | Relationship |
 |---|---|
-| `scientific-variant-interpretation` | 変異アノテーション |
-| `scientific-gene-expression-transcriptomics` | 遺伝子発現 |
-| `scientific-drug-target-interaction` | DTI 解析 |
-| `scientific-rare-disease-genetics` | 希少疾患 |
-| `scientific-pathway-enrichment` | パスウェイ解析 |
+| `scientific-variant-interpretation` | variant annotation |
+| `scientific-gene-expression-transcriptomics` | gene expression |
+| `scientific-drug-target-interaction` | DTI analysis |
+| `scientific-rare-disease-genetics` | disease |
+| `scientific-pathway-enrichment` | pathway analysis |
 
-### 依存パッケージ
+### Dependencies
 
 `requests`, `pandas`
 
@@ -305,15 +305,15 @@ def batch_integrated_annotation(gene_symbols, include_variants=False):
 ## Verification Loop (v0.3.0)
 
 ```
-PLAN   → define scope, inputs, expected outputs
+PLAN → define scope, inputs, expected outputs
 EXECUTE → run analysis pipeline
-VERIFY  → check outputs against quality gates
-REPORT  → save all artifacts, generate report.md
+VERIFY → check outputs against quality gates
+REPORT → save all artifacts, generate report.md
 ```
 
 ### Quality Gates
 
-- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures saved to `figures/` (not plt.show)
 - [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
 - [ ] Numeric results saved as JSON/CSV in `results/`
 - [ ] Report includes methods, results, and discussion

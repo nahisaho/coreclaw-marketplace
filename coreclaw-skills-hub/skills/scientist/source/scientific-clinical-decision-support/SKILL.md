@@ -1,53 +1,53 @@
 ---
 name: scientific-clinical-decision-support
 description: |
-  臨床意思決定支援スキル。エビデンスに基づく治療推奨、臨床パスウェイアルゴリズム、
-  患者コホート解析、バイオマーカー分類、精密腫瘍学（ToolUniverse の Precision Oncology
-  パラダイム + claude-scientific-skills の CDS/Treatment Plans を統合）。
-  「治療推奨を作成して」「臨床パスウェイを設計して」「精密医療の解析して」で発火。
+ clinical decision supportsupportskill。-basedtreatmentrecommended、pathway、
+ patientanalysis、biomarkerclassification、tumor（ToolUniverse 's Precision Oncology
+ + claude-scientific-skills 's CDS/Treatment Plans integration）。
+ 「treatmentrecommended」「pathway design」「's analysis」 。
 ---
 
 # Scientific Clinical Decision Support
 
-臨床意思決定支援スキル。エビデンスに基づく治療推奨の生成、
-臨床パスウェイの設計、患者特性に応じた個別化医療の支援を提供する。
+clinical decision supportsupportskill。-basedtreatmentrecommended's generation、
+pathway'sdesign、patient units'ssupport is provided。
 
 ## When to Use
 
-- エビデンスに基づく治療推奨を構造化するとき
-- 臨床パスウェイ/アルゴリズムを設計するとき
-- 患者コホートの層別化解析を行うとき
-- バイオマーカーに基づく治療選択を支援するとき
-- 精密腫瘍学（変異プロファイル → 治療推奨）を実施するとき
-- 臨床試験の不適格 / 適格基準を解析するとき
+- -basedtreatmentrecommendedstructurewhen needed
+- pathway/ is designedand
+- patient'sanalysis is performedand
+- biomarker-basedtreatmentselection is supportedand
+- tumor（variant/mutationfile → treatmentrecommended） is performedand
+- clinical trial's / criteriaanalysiswhen needed
 
 ## Quick Start
 
-### 臨床意思決定支援パイプライン
+### clinical decision supportsupportpipeline
 
 ```
-Input: 患者プロファイル / 疾患 / バイオマーカー
-    ↓
+Input: patientfile / disease / biomarker
+ ↓
 Step 1: Evidence Gathering
-  - ガイドライン検索 (NCCN, ESMO, etc.)
-  - 臨床試験検索 (ClinicalTrials.gov)
-  - 文献エビデンス (PubMed)
-    ↓
+ - guideline search (NCCN, ESMO, etc.)
+ - clinical trial search (ClinicalTrials.gov)
+ - literature (PubMed)
+ ↓
 Step 2: Patient Stratification
-  - バイオマーカー分類
-  - リスク層別化
-  - コモビディティ評価
-    ↓
+ - biomarkerclassification
+ - 
+ - evaluation
+ ↓
 Step 3: Treatment Options
-  - 標準治療の同定
-  - 代替治療の評価
-  - 臨床試験マッチング
-    ↓
+ - standardtreatment's
+ - treatment'sevaluation
+ - clinical trial
+ ↓
 Step 4: Recommendation Synthesis
-  - エビデンスレベル付与
-  - 推奨強度評価
-  - リスク-ベネフィット分析
-    ↓
+ - 
+ - recommendedintensityevaluation
+ - -min
+ ↓
 Output: Clinical Decision Report
 ```
 
@@ -55,110 +55,110 @@ Output: Clinical Decision Report
 
 ## Phase 1: Evidence Framework
 
-### エビデンスレベルと推奨強度
+### andrecommendedintensity
 
 ```python
 EVIDENCE_LEVELS = {
-    "1a": "Systematic review of RCTs",
-    "1b": "Individual RCT",
-    "2a": "Systematic review of cohort studies",
-    "2b": "Individual cohort study",
-    "3a": "Systematic review of case-control studies",
-    "3b": "Individual case-control study",
-    "4":  "Case series / poor quality cohort",
-    "5":  "Expert opinion",
+ "1a": "Systematic review of RCTs",
+ "1b": "Individual RCT",
+ "2a": "Systematic review of cohort studies",
+ "2b": "Individual cohort study",
+ "3a": "Systematic review of case-control studies",
+ "3b": "Individual case-control study",
+ "4": "Case series / poor quality cohort",
+ "5": "Expert opinion",
 }
 
 RECOMMENDATION_GRADES = {
-    "A": {"description": "Strong recommendation", "evidence": "1a, 1b"},
-    "B": {"description": "Moderate recommendation", "evidence": "2a, 2b, 3a"},
-    "C": {"description": "Weak recommendation", "evidence": "3b, 4"},
-    "D": {"description": "Very weak recommendation", "evidence": "5, expert opinion"},
+ "A": {"description": "Strong recommendation", "evidence": "1a, 1b"},
+ "B": {"description": "Moderate recommendation", "evidence": "2a, 2b, 3a"},
+ "C": {"description": "Weak recommendation", "evidence": "3b, 4"},
+ "D": {"description": "Very weak recommendation", "evidence": "5, expert opinion"},
 }
 
 def grade_recommendation(evidence_sources):
-    """
-    GRADE システムによるエビデンス評価。
-    """
-    best_level = min(
-        (s.get("evidence_level", "5") for s in evidence_sources),
-        key=lambda x: float(x.replace("a", ".1").replace("b", ".2"))
-    )
+ """
+ GRADE by/viaevaluation。
+ """
+ best_level = min(
+ (s.get("evidence_level", "5") for s in evidence_sources),
+ key=lambda x: float(x.replace("a", ".1").replace("b", ".2"))
+ )
 
-    if best_level.startswith("1"):
-        return "A", "Strong"
-    elif best_level.startswith("2") or best_level == "3a":
-        return "B", "Moderate"
-    elif best_level in ("3b", "4"):
-        return "C", "Weak"
-    else:
-        return "D", "Very Weak"
+ if best_level.startswith("1"):
+ return "A", "Strong"
+ elif best_level.startswith("2") or best_level == "3a":
+ return "B", "Moderate"
+ elif best_level in ("3b", "4"):
+ return "C", "Weak"
+ else:
+ return "D", "Very Weak"
 ```
 
 ---
 
 ## Phase 2: Precision Oncology
 
-### 変異プロファイル → 治療推奨
+### variant/mutationfile → treatmentrecommended
 
 ```python
 def precision_oncology_workflow(tumor_type, mutations):
-    """
-    精密腫瘍学ワークフロー。
-    変異プロファイルから actionable targets を同定し、
-    治療推奨を生成する。
-    """
-    workflow = {
-        "step1": "変異リスト → OncoKB アノテーション",
-        "step2": "Actionable mutations の同定 (Level 1-4)",
-        "step3": "腫瘍タイプ特異的ガイドライン確認",
-        "step4": "承認薬・臨床試験のマッチング",
-        "step5": "治療推奨レポート生成",
-    }
+ """
+ tumorworkflow。
+ variant/mutationfilefrom actionable targets 、
+ treatmentrecommended is generated。
+ """
+ workflow = {
+ "step1": "variant/mutation → OncoKB annotation",
+ "step2": "Actionable mutations 's (Level 1-4)",
+ "step3": "tumorverification",
+ "step4": "clinical trial's",
+ "step5": "treatmentrecommendedreportgeneration",
+ }
 
-    # OncoKB Actionability Levels
-    actionability = {
-        "Level_1": "FDA-approved, same tumor type",
-        "Level_2": "Standard care, different tumor type",
-        "Level_3A": "Clinical evidence, same tumor",
-        "Level_3B": "Clinical evidence, different tumor",
-        "Level_4": "Preclinical evidence",
-    }
+ # OncoKB Actionability Levels
+ actionability = {
+ "Level_1": "FDA-approved, same tumor type",
+ "Level_2": "Standard care, different tumor type",
+ "Level_3A": "Clinical evidence, same tumor",
+ "Level_3B": "Clinical evidence, different tumor",
+ "Level_4": "Preclinical evidence",
+ }
 
-    return workflow
+ return workflow
 
 
-# 主要ながんバイオマーカー
+# keycancerbiomarker
 CANCER_BIOMARKERS = {
-    "EGFR": {
-        "tumor_types": ["NSCLC"],
-        "mutations": ["L858R", "ex19del", "T790M", "C797S"],
-        "therapies": {
-            "L858R/ex19del": ["osimertinib", "erlotinib", "gefitinib"],
-            "T790M": ["osimertinib"],
-        }
-    },
-    "BRAF": {
-        "tumor_types": ["Melanoma", "NSCLC", "CRC", "Thyroid"],
-        "mutations": ["V600E", "V600K"],
-        "therapies": {
-            "V600E": ["vemurafenib + cobimetinib", "dabrafenib + trametinib",
-                       "encorafenib + binimetinib"],
-        }
-    },
-    "ALK": {
-        "tumor_types": ["NSCLC"],
-        "mutations": ["Fusion"],
-        "therapies": {
-            "Fusion": ["alectinib", "lorlatinib", "crizotinib", "ceritinib"],
-        }
-    },
-    "MSI-H/dMMR": {
-        "tumor_types": ["Pan-cancer"],
-        "therapies": {
-            "MSI-H": ["pembrolizumab", "nivolumab"],
-        }
-    },
+ "EGFR": {
+ "tumor_types": ["NSCLC"],
+ "mutations": ["L858R", "ex19del", "T790M", "C797S"],
+ "therapies": {
+ "L858R/ex19del": ["osimertinib", "erlotinib", "gefitinib"],
+ "T790M": ["osimertinib"],
+ }
+ },
+ "BRAF": {
+ "tumor_types": ["Melanoma", "NSCLC", "CRC", "Thyroid"],
+ "mutations": ["V600E", "V600K"],
+ "therapies": {
+ "V600E": ["vemurafenib + cobimetinib", "dabrafenib + trametinib",
+ "encorafenib + binimetinib"],
+ }
+ },
+ "ALK": {
+ "tumor_types": ["NSCLC"],
+ "mutations": ["Fusion"],
+ "therapies": {
+ "Fusion": ["alectinib", "lorlatinib", "crizotinib", "ceritinib"],
+ }
+ },
+ "MSI-H/dMMR": {
+ "tumor_types": ["Pan-cancer"],
+ "therapies": {
+ "MSI-H": ["pembrolizumab", "nivolumab"],
+ }
+ },
 }
 ```
 
@@ -166,40 +166,40 @@ CANCER_BIOMARKERS = {
 
 ## Phase 3: Clinical Trial Matching
 
-### 臨床試験マッチング
+### clinical trial
 
 ```python
 def match_clinical_trials(patient_profile):
-    """
-    ClinicalTrials.gov API を用いた臨床試験マッチング。
-    """
-    import requests
+ """
+ ClinicalTrials.gov API usingclinical trial。
+ """
+ import requests
 
-    params = {
-        "query.cond": patient_profile.get("condition"),
-        "query.intr": patient_profile.get("biomarker", ""),
-        "filter.overallStatus": "RECRUITING",
-        "pageSize": 20,
-    }
+ params = {
+ "query.cond": patient_profile.get("condition"),
+ "query.intr": patient_profile.get("biomarker", ""),
+ "filter.overallStatus": "RECRUITING",
+ "pageSize": 20,
+ }
 
-    response = requests.get(
-        "https://clinicaltrials.gov/api/v2/studies",
-        params=params
-    )
+ response = requests.get(
+ "https://clinicaltrials.gov/api/v2/studies",
+ params=params
+ )
 
-    trials = []
-    if response.status_code == 200:
-        for study in response.json().get("studies", []):
-            protocol = study.get("protocolSection", {})
-            trials.append({
-                "nct_id": protocol.get("identificationModule", {}).get("nctId"),
-                "title": protocol.get("identificationModule", {}).get("briefTitle"),
-                "phase": protocol.get("designModule", {}).get("phases", []),
-                "status": protocol.get("statusModule", {}).get("overallStatus"),
-                "interventions": protocol.get("armsInterventionsModule", {}).get("interventions", []),
-            })
+ trials = []
+ if response.status_code == 200:
+ for study in response.json.get("studies", []):
+ protocol = study.get("protocolSection", {})
+ trials.append({
+ "nct_id": protocol.get("identificationModule", {}).get("nctId"),
+ "title": protocol.get("identificationModule", {}).get("briefTitle"),
+ "phase": protocol.get("designModule", {}).get("phases", []),
+ "status": protocol.get("statusModule", {}).get("overallStatus"),
+ "interventions": protocol.get("armsInterventionsModule", {}).get("interventions", []),
+ })
 
-    return trials
+ return trials
 ```
 
 ---
@@ -250,55 +250,55 @@ Clinical decisions must be made by qualified healthcare professionals.
 
 ## Completeness Checklist
 
-- [ ] エビデンス検索: ガイドライン + 臨床試験 + 文献
-- [ ] 患者層別化: バイオマーカー + リスクスコア
-- [ ] 治療選択肢: 標準治療 + 代替 + 臨床試験
-- [ ] エビデンスレベル: 全推奨に GRADE レベルを付与
-- [ ] 安全性: 薬物相互作用 + 禁忌を確認
-- [ ] 免責事項: 研究目的使用の明記
+- [ ] search: + clinical trial + literature
+- [ ] patient: biomarker + 
+- [ ] treatmentselection: standardtreatment + + clinical trial
+- [ ] : allrecommended GRADE 
+- [ ] all: druginteraction + verification
+- [ ] term: researchpurposefor's
 
 ## Best Practices
 
-1. **ガイドラインを最優先**: NCCN/ESMO 等の最新版を確認
-2. **エビデンスレベルを明記**: 全推奨に根拠を付与
-3. **患者個別因子を考慮**: 年齢、腎機能、薬物相互作用
-4. **臨床試験を常に検索**: 標準治療不適の場合の選択肢
-5. **免責事項を記載**: AI ツールは臨床判断の代替ではない
+1. ****: NCCN/ESMO 's latestverification
+2. ****: allrecommendedbasis
+3. **patientunitsfactor**: 、、druginteraction
+4. **clinical trialsearch**: standardtreatmentcase's selection
+5. **term**: AI tool's
 
 ## References
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generation Timing |
 |---|---|---|
-| `results/clinical_decision_report.md` | 臨床意思決定レポート（Markdown） | 全解析完了時 |
-| `results/clinical_recommendation.json` | 推奨事項データ（JSON） | GRADE 評価完了時 |
-| `results/trial_matches.json` | 臨床試験マッチング結果（JSON） | 試験検索完了時 |
+| `results/clinical_decision_report.md` | clinical decision supportreport（Markdown） | allanalysiscompletion |
+| `results/clinical_recommendation.json` | recommendedtermdata（JSON） | GRADE evaluationcompletion |
+| `results/trial_matches.json` | clinical trialresults（JSON） | searchcompletion |
 
-### 利用可能ツール
+### Available Tools
 
-> [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
+> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
 
-| カテゴリ | 主要ツール | 用途 |
+| Category | Key Tools | Usage |
 |---|---|---|
-| ClinicalTrials | `search_clinical_trials` | 臨床試験検索 |
-| ClinicalTrials | `clinical_trials_get_details` | 試験詳細取得 |
-| PharmGKB | `PharmGKB_get_dosing_guidelines` | PGx 用量ガイドライン |
-| PharmGKB | `PharmGKB_get_clinical_annotations` | 臨床アノテーション |
-| CPIC | `CPIC_get_guidelines` | CPIC ガイドライン |
-| DGIdb | `DGIdb_get_drug_gene_interactions` | 薬物-遺伝子相互作用 |
-| PubMed | `PubMed_search_articles` | エビデンス検索 |
+| ClinicalTrials | `search_clinical_trials` | clinical trial search |
+| ClinicalTrials | `clinical_trials_get_details` | trial detail retrieval |
+| PharmGKB | `PharmGKB_get_dosing_guidelines` | PGx dosing guidelines |
+| PharmGKB | `PharmGKB_get_clinical_annotations` | annotation |
+| CPIC | `CPIC_get_guidelines` | CPIC |
+| DGIdb | `DGIdb_get_drug_gene_interactions` | drug-gene interaction |
+| PubMed | `PubMed_search_articles` | search |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
-| `scientific-variant-interpretation` | ← バリアント解釈結果の臨床応用 |
-| `scientific-drug-repurposing` | ← リポジショニング候補の臨床評価 |
-| `scientific-survival-clinical` | ← 生存解析・臨床試験データ |
-| `scientific-meta-analysis` | ← メタアナリシスのエビデンス統合 |
-| `scientific-deep-research` | ← 最新エビデンスの収集 |
-| `scientific-presentation-design` | → 臨床結果のプレゼンテーション |
-| `scientific-academic-writing` | → 研究成果の論文化 |
-| `scientific-clinical-trials-analytics` | ← 臨床試験マッチング・競合解析 |
-| `scientific-pharmacogenomics` | ← PGx バイオマーカー・投与量調整 |
+| `scientific-variant-interpretation` | ← results's application |
+| `scientific-drug-repurposing` | ← 'sevaluation |
+| `scientific-survival-clinical` | ← analysisclinical trialdata |
+| `scientific-meta-analysis` | ← 'sintegration |
+| `scientific-deep-research` | ← latest's |
+| `scientific-presentation-design` | → results'spresentation |
+| `scientific-academic-writing` | → publishing research results |
+| `scientific-clinical-trials-analytics` | ← clinical trialanalysis |
+| `scientific-pharmacogenomics` | ← PGx biomarkeramount |

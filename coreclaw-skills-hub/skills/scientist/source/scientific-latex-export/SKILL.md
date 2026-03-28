@@ -1,60 +1,60 @@
 ---
 name: scientific-latex-export
 description: |
-  実験結果を論文形式（LaTeX / IMRaD）にエクスポートするスキル。
-  Introduction・Materials & Methods・Results・Discussion の構造で
-  出版準備用の原稿を自動生成する。
-  「論文にして」「LaTeX出力」「出版準備」で発火。
+ experimentresults papershapeformula（LaTeX / IMRaD）exportskill。
+ IntroductionMaterials & MethodsResultsDiscussion 's structure
+ publicationfor'sautomatedgenerates。
+ 「paper」「LaTeXoutput」「publication」 。
 ---
 
 # Scientific LaTeX Export
 
-実験結果を学術論文形式（IMRaD: Introduction, Materials & Methods,
-Results, Discussion）に構造化し、LaTeX ソースを生成するスキル。
+experimentresults papershapeformula（IMRaD: Introduction, Materials & Methods,
+Results, Discussion）structure、LaTeX is generatedskill。
 
 ## When to Use
 
-- 実験結果を論文形式にまとめるとき
-- 学会発表用のアブストラクトを作成するとき
-- 共同研究者と出版用原稿を共有するとき
-- arXiv / bioRxiv へのプレプリント投稿を準備するとき
+- experimentresults papershapeformula and and
+- conferencepresentationfor's is createdand
+- research and publicationforwhen needed
+- arXiv / bioRxiv to 'swhen needed
 
 ## Quick Start
 
-### Step 1: 実験データの収集
-- 実験のメッセージ履歴を読解
-- 生成された成果物（CSV, 画像, レポート）を収集
-- 使用したスキル・ツールの記録
+### Step 1: experimentdata's
+- experiment's
+- generation（CSV,, report）
+- forskilltool's
 
-### Step 2: IMRaD 構造への変換
-1. **Title & Abstract** — 研究の要約（250語以内）
-2. **Introduction** — 背景・目的・仮説
-3. **Materials & Methods** — 実験条件・手法・解析手法
-4. **Results** — データ・図表の記述
-5. **Discussion** — 結果の解釈・先行研究との比較・限界
-6. **References** — 引用文献（BibTeX形式）
+### Step 2: IMRaD structureto 'stransformation
+1. **Title & Abstract** — research's（250）
+2. **Introduction** — backgroundpurposehypothesis
+3. **Materials & Methods** — experimentconditionmethodanalysismethod
+4. **Results** — datafigures/tables's
+5. **Discussion** — results's research and 's comparisonlimitations
+6. **References** — citationliterature（BibTeXshapeformula）
 
-### Step 3: 図表の整形
-- matplotlib / R の図を publication-quality に調整
-- 表を LaTeX tabular 形式に変換
-- キャプションの作成
+### Step 3: figures/tables's shape
+- matplotlib / R 's figure publication-quality 
+- table LaTeX tabular shapeformulatransformation
+- 's
 
-### Step 4: LaTeX ソース生成
+### Step 4: LaTeX generation
 
 ## Output Format
 
 ```markdown
-paper.tex       # LaTeX メインファイル
-paper.bib       # BibTeX 参考文献
-figures/        # 図ファイル
+paper.tex # LaTeX file
+paper.bib # BibTeX referenceliterature
+figures/ # figurefile
 ```
 
-### LaTeX テンプレート構造:
+### LaTeX templatestructure:
 ```latex
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx, amsmath, booktabs, hyperref}
-\usepackage[japanese]{babel}  % 日本語対応
+\usepackage[japanese]{babel} % paperssupport
 
 \title{...}
 \author{...}
@@ -62,7 +62,7 @@ figures/        # 図ファイル
 
 \begin{document}
 \maketitle
-\begin{abstract} ... \end{abstract}
+\begin{abstract}... \end{abstract}
 
 \section{Introduction}
 \section{Materials and Methods}
@@ -77,12 +77,12 @@ figures/        # 図ファイル
 
 ## Examples
 
-- 「この実験結果を論文にして」
-- 「IMRaD形式でLaTeX出力して」
-- 「bioRxiv投稿用のプレプリントを準備して」
+- 「's experimentresults paper」
+- 「IMRaDshapeformula LaTeXoutput」
+- 「bioRxivfor's」
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
-| `crossref` | Crossref | 参考文献メタデータ・DOI 解決 |
+| `crossref` | Crossref | reference metadata/DOI resolution |

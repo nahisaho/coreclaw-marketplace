@@ -1,33 +1,33 @@
 ---
 name: scientific-hgnc-nomenclature
 description: |
-  HGNC nomenclature skill. Official gene symbol resolution, gene name standardization, symbol history tracking, and gene family classification via HGNC database.
+ HGNC nomenclature skill. Official gene symbol resolution, gene name standardization, symbol history tracking, and gene family classification via HGNC database.
 tu_tools:
-  - key: hgnc
-    name: HGNC
-    description: 遺伝子命名法・シンボル検索
+ - key: hgnc
+ name: HGNC
+ description: genemethodsearch
 ---
 
 # Scientific HGNC Nomenclature
 
-HGNC (HUGO Gene Nomenclature Committee) REST API を活用した
-公式遺伝子シンボル検索・エイリアス/旧シンボル解決・
-遺伝子ファミリー照会・マルチデータベース ID 相互参照
-パイプラインを提供する。
+HGNC (HUGO Gene Nomenclature Committee) REST API utilizing
+formulagene symbolsearch/
+genedatabase ID phasereference
+pipeline.
 
 ## When to Use
 
-- 遺伝子エイリアスから公式 HGNC シンボルを取得するとき
-- 旧遺伝子シンボル (previous symbol) を最新名に変換するとき
-- 遺伝子ファミリー/グループのメンバーリストを取得するとき
-- HGNC ID ↔ Ensembl / NCBI Gene / UniProt のクロスリファレンスを行うとき
-- 遺伝子座タイプ (protein-coding, ncRNA 等) でフィルタするとき
+- genefromformula HGNC is retrievedand
+- gene symbol (previous symbol) latesttransformationwhen needed
+- gene/loop's is retrievedand
+- HGNC ID ↔ Ensembl / NCBI Gene / UniProt 's is performedand
+- gene (protein-coding, ncRNA ) filterwhen needed
 
 ---
 
 ## Quick Start
 
-## 1. HGNC シンボル検索
+## 1. HGNC search
 
 ```python
 import requests
@@ -38,227 +38,227 @@ HEADERS = {"Accept": "application/json"}
 
 
 def hgnc_search(query):
-    """
-    HGNC — 遺伝子シンボル/名前検索。
+ """
+ HGNC — gene symbol/namesearch。
 
-    Parameters:
-        query: str — 検索クエリ (シンボル/名前)
-    """
-    url = f"{HGNC_BASE}/search/{query}"
-    resp = requests.get(url, headers=HEADERS,
-                        timeout=30)
-    resp.raise_for_status()
-    data = resp.json().get("response", {})
-    docs = data.get("docs", [])
+ Parameters:
+ query: str — search query (/name)
+ """
+ url = f"{HGNC_BASE}/search/{query}"
+ resp = requests.get(url, headers=HEADERS,
+ timeout=30)
+ resp.raise_for_status
+ data = resp.json.get("response", {})
+ docs = data.get("docs", [])
 
-    rows = []
-    for doc in docs:
-        rows.append({
-            "hgnc_id": doc.get("hgnc_id", ""),
-            "symbol": doc.get("symbol", ""),
-            "name": doc.get("name", ""),
-            "locus_type": doc.get("locus_type", ""),
-            "status": doc.get("status", ""),
-        })
+ rows = []
+ for doc in docs:
+ rows.append({
+ "hgnc_id": doc.get("hgnc_id", ""),
+ "symbol": doc.get("symbol", ""),
+ "name": doc.get("name", ""),
+ "locus_type": doc.get("locus_type", ""),
+ "status": doc.get("status", ""),
+ })
 
-    df = pd.DataFrame(rows)
-    print(f"HGNC search '{query}': {len(df)} hits")
-    return df
+ df = pd.DataFrame(rows)
+ print(f"HGNC search '{query}': {len(df)} hits")
+ return df
 
 
 def hgnc_fetch_symbol(symbol):
-    """
-    HGNC — 公式シンボルで遺伝子詳細取得。
+ """
+ HGNC — formulagenedetailsretrieval。
 
-    Parameters:
-        symbol: str — 公式遺伝子シンボル (例: "BRCA1")
-    """
-    url = f"{HGNC_BASE}/fetch/symbol/{symbol}"
-    resp = requests.get(url, headers=HEADERS,
-                        timeout=30)
-    resp.raise_for_status()
-    docs = resp.json().get("response", {}).get(
-        "docs", [])
+ Parameters:
+ symbol: str — formulagene symbol (example: "BRCA1")
+ """
+ url = f"{HGNC_BASE}/fetch/symbol/{symbol}"
+ resp = requests.get(url, headers=HEADERS,
+ timeout=30)
+ resp.raise_for_status
+ docs = resp.json.get("response", {}).get(
+ "docs", [])
 
-    if not docs:
-        print(f"HGNC: {symbol} not found")
-        return {}
+ if not docs:
+ print(f"HGNC: {symbol} not found")
+ return {}
 
-    doc = docs[0]
-    info = {
-        "hgnc_id": doc.get("hgnc_id", ""),
-        "symbol": doc.get("symbol", ""),
-        "name": doc.get("name", ""),
-        "locus_type": doc.get("locus_type", ""),
-        "location": doc.get("location", ""),
-        "alias_symbol": doc.get("alias_symbol", []),
-        "prev_symbol": doc.get("prev_symbol", []),
-        "ensembl_gene_id": doc.get(
-            "ensembl_gene_id", ""),
-        "entrez_id": doc.get("entrez_id", ""),
-        "uniprot_ids": doc.get("uniprot_ids", []),
-        "gene_group": doc.get("gene_group", []),
-    }
+ doc = docs[0]
+ info = {
+ "hgnc_id": doc.get("hgnc_id", ""),
+ "symbol": doc.get("symbol", ""),
+ "name": doc.get("name", ""),
+ "locus_type": doc.get("locus_type", ""),
+ "location": doc.get("location", ""),
+ "alias_symbol": doc.get("alias_symbol", []),
+ "prev_symbol": doc.get("prev_symbol", []),
+ "ensembl_gene_id": doc.get(
+ "ensembl_gene_id", ""),
+ "entrez_id": doc.get("entrez_id", ""),
+ "uniprot_ids": doc.get("uniprot_ids", []),
+ "gene_group": doc.get("gene_group", []),
+ }
 
-    print(f"HGNC: {symbol} → {info['name']} "
-          f"({info['locus_type']})")
-    return info
+ print(f"HGNC: {symbol} → {info['name']} "
+ f"({info['locus_type']})")
+ return info
 ```
 
-## 2. エイリアス/旧シンボル解決
+## 2. /
 
 ```python
 def hgnc_resolve_alias(alias):
-    """
-    HGNC — エイリアスから公式シンボルへ解決。
+ """
+ HGNC — fromformula to。
 
-    Parameters:
-        alias: str — エイリアスまたは旧シンボル
-    """
-    # 1) alias_symbol で検索
-    url = f"{HGNC_BASE}/fetch/alias_symbol/{alias}"
-    resp = requests.get(url, headers=HEADERS,
-                        timeout=30)
-    resp.raise_for_status()
-    docs = resp.json().get("response", {}).get(
-        "docs", [])
+ Parameters:
+ alias: str — or
+ """
+ # 1) alias_symbol search
+ url = f"{HGNC_BASE}/fetch/alias_symbol/{alias}"
+ resp = requests.get(url, headers=HEADERS,
+ timeout=30)
+ resp.raise_for_status
+ docs = resp.json.get("response", {}).get(
+ "docs", [])
 
-    if docs:
-        symbols = [d["symbol"] for d in docs]
-        print(f"HGNC alias '{alias}' → "
-              f"{', '.join(symbols)}")
-        return symbols
+ if docs:
+ symbols = [d["symbol"] for d in docs]
+ print(f"HGNC alias '{alias}' → "
+ f"{', '.join(symbols)}")
+ return symbols
 
-    # 2) prev_symbol で検索
-    url2 = f"{HGNC_BASE}/fetch/prev_symbol/{alias}"
-    resp2 = requests.get(url2, headers=HEADERS,
-                         timeout=30)
-    resp2.raise_for_status()
-    docs2 = resp2.json().get("response", {}).get(
-        "docs", [])
+ # 2) prev_symbol search
+ url2 = f"{HGNC_BASE}/fetch/prev_symbol/{alias}"
+ resp2 = requests.get(url2, headers=HEADERS,
+ timeout=30)
+ resp2.raise_for_status
+ docs2 = resp2.json.get("response", {}).get(
+ "docs", [])
 
-    if docs2:
-        symbols = [d["symbol"] for d in docs2]
-        print(f"HGNC prev '{alias}' → "
-              f"{', '.join(symbols)}")
-        return symbols
+ if docs2:
+ symbols = [d["symbol"] for d in docs2]
+ print(f"HGNC prev '{alias}' → "
+ f"{', '.join(symbols)}")
+ return symbols
 
-    print(f"HGNC: '{alias}' not resolved")
-    return []
+ print(f"HGNC: '{alias}' not resolved")
+ return []
 
 
 def hgnc_resolve_batch(aliases):
-    """
-    HGNC — バッチエイリアス解決。
+ """
+ HGNC — batch。
 
-    Parameters:
-        aliases: list[str] — エイリアス/旧シンボルリスト
-    """
-    results = []
-    for alias in aliases:
-        resolved = hgnc_resolve_alias(alias)
-        results.append({
-            "input": alias,
-            "resolved": resolved[0] if resolved
-                        else "UNRESOLVED",
-            "ambiguous": len(resolved) > 1,
-        })
+ Parameters:
+ aliases: list[str] — /
+ """
+ results = []
+ for alias in aliases:
+ resolved = hgnc_resolve_alias(alias)
+ results.append({
+ "input": alias,
+ "resolved": resolved[0] if resolved
+ else "UNRESOLVED",
+ "ambiguous": len(resolved) > 1,
+ })
 
-    df = pd.DataFrame(results)
-    n_resolved = (df["resolved"] != "UNRESOLVED").sum()
-    print(f"HGNC batch: {n_resolved}/{len(df)} "
-          f"resolved")
-    return df
+ df = pd.DataFrame(results)
+ n_resolved = (df["resolved"] != "UNRESOLVED").sum
+ print(f"HGNC batch: {n_resolved}/{len(df)} "
+ f"resolved")
+ return df
 ```
 
-## 3. 遺伝子ファミリー/グループ
+## 3. gene/loop
 
 ```python
 def hgnc_gene_group(group_name):
-    """
-    HGNC — 遺伝子ファミリー/グループメンバー取得。
+ """
+ HGNC — gene/loopretrieval。
 
-    Parameters:
-        group_name: str — グループ名
-                          (例: "Kinases", "Ion channels")
-    """
-    url = (f"{HGNC_BASE}/search/"
-           f"gene_group:%22{group_name}%22")
-    resp = requests.get(url, headers=HEADERS,
-                        timeout=30)
-    resp.raise_for_status()
-    docs = resp.json().get("response", {}).get(
-        "docs", [])
+ Parameters:
+ group_name: str — loop
+ (example: "Kinases", "Ion channels")
+ """
+ url = (f"{HGNC_BASE}/search/"
+ f"gene_group:%22{group_name}%22")
+ resp = requests.get(url, headers=HEADERS,
+ timeout=30)
+ resp.raise_for_status
+ docs = resp.json.get("response", {}).get(
+ "docs", [])
 
-    rows = []
-    for doc in docs:
-        rows.append({
-            "symbol": doc.get("symbol", ""),
-            "name": doc.get("name", ""),
-            "locus_type": doc.get("locus_type", ""),
-            "location": doc.get("location", ""),
-        })
+ rows = []
+ for doc in docs:
+ rows.append({
+ "symbol": doc.get("symbol", ""),
+ "name": doc.get("name", ""),
+ "locus_type": doc.get("locus_type", ""),
+ "location": doc.get("location", ""),
+ })
 
-    df = pd.DataFrame(rows)
-    print(f"HGNC group '{group_name}': "
-          f"{len(df)} members")
-    return df
+ df = pd.DataFrame(rows)
+ print(f"HGNC group '{group_name}': "
+ f"{len(df)} members")
+ return df
 ```
 
-## 4. HGNC 統合パイプライン
+## 4. HGNC integrationpipeline
 
 ```python
 def hgnc_pipeline(symbols, aliases=None,
-                    output_dir="results"):
-    """
-    HGNC 統合命名法パイプライン。
+ output_dir="results"):
+ """
+ HGNC integrationmethodpipeline。
 
-    Parameters:
-        symbols: list[str] — 公式シンボルリスト
-        aliases: list[str] | None — 解決するエイリアス
-        output_dir: str — 出力ディレクトリ
-    """
-    from pathlib import Path
-    output_dir = Path(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
+ Parameters:
+ symbols: list[str] — formula
+ aliases: list[str] | None — 
+ output_dir: str — output directory
+ """
+ from pathlib import Path
+ output_dir = Path(output_dir)
+ output_dir.mkdir(parents=True, exist_ok=True)
 
-    # 1) シンボル詳細
-    details = []
-    for sym in symbols:
-        info = hgnc_fetch_symbol(sym)
-        if info:
-            details.append(info)
-    detail_df = pd.DataFrame(details)
-    detail_df.to_csv(
-        output_dir / "hgnc_details.csv",
-        index=False)
+ # 1) details
+ details = []
+ for sym in symbols:
+ info = hgnc_fetch_symbol(sym)
+ if info:
+ details.append(info)
+ detail_df = pd.DataFrame(details)
+ detail_df.to_csv(
+ output_dir / "hgnc_details.csv",
+ index=False)
 
-    # 2) エイリアス解決
-    if aliases:
-        alias_df = hgnc_resolve_batch(aliases)
-        alias_df.to_csv(
-            output_dir / "hgnc_alias_resolved.csv",
-            index=False)
+ # 2) 
+ if aliases:
+ alias_df = hgnc_resolve_batch(aliases)
+ alias_df.to_csv(
+ output_dir / "hgnc_alias_resolved.csv",
+ index=False)
 
-    # 3) ID クロスリファレンス
-    xref_rows = []
-    for d in details:
-        xref_rows.append({
-            "symbol": d.get("symbol", ""),
-            "hgnc_id": d.get("hgnc_id", ""),
-            "ensembl": d.get("ensembl_gene_id", ""),
-            "entrez": d.get("entrez_id", ""),
-            "uniprot": (d.get("uniprot_ids", [""])[0]
-                        if d.get("uniprot_ids")
-                        else ""),
-        })
-    xref_df = pd.DataFrame(xref_rows)
-    xref_df.to_csv(
-        output_dir / "hgnc_xref.csv",
-        index=False)
+ # 3) ID 
+ xref_rows = []
+ for d in details:
+ xref_rows.append({
+ "symbol": d.get("symbol", ""),
+ "hgnc_id": d.get("hgnc_id", ""),
+ "ensembl": d.get("ensembl_gene_id", ""),
+ "entrez": d.get("entrez_id", ""),
+ "uniprot": (d.get("uniprot_ids", [""])[0]
+ if d.get("uniprot_ids")
+ else ""),
+ })
+ xref_df = pd.DataFrame(xref_rows)
+ xref_df.to_csv(
+ output_dir / "hgnc_xref.csv",
+ index=False)
 
-    print(f"HGNC pipeline → {output_dir}")
-    return {"details": detail_df, "xref": xref_df}
+ print(f"HGNC pipeline → {output_dir}")
+ return {"details": detail_df, "xref": xref_df}
 ```
 
 ---
@@ -267,40 +267,40 @@ def hgnc_pipeline(symbols, aliases=None,
 
 ```
 biothings-idmapping → hgnc-nomenclature → genome-sequence-tools
-  (MyGene/MyVariant)     (公式シンボル)       (配列解析)
-         │                     │                  ↓
-  gene-expression ────────────┘       variant-interpretation
-    (RNA-seq)                          (バリアント解釈)
+ (MyGene/MyVariant) (formula) (sequenceanalysis)
+ │ │ ↓
+ gene-expression ────────────┘ variant-interpretation
+ (RNA-seq) 
 ```
 
 ## Pipeline Output
 
-| ファイル | 説明 | 次スキル |
+| File | Description | Next Skill |
 |---------|------|---------|
-| `results/hgnc_details.csv` | 遺伝子詳細 | → gene-expression |
-| `results/hgnc_alias_resolved.csv` | エイリアス解決 | → biothings-idmapping |
-| `results/hgnc_xref.csv` | ID 相互参照 | → genome-sequence-tools |
+| `results/hgnc_details.csv` | genedetails | → gene-expression |
+| `results/hgnc_alias_resolved.csv` | | → biothings-idmapping |
+| `results/hgnc_xref.csv` | ID phasereference | → genome-sequence-tools |
 
 ## ToolUniverse Integration
 
 | TU Key | Tool Name | Integration |
 |--------|---------|--------|
-| `hgnc` | HGNC | 遺伝子命名法・シンボル検索 |
+| `hgnc` | HGNC | genemethodsearch |
 
 ---
 
 ## Verification Loop (v0.3.0)
 
 ```
-PLAN   → define scope, inputs, expected outputs
+PLAN → define scope, inputs, expected outputs
 EXECUTE → run analysis pipeline
-VERIFY  → check outputs against quality gates
-REPORT  → save all artifacts, generate report.md
+VERIFY → check outputs against quality gates
+REPORT → save all artifacts, generate report.md
 ```
 
 ### Quality Gates
 
-- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures saved to `figures/` (not plt.show)
 - [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
 - [ ] Numeric results saved as JSON/CSV in `results/`
 - [ ] Report includes methods, results, and discussion

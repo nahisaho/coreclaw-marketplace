@@ -1,27 +1,27 @@
 ---
 name: scientific-literature-search
 description: |
-  Literature search skill. PubMed/Scopus/Web of Science search strategy design, systematic search query construction, citation screening, and reference manager integration.
+ Literature search skill. PubMed/Scopus/Web of Science search strategy design, systematic search query construction, citation screening, and reference manager integration.
 ---
 
 # Scientific Literature Search
 
-PubMed / Semantic Scholar / OpenAlex / EuropePMC / CrossRef の
-5 大学術 DB を統合した文献検索・メタデータ取得パイプラインを提供する。
+PubMed / Semantic Scholar / OpenAlex / EuropePMC / CrossRef 's 
+5 DB integrationliteraturesearchData Retrievalpipeline is provided。
 
 ## When to Use
 
-- PubMed で MeSH 用語を用いた構造化検索が必要なとき
-- Semantic Scholar でセマンティック類似論文を発見するとき
-- OpenAlex で著者・機関・ジャーナルメトリクスを分析するとき
-- 特定論文の引用/被引用ネットワークを構築するとき
-- 系統的レビューのためのマルチ DB 横断検索が必要なとき
+- PubMed MeSH forusingstructuresearchwhen needed
+- Semantic Scholar paperwhen needed
+- OpenAlex authormetrics minwhen needed
+- paper'scitation/citationnetwork is builtand
+- systematic reviewfor DB cross-cuttingsearchwhen needed
 
 ---
 
 ## Quick Start
 
-## 1. PubMed E-utilities 検索
+## 1. PubMed E-utilities search
 
 ```python
 import requests
@@ -31,353 +31,353 @@ import time
 
 
 def pubmed_search(query, max_results=100, sort="relevance",
-                  date_from=None, date_to=None, rettype="xml"):
-    """
-    PubMed E-utilities による構造化検索。
+ date_from=None, date_to=None, rettype="xml"):
+ """
+ PubMed E-utilities by/viastructuresearch。
 
-    Parameters:
-        query: str — PubMed クエリ (MeSH 構文対応)
-        max_results: int — 最大取得件数
-        sort: "relevance" or "date"
-        date_from/to: "YYYY/MM/DD" フォーマット
-    """
-    base = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
+ Parameters:
+ query: str — PubMed (MeSH support)
+ max_results: int — retrievalitemsnumber/count
+ sort: "relevance" or "date"
+ date_from/to: "YYYY/MM/DD" 
+ """
+ base = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 
-    # Step 1: esearch — PMID 取得
-    params = {
-        "db": "pubmed",
-        "term": query,
-        "retmax": max_results,
-        "sort": sort,
-        "retmode": "json",
-    }
-    if date_from:
-        params["mindate"] = date_from
-        params["datetype"] = "pdat"
-    if date_to:
-        params["maxdate"] = date_to
+ # Step 1: esearch — PMID retrieval
+ params = {
+ "db": "pubmed",
+ "term": query,
+ "retmax": max_results,
+ "sort": sort,
+ "retmode": "json",
+ }
+ if date_from:
+ params["mindate"] = date_from
+ params["datetype"] = "pdat"
+ if date_to:
+ params["maxdate"] = date_to
 
-    resp = requests.get(f"{base}/esearch.fcgi", params=params)
-    data = resp.json()
-    pmids = data["esearchresult"]["idlist"]
-    total = int(data["esearchresult"]["count"])
-    print(f"PubMed search: {total} total results, fetching {len(pmids)}")
+ resp = requests.get(f"{base}/esearch.fcgi", params=params)
+ data = resp.json
+ pmids = data["esearchresult"]["idlist"]
+ total = int(data["esearchresult"]["count"])
+ print(f"PubMed search: {total} total results, fetching {len(pmids)}")
 
-    if not pmids:
-        return pd.DataFrame()
+ if not pmids:
+ return pd.DataFrame
 
-    # Step 2: efetch — 詳細取得
-    time.sleep(0.4)
-    fetch_params = {
-        "db": "pubmed",
-        "id": ",".join(pmids),
-        "rettype": "xml",
-        "retmode": "xml",
-    }
-    resp = requests.get(f"{base}/efetch.fcgi", params=fetch_params)
-    root = ET.fromstring(resp.text)
+ # Step 2: efetch — detailsretrieval
+ time.sleep(0.4)
+ fetch_params = {
+ "db": "pubmed",
+ "id": ",".join(pmids),
+ "rettype": "xml",
+ "retmode": "xml",
+ }
+ resp = requests.get(f"{base}/efetch.fcgi", params=fetch_params)
+ root = ET.fromstring(resp.text)
 
-    articles = []
-    for article in root.findall(".//PubmedArticle"):
-        medline = article.find(".//MedlineCitation")
-        pmid = medline.findtext("PMID", "")
-        title = medline.findtext(".//ArticleTitle", "")
-        abstract = medline.findtext(".//AbstractText", "")
-        journal = medline.findtext(".//Journal/Title", "")
-        year = medline.findtext(".//PubDate/Year", "")
+ articles = []
+ for article in root.findall(".//PubmedArticle"):
+ medline = article.find(".//MedlineCitation")
+ pmid = medline.findtext("PMID", "")
+ title = medline.findtext(".//ArticleTitle", "")
+ abstract = medline.findtext(".//AbstractText", "")
+ journal = medline.findtext(".//Journal/Title", "")
+ year = medline.findtext(".//PubDate/Year", "")
 
-        authors = []
-        for author in medline.findall(".//Author"):
-            last = author.findtext("LastName", "")
-            fore = author.findtext("ForeName", "")
-            if last:
-                authors.append(f"{last} {fore}")
+ authors = []
+ for author in medline.findall(".//Author"):
+ last = author.findtext("LastName", "")
+ fore = author.findtext("ForeName", "")
+ if last:
+ authors.append(f"{last} {fore}")
 
-        mesh_terms = [m.findtext("DescriptorName", "")
-                      for m in medline.findall(".//MeshHeading")]
+ mesh_terms = [m.findtext("DescriptorName", "")
+ for m in medline.findall(".//MeshHeading")]
 
-        articles.append({
-            "pmid": pmid,
-            "title": title,
-            "abstract": abstract[:500],
-            "journal": journal,
-            "year": year,
-            "authors": "; ".join(authors[:5]),
-            "mesh_terms": "; ".join(mesh_terms[:10]),
-        })
+ articles.append({
+ "pmid": pmid,
+ "title": title,
+ "abstract": abstract[:500],
+ "journal": journal,
+ "year": year,
+ "authors": "; ".join(authors[:5]),
+ "mesh_terms": "; ".join(mesh_terms[:10]),
+ })
 
-    return pd.DataFrame(articles)
+ return pd.DataFrame(articles)
 ```
 
-## 2. Semantic Scholar API 検索
+## 2. Semantic Scholar API search
 
 ```python
 def semantic_scholar_search(query, max_results=50, year_from=None,
-                             fields=None):
-    """
-    Semantic Scholar Academic Graph API 検索。
+ fields=None):
+ """
+ Semantic Scholar Academic Graph API search。
 
-    Parameters:
-        query: str — 検索クエリ
-        fields: list — 取得フィールド
-    """
-    url = "https://api.semanticscholar.org/graph/v1/paper/search"
+ Parameters:
+ query: str — search query
+ fields: list — retrievalfield
+ """
+ url = "https://api.semanticscholar.org/graph/v1/paper/search"
 
-    if fields is None:
-        fields = ["title", "abstract", "year", "citationCount",
-                  "influentialCitationCount", "authors", "url",
-                  "openAccessPdf"]
+ if fields is None:
+ fields = ["title", "abstract", "year", "citationCount",
+ "influentialCitationCount", "authors", "url",
+ "openAccessPdf"]
 
-    params = {
-        "query": query,
-        "limit": min(max_results, 100),
-        "fields": ",".join(fields),
-    }
-    if year_from:
-        params["year"] = f"{year_from}-"
+ params = {
+ "query": query,
+ "limit": min(max_results, 100),
+ "fields": ",".join(fields),
+ }
+ if year_from:
+ params["year"] = f"{year_from}-"
 
-    resp = requests.get(url, params=params)
-    data = resp.json()
-    papers = data.get("data", [])
+ resp = requests.get(url, params=params)
+ data = resp.json
+ papers = data.get("data", [])
 
-    results = []
-    for p in papers:
-        results.append({
-            "paper_id": p.get("paperId", ""),
-            "title": p.get("title", ""),
-            "abstract": (p.get("abstract") or "")[:300],
-            "year": p.get("year"),
-            "citations": p.get("citationCount", 0),
-            "influential_citations": p.get("influentialCitationCount", 0),
-            "authors": "; ".join([a.get("name", "")
-                                  for a in (p.get("authors") or [])[:5]]),
-            "url": p.get("url", ""),
-            "open_access": bool(p.get("openAccessPdf")),
-        })
+ results = []
+ for p in papers:
+ results.append({
+ "paper_id": p.get("paperId", ""),
+ "title": p.get("title", ""),
+ "abstract": (p.get("abstract") or "")[:300],
+ "year": p.get("year"),
+ "citations": p.get("citationCount", 0),
+ "influential_citations": p.get("influentialCitationCount", 0),
+ "authors": "; ".join([a.get("name", "")
+ for a in (p.get("authors") or [])[:5]]),
+ "url": p.get("url", ""),
+ "open_access": bool(p.get("openAccessPdf")),
+ })
 
-    df = pd.DataFrame(results)
-    print(f"Semantic Scholar: {data.get('total', 0)} total, "
-          f"{len(df)} fetched")
-    return df
+ df = pd.DataFrame(results)
+ print(f"Semantic Scholar: {data.get('total', 0)} total, "
+ f"{len(df)} fetched")
+ return df
 ```
 
-## 3. OpenAlex 著者・機関メトリクス
+## 3. OpenAlex authormetrics
 
 ```python
 def openalex_search(query, entity_type="works", max_results=50,
-                     filters=None):
-    """
-    OpenAlex API 検索 (250M+ works, 90M+ authors)。
+ filters=None):
+ """
+ OpenAlex API search (250M+ works, 90M+ authors)。
 
-    Parameters:
-        query: str — 検索クエリ
-        entity_type: "works", "authors", "institutions", "concepts"
-        filters: dict — OpenAlex フィルタ (e.g., {"from_publication_date": "2020-01-01"})
-    """
-    base = "https://api.openalex.org"
-    url = f"{base}/{entity_type}"
+ Parameters:
+ query: str — search query
+ entity_type: "works", "authors", "institutions", "concepts"
+ filters: dict — OpenAlex filter (e.g., {"from_publication_date": "2020-01-01"})
+ """
+ base = "https://api.openalex.org"
+ url = f"{base}/{entity_type}"
 
-    params = {
-        "search": query,
-        "per-page": min(max_results, 200),
-        "mailto": "research@example.com",
-    }
-    if filters:
-        filter_parts = [f"{k}:{v}" for k, v in filters.items()]
-        params["filter"] = ",".join(filter_parts)
+ params = {
+ "search": query,
+ "per-page": min(max_results, 200),
+ "mailto": "research@example.com",
+ }
+ if filters:
+ filter_parts = [f"{k}:{v}" for k, v in filters.items]
+ params["filter"] = ",".join(filter_parts)
 
-    resp = requests.get(url, params=params)
-    data = resp.json()
+ resp = requests.get(url, params=params)
+ data = resp.json
 
-    results = data.get("results", [])
-    total = data.get("meta", {}).get("count", 0)
-    print(f"OpenAlex {entity_type}: {total} total, {len(results)} fetched")
+ results = data.get("results", [])
+ total = data.get("meta", {}).get("count", 0)
+ print(f"OpenAlex {entity_type}: {total} total, {len(results)} fetched")
 
-    if entity_type == "works":
-        return pd.DataFrame([{
-            "id": r.get("id", ""),
-            "title": r.get("title", ""),
-            "year": r.get("publication_year"),
-            "citations": r.get("cited_by_count", 0),
-            "doi": r.get("doi", ""),
-            "type": r.get("type", ""),
-            "open_access": r.get("open_access", {}).get("is_oa", False),
-        } for r in results])
-    elif entity_type == "authors":
-        return pd.DataFrame([{
-            "id": r.get("id", ""),
-            "name": r.get("display_name", ""),
-            "works_count": r.get("works_count", 0),
-            "citations": r.get("cited_by_count", 0),
-            "h_index": r.get("summary_stats", {}).get("h_index", 0),
-            "institution": (r.get("last_known_institutions") or [{}])[0].get(
-                "display_name", "") if r.get("last_known_institutions") else "",
-        } for r in results])
+ if entity_type == "works":
+ return pd.DataFrame([{
+ "id": r.get("id", ""),
+ "title": r.get("title", ""),
+ "year": r.get("publication_year"),
+ "citations": r.get("cited_by_count", 0),
+ "doi": r.get("doi", ""),
+ "type": r.get("type", ""),
+ "open_access": r.get("open_access", {}).get("is_oa", False),
+ } for r in results])
+ elif entity_type == "authors":
+ return pd.DataFrame([{
+ "id": r.get("id", ""),
+ "name": r.get("display_name", ""),
+ "works_count": r.get("works_count", 0),
+ "citations": r.get("cited_by_count", 0),
+ "h_index": r.get("summary_stats", {}).get("h_index", 0),
+ "institution": (r.get("last_known_institutions") or [{}])[0].get(
+ "display_name", "") if r.get("last_known_institutions") else "",
+ } for r in results])
 
-    return results
+ return results
 ```
 
-## 4. EuropePMC 全文検索
+## 4. EuropePMC allsearch
 
 ```python
 def europepmc_search(query, max_results=50, source="MED",
-                      open_access_only=False):
-    """
-    EuropePMC REST API 検索 (39M+ records)。
+ open_access_only=False):
+ """
+ EuropePMC REST API search (39M+ records)。
 
-    Parameters:
-        query: str — 検索クエリ
-        source: "MED" (PubMed), "PMC" (PubMed Central), "AGR", "CBA"
-        open_access_only: True でオープンアクセスのみ
-    """
-    url = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
+ Parameters:
+ query: str — search query
+ source: "MED" (PubMed), "PMC" (PubMed Central), "AGR", "CBA"
+ open_access_only: True 's
+ """
+ url = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 
-    q = query
-    if open_access_only:
-        q += " AND OPEN_ACCESS:y"
+ q = query
+ if open_access_only:
+ q += " AND OPEN_ACCESS:y"
 
-    params = {
-        "query": q,
-        "resultType": "core",
-        "pageSize": min(max_results, 100),
-        "format": "json",
-        "src": source,
-    }
+ params = {
+ "query": q,
+ "resultType": "core",
+ "pageSize": min(max_results, 100),
+ "format": "json",
+ "src": source,
+ }
 
-    resp = requests.get(url, params=params)
-    data = resp.json()
-    results = data.get("resultList", {}).get("result", [])
-    total = data.get("hitCount", 0)
+ resp = requests.get(url, params=params)
+ data = resp.json
+ results = data.get("resultList", {}).get("result", [])
+ total = data.get("hitCount", 0)
 
-    articles = []
-    for r in results:
-        articles.append({
-            "pmid": r.get("pmid", ""),
-            "pmcid": r.get("pmcid", ""),
-            "title": r.get("title", ""),
-            "journal": r.get("journalTitle", ""),
-            "year": r.get("pubYear", ""),
-            "citations": r.get("citedByCount", 0),
-            "has_fulltext": r.get("hasTextMinedTerms", "N") == "Y",
-            "is_open_access": r.get("isOpenAccess", "N") == "Y",
-        })
+ articles = []
+ for r in results:
+ articles.append({
+ "pmid": r.get("pmid", ""),
+ "pmcid": r.get("pmcid", ""),
+ "title": r.get("title", ""),
+ "journal": r.get("journalTitle", ""),
+ "year": r.get("pubYear", ""),
+ "citations": r.get("citedByCount", 0),
+ "has_fulltext": r.get("hasTextMinedTerms", "N") == "Y",
+ "is_open_access": r.get("isOpenAccess", "N") == "Y",
+ })
 
-    df = pd.DataFrame(articles)
-    print(f"EuropePMC: {total} total, {len(df)} fetched")
-    return df
+ df = pd.DataFrame(articles)
+ print(f"EuropePMC: {total} total, {len(df)} fetched")
+ return df
 ```
 
-## 5. CrossRef メタデータ取得
+## 5. CrossRef Data Retrieval
 
 ```python
 def crossref_search(query, max_results=50, filter_type=None,
-                     from_date=None, sort="relevance"):
-    """
-    CrossRef REST API 検索 (DOI メタデータ)。
+ from_date=None, sort="relevance"):
+ """
+ CrossRef REST API search (DOI data)。
 
-    Parameters:
-        query: str — 検索クエリ
-        filter_type: str — DOI タイプフィルタ ("journal-article", "book-chapter")
-        from_date: str — "YYYY-MM-DD"
-        sort: "relevance", "published", "is-referenced-by-count"
-    """
-    url = "https://api.crossref.org/works"
-    params = {
-        "query": query,
-        "rows": min(max_results, 100),
-        "sort": sort,
-        "mailto": "research@example.com",
-    }
+ Parameters:
+ query: str — search query
+ filter_type: str — DOI filter ("journal-article", "book-chapter")
+ from_date: str — "YYYY-MM-DD"
+ sort: "relevance", "published", "is-referenced-by-count"
+ """
+ url = "https://api.crossref.org/works"
+ params = {
+ "query": query,
+ "rows": min(max_results, 100),
+ "sort": sort,
+ "mailto": "research@example.com",
+ }
 
-    filters = []
-    if filter_type:
-        filters.append(f"type:{filter_type}")
-    if from_date:
-        filters.append(f"from-pub-date:{from_date}")
-    if filters:
-        params["filter"] = ",".join(filters)
+ filters = []
+ if filter_type:
+ filters.append(f"type:{filter_type}")
+ if from_date:
+ filters.append(f"from-pub-date:{from_date}")
+ if filters:
+ params["filter"] = ",".join(filters)
 
-    resp = requests.get(url, params=params)
-    data = resp.json()
-    items = data.get("message", {}).get("items", [])
-    total = data.get("message", {}).get("total-results", 0)
+ resp = requests.get(url, params=params)
+ data = resp.json
+ items = data.get("message", {}).get("items", [])
+ total = data.get("message", {}).get("total-results", 0)
 
-    results = []
-    for item in items:
-        title = item.get("title", [""])[0] if item.get("title") else ""
-        results.append({
-            "doi": item.get("DOI", ""),
-            "title": title,
-            "journal": item.get("container-title", [""])[0] if item.get("container-title") else "",
-            "year": item.get("published", {}).get("date-parts", [[None]])[0][0],
-            "citations": item.get("is-referenced-by-count", 0),
-            "type": item.get("type", ""),
-            "publisher": item.get("publisher", ""),
-        })
+ results = []
+ for item in items:
+ title = item.get("title", [""])[0] if item.get("title") else ""
+ results.append({
+ "doi": item.get("DOI", ""),
+ "title": title,
+ "journal": item.get("container-title", [""])[0] if item.get("container-title") else "",
+ "year": item.get("published", {}).get("date-parts", [[None]])[0][0],
+ "citations": item.get("is-referenced-by-count", 0),
+ "type": item.get("type", ""),
+ "publisher": item.get("publisher", ""),
+ })
 
-    df = pd.DataFrame(results)
-    print(f"CrossRef: {total} total, {len(df)} fetched")
-    return df
+ df = pd.DataFrame(results)
+ print(f"CrossRef: {total} total, {len(df)} fetched")
+ return df
 ```
 
-## 6. 引用ネットワーク構築
+## 6. citationnetworkconstruction
 
 ```python
 def build_citation_network(seed_pmids, depth=1, max_per_level=20):
-    """
-    PubMed 論文の引用/被引用ネットワーク構築。
+ """
+ PubMed paper's citation/citationnetworkconstruction。
 
-    Parameters:
-        seed_pmids: list — 起点となる PMID リスト
-        depth: int — 探索深度 (1=直接引用のみ)
-        max_per_level: int — 各レベルの最大ノード数
-    """
-    import networkx as nx
+ Parameters:
+ seed_pmids: list — point and PMID list
+ depth: int — search/explorationdegree (1=citation's)
+ max_per_level: int — each's nodenumber/count
+ """
+ import networkx as nx
 
-    G = nx.DiGraph()
-    visited = set()
-    current_level = set(seed_pmids)
+ G = nx.DiGraph
+ visited = set
+ current_level = set(seed_pmids)
 
-    for level in range(depth + 1):
-        next_level = set()
-        for pmid in list(current_level)[:max_per_level]:
-            if pmid in visited:
-                continue
-            visited.add(pmid)
-            G.add_node(pmid, level=level, is_seed=(level == 0))
+ for level in range(depth + 1):
+ next_level = set
+ for pmid in list(current_level)[:max_per_level]:
+ if pmid in visited:
+ continue
+ visited.add(pmid)
+ G.add_node(pmid, level=level, is_seed=(level == 0))
 
-            # elink で引用関係取得
-            time.sleep(0.4)
-            url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi"
-            params = {
-                "dbfrom": "pubmed", "db": "pubmed",
-                "id": pmid, "linkname": "pubmed_pubmed_citedin",
-                "retmode": "json",
-            }
-            try:
-                resp = requests.get(url, params=params)
-                data = resp.json()
-                links = data.get("linksets", [{}])[0].get("linksetdbs", [])
-                if links:
-                    cited_by = [l["id"] for l in links[0].get("links", [])[:max_per_level]]
-                    for citing in cited_by:
-                        G.add_edge(citing, pmid)
-                        next_level.add(citing)
-            except Exception:
-                continue
+ # elink citationretrieval
+ time.sleep(0.4)
+ url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi"
+ params = {
+ "dbfrom": "pubmed", "db": "pubmed",
+ "id": pmid, "linkname": "pubmed_pubmed_citedin",
+ "retmode": "json",
+ }
+ try:
+ resp = requests.get(url, params=params)
+ data = resp.json
+ links = data.get("linksets", [{}])[0].get("linksetdbs", [])
+ if links:
+ cited_by = [l["id"] for l in links[0].get("links", [])[:max_per_level]]
+ for citing in cited_by:
+ G.add_edge(citing, pmid)
+ next_level.add(citing)
+ except Exception:
+ continue
 
-        current_level = next_level - visited
+ current_level = next_level - visited
 
-    print(f"Citation network: {G.number_of_nodes()} nodes, "
-          f"{G.number_of_edges()} edges, depth={depth}")
-    return G
+ print(f"Citation network: {G.number_of_nodes} nodes, "
+ f"{G.number_of_edges} edges, depth={depth}")
+ return G
 ```
 
 ## References
 
 ### Output Files
 
-| ファイル | 形式 |
+| File | Format |
 |---|---|
 | `results/pubmed_search.csv` | CSV |
 | `results/semantic_scholar_results.csv` | CSV |
@@ -389,52 +389,52 @@ def build_citation_network(seed_pmids, depth=1, max_per_level=20):
 
 ### Available Tools
 
-> [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
+> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
 
-| カテゴリ | 主要ツール | 用途 |
+| Category | Key Tools | Usage |
 |---|---|---|
-| PubMed | `PubMed_search_articles` | PubMed 論文検索 |
-| PubMed | `PubMed_get_article` | 論文詳細取得 |
-| PubMed | `PubMed_get_cited_by` | 被引用論文取得 |
-| PubMed | `PubMed_get_related` | 関連論文検索 |
-| PubMed | `PubMed_get_links` | 関連リンク取得 |
-| PubMed | `PubMed_Guidelines_Search` | ガイドライン検索 |
-| EuropePMC | `EuropePMC_search_articles` | EuropePMC 検索 |
-| EuropePMC | `EuropePMC_get_article` | 記事詳細取得 |
-| EuropePMC | `EuropePMC_get_references` | 参考文献取得 |
-| EuropePMC | `EuropePMC_get_citations` | 引用取得 |
-| EuropePMC | `EuropePMC_get_fulltext` | 全文取得 |
-| EuropePMC | `EuropePMC_get_fulltext_snippets` | 全文スニペット |
-| EuropePMC | `EuropePMC_Guidelines_Search` | ガイドライン検索 |
-| Semantic Scholar | `SemanticScholar_search_papers` | セマンティック論文検索 |
-| Semantic Scholar | `SemanticScholar_get_pdf_snippets` | PDF スニペット |
-| OpenAlex | `openalex_literature_search` | 文献検索 |
-| OpenAlex | `openalex_get_work` | 論文詳細 |
-| OpenAlex | `openalex_get_work_by_doi` | DOI → 論文 |
-| OpenAlex | `openalex_search_works` | 論文検索 (REST) |
-| OpenAlex | `openalex_get_author` | 著者詳細 |
-| OpenAlex | `openalex_search_authors` | 著者検索 |
-| OpenAlex | `openalex_get_institution` | 機関詳細 |
-| OpenAlex | `openalex_search_institutions` | 機関検索 |
-| CrossRef | `Crossref_search_works` | DOI メタデータ検索 |
-| CrossRef | `Crossref_get_work` | 論文メタデータ取得 |
-| CrossRef | `Crossref_get_funder` | 助成機関情報 |
-| CrossRef | `Crossref_get_journal` | ジャーナル情報 |
-| CrossRef | `Crossref_list_funders` | 助成機関一覧 |
-| CrossRef | `Crossref_list_types` | 出版タイプ一覧 |
+| PubMed | `PubMed_search_articles` | PubMed papersearch |
+| PubMed | `PubMed_get_article` | paperdetailsretrieval |
+| PubMed | `PubMed_get_cited_by` | cited-by article retrieval |
+| PubMed | `PubMed_get_related` | papersearch |
+| PubMed | `PubMed_get_links` | retrieval |
+| PubMed | `PubMed_Guidelines_Search` | guideline search |
+| EuropePMC | `EuropePMC_search_articles` | EuropePMC search |
+| EuropePMC | `EuropePMC_get_article` | detailsretrieval |
+| EuropePMC | `EuropePMC_get_references` | referenceliteratureretrieval |
+| EuropePMC | `EuropePMC_get_citations` | citationretrieval |
+| EuropePMC | `EuropePMC_get_fulltext` | allretrieval |
+| EuropePMC | `EuropePMC_get_fulltext_snippets` | all |
+| EuropePMC | `EuropePMC_Guidelines_Search` | guideline search |
+| Semantic Scholar | `SemanticScholar_search_papers` | papersearch |
+| Semantic Scholar | `SemanticScholar_get_pdf_snippets` | PDF |
+| OpenAlex | `openalex_literature_search` | literaturesearch |
+| OpenAlex | `openalex_get_work` | paperdetails |
+| OpenAlex | `openalex_get_work_by_doi` | DOI → paper |
+| OpenAlex | `openalex_search_works` | papersearch (REST) |
+| OpenAlex | `openalex_get_author` | authordetails |
+| OpenAlex | `openalex_search_authors` | authorsearch |
+| OpenAlex | `openalex_get_institution` | details |
+| OpenAlex | `openalex_search_institutions` | search |
+| CrossRef | `Crossref_search_works` | DOI datasearch |
+| CrossRef | `Crossref_get_work` | article metadata retrieval |
+| CrossRef | `Crossref_get_funder` | information |
+| CrossRef | `Crossref_get_journal` | information |
+| CrossRef | `Crossref_list_funders` | list |
+| CrossRef | `Crossref_list_types` | publicationlist |
 
 ### Related Skills
 
-| スキル | 関連 |
+| Skill | Relationship |
 |---|---|
-| `scientific-deep-research` | 文献検索 → 深層リサーチ |
-| `scientific-citation-checker` | 引用検証連携 |
-| `scientific-systematic-review` | 系統的検索戦略 |
-| `scientific-meta-analysis` | メタアナリシス文献収集 |
-| `scientific-academic-writing` | 関連文献の自動発見 |
-| `scientific-text-mining-nlp` | 抽出テキストの NLP 解析 |
+| `scientific-deep-research` | literaturesearch → |
+| `scientific-citation-checker` | citationverificationintegration |
+| `scientific-systematic-review` | phylogenysearch |
+| `scientific-meta-analysis` | literature |
+| `scientific-academic-writing` | literature's automated |
+| `scientific-text-mining-nlp` | extraction's NLP analysis |
 
-### 依存パッケージ
+### Dependencies
 
 `requests`, `pandas`, `networkx`, `xml.etree.ElementTree` (stdlib)
 
@@ -443,15 +443,15 @@ def build_citation_network(seed_pmids, depth=1, max_per_level=20):
 ## Verification Loop (v0.3.0)
 
 ```
-PLAN   → define scope, inputs, expected outputs
+PLAN → define scope, inputs, expected outputs
 EXECUTE → run analysis pipeline
-VERIFY  → check outputs against quality gates
-REPORT  → save all artifacts, generate report.md
+VERIFY → check outputs against quality gates
+REPORT → save all artifacts, generate report.md
 ```
 
 ### Quality Gates
 
-- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures saved to `figures/` (not plt.show)
 - [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
 - [ ] Numeric results saved as JSON/CSV in `results/`
 - [ ] Report includes methods, results, and discussion

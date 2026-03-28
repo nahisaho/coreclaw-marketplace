@@ -1,434 +1,434 @@
 ---
 name: scientific-supplementary-generator
 description: |
-  Supplementary materials generator skill. Supplementary data preparation, extended methods writing, supplementary table/figure organization, and SI document formatting.
+ Supplementary materials generator skill. Supplementary data preparation, extended methods writing, supplementary table/figure organization, and SI document formatting.
 tu_tools:
-  - key: crossref
-    name: Crossref
-    description: 補足資料の引用メタデータ参照
+ - key: crossref
+ name: Crossref
+ description: 's citationdatareference
 ---
 
 # Scientific Supplementary Information Generator
 
-学術論文の Supplementary Information (SI) を解析結果・本文原稿から自動生成するスキル。
-ジャーナル別の SI 規定に準拠し、Figure S / Table S / Methods S の番号管理、
-本文からの参照整合性チェック、独立した引用リストの管理を行う。
+paper's Supplementary Information (SI) analysisresultspapersfromautomatedgeneratesskill。
+'s SI 、Figure S / Table S / Methods S 's number、
+papersfrom'sreferenceconsistency check、citation's is performed。
 
 ## When to Use
 
-- 論文本文の完成後、Supplementary Information を作成するとき
-- 本文に収まらない追加図表・手法・データを整理するとき
-- ジャーナルの SI フォーマット規定に合わせる必要があるとき
-- 本文と SI 間の相互参照（Figure S1, Table S1 等）の整合性を確保したいとき
-- レビュアーから追加データの提示を求められたとき
+- paperpapers's 、Supplementary Information is createdand
+- papers additionfigures/tablesmethoddatawhen needed
+- 's SI necessary and
+- papers and SI 's phasereference（Figure S1, Table S1 ）'swhen needed
+- fromadditiondata's and
 
 ## Quick Start
 
-## 1. SI 生成ワークフロー
+## 1. SI generationworkflow
 
 ```
-本文原稿 (manuscript.md) + 解析結果 (results/, figures/)
-  ├─ Phase 1: SI 候補の収集
-  │   ├─ 本文から参照されている Figure S / Table S を抽出
-  │   ├─ figures/ 内で本文未使用の図を検出
-  │   ├─ results/ 内の詳細データ（中間結果等）を候補に追加
-  │   └─ Methods の詳細手順で本文に載せきれないものを特定
-  ├─ Phase 2: SI ドキュメント構成
-  │   ├─ Supplementary Figures セクション
-  │   ├─ Supplementary Tables セクション
-  │   ├─ Supplementary Methods セクション
-  │   └─ Supplementary References セクション
-  ├─ Phase 3: 番号体系・参照整合性チェック
-  │   ├─ Figure S1, S2, ... の連番確認
-  │   ├─ 本文中の "Figure S1" 参照が SI 内に存在するか検証
-  │   └─ SI 内の図表が本文から参照されているか検証
-  └─ Phase 4: ファイル保存
-      ├─ manuscript/supplementary.md
-      ├─ manuscript/supplementary_figures/ (必要に応じてコピー)
-      └─ manuscript/si_crossref_report.json
+papers (manuscript.md) + analysisresults (results/, figures/)
+ ├─ Phase 1: SI 's
+ │ ├─ papersfromreference Figure S / Table S extraction
+ │ ├─ figures/ papersfor's figure
+ │ ├─ results/ 'sdetailsdata（results）addition
+ │ └─ Methods 's detailsprocedure papers also 's
+ ├─ Phase 2: SI configuration
+ │ ├─ Supplementary Figures 
+ │ ├─ Supplementary Tables 
+ │ ├─ Supplementary Methods 
+ │ └─ Supplementary References 
+ ├─ Phase 3: numbersystemreferenceconsistency check
+ │ ├─ Figure S1, S2,... 'sverification
+ │ ├─ papers's "Figure S1" reference SI verification
+ │ └─ SI 'sfigures/tablespapersfromreferenceverification
+ └─ Phase 4: filesave
+ ├─ manuscript/supplementary.md
+ ├─ manuscript/supplementary_figures/ (necessary)
+ └─ manuscript/si_crossref_report.json
 ```
 
-## 2. ジャーナル別 SI 規定
+## 2. SI 
 
 ```markdown
-## ジャーナル別 SI フォーマット
+## SI 
 
-| ジャーナル | SI タイトル | 図番号形式 | 表番号形式 | 独立ファイル |
+| | SI title | figurenumbershapeformula | tablenumbershapeformula | file |
 |---|---|---|---|---|
-| Nature 系 | Supplementary Information | Supplementary Fig. 1 | Supplementary Table 1 | 単一 PDF |
-| Science 系 | Supplementary Materials | fig. S1 | table S1 | 単一 PDF |
-| ACS 系 | Supporting Information | Figure S1 | Table S1 | 単一 PDF |
-| IEEE 系 | Supplementary Material | Fig. S1 | TABLE S-I | 別ファイル可 |
-| Elsevier 系 | Appendix A / Supplementary data | Fig. A.1 | Table A.1 | Appendix 形式 |
+| Nature system | Supplementary Information | Supplementary Fig. 1 | Supplementary Table 1 | single PDF |
+| Science system | Supplementary Materials | fig. S1 | table S1 | single PDF |
+| ACS system | Supporting Information | Figure S1 | Table S1 | single PDF |
+| IEEE system | Supplementary Material | Fig. S1 | TABLE S-I | file |
+| Elsevier system | Appendix A / Supplementary data | Fig. A.1 | Table A.1 | Appendix shapeformula |
 ```
 
-## 3. SI 候補の自動収集
+## 3. SI 's automated
 
 ```python
 def collect_si_candidates(manuscript_path, figures_dir, results_dir):
-    """
-    本文原稿と解析結果ディレクトリから SI 候補を自動収集する。
+ """
+ papers and analysisresultsdirectoryfrom SI automated.
 
-    Args:
-        manuscript_path: Path — 本文原稿 (manuscript.md)
-        figures_dir: Path — figures/ ディレクトリ
-        results_dir: Path — results/ ディレクトリ
+ Args:
+ manuscript_path: Path — papers (manuscript.md)
+ figures_dir: Path — figures/ directory
+ results_dir: Path — results/ directory
 
-    Returns:
-        dict: SI 候補のカテゴリ別リスト
-    """
-    import re
-    from pathlib import Path
+ Returns:
+ dict: SI 's
+ """
+ import re
+ from pathlib import Path
 
-    # 本文を読み込み
-    with open(manuscript_path, "r", encoding="utf-8") as f:
-        manuscript_text = f.read()
+ # papersload
+ with open(manuscript_path, "r", encoding="utf-8") as f:
+ manuscript_text = f.read
 
-    # 本文中の Figure 参照を抽出
-    main_figs = set(re.findall(
-        r'!\[(?:Fig(?:ure)?\.?\s*\d+)\]\(figures/([^)]+)\)', manuscript_text
-    ))
+ # papers's Figure reference extraction
+ main_figs = set(re.findall(
+ r'!\[(?:Fig(?:ure)?\.?\s*\d+)\]\(figures/([^)]+)\)', manuscript_text
+ ))
 
-    # 本文中の SI 参照を抽出
-    si_refs = re.findall(
-        r'(?:Figure|Fig\.?|Table|Supplementary\s+(?:Fig|Table))\s*S(\d+)',
-        manuscript_text, re.IGNORECASE
-    )
+ # papers's SI reference extraction
+ si_refs = re.findall(
+ r'(?:Figure|Fig\.?|Table|Supplementary\s+(?:Fig|Table))\s*S(\d+)',
+ manuscript_text, re.IGNORECASE
+ )
 
-    # figures/ 内の全画像ファイル
-    all_figs = set()
-    if figures_dir.exists():
-        all_figs = {
-            f.name for f in figures_dir.iterdir()
-            if f.suffix.lower() in ('.png', '.svg', '.pdf', '.jpg', '.jpeg')
-        }
+ # figures/ 's allfile
+ all_figs = set
+ if figures_dir.exists:
+ all_figs = {
+ f.name for f in figures_dir.iterdir
+ if f.suffix.lower in ('.png', '.svg', '.pdf', '.jpg', '.jpeg')
+ }
 
-    # 本文未使用の図 → SI 候補
-    unused_figs = all_figs - main_figs
+ # papersfor'sfigure → SI 
+ unused_figs = all_figs - main_figs
 
-    # results/ 内の詳細データ
-    detail_data = []
-    if results_dir.exists():
-        for f in results_dir.iterdir():
-            if f.suffix == '.csv' and f.name not in ('analysis_summary.json',):
-                detail_data.append(f.name)
+ # results/ 'sdetailsdata
+ detail_data = []
+ if results_dir.exists:
+ for f in results_dir.iterdir:
+ if f.suffix == '.csv' and f.name not in ('analysis_summary.json',):
+ detail_data.append(f.name)
 
-    candidates = {
-        "supplementary_figures": sorted(unused_figs),
-        "supplementary_tables": detail_data,
-        "si_references_in_main": sorted(set(si_refs)),
-        "main_figures": sorted(main_figs),
-    }
+ candidates = {
+ "supplementary_figures": sorted(unused_figs),
+ "supplementary_tables": detail_data,
+ "si_references_in_main": sorted(set(si_refs)),
+ "main_figures": sorted(main_figs),
+ }
 
-    print(f"  SI 候補:")
-    print(f"    補足図: {len(candidates['supplementary_figures'])} 件")
-    print(f"    補足表: {len(candidates['supplementary_tables'])} 件")
-    print(f"    本文中の SI 参照: {len(candidates['si_references_in_main'])} 件")
+ print(f" SI :")
+ print(f" figure: {len(candidates['supplementary_figures'])} items")
+ print(f" table: {len(candidates['supplementary_tables'])} items")
+ print(f" papers's SI reference: {len(candidates['si_references_in_main'])} items")
 
-    return candidates
+ return candidates
 ```
 
-## 4. SI ドキュメント生成
+## 4. SI generation
 
 ```python
 def generate_supplementary(candidates, journal_format="imrad",
-                            title="", authors="", filepath=None):
-    """
-    SI ドキュメントを Markdown として生成・保存する。
+ title="", authors="", filepath=None):
+ """
+ SI Markdown asgenerationsave.
 
-    Args:
-        candidates: dict — collect_si_candidates() の戻り値
-        journal_format: str — ジャーナル形式 (nature/science/acs/ieee/elsevier/imrad)
-        title: str — 論文タイトル
-        authors: str — 著者リスト
-        filepath: Path — 出力先（デフォルト: manuscript/supplementary.md）
-    """
-    import datetime
-    from pathlib import Path
+ Args:
+ candidates: dict — collect_si_candidates 's value
+ journal_format: str — journal format (nature/science/acs/ieee/elsevier/imrad)
+ title: str — papertitle
+ authors: str — author
+ filepath: Path — output destination（: manuscript/supplementary.md）
+ """
+ import datetime
+ from pathlib import Path
 
-    if filepath is None:
-        filepath = BASE_DIR / "manuscript" / "supplementary.md"
-    filepath.parent.mkdir(parents=True, exist_ok=True)
+ if filepath is None:
+ filepath = BASE_DIR / "manuscript" / "supplementary.md"
+ filepath.parent.mkdir(parents=True, exist_ok=True)
 
-    # ジャーナル別フォーマット設定
-    fmt = _get_si_format(journal_format)
+ # settings
+ fmt = _get_si_format(journal_format)
 
-    content = f"""# {fmt['title_prefix']}
+ content = f"""# {fmt['title_prefix']}
 # {title}
 
 {authors}
 
-> Generated: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}
+> Generated: {datetime.datetime.now.strftime('%Y-%m-%d %H:%M')}
 
 """
 
-    # Supplementary Figures
-    sup_figs = candidates.get("supplementary_figures", [])
-    if sup_figs:
-        content += f"## {fmt['fig_section_title']}\n\n"
-        for i, fig_name in enumerate(sup_figs, 1):
-            fig_label = fmt['fig_prefix'].format(n=i)
-            content += f"![{fig_label}](figures/{fig_name})\n\n"
-            content += f"**{fig_label}.** [キャプション: {fig_name} の説明を記入]\n\n"
+ # Supplementary Figures
+ sup_figs = candidates.get("supplementary_figures", [])
+ if sup_figs:
+ content += f"## {fmt['fig_section_title']}\n\n"
+ for i, fig_name in enumerate(sup_figs, 1):
+ fig_label = fmt['fig_prefix'].format(n=i)
+ content += f"![{fig_label}](figures/{fig_name})\n\n"
+ content += f"**{fig_label}.** [: {fig_name} 's]\n\n"
 
-    # Supplementary Tables
-    sup_tables = candidates.get("supplementary_tables", [])
-    if sup_tables:
-        content += f"## {fmt['table_section_title']}\n\n"
-        for i, table_name in enumerate(sup_tables, 1):
-            table_label = fmt['table_prefix'].format(n=i)
-            content += f"**{table_label}.** [キャプション: {table_name} の説明]\n\n"
-            content += f"データソース: `results/{table_name}`\n\n"
+ # Supplementary Tables
+ sup_tables = candidates.get("supplementary_tables", [])
+ if sup_tables:
+ content += f"## {fmt['table_section_title']}\n\n"
+ for i, table_name in enumerate(sup_tables, 1):
+ table_label = fmt['table_prefix'].format(n=i)
+ content += f"**{table_label}.** [: {table_name} 's]\n\n"
+ content += f"data: `results/{table_name}`\n\n"
 
-    # Supplementary Methods
-    content += f"""## {fmt['methods_section_title']}
+ # Supplementary Methods
+ content += f"""## {fmt['methods_section_title']}
 
-### S1. [追加実験手法の詳細]
+### S1. [additionexperimentmethod'sdetails]
 
-[本文 Methods に収まらなかった詳細手順を記述]
+[papers Methods detailsprocedure]
 
-### S2. [追加解析手法の詳細]
+### S2. [additionanalysismethod'sdetails]
 
-[パラメータ設定、アルゴリズムの詳細、コード等]
-
-"""
-
-    # Supplementary References
-    content += f"""## {fmt['refs_section_title']}
-
-[SI 内でのみ引用した文献をここに記載]
+[parameterssettings、'sdetails、]
 
 """
 
-    with open(filepath, "w", encoding="utf-8") as f:
-        f.write(content)
+ # Supplementary References
+ content += f"""## {fmt['refs_section_title']}
 
-    print(f"  → SI ドキュメントを保存: {filepath}")
-    return filepath
+[SI 's citationliterature]
+
+"""
+
+ with open(filepath, "w", encoding="utf-8") as f:
+ f.write(content)
+
+ print(f" → SI save: {filepath}")
+ return filepath
 
 
 def _get_si_format(journal_format):
-    """ジャーナル別の SI フォーマット設定を返す。"""
-    formats = {
-        "nature": {
-            "title_prefix": "Supplementary Information for:",
-            "fig_section_title": "Supplementary Figures",
-            "table_section_title": "Supplementary Tables",
-            "methods_section_title": "Supplementary Methods",
-            "refs_section_title": "Supplementary References",
-            "fig_prefix": "Supplementary Fig. {n}",
-            "table_prefix": "Supplementary Table {n}",
-        },
-        "science": {
-            "title_prefix": "Supplementary Materials for:",
-            "fig_section_title": "Supplementary Figures",
-            "table_section_title": "Supplementary Tables",
-            "methods_section_title": "Materials and Methods",
-            "refs_section_title": "References",
-            "fig_prefix": "fig. S{n}",
-            "table_prefix": "table S{n}",
-        },
-        "acs": {
-            "title_prefix": "Supporting Information for:",
-            "fig_section_title": "Supporting Figures",
-            "table_section_title": "Supporting Tables",
-            "methods_section_title": "Supporting Methods",
-            "refs_section_title": "Supporting References",
-            "fig_prefix": "Figure S{n}",
-            "table_prefix": "Table S{n}",
-        },
-        "ieee": {
-            "title_prefix": "Supplementary Material for:",
-            "fig_section_title": "Supplementary Figures",
-            "table_section_title": "Supplementary Tables",
-            "methods_section_title": "Supplementary Methods",
-            "refs_section_title": "Supplementary References",
-            "fig_prefix": "Fig. S{n}",
-            "table_prefix": "TABLE S-{n}",
-        },
-        "elsevier": {
-            "title_prefix": "Appendix A. Supplementary data for:",
-            "fig_section_title": "Supplementary Figures",
-            "table_section_title": "Supplementary Tables",
-            "methods_section_title": "Supplementary Methods",
-            "refs_section_title": "References",
-            "fig_prefix": "Fig. A.{n}",
-            "table_prefix": "Table A.{n}",
-        },
-    }
-    return formats.get(journal_format, formats.get("acs"))  # デフォルト ACS
+ """'s SI settings is returned。"""
+ formats = {
+ "nature": {
+ "title_prefix": "Supplementary Information for:",
+ "fig_section_title": "Supplementary Figures",
+ "table_section_title": "Supplementary Tables",
+ "methods_section_title": "Supplementary Methods",
+ "refs_section_title": "Supplementary References",
+ "fig_prefix": "Supplementary Fig. {n}",
+ "table_prefix": "Supplementary Table {n}",
+ },
+ "science": {
+ "title_prefix": "Supplementary Materials for:",
+ "fig_section_title": "Supplementary Figures",
+ "table_section_title": "Supplementary Tables",
+ "methods_section_title": "Materials and Methods",
+ "refs_section_title": "References",
+ "fig_prefix": "fig. S{n}",
+ "table_prefix": "table S{n}",
+ },
+ "acs": {
+ "title_prefix": "Supporting Information for:",
+ "fig_section_title": "Supporting Figures",
+ "table_section_title": "Supporting Tables",
+ "methods_section_title": "Supporting Methods",
+ "refs_section_title": "Supporting References",
+ "fig_prefix": "Figure S{n}",
+ "table_prefix": "Table S{n}",
+ },
+ "ieee": {
+ "title_prefix": "Supplementary Material for:",
+ "fig_section_title": "Supplementary Figures",
+ "table_section_title": "Supplementary Tables",
+ "methods_section_title": "Supplementary Methods",
+ "refs_section_title": "Supplementary References",
+ "fig_prefix": "Fig. S{n}",
+ "table_prefix": "TABLE S-{n}",
+ },
+ "elsevier": {
+ "title_prefix": "Appendix A. Supplementary data for:",
+ "fig_section_title": "Supplementary Figures",
+ "table_section_title": "Supplementary Tables",
+ "methods_section_title": "Supplementary Methods",
+ "refs_section_title": "References",
+ "fig_prefix": "Fig. A.{n}",
+ "table_prefix": "Table A.{n}",
+ },
+ }
+ return formats.get(journal_format, formats.get("acs")) # ACS
 ```
 
-## 5. 本文–SI 間の相互参照チェック
+## 5. papers–SI 's phasereference
 
 ```python
 def check_si_crossrefs(manuscript_path, si_path, filepath=None):
-    """
-    本文と SI 間の相互参照整合性を検証する。
+ """
+ papers and SI 's phasereferenceverification.
 
-    チェック内容:
-    - 本文中の "Figure S1" 参照が SI 内に存在するか
-    - SI 内の Figure S / Table S が本文から参照されているか（孤立チェック）
-    - 番号の連続性 (S1, S2, S3... に欠番がないか)
+ content:
+ - papers's "Figure S1" reference SI 
+ - SI 's Figure S / Table S papersfromreference（）
+ - number's (S1, S2, S3... )
 
-    Returns:
-        dict: 検証結果
-    """
-    import re, json, datetime
-    from pathlib import Path
+ Returns:
+ dict: verificationresults
+ """
+ import re, json, datetime
+ from pathlib import Path
 
-    with open(manuscript_path, "r", encoding="utf-8") as f:
-        main_text = f.read()
-    with open(si_path, "r", encoding="utf-8") as f:
-        si_text = f.read()
+ with open(manuscript_path, "r", encoding="utf-8") as f:
+ main_text = f.read
+ with open(si_path, "r", encoding="utf-8") as f:
+ si_text = f.read
 
-    # 本文中の SI 参照を抽出
-    main_fig_refs = set(re.findall(
-        r'(?:Supplementary\s+)?(?:Fig(?:ure)?\.?\s*S|fig\.\s*S)(\d+)',
-        main_text, re.IGNORECASE
-    ))
-    main_table_refs = set(re.findall(
-        r'(?:Supplementary\s+)?(?:Table\s*S|table\s*S)[\-]?(\d+)',
-        main_text, re.IGNORECASE
-    ))
+ # papers's SI reference extraction
+ main_fig_refs = set(re.findall(
+ r'(?:Supplementary\s+)?(?:Fig(?:ure)?\.?\s*S|fig\.\s*S)(\d+)',
+ main_text, re.IGNORECASE
+ ))
+ main_table_refs = set(re.findall(
+ r'(?:Supplementary\s+)?(?:Table\s*S|table\s*S)[\-]?(\d+)',
+ main_text, re.IGNORECASE
+ ))
 
-    # SI 内の Figure/Table 定義を抽出
-    si_fig_defs = set(re.findall(
-        r'\*\*(?:Supplementary\s+)?(?:Fig(?:ure)?\.?\s*S?|fig\.\s*S?)(\d+)',
-        si_text, re.IGNORECASE
-    ))
-    si_table_defs = set(re.findall(
-        r'\*\*(?:Supplementary\s+)?(?:Table\s*S?|TABLE\s*S[\-]?)(\d+)',
-        si_text, re.IGNORECASE
-    ))
+ # SI 's Figure/Table definition extraction
+ si_fig_defs = set(re.findall(
+ r'\*\*(?:Supplementary\s+)?(?:Fig(?:ure)?\.?\s*S?|fig\.\s*S?)(\d+)',
+ si_text, re.IGNORECASE
+ ))
+ si_table_defs = set(re.findall(
+ r'\*\*(?:Supplementary\s+)?(?:Table\s*S?|TABLE\s*S[\-]?)(\d+)',
+ si_text, re.IGNORECASE
+ ))
 
-    # チェック
-    issues = []
+ # 
+ issues = []
 
-    # 本文で参照されているが SI に定義がない
-    missing_in_si = main_fig_refs - si_fig_defs
-    for ref in sorted(missing_in_si):
-        issues.append({
-            "type": "MISSING_IN_SI",
-            "severity": "Critical",
-            "message": f"Figure S{ref} が本文で参照されているが SI に定義がない",
-        })
+ # papers reference SI definition
+ missing_in_si = main_fig_refs - si_fig_defs
+ for ref in sorted(missing_in_si):
+ issues.append({
+ "type": "MISSING_IN_SI",
+ "severity": "Critical",
+ "message": f"Figure S{ref} papers reference SI definition",
+ })
 
-    missing_tables_in_si = main_table_refs - si_table_defs
-    for ref in sorted(missing_tables_in_si):
-        issues.append({
-            "type": "MISSING_IN_SI",
-            "severity": "Critical",
-            "message": f"Table S{ref} が本文で参照されているが SI に定義がない",
-        })
+ missing_tables_in_si = main_table_refs - si_table_defs
+ for ref in sorted(missing_tables_in_si):
+ issues.append({
+ "type": "MISSING_IN_SI",
+ "severity": "Critical",
+ "message": f"Table S{ref} papers reference SI definition",
+ })
 
-    # SI に定義があるが本文から参照されていない（孤立）
-    orphan_figs = si_fig_defs - main_fig_refs
-    for ref in sorted(orphan_figs):
-        issues.append({
-            "type": "ORPHAN_IN_SI",
-            "severity": "Minor",
-            "message": f"Figure S{ref} が SI に定義されているが本文から参照されていない",
-        })
+ # SI definition papersfromreference（）
+ orphan_figs = si_fig_defs - main_fig_refs
+ for ref in sorted(orphan_figs):
+ issues.append({
+ "type": "ORPHAN_IN_SI",
+ "severity": "Minor",
+ "message": f"Figure S{ref} SI definition papersfromreference",
+ })
 
-    orphan_tables = si_table_defs - main_table_refs
-    for ref in sorted(orphan_tables):
-        issues.append({
-            "type": "ORPHAN_IN_SI",
-            "severity": "Minor",
-            "message": f"Table S{ref} が SI に定義されているが本文から参照されていない",
-        })
+ orphan_tables = si_table_defs - main_table_refs
+ for ref in sorted(orphan_tables):
+ issues.append({
+ "type": "ORPHAN_IN_SI",
+ "severity": "Minor",
+ "message": f"Table S{ref} SI definition papersfromreference",
+ })
 
-    # 番号の連続性チェック
-    for label, nums in [("Figure S", si_fig_defs), ("Table S", si_table_defs)]:
-        if nums:
-            int_nums = sorted(int(n) for n in nums)
-            expected = list(range(1, max(int_nums) + 1))
-            gaps = set(expected) - set(int_nums)
-            for g in sorted(gaps):
-                issues.append({
-                    "type": "NUMBERING_GAP",
-                    "severity": "Major",
-                    "message": f"{label}{g} が欠番（{label}1〜{label}{max(int_nums)} の間）",
-                })
+ # number's
+ for label, nums in [("Figure S", si_fig_defs), ("Table S", si_table_defs)]:
+ if nums:
+ int_nums = sorted(int(n) for n in nums)
+ expected = list(range(1, max(int_nums) + 1))
+ gaps = set(expected) - set(int_nums)
+ for g in sorted(gaps):
+ issues.append({
+ "type": "NUMBERING_GAP",
+ "severity": "Major",
+ "message": f"{label}{g} （{label}1〜{label}{max(int_nums)} 's）",
+ })
 
-    result = {
-        "timestamp": datetime.datetime.now().isoformat(),
-        "main_fig_refs": sorted(main_fig_refs),
-        "main_table_refs": sorted(main_table_refs),
-        "si_fig_defs": sorted(si_fig_defs),
-        "si_table_defs": sorted(si_table_defs),
-        "issues": issues,
-        "status": "PASS" if not any(i["severity"] == "Critical" for i in issues) else "FAIL",
-    }
+ result = {
+ "timestamp": datetime.datetime.now.isoformat,
+ "main_fig_refs": sorted(main_fig_refs),
+ "main_table_refs": sorted(main_table_refs),
+ "si_fig_defs": sorted(si_fig_defs),
+ "si_table_defs": sorted(si_table_defs),
+ "issues": issues,
+ "status": "PASS" if not any(i["severity"] == "Critical" for i in issues) else "FAIL",
+ }
 
-    if filepath is None:
-        filepath = BASE_DIR / "manuscript" / "si_crossref_report.json"
-    filepath.parent.mkdir(parents=True, exist_ok=True)
+ if filepath is None:
+ filepath = BASE_DIR / "manuscript" / "si_crossref_report.json"
+ filepath.parent.mkdir(parents=True, exist_ok=True)
 
-    with open(filepath, "w", encoding="utf-8") as f:
-        json.dump(result, f, indent=2, ensure_ascii=False)
+ with open(filepath, "w", encoding="utf-8") as f:
+ json.dump(result, f, indent=2, ensure_ascii=False)
 
-    print(f"  → SI 相互参照チェック: {result['status']}")
-    print(f"    本文→SI参照: Figure S × {len(main_fig_refs)}, Table S × {len(main_table_refs)}")
-    print(f"    問題: {len(issues)} 件")
-    if issues:
-        for issue in issues:
-            print(f"    [{issue['severity']}] {issue['message']}")
+ print(f" → SI phasereference: {result['status']}")
+ print(f" papers→SIreference: Figure S × {len(main_fig_refs)}, Table S × {len(main_table_refs)}")
+ print(f" problem: {len(issues)} items")
+ if issues:
+ for issue in issues:
+ print(f" [{issue['severity']}] {issue['message']}")
 
-    return result
+ return result
 ```
 
-## 6. SI 生成パイプライン統合
+## 6. SI generationPipeline Integration
 
 ```python
 def run_si_pipeline(manuscript_path, figures_dir=None, results_dir=None,
-                     journal_format="imrad", title="", authors=""):
-    """
-    SI 生成パイプラインを実行する。
+ journal_format="imrad", title="", authors=""):
+ """
+ SI generationpipeline is executed。
 
-    1. SI 候補の収集
-    2. SI ドキュメントの生成
-    3. 相互参照チェック
-    """
-    from pathlib import Path
+ 1. SI 's
+ 2. SI 'sgeneration
+ 3. phasereference
+ """
+ from pathlib import Path
 
-    if figures_dir is None:
-        figures_dir = BASE_DIR / "figures"
-    if results_dir is None:
-        results_dir = BASE_DIR / "results"
+ if figures_dir is None:
+ figures_dir = BASE_DIR / "figures"
+ if results_dir is None:
+ results_dir = BASE_DIR / "results"
 
-    print("=" * 60)
-    print("Supplementary Information Generator")
-    print("=" * 60)
+ print("=" * 60)
+ print("Supplementary Information Generator")
+ print("=" * 60)
 
-    # Phase 1: 候補収集
-    print("\n[Phase 1] SI 候補の収集...")
-    candidates = collect_si_candidates(manuscript_path, figures_dir, results_dir)
+ # Phase 1: 
+ print("\n[Phase 1] SI 's...")
+ candidates = collect_si_candidates(manuscript_path, figures_dir, results_dir)
 
-    # Phase 2: SI 生成
-    print("\n[Phase 2] SI ドキュメントの生成...")
-    si_path = generate_supplementary(
-        candidates, journal_format=journal_format,
-        title=title, authors=authors,
-    )
+ # Phase 2: SI generation
+ print("\n[Phase 2] SI 'sgeneration...")
+ si_path = generate_supplementary(
+ candidates, journal_format=journal_format,
+ title=title, authors=authors,
+ )
 
-    # Phase 3: 相互参照チェック
-    print("\n[Phase 3] 相互参照チェック...")
-    crossref = check_si_crossrefs(manuscript_path, si_path)
+ # Phase 3: phasereference
+ print("\n[Phase 3] phasereference...")
+ crossref = check_si_crossrefs(manuscript_path, si_path)
 
-    print("\n" + "=" * 60)
-    print(f"SI 生成完了！ (ステータス: {crossref['status']})")
-    print("=" * 60)
+ print("\n" + "=" * 60)
+ print(f"SI generationDone! (: {crossref['status']})")
+ print("=" * 60)
 
-    return {"si_path": si_path, "crossref": crossref}
+ return {"si_path": si_path, "crossref": crossref}
 ```
 
 ## ToolUniverse Integration
 
 | TU Key | Tool Name | Integration |
 |--------|---------|--------|
-| `crossref` | Crossref | 補足資料の引用メタデータ参照 |
+| `crossref` | Crossref | 's citationdatareference |
 
 ## References
 
@@ -436,18 +436,18 @@ def run_si_pipeline(manuscript_path, figures_dir=None, results_dir=None,
 
 | File | Format | Generated When |
 |---|---|---|
-| `manuscript/supplementary.md` | SI ドキュメント（Markdown） | Phase 2 完了時 |
-| `manuscript/si_crossref_report.json` | 相互参照チェック結果（JSON） | Phase 3 完了時 |
+| `manuscript/supplementary.md` | SI （Markdown） | Phase 2 completion |
+| `manuscript/si_crossref_report.json` | phasereferenceresults（JSON） | Phase 3 completion |
 
 ### Related Skills
 
 | Skill | Integration |
 |---|---|
-| `scientific-academic-writing` | 本文原稿 (`manuscript/manuscript.md`) を入力として使用 |
-| `scientific-publication-figures` | `figures/` の未使用図を SI 候補として自動検出 |
-| `scientific-pipeline-scaffold` | `results/` の詳細データを SI Table 候補として収集 |
-| `scientific-critical-review` | レビュー後の修正で追加された図表を SI に反映 |
-| `scientific-latex-formatter` | SI の LaTeX 変換に使用 |
+| `scientific-academic-writing` | papers (`manuscript/manuscript.md`) inputasfor |
+| `scientific-publication-figures` | `figures/` 's forfigure SI asautomated |
+| `scientific-pipeline-scaffold` | `results/` 's detailsdata SI Table as |
+| `scientific-critical-review` | 's fix additionfigures/tables SI |
+| `scientific-latex-formatter` | SI 's LaTeX transformationfor |
 
 ```
 
@@ -456,15 +456,15 @@ def run_si_pipeline(manuscript_path, figures_dir=None, results_dir=None,
 ## Verification Loop (v0.3.0)
 
 ```
-PLAN   → define scope, inputs, expected outputs
+PLAN → define scope, inputs, expected outputs
 EXECUTE → run analysis pipeline
-VERIFY  → check outputs against quality gates
-REPORT  → save all artifacts, generate report.md
+VERIFY → check outputs against quality gates
+REPORT → save all artifacts, generate report.md
 ```
 
 ### Quality Gates
 
-- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures saved to `figures/` (not plt.show)
 - [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
 - [ ] Numeric results saved as JSON/CSV in `results/`
 - [ ] Report includes methods, results, and discussion

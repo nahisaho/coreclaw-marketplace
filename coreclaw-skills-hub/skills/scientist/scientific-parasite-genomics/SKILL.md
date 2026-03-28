@@ -1,30 +1,30 @@
 ---
 name: scientific-parasite-genomics
 description: |
-  Parasite genomics skill. Parasite genome analysis, drug resistance marker identification, population genetics of parasites, and host-parasite interaction genomics.
+ Parasite genomics skill. Parasite genome analysis, drug resistance marker identification, population genetics of parasites, and host-parasite interaction genomics.
 tu_tools: []
 ---
 
 # Scientific Parasite Genomics
 
-VEuPathDB ファミリー (PlasmoDB, VectorBase, ToxoDB, TriTrypDB)
-の REST API を活用した寄生虫ゲノミクス解析パイプラインを提供
-する。
+VEuPathDB (PlasmoDB, VectorBase, ToxoDB, TriTrypDB)
+'s REST API utilizinganalysispipelineproviding
+.
 
 ## When to Use
 
-- マラリア原虫ゲノム (PlasmoDB) を検索するとき
-- 蚊・ダニ等の媒介生物ゲノム (VectorBase) を検索するとき
-- トキソプラズマゲノム (ToxoDB) を検索するとき
-- トリパノソーマ/リーシュマニアゲノム (TriTrypDB) を検索するとき
-- 寄生虫の薬剤標的候補を同定するとき
-- 寄生虫間の比較ゲノミクスを実施するとき
+- genome (PlasmoDB) is searchedand
+- 'sgenome (VectorBase) is searchedand
+- genome (ToxoDB) is searchedand
+- /genome (TriTrypDB) is searchedand
+- 'swhen needed
+- 's comparison is performedand
 
 ---
 
 ## Quick Start
 
-## 1. VEuPathDB 遺伝子検索
+## 1. VEuPathDB genesearch
 
 ```python
 import requests
@@ -32,265 +32,265 @@ import pandas as pd
 import numpy as np
 
 VEUPATHDB_SITES = {
-    "plasmo": "https://plasmodb.org/plasmo/service",
-    "vector": "https://vectorbase.org/vectorbase/service",
-    "toxo": "https://toxodb.org/toxo/service",
-    "tritryp": "https://tritrypdb.org/tritrypdb/service",
+ "plasmo": "https://plasmodb.org/plasmo/service",
+ "vector": "https://vectorbase.org/vectorbase/service",
+ "toxo": "https://toxodb.org/toxo/service",
+ "tritryp": "https://tritrypdb.org/tritrypdb/service",
 }
 
 
 def veupathdb_search_genes(organism, query, db="plasmo",
-                             limit=100):
-    """
-    VEuPathDB — 遺伝子検索。
+ limit=100):
+ """
+ VEuPathDB — genesearch。
 
-    Parameters:
-        organism: str — 生物種名 (例: "Plasmodium falciparum 3D7")
-        query: str — 検索キーワード (例: "kinase", "transporter")
-        db: str — データベース ("plasmo", "vector", "toxo", "tritryp")
-        limit: int — 最大結果数
-    """
-    base = VEUPATHDB_SITES.get(db, VEUPATHDB_SITES["plasmo"])
-    url = f"{base}/record-types/gene/searches/GenesByTextSearch"
+ Parameters:
+ organism: str — organism/species (example: "Plasmodium falciparum 3D7")
+ query: str — searchkeyword (example: "kinase", "transporter")
+ db: str — database ("plasmo", "vector", "toxo", "tritryp")
+ limit: int — maximum results
+ """
+ base = VEUPATHDB_SITES.get(db, VEUPATHDB_SITES["plasmo"])
+ url = f"{base}/record-types/gene/searches/GenesByTextSearch"
 
-    payload = {
-        "searchConfig": {
-            "parameters": {
-                "text_expression": query,
-                "text_fields": "Gene ID,Gene Name or Symbol,"
-                                "Gene product",
-                "organism": [organism],
-            }
-        },
-        "reportConfig": {
-            "attributes": ["primary_key", "gene_name",
-                           "gene_product", "gene_type",
-                           "chromosome", "start_min",
-                           "end_max", "strand"],
-            "pagination": {"offset": 0, "numRecords": limit},
-        },
-    }
-    headers = {"Content-Type": "application/json"}
-    resp = requests.post(url, json=payload, headers=headers,
-                          timeout=60)
-    resp.raise_for_status()
-    data = resp.json()
+ payload = {
+ "searchConfig": {
+ "parameters": {
+ "text_expression": query,
+ "text_fields": "Gene ID,Gene Name or Symbol,"
+ "Gene product",
+ "organism": [organism],
+ }
+ },
+ "reportConfig": {
+ "attributes": ["primary_key", "gene_name",
+ "gene_product", "gene_type",
+ "chromosome", "start_min",
+ "end_max", "strand"],
+ "pagination": {"offset": 0, "numRecords": limit},
+ },
+ }
+ headers = {"Content-Type": "application/json"}
+ resp = requests.post(url, json=payload, headers=headers,
+ timeout=60)
+ resp.raise_for_status
+ data = resp.json
 
-    results = []
-    for rec in data.get("records", []):
-        attrs = rec.get("attributes", {})
-        results.append({
-            "gene_id": attrs.get("primary_key", ""),
-            "gene_name": attrs.get("gene_name", ""),
-            "product": attrs.get("gene_product", ""),
-            "gene_type": attrs.get("gene_type", ""),
-            "chromosome": attrs.get("chromosome", ""),
-            "start": attrs.get("start_min", None),
-            "end": attrs.get("end_max", None),
-            "strand": attrs.get("strand", ""),
-        })
+ results = []
+ for rec in data.get("records", []):
+ attrs = rec.get("attributes", {})
+ results.append({
+ "gene_id": attrs.get("primary_key", ""),
+ "gene_name": attrs.get("gene_name", ""),
+ "product": attrs.get("gene_product", ""),
+ "gene_type": attrs.get("gene_type", ""),
+ "chromosome": attrs.get("chromosome", ""),
+ "start": attrs.get("start_min", None),
+ "end": attrs.get("end_max", None),
+ "strand": attrs.get("strand", ""),
+ })
 
-    df = pd.DataFrame(results)
-    print(f"VEuPathDB ({db}) genes: {len(df)} results "
-          f"(organism={organism}, query={query})")
-    return df
+ df = pd.DataFrame(results)
+ print(f"VEuPathDB ({db}) genes: {len(df)} results "
+ f"(organism={organism}, query={query})")
+ return df
 ```
 
-## 2. 遺伝子機能アノテーション
+## 2. geneannotation
 
 ```python
 def veupathdb_gene_annotation(gene_id, db="plasmo"):
-    """
-    VEuPathDB — 遺伝子機能アノテーション取得。
+ """
+ VEuPathDB — geneannotationretrieval。
 
-    Parameters:
-        gene_id: str — 遺伝子 ID (例: "PF3D7_1133400")
-        db: str — データベース
-    """
-    base = VEUPATHDB_SITES.get(db, VEUPATHDB_SITES["plasmo"])
-    url = f"{base}/record-types/gene/records/{gene_id}"
+ Parameters:
+ gene_id: str — gene ID (example: "PF3D7_1133400")
+ db: str — database
+ """
+ base = VEUPATHDB_SITES.get(db, VEUPATHDB_SITES["plasmo"])
+ url = f"{base}/record-types/gene/records/{gene_id}"
 
-    params = {
-        "attributes": "all",
-        "tables": "GoTerms,InterPro,MetabolicPathways,"
-                  "PubMed,EcNumber",
-    }
-    resp = requests.get(url, params=params, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
+ params = {
+ "attributes": "all",
+ "tables": "GoTerms,InterPro,MetabolicPathways,"
+ "PubMed,EcNumber",
+ }
+ resp = requests.get(url, params=params, timeout=30)
+ resp.raise_for_status
+ data = resp.json
 
-    attrs = data.get("attributes", {})
-    tables = data.get("tables", {})
+ attrs = data.get("attributes", {})
+ tables = data.get("tables", {})
 
-    annotation = {
-        "gene_id": gene_id,
-        "gene_name": attrs.get("gene_name", ""),
-        "product": attrs.get("gene_product", ""),
-        "molecular_weight": attrs.get("molecular_weight", ""),
-        "isoelectric_point": attrs.get("isoelectric_point", ""),
-        "signal_peptide": attrs.get("signal_peptide", ""),
-        "transmembrane_domains": attrs.get("transmembrane_domains", ""),
-    }
+ annotation = {
+ "gene_id": gene_id,
+ "gene_name": attrs.get("gene_name", ""),
+ "product": attrs.get("gene_product", ""),
+ "molecular_weight": attrs.get("molecular_weight", ""),
+ "isoelectric_point": attrs.get("isoelectric_point", ""),
+ "signal_peptide": attrs.get("signal_peptide", ""),
+ "transmembrane_domains": attrs.get("transmembrane_domains", ""),
+ }
 
-    # GO Term 取得
-    go_terms = []
-    for go_rec in tables.get("GoTerms", []):
-        go_terms.append({
-            "go_id": go_rec.get("go_id", ""),
-            "go_term": go_rec.get("go_term_name", ""),
-            "ontology": go_rec.get("ontology", ""),
-            "evidence": go_rec.get("evidence_code", ""),
-        })
-    annotation["go_terms"] = go_terms
+ # GO Term retrieval
+ go_terms = []
+ for go_rec in tables.get("GoTerms", []):
+ go_terms.append({
+ "go_id": go_rec.get("go_id", ""),
+ "go_term": go_rec.get("go_term_name", ""),
+ "ontology": go_rec.get("ontology", ""),
+ "evidence": go_rec.get("evidence_code", ""),
+ })
+ annotation["go_terms"] = go_terms
 
-    # InterPro ドメイン
-    domains = []
-    for d in tables.get("InterPro", []):
-        domains.append({
-            "interpro_id": d.get("interpro_primary_id", ""),
-            "name": d.get("interpro_name", ""),
-            "description": d.get("interpro_description", ""),
-        })
-    annotation["domains"] = domains
+ # InterPro 
+ domains = []
+ for d in tables.get("InterPro", []):
+ domains.append({
+ "interpro_id": d.get("interpro_primary_id", ""),
+ "name": d.get("interpro_name", ""),
+ "description": d.get("interpro_description", ""),
+ })
+ annotation["domains"] = domains
 
-    print(f"VEuPathDB annotation: {gene_id}, "
-          f"{len(go_terms)} GO terms, {len(domains)} domains")
-    return annotation
+ print(f"VEuPathDB annotation: {gene_id}, "
+ f"{len(go_terms)} GO terms, {len(domains)} domains")
+ return annotation
 ```
 
-## 3. 薬剤標的候補スクリーニング
+## 3. 
 
 ```python
 def parasite_drug_target_screen(organism, db="plasmo",
-                                  essentiality_threshold=0.5):
-    """
-    寄生虫ゲノム — 薬剤標的候補スクリーニング。
+ essentiality_threshold=0.5):
+ """
+ genome — 。
 
-    Parameters:
-        organism: str — 生物種
-        db: str — データベース
-        essentiality_threshold: float — 必須性スコア閾値
-    """
-    # キナーゼ検索
-    kinases = veupathdb_search_genes(organism, "kinase", db=db)
-    # プロテアーゼ検索
-    proteases = veupathdb_search_genes(organism, "protease", db=db)
-    # トランスポーター検索
-    transporters = veupathdb_search_genes(
-        organism, "transporter", db=db)
+ Parameters:
+ organism: str — organism/species
+ db: str — database
+ essentiality_threshold: float — requiredthreshold
+ """
+ # search
+ kinases = veupathdb_search_genes(organism, "kinase", db=db)
+ # search
+ proteases = veupathdb_search_genes(organism, "protease", db=db)
+ # search
+ transporters = veupathdb_search_genes(
+ organism, "transporter", db=db)
 
-    all_targets = pd.concat([kinases, proteases, transporters],
-                              ignore_index=True)
-    all_targets = all_targets.drop_duplicates(subset=["gene_id"])
+ all_targets = pd.concat([kinases, proteases, transporters],
+ ignore_index=True)
+ all_targets = all_targets.drop_duplicates(subset=["gene_id"])
 
-    # 薬剤標的性スコア (ヒューリスティック)
-    all_targets["target_class"] = "unknown"
-    all_targets.loc[
-        all_targets["gene_id"].isin(kinases["gene_id"]),
-        "target_class"] = "kinase"
-    all_targets.loc[
-        all_targets["gene_id"].isin(proteases["gene_id"]),
-        "target_class"] = "protease"
-    all_targets.loc[
-        all_targets["gene_id"].isin(transporters["gene_id"]),
-        "target_class"] = "transporter"
+ # 
+ all_targets["target_class"] = "unknown"
+ all_targets.loc[
+ all_targets["gene_id"].isin(kinases["gene_id"]),
+ "target_class"] = "kinase"
+ all_targets.loc[
+ all_targets["gene_id"].isin(proteases["gene_id"]),
+ "target_class"] = "protease"
+ all_targets.loc[
+ all_targets["gene_id"].isin(transporters["gene_id"]),
+ "target_class"] = "transporter"
 
-    print(f"Drug target screen: {len(all_targets)} candidates "
-          f"(kinases={len(kinases)}, proteases={len(proteases)}, "
-          f"transporters={len(transporters)})")
-    return all_targets
+ print(f"Drug target screen: {len(all_targets)} candidates "
+ f"(kinases={len(kinases)}, proteases={len(proteases)}, "
+ f"transporters={len(transporters)})")
+ return all_targets
 ```
 
-## 4. 寄生虫ゲノミクス統合パイプライン
+## 4. integrationpipeline
 
 ```python
 def parasite_genomics_pipeline(organism, query,
-                                  db="plasmo",
-                                  output_dir="results"):
-    """
-    寄生虫ゲノミクス統合パイプライン。
+ db="plasmo",
+ output_dir="results"):
+ """
+ integrationpipeline。
 
-    Parameters:
-        organism: str — 生物種 (例: "Plasmodium falciparum 3D7")
-        query: str — 検索クエリ
-        db: str — データベース
-        output_dir: str — 出力ディレクトリ
-    """
-    from pathlib import Path
-    output_dir = Path(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
+ Parameters:
+ organism: str — organism/species (example: "Plasmodium falciparum 3D7")
+ query: str — search query
+ db: str — database
+ output_dir: str — output directory
+ """
+ from pathlib import Path
+ output_dir = Path(output_dir)
+ output_dir.mkdir(parents=True, exist_ok=True)
 
-    # 1) 遺伝子検索
-    genes = veupathdb_search_genes(organism, query, db=db)
-    genes.to_csv(output_dir / "genes.csv", index=False)
+ # 1) genesearch
+ genes = veupathdb_search_genes(organism, query, db=db)
+ genes.to_csv(output_dir / "genes.csv", index=False)
 
-    # 2) トップ遺伝子のアノテーション
-    annotations = []
-    for gene_id in genes["gene_id"].head(10):
-        try:
-            ann = veupathdb_gene_annotation(gene_id, db=db)
-            annotations.append(ann)
-        except Exception:
-            continue
-    ann_df = pd.DataFrame([{
-        k: v for k, v in a.items()
-        if not isinstance(v, list)
-    } for a in annotations])
-    ann_df.to_csv(output_dir / "annotations.csv", index=False)
+ # 2) gene'sannotation
+ annotations = []
+ for gene_id in genes["gene_id"].head(10):
+ try:
+ ann = veupathdb_gene_annotation(gene_id, db=db)
+ annotations.append(ann)
+ except Exception:
+ continue
+ ann_df = pd.DataFrame([{
+ k: v for k, v in a.items
+ if not isinstance(v, list)
+ } for a in annotations])
+ ann_df.to_csv(output_dir / "annotations.csv", index=False)
 
-    # 3) 薬剤標的スクリーニング
-    targets = parasite_drug_target_screen(organism, db=db)
-    targets.to_csv(output_dir / "drug_targets.csv", index=False)
+ # 3) 
+ targets = parasite_drug_target_screen(organism, db=db)
+ targets.to_csv(output_dir / "drug_targets.csv", index=False)
 
-    print(f"Parasite genomics pipeline: {output_dir}")
-    return {
-        "genes": genes,
-        "annotations": annotations,
-        "drug_targets": targets,
-    }
+ print(f"Parasite genomics pipeline: {output_dir}")
+ return {
+ "genes": genes,
+ "annotations": annotations,
+ "drug_targets": targets,
+ }
 ```
 
 ---
 
 ## ToolUniverse Integration
 
-直接 REST API 使用 (VEuPathDB は ToolUniverse 外)。
+ REST API for (VEuPathDB ToolUniverse )。
 
 ## Pipeline Integration
 
 ```
 infectious-disease → parasite-genomics → phylogenetics
-  (病原体情報)      (寄生虫ゲノム)       (系統解析)
-       │                   │                  ↓
-  drug-discovery ─────────┘           comparative-genomics
-  (薬剤探索)           │              (比較ゲノミクス)
-                        ↓
-                  pathway-enrichment
-                  (パスウェイ解析)
+ (information) (genome) (phylogenyanalysis)
+ │ │ ↓
+ drug-discovery ─────────┘ comparative-genomics
+ (search/exploration) │ (comparison)
+ ↓
+ pathway-enrichment
+ (pathway analysis)
 ```
 
 ## Pipeline Output
 
-| ファイル | 説明 | 次スキル |
+| File | Description | Next Skill |
 |---------|------|---------|
-| `results/genes.csv` | 遺伝子一覧 | → phylogenetics |
-| `results/annotations.csv` | 機能アノテーション | → pathway-enrichment |
-| `results/drug_targets.csv` | 薬剤標的候補 | → drug-discovery |
+| `results/genes.csv` | genelist | → phylogenetics |
+| `results/annotations.csv` | annotation | → pathway-enrichment |
+| `results/drug_targets.csv` | | → drug-discovery |
 
 ---
 
 ## Verification Loop (v0.3.0)
 
 ```
-PLAN   → define scope, inputs, expected outputs
+PLAN → define scope, inputs, expected outputs
 EXECUTE → run analysis pipeline
-VERIFY  → check outputs against quality gates
-REPORT  → save all artifacts, generate report.md
+VERIFY → check outputs against quality gates
+REPORT → save all artifacts, generate report.md
 ```
 
 ### Quality Gates
 
-- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures saved to `figures/` (not plt.show)
 - [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
 - [ ] Numeric results saved as JSON/CSV in `results/`
 - [ ] Report includes methods, results, and discussion

@@ -1,71 +1,71 @@
 ---
 name: scientific-admet-pharmacokinetics
 description: |
-  ADMET 予測・薬物動態モデリングスキル。吸収(A)・分布(D)・代謝(M)・排泄(E)・毒性(T)の
-  包括的予測パイプライン。DeepChem/ADMET-AI/PyTDC を活用した分子特性予測、
-  PK/PD モデリング、ドラッグライクネス最適化、リード最適化戦略を提供。
-  「ADMET 予測して」「薬物動態を評価して」「lead optimization して」で発火。
+ ADMET predictiondrugskill。(A)distribution(D)metabolism(M)(E)toxicity(T)'s 
+ predictionpipeline。DeepChem/ADMET-AI/PyTDC utilizingmoleculeprediction、
+ PK/PD 、optimization、optimizationproviding。
+ 「ADMET prediction」「drug evaluation」「lead optimization 」 。
 tu_tools:
-  - key: pubchem
-    name: PubChem
-    description: 化合物・物質・生理活性アッセイデータベース
+ - key: pubchem
+ name: PubChem
+ description: compoundactivitydatabase
 ---
 
 # Scientific ADMET & Pharmacokinetics
 
-ADMET 予測と薬物動態モデリングのスキル。創薬初期段階における化合物の
-薬物動態特性評価を包括的に支援する。
+ADMET predictionand drug'sskill。initialincompound's
+drugevaluationsupports。
 
 ## When to Use
 
-- 化合物の ADMET 特性を統合的に予測するとき
-- リード化合物の最適化方針を策定するとき
-- PK/PD パラメータを推定・モデリングするとき
-- 化合物ライブラリのドラッグライクネスフィルタリングを行うとき
-- 毒性リスク（hERG、Ames、肝毒性）を予測するとき
+- compound's ADMET integrationpredictionwhen needed
+- compound's optimizationwhen needed
+- PK/PD parameterswhen needed
+- compoundlibrary's filter is performedand
+- toxicity（hERG、Ames、toxicity） predictionwhen needed
 
 ## Quick Start
 
-### 1. ADMET 予測パイプライン概要
+### 1. ADMET predictionpipelineoverview
 
 ```
 Input: SMILES / SDF
-    ↓
+ ↓
 Step 1: Absorption
-  - Caco-2 透過性
-  - HIA (Human Intestinal Absorption)
-  - 経口バイオアベイラビリティ
-  - Pgp 基質判定
-    ↓
+ - Caco-2 
+ - HIA (Human Intestinal Absorption)
+ - 
+ - Pgp 
+ ↓
 Step 2: Distribution
-  - 血漿タンパク結合率 (PPB)
-  - 血液脳関門 (BBB) 透過性
-  - 分布容積 (VDss)
-    ↓
+ - bindingrate (PPB)
+ - brain (BBB) 
+ - distribution (VDss)
+ ↓
 Step 3: Metabolism
-  - CYP 阻害/基質予測 (1A2, 2C9, 2C19, 2D6, 3A4)
-  - 代謝安定性 (Half-life)
-  - クリアランス予測
-    ↓
+ - CYP inhibition/prediction (1A2, 2C9, 2C19, 2D6, 3A4)
+ - metabolism (Half-life)
+ - prediction
+ ↓
 Step 4: Excretion
-  - 腎クリアランス
-  - 総クリアランス
-  - 排泄経路予測
-    ↓
+ - 
+ - 
+ - prediction
+ ↓
 Step 5: Toxicity
-  - hERG 阻害 (心毒性)
-  - Ames 試験予測 (変異原性)
-  - DILI (薬剤性肝障害)
-  - LD50 急性毒性
-    ↓
+ - hERG inhibition (toxicity)
+ - Ames prediction (variant/mutation)
+ - DILI 
+ - LD50 toxicity
+ ↓
 Output: ADMET Profile Card
 ```
 
 ---
 
-## Phase 1: Absorption 予測
+## Phase 1: Absorption prediction
 
-### Caco-2 透過性 & HIA
+### Caco-2 & HIA
 
 ```python
 import numpy as np
@@ -73,153 +73,153 @@ from rdkit import Chem
 from rdkit.Chem import Descriptors
 
 def predict_absorption_properties(smiles):
-    """
-    吸収関連パラメータの計算・予測。
-    """
-    mol = Chem.MolFromSmiles(smiles)
-    if mol is None:
-        raise ValueError(f"Invalid SMILES: {smiles}")
+ """
+ parameters's calculationprediction。
+ """
+ mol = Chem.MolFromSmiles(smiles)
+ if mol is None:
+ raise ValueError(f"Invalid SMILES: {smiles}")
 
-    # 物理化学パラメータ（吸収関連）
-    properties = {
-        "MW": Descriptors.MolWt(mol),
-        "LogP": Descriptors.MolLogP(mol),
-        "TPSA": Descriptors.TPSA(mol),
-        "HBA": Descriptors.NumHAcceptors(mol),
-        "HBD": Descriptors.NumHDonors(mol),
-        "RotBonds": Descriptors.NumRotatableBonds(mol),
-    }
+ # parameters（）
+ properties = {
+ "MW": Descriptors.MolWt(mol),
+ "LogP": Descriptors.MolLogP(mol),
+ "TPSA": Descriptors.TPSA(mol),
+ "HBA": Descriptors.NumHAcceptors(mol),
+ "HBD": Descriptors.NumHDonors(mol),
+ "RotBonds": Descriptors.NumRotatableBonds(mol),
+ }
 
-    # Rule-based absorption prediction
-    properties["Lipinski_Violations"] = sum([
-        properties["MW"] > 500,
-        properties["LogP"] > 5,
-        properties["HBA"] > 10,
-        properties["HBD"] > 5,
-    ])
+ # Rule-based absorption prediction
+ properties["Lipinski_Violations"] = sum([
+ properties["MW"] > 500,
+ properties["LogP"] > 5,
+ properties["HBA"] > 10,
+ properties["HBD"] > 5,
+ ])
 
-    # TPSA-based intestinal absorption estimate
-    # Ertl et al., J. Med. Chem. 2000
-    if properties["TPSA"] < 140:
-        properties["HIA_prediction"] = "High"
-    else:
-        properties["HIA_prediction"] = "Low"
+ # TPSA-based intestinal absorption estimate
+ # Ertl et al., J. Med. Chem. 2000
+ if properties["TPSA"] < 140:
+ properties["HIA_prediction"] = "High"
+ else:
+ properties["HIA_prediction"] = "Low"
 
-    # BBB penetration estimate (TPSA < 90 Å²)
-    properties["BBB_prediction"] = "Permeable" if properties["TPSA"] < 90 else "Non-permeable"
+ # BBB penetration estimate (TPSA < 90 Å²)
+ properties["BBB_prediction"] = "Permeable" if properties["TPSA"] < 90 else "Non-permeable"
 
-    return properties
+ return properties
 ```
 
 ---
 
-## Phase 2: ドラッグライクネス評価
+## Phase 2: evaluation
 
-### 多重フィルタ評価
+### filterevaluation
 
 ```python
 def evaluate_druglikeness(smiles):
-    """
-    複数フィルタによるドラッグライクネス総合評価。
-    """
-    mol = Chem.MolFromSmiles(smiles)
-    results = {}
+ """
+ multiplefilterby/viaevaluation。
+ """
+ mol = Chem.MolFromSmiles(smiles)
+ results = {}
 
-    # Lipinski Rule of 5
-    results["Lipinski"] = {
-        "MW": Descriptors.MolWt(mol) <= 500,
-        "LogP": Descriptors.MolLogP(mol) <= 5,
-        "HBA": Descriptors.NumHAcceptors(mol) <= 10,
-        "HBD": Descriptors.NumHDonors(mol) <= 5,
-        "pass": None,  # True if ≤1 violation
-    }
-    violations = sum(1 for v in list(results["Lipinski"].values())[:4] if not v)
-    results["Lipinski"]["pass"] = violations <= 1
+ # Lipinski Rule of 5
+ results["Lipinski"] = {
+ "MW": Descriptors.MolWt(mol) <= 500,
+ "LogP": Descriptors.MolLogP(mol) <= 5,
+ "HBA": Descriptors.NumHAcceptors(mol) <= 10,
+ "HBD": Descriptors.NumHDonors(mol) <= 5,
+ "pass": None, # True if ≤1 violation
+ }
+ violations = sum(1 for v in list(results["Lipinski"].values)[:4] if not v)
+ results["Lipinski"]["pass"] = violations <= 1
 
-    # Veber Rules (oral bioavailability)
-    results["Veber"] = {
-        "RotBonds": Descriptors.NumRotatableBonds(mol) <= 10,
-        "TPSA": Descriptors.TPSA(mol) <= 140,
-        "pass": None,
-    }
-    results["Veber"]["pass"] = all(
-        v for k, v in results["Veber"].items() if k != "pass"
-    )
+ # Veber Rules (oral bioavailability)
+ results["Veber"] = {
+ "RotBonds": Descriptors.NumRotatableBonds(mol) <= 10,
+ "TPSA": Descriptors.TPSA(mol) <= 140,
+ "pass": None,
+ }
+ results["Veber"]["pass"] = all(
+ v for k, v in results["Veber"].items if k != "pass"
+ )
 
-    # QED (Quantitative Estimate of Drug-likeness)
-    from rdkit.Chem import QED
-    results["QED"] = QED.qed(mol)
+ # QED (Quantitative Estimate of Drug-likeness)
+ from rdkit.Chem import QED
+ results["QED"] = QED.qed(mol)
 
-    # Ghose Filter
-    mw = Descriptors.MolWt(mol)
-    logp = Descriptors.MolLogP(mol)
-    mr = Descriptors.MolMR(mol)
-    n_atoms = mol.GetNumAtoms()
-    results["Ghose"] = {
-        "pass": (160 <= mw <= 480 and -0.4 <= logp <= 5.6
-                 and 40 <= mr <= 130 and 20 <= n_atoms <= 70)
-    }
+ # Ghose Filter
+ mw = Descriptors.MolWt(mol)
+ logp = Descriptors.MolLogP(mol)
+ mr = Descriptors.MolMR(mol)
+ n_atoms = mol.GetNumAtoms
+ results["Ghose"] = {
+ "pass": (160 <= mw <= 480 and -0.4 <= logp <= 5.6
+ and 40 <= mr <= 130 and 20 <= n_atoms <= 70)
+ }
 
-    return results
+ return results
 ```
 
 ---
 
-## Phase 3: 毒性予測
+## Phase 3: toxicityprediction
 
-### 構造アラート & 毒性エンドポイント
+### structurealert & toxicityendpoint
 
 ```python
-# PAINS (Pan-Assay Interference Compounds) フィルタ
+# PAINS (Pan-Assay Interference Compounds) filter
 from rdkit.Chem.FilterCatalog import FilterCatalog, FilterCatalogParams
 
 def check_structural_alerts(smiles):
-    """
-    構造アラート (PAINS, Brenk) の検出。
-    """
-    mol = Chem.MolFromSmiles(smiles)
-    alerts = []
+ """
+ structurealert (PAINS, Brenk) 's 。
+ """
+ mol = Chem.MolFromSmiles(smiles)
+ alerts = []
 
-    # PAINS フィルタ
-    params = FilterCatalogParams()
-    params.AddCatalog(FilterCatalogParams.FilterCatalogs.PAINS)
-    catalog = FilterCatalog(params)
-    if catalog.HasMatch(mol):
-        entry = catalog.GetFirstMatch(mol)
-        alerts.append({
-            "type": "PAINS",
-            "description": entry.GetDescription(),
-            "severity": "Warning",
-        })
+ # PAINS filter
+ params = FilterCatalogParams
+ params.AddCatalog(FilterCatalogParams.FilterCatalogs.PAINS)
+ catalog = FilterCatalog(params)
+ if catalog.HasMatch(mol):
+ entry = catalog.GetFirstMatch(mol)
+ alerts.append({
+ "type": "PAINS",
+ "description": entry.GetDescription,
+ "severity": "Warning",
+ })
 
-    # Brenk フィルタ（毒性懸念構造）
-    params_brenk = FilterCatalogParams()
-    params_brenk.AddCatalog(FilterCatalogParams.FilterCatalogs.BRENK)
-    catalog_brenk = FilterCatalog(params_brenk)
-    if catalog_brenk.HasMatch(mol):
-        entry = catalog_brenk.GetFirstMatch(mol)
-        alerts.append({
-            "type": "Brenk",
-            "description": entry.GetDescription(),
-            "severity": "Warning",
-        })
+ # Brenk filter（toxicitystructure）
+ params_brenk = FilterCatalogParams
+ params_brenk.AddCatalog(FilterCatalogParams.FilterCatalogs.BRENK)
+ catalog_brenk = FilterCatalog(params_brenk)
+ if catalog_brenk.HasMatch(mol):
+ entry = catalog_brenk.GetFirstMatch(mol)
+ alerts.append({
+ "type": "Brenk",
+ "description": entry.GetDescription,
+ "severity": "Warning",
+ })
 
-    return alerts
+ return alerts
 ```
 
-### 毒性リスクスコアカード
+### toxicity
 
 ```markdown
 ## Toxicity Risk Assessment
 
-| Endpoint       | Prediction | Confidence | Risk Level |
+| Endpoint | Prediction | Confidence | Risk Level |
 |----------------|------------|------------|------------|
-| hERG IC50      |            |            | Low/Med/High |
-| Ames           |            |            | Low/Med/High |
-| DILI           |            |            | Low/Med/High |
-| LD50 (rat)     |            |            | Low/Med/High |
-| Skin Sensitiz. |            |            | Low/Med/High |
-| Carcinogenicity|            |            | Low/Med/High |
+| hERG IC50 | | | Low/Med/High |
+| Ames | | | Low/Med/High |
+| DILI | | | Low/Med/High |
+| LD50 (rat) | | | Low/Med/High |
+| Skin Sensitiz. | | | Low/Med/High |
+| Carcinogenicity| | | Low/Med/High |
 
 ### Structural Alerts
 | Alert Type | Description | Severity |
@@ -228,43 +228,43 @@ def check_structural_alerts(smiles):
 
 ---
 
-## Phase 4: PK/PD モデリング
+## Phase 4: PK/PD 
 
-### コンパートメントモデル
+### 
 
 ```python
 import numpy as np
 from scipy.integrate import odeint
 
 def one_compartment_pk(dose, ka, ke, vd, time_points):
-    """
-    1-コンパートメント PK モデル（経口投与）。
-    dose: 投与量 (mg)
-    ka: 吸収速度定数 (h⁻¹)
-    ke: 消失速度定数 (h⁻¹)
-    vd: 分布容積 (L)
-    """
-    def pk_ode(y, t, ka, ke):
-        dAg_dt = -ka * y[0]          # 消化管
-        dCp_dt = (ka * y[0] - ke * y[1] * vd) / vd  # 血漿中
-        return [dAg_dt, dCp_dt]
+ """
+ 1- PK （）。
+ dose: amount (mg)
+ ka: degreenumber/count (h⁻¹)
+ ke: degreenumber/count (h⁻¹)
+ vd: distribution (L)
+ """
+ def pk_ode(y, t, ka, ke):
+ dAg_dt = -ka * y[0] # 
+ dCp_dt = (ka * y[0] - ke * y[1] * vd) / vd # 
+ return [dAg_dt, dCp_dt]
 
-    y0 = [dose, 0]
-    solution = odeint(pk_ode, y0, time_points, args=(ka, ke))
+ y0 = [dose, 0]
+ solution = odeint(pk_ode, y0, time_points, args=(ka, ke))
 
-    return {
-        "time": time_points,
-        "concentration": solution[:, 1],
-        "Cmax": np.max(solution[:, 1]),
-        "Tmax": time_points[np.argmax(solution[:, 1])],
-        "AUC": np.trapz(solution[:, 1], time_points),
-        "half_life": np.log(2) / ke,
-    }
+ return {
+ "time": time_points,
+ "concentration": solution[:, 1],
+ "Cmax": np.max(solution[:, 1]),
+ "Tmax": time_points[np.argmax(solution[:, 1])],
+ "AUC": np.trapz(solution[:, 1], time_points),
+ "half_life": np.log(2) / ke,
+ }
 ```
 
 ---
 
-## ADMET Profile Card テンプレート
+## ADMET Profile Card template
 
 ```markdown
 # ADMET Profile: [COMPOUND NAME]
@@ -276,12 +276,12 @@ def one_compartment_pk(dose, ka, ke, vd, time_points):
 ## 1. Physicochemical Properties
 | Property | Value | Optimal Range | Status |
 |----------|-------|---------------|--------|
-| MW       |       | 150-500       | ✓/✗   |
-| LogP     |       | -0.4 to 5.6   | ✓/✗   |
-| TPSA     |       | 20-140 Å²     | ✓/✗   |
-| HBA      |       | ≤10           | ✓/✗   |
-| HBD      |       | ≤5            | ✓/✗   |
-| QED      |       | >0.5          | ✓/✗   |
+| MW | | 150-500 | ✓/✗ |
+| LogP | | -0.4 to 5.6 | ✓/✗ |
+| TPSA | | 20-140 Å² | ✓/✗ |
+| HBA | | ≤10 | ✓/✗ |
+| HBD | | ≤5 | ✓/✗ |
+| QED | | >0.5 | ✓/✗ |
 
 ## 2. Absorption
 | Parameter | Value | Interpretation |
@@ -294,11 +294,11 @@ def one_compartment_pk(dose, ka, ke, vd, time_points):
 ## 4. Metabolism
 | CYP Enzyme | Substrate? | Inhibitor? |
 |------------|------------|------------|
-| 1A2        |            |            |
-| 2C9        |            |            |
-| 2C19       |            |            |
-| 2D6        |            |            |
-| 3A4        |            |            |
+| 1A2 | | |
+| 2C9 | | |
+| 2C19 | | |
+| 2D6 | | |
+| 3A4 | | |
 
 ## 5. Excretion
 | Parameter | Value | Interpretation |
@@ -309,13 +309,13 @@ def one_compartment_pk(dose, ka, ke, vd, time_points):
 |----------|------------|------|
 
 ## 7. Druglikeness Summary
-| Filter    | Pass? | Violations |
+| Filter | Pass? | Violations |
 |-----------|-------|------------|
-| Lipinski  |       |            |
-| Veber     |       |            |
-| Ghose     |       |            |
-| PAINS     |       |            |
-| Brenk     |       |            |
+| Lipinski | | |
+| Veber | | |
+| Ghose | | |
+| PAINS | | |
+| Brenk | | |
 
 ## 8. Recommendations
 - [ ] Lead optimization priorities
@@ -327,54 +327,54 @@ def one_compartment_pk(dose, ka, ke, vd, time_points):
 
 ## Completeness Checklist
 
-- [ ] 物理化学的性質: MW, LogP, TPSA, HBA, HBD, QED
-- [ ] 吸収: Caco-2, HIA, Pgp 基質
-- [ ] 分布: PPB, BBB, VDss
-- [ ] 代謝: CYP 5 isoform (1A2/2C9/2C19/2D6/3A4)
-- [ ] 排泄: クリアランス, Half-life
-- [ ] 毒性: hERG, Ames, DILI ≥ 3 エンドポイント
-- [ ] 構造アラート: PAINS + Brenk チェック
-- [ ] ドラッグライクネス: Lipinski + Veber + QED
+- [ ] : MW, LogP, TPSA, HBA, HBD, QED
+- [ ] : Caco-2, HIA, Pgp 
+- [ ] distribution: PPB, BBB, VDss
+- [ ] metabolism: CYP 5 isoform (1A2/2C9/2C19/2D6/3A4)
+- [ ] :, Half-life
+- [ ] toxicity: hERG, Ames, DILI ≥ 3 endpoint
+- [ ] structurealert: PAINS + Brenk 
+- [ ] : Lipinski + Veber + QED
 
 ## Best Practices
 
-1. **予測値は必ず信頼度を付与**: モデルの applicability domain を確認
-2. **複数ツールで Cross-validate**: ADMET-AI, DeepChem, SwissADME の結果を比較
-3. **既知化合物で Benchmark**: 同クラスの承認薬と比較して判断
-4. **構造アラートは参考情報**: PAINS ヒットでも偽陽性の可能性を考慮
-5. **PK パラメータは in vivo 補正**: allometric scaling で動物種間換算
+1. **predictionvalue degree**: 's applicability domain verification
+2. **multipletool Cross-validate**: ADMET-AI, DeepChem, SwissADME 's resultscomparison
+3. **knowncompound Benchmark**: 's and comparison
+4. **structurealertreferenceinformation**: PAINS also 's possible
+5. **PK parameters in vivo correction**: allometric scaling type
 
 ## References
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generation Timing |
 |---|---|---|
-| `results/admet_profile.json` | ADMET プロファイル（JSON） | 全 5 段階評価完了時 |
-| `results/admet_report.md` | ADMET 評価レポート（Markdown） | 全解析完了時 |
-| `results/pk_model.json` | PK モデルパラメータ（JSON） | PK モデリング完了時 |
+| `results/admet_profile.json` | ADMET file（JSON） | all 5 evaluationcompletion |
+| `results/admet_report.md` | ADMET evaluationreport（Markdown） | allanalysiscompletion |
+| `results/pk_model.json` | PK parameters（JSON） | PK completion |
 
-### 利用可能ツール
+### Available Tools
 
-> [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP 経由で利用可能な外部ツール。
+> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
 
-| カテゴリ | 主要ツール | 用途 |
+| Category | Key Tools | Usage |
 |---|---|---|
-| ADMET-AI | `ADMETAI_predict_BBB_penetrance` | BBB 透過性予測 |
-| ADMET-AI | `ADMETAI_predict_CYP_interactions` | CYP 相互作用予測 |
-| ADMET-AI | `ADMETAI_predict_toxicity` | 毒性予測 |
-| ADMET-AI | `ADMETAI_predict_bioavailability` | バイオアベイラビリティ予測 |
-| PubChem | `PubChem_get_compound_properties_by_CID` | 化合物物性取得 |
-| ChEMBL | `ChEMBL_get_molecule` | 分子情報取得 |
-| ChEMBL | `ChEMBL_get_activity` | バイオアッセイデータ |
+| ADMET-AI | `ADMETAI_predict_BBB_penetrance` | BBB prediction |
+| ADMET-AI | `ADMETAI_predict_CYP_interactions` | CYP interactionprediction |
+| ADMET-AI | `ADMETAI_predict_toxicity` | toxicityprediction |
+| ADMET-AI | `ADMETAI_predict_bioavailability` | prediction |
+| PubChem | `PubChem_get_compound_properties_by_CID` | compound property retrieval |
+| ChEMBL | `ChEMBL_get_molecule` | molecule information retrieval |
+| ChEMBL | `ChEMBL_get_activity` | bioassay data |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
-| `scientific-drug-target-profiling` | ← ターゲットに結合する化合物の ADMET 評価 |
-| `scientific-cheminformatics` | ← 分子記述子・構造情報の提供 |
-| `scientific-drug-repurposing` | → ADMET 通過化合物のリポジショニング候補評価 |
-| `scientific-clinical-decision-support` | → PK パラメータの臨床応用 |
-| `scientific-academic-writing` | → 研究成果の論文化 |
-| `scientific-regulatory-science` | → FDA 規制申請・承認履歴 |
+| `scientific-drug-target-profiling` | ← bindingcompound's ADMET evaluation |
+| `scientific-cheminformatics` | ← moleculestructureinformation'sproviding |
+| `scientific-drug-repurposing` | → ADMET compound'sevaluation |
+| `scientific-clinical-decision-support` | → PK parameters's application |
+| `scientific-academic-writing` | → publishing research results |
+| `scientific-regulatory-science` | → FDA |

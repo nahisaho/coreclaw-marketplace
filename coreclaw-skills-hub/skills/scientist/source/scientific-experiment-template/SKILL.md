@@ -1,85 +1,85 @@
 ---
 name: scientific-experiment-template
 description: |
-  実験テンプレート生成スキル。研究目的・仮説・手法・実験条件・評価基準・
-  スケジュールを構造化した実験計画書を自動作成する。
-  「実験テンプレート作成して」「実験計画を立てて」「実験プロトコルを作成」で発火。
+ experimenttemplategenerationskill。researchpurposehypothesismethodexperimentconditionevaluationcriteria
+ structureExperimental Design automated.
+ 「experimenttemplate」「Experimental Design」「experimentprotocol」 。
 ---
 
 # Scientific Experiment Template
 
-標準化された実験計画書を自動生成するスキル。IMRaD形式に準拠した
-構造化テンプレートにより、再現性の高い実験設計を支援する。
+standardizationExperimental Designautomatedgeneratesskill。IMRaDshapeformula
+structuretemplate than、reproducibility's highExperimental Design is supported。
 
 ## When to Use
 
-- 新しい実験の計画を立案するとき
-- 既存の実験を標準化フォーマットに整理するとき
-- チームメンバーと実験プロトコルを共有するとき
-- 研究倫理審査用の実験計画書を作成するとき
+- experiment's designwhen needed
+- existing's experiment standardizationwhen needed
+- and experimentprotocolwhen needed
+- researchfor's Experimental Design is createdand
 
 ## Quick Start
 
-### Step 1: 研究課題の明確化
-ユーザーの研究テーマから以下を抽出:
-- 研究背景（先行研究の要約）
-- 研究目的（具体的な問い）
-- 帰無仮説 / 対立仮説
+### Step 1: researchchallenge's clear
+'s researchfrombelow/following extraction:
+- researchbackground（research's）
+- researchpurpose（）
+- null hypothesis / alternative hypothesis
 
-### Step 2: 実験デザインの設計
-- 実験タイプ（対照実験 / 因子実験 / 観察研究）
-- 独立変数・従属変数・制御変数
-- サンプルサイズの根拠（検出力分析）
+### Step 2: experiment'sdesign
+- experiment（experiment / factorexperiment / observationresearch）
+- number/countnumber/countnumber/count
+- sample size's basis（powermin）
 
-### Step 3: 材料・装置リスト
-- 試薬・サンプル（型番・ロット番号のプレースホルダー）
-- 装置（メーカー・モデル・校正情報）
-- ソフトウェア・バージョン
+### Step 3: 
+- （typenumber's）
+- （proofreadinginformation）
+- 
 
-### Step 4: 実験手順の詳細化
-番号付きステップで記述:
-1. 前処理・準備
-2. 測定・データ取得
-3. 後処理・クリーンアップ
+### Step 4: experimentprocedure's details
+numberstep:
+1. preprocessing
+2. measurementData Retrieval
+3. postprocessing
 
-### Step 5: 評価指標の定義
-- 主要評価指標（Primary endpoint）
-- 副次評価指標（Secondary endpoints）
-- 統計解析手法（t検定 / ANOVA / 回帰分析）
-- 有意水準（α = 0.05）
+### Step 5: evaluation metric's definition
+- keyevaluation metric（Primary endpoint）
+- evaluation metric（Secondary endpoints）
+- analysismethod（ttesting / ANOVA / regressionmin）
+- significance level（α = 0.05）
 
-### Step 6: スケジュール・リスク管理
-- ガントチャート形式のタイムライン
-- リスク要因と対策
-- 倫理的配慮
+### Step 6: 
+- chartshapeformula's
+- and
+- 
 
 ## Output Format
 
-`experiment_template.md` を以下の構造で生成:
+`experiment_template.md` below/following's structuregeneration:
 
 ```markdown
-# 実験計画書: [タイトル]
+# Experimental Design: [title]
 
-## 1. 研究背景・目的
-## 2. 仮説
-## 3. 実験デザイン
-## 4. 材料・装置
-## 5. 実験手順
-## 6. 評価指標・統計解析
-## 7. スケジュール
-## 8. リスク・注意事項
-## 9. 参考文献
+## 1. researchbackgroundpurpose
+## 2. hypothesis
+## 3. experiment
+## 4. 
+## 5. experimentprocedure
+## 6. evaluation metricanalysis
+## 7. 
+## 8. cautionterm
+## 9. referenceliterature
 ```
 
 ## Examples
 
-**プロンプト例:**
-- 「ZnO薄膜のスパッタリング条件最適化の実験テンプレートを作成して」
-- 「CRISPR-Cas9によるノックアウト実験の計画を立てて」
-- 「薬物動態試験のプロトコルを作成して」
+**Prompt Examples:**
+- 「ZnO's conditionoptimization's experimenttemplate」
+- 「CRISPR-Cas9by/viaexperiment's design」
+- 「drug's protocol」
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
-| `biotools` | bio.tools | 実験プロトコル標準化ツール検索 |
+| `biotools` | bio.tools | experimentprotocolstandardizationtoolsearch |

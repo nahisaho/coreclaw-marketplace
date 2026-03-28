@@ -1,35 +1,35 @@
 ---
 name: scientific-gdc-portal
 description: |
-  NCI Genomic Data Commons ポータルスキル。GDC REST API
-  を用いたがんゲノムプロジェクト横断検索・ケースメタデータ・
-  体細胞変異 (SSM)・遺伝子発現・ファイル取得。
-  ToolUniverse 連携: gdc。
+ NCI Genomic Data Commons skill。GDC REST API
+ usingcancergenomecross-cuttingsearchdata
+ cellvariant/mutation (SSM)gene expressionfileretrieval。
+ ToolUniverse integration: gdc。
 tu_tools:
-  - key: gdc
-    name: GDC
-    description: NCI Genomic Data Commons REST API
+ - key: gdc
+ name: GDC
+ description: NCI Genomic Data Commons REST API
 ---
 
 # Scientific GDC Portal
 
-NCI Genomic Data Commons (GDC) REST API を活用した
-がんゲノムプロジェクト横断検索・ケースメタデータ取得・
-体細胞変異 (SSM)・遺伝子発現パイプラインを提供する。
+NCI Genomic Data Commons (GDC) REST API utilizing
+cancergenomecross-cuttingsearchData Retrieval
+cellvariant/mutation (SSM)gene expressionpipeline is provided。
 
 ## When to Use
 
-- TCGA/TARGET 等のがんゲノムデータを横断検索するとき
-- がん種別のケースメタデータを取得するとき
-- 特定遺伝子の体細胞変異 (SSM) 頻度を調べるとき
-- がんプロジェクトの統計サマリーを取得するとき
-- GDC ファイルメタデータを検索してダウンロード URL を取得するとき
+- TCGA/TARGET 's cancergenomedatacross-cuttingsearchwhen needed
+- cancertype'sdata is retrievedand
+- gene'scellvariant/mutation (SSM) frequency is investigatedand
+- cancer'ssummary is retrievedand
+- GDC filedata search URL is retrievedand
 
 ---
 
 ## Quick Start
 
-## 1. プロジェクト検索・統計
+## 1. search
 
 ```python
 import requests
@@ -39,242 +39,242 @@ GDC_API = "https://api.gdc.cancer.gov"
 
 
 def gdc_projects(disease_type=None, limit=50):
-    """
-    GDC — プロジェクト検索。
+ """
+ GDC — search。
 
-    Parameters:
-        disease_type: str — 疾患タイプフィルタ
-            (例: "Breast Invasive Carcinoma")
-        limit: int — 最大結果数
-    """
-    url = f"{GDC_API}/projects"
-    params = {
-        "size": limit,
-        "fields": ("project_id,name,primary_site,"
-                    "disease_type,summary.case_count,"
-                    "summary.file_count"),
-    }
+ Parameters:
+ disease_type: str — diseasefilter
+ (example: "Breast Invasive Carcinoma")
+ limit: int — maximum results
+ """
+ url = f"{GDC_API}/projects"
+ params = {
+ "size": limit,
+ "fields": ("project_id,name,primary_site,"
+ "disease_type,summary.case_count,"
+ "summary.file_count"),
+ }
 
-    if disease_type:
-        params["filters"] = (
-            '{"op":"=","content":{"field":'
-            f'"disease_type","value":"{disease_type}"}}}}'
-        )
+ if disease_type:
+ params["filters"] = (
+ '{"op":"=","content":{"field":'
+ f'"disease_type","value":"{disease_type}"}}}}'
+ )
 
-    resp = requests.get(url, params=params, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
+ resp = requests.get(url, params=params, timeout=30)
+ resp.raise_for_status
+ data = resp.json
 
-    rows = []
-    for hit in data.get("data", {}).get("hits", []):
-        summary = hit.get("summary", {})
-        rows.append({
-            "project_id": hit.get("project_id", ""),
-            "name": hit.get("name", ""),
-            "primary_site": "; ".join(
-                hit.get("primary_site", [])),
-            "disease_type": "; ".join(
-                hit.get("disease_type", [])),
-            "case_count": summary.get(
-                "case_count", 0),
-            "file_count": summary.get(
-                "file_count", 0),
-        })
+ rows = []
+ for hit in data.get("data", {}).get("hits", []):
+ summary = hit.get("summary", {})
+ rows.append({
+ "project_id": hit.get("project_id", ""),
+ "name": hit.get("name", ""),
+ "primary_site": "; ".join(
+ hit.get("primary_site", [])),
+ "disease_type": "; ".join(
+ hit.get("disease_type", [])),
+ "case_count": summary.get(
+ "case_count", 0),
+ "file_count": summary.get(
+ "file_count", 0),
+ })
 
-    df = pd.DataFrame(rows)
-    print(f"GDC projects: {len(df)}")
-    return df
+ df = pd.DataFrame(rows)
+ print(f"GDC projects: {len(df)}")
+ return df
 ```
 
-## 2. ケースメタデータ
+## 2. data
 
 ```python
 def gdc_cases(project_id, limit=100):
-    """
-    GDC — ケースメタデータ取得。
+ """
+ GDC — Data Retrieval。
 
-    Parameters:
-        project_id: str — プロジェクト ID
-            (例: "TCGA-BRCA")
-        limit: int — 最大結果数
-    """
-    url = f"{GDC_API}/cases"
-    filters = {
-        "op": "=",
-        "content": {
-            "field": "project.project_id",
-            "value": project_id,
-        },
-    }
-    params = {
-        "filters": str(filters).replace("'", '"'),
-        "fields": ("case_id,submitter_id,"
-                    "demographic.gender,"
-                    "demographic.race,"
-                    "demographic.vital_status,"
-                    "diagnoses.primary_diagnosis,"
-                    "diagnoses.tumor_stage,"
-                    "diagnoses.age_at_diagnosis"),
-        "size": limit,
-    }
-    resp = requests.get(url, params=params, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
+ Parameters:
+ project_id: str — project ID
+ (example: "TCGA-BRCA")
+ limit: int — maximum results
+ """
+ url = f"{GDC_API}/cases"
+ filters = {
+ "op": "=",
+ "content": {
+ "field": "project.project_id",
+ "value": project_id,
+ },
+ }
+ params = {
+ "filters": str(filters).replace("'", '"'),
+ "fields": ("case_id,submitter_id,"
+ "demographic.gender,"
+ "demographic.race,"
+ "demographic.vital_status,"
+ "diagnoses.primary_diagnosis,"
+ "diagnoses.tumor_stage,"
+ "diagnoses.age_at_diagnosis"),
+ "size": limit,
+ }
+ resp = requests.get(url, params=params, timeout=30)
+ resp.raise_for_status
+ data = resp.json
 
-    rows = []
-    for hit in data.get("data", {}).get("hits", []):
-        demo = hit.get("demographic", {}) or {}
-        diag = (hit.get("diagnoses", [{}]) or [{}])[0]
-        rows.append({
-            "case_id": hit.get("case_id", ""),
-            "submitter_id": hit.get("submitter_id", ""),
-            "gender": demo.get("gender", ""),
-            "race": demo.get("race", ""),
-            "vital_status": demo.get(
-                "vital_status", ""),
-            "diagnosis": diag.get(
-                "primary_diagnosis", ""),
-            "stage": diag.get("tumor_stage", ""),
-            "age_at_diagnosis": diag.get(
-                "age_at_diagnosis", ""),
-        })
+ rows = []
+ for hit in data.get("data", {}).get("hits", []):
+ demo = hit.get("demographic", {}) or {}
+ diag = (hit.get("diagnoses", [{}]) or [{}])[0]
+ rows.append({
+ "case_id": hit.get("case_id", ""),
+ "submitter_id": hit.get("submitter_id", ""),
+ "gender": demo.get("gender", ""),
+ "race": demo.get("race", ""),
+ "vital_status": demo.get(
+ "vital_status", ""),
+ "diagnosis": diag.get(
+ "primary_diagnosis", ""),
+ "stage": diag.get("tumor_stage", ""),
+ "age_at_diagnosis": diag.get(
+ "age_at_diagnosis", ""),
+ })
 
-    df = pd.DataFrame(rows)
-    print(f"GDC cases: {project_id} → {len(df)}")
-    return df
+ df = pd.DataFrame(rows)
+ print(f"GDC cases: {project_id} → {len(df)}")
+ return df
 ```
 
-## 3. 体細胞変異 (SSM) 検索
+## 3. cellvariant/mutation (SSM) search
 
 ```python
 def gdc_ssm_by_gene(gene_symbol, project_id=None,
-                       limit=100):
-    """
-    GDC — 遺伝子別体細胞変異検索。
+ limit=100):
+ """
+ GDC — genecellvariant/mutationsearch。
 
-    Parameters:
-        gene_symbol: str — 遺伝子シンボル (例: "TP53")
-        project_id: str — プロジェクト ID フィルタ
-        limit: int — 最大結果数
-    """
-    url = f"{GDC_API}/ssms"
-    filters = {
-        "op": "and",
-        "content": [
-            {
-                "op": "=",
-                "content": {
-                    "field":
-                        "consequence.transcript."
-                        "gene.symbol",
-                    "value": gene_symbol,
-                },
-            }
-        ],
-    }
+ Parameters:
+ gene_symbol: str — gene symbol (example: "TP53")
+ project_id: str — project ID filter
+ limit: int — maximum results
+ """
+ url = f"{GDC_API}/ssms"
+ filters = {
+ "op": "and",
+ "content": [
+ {
+ "op": "=",
+ "content": {
+ "field":
+ "consequence.transcript."
+ "gene.symbol",
+ "value": gene_symbol,
+ },
+ }
+ ],
+ }
 
-    if project_id:
-        filters["content"].append({
-            "op": "=",
-            "content": {
-                "field": "cases.project.project_id",
-                "value": project_id,
-            },
-        })
+ if project_id:
+ filters["content"].append({
+ "op": "=",
+ "content": {
+ "field": "cases.project.project_id",
+ "value": project_id,
+ },
+ })
 
-    params = {
-        "filters": str(filters).replace("'", '"'),
-        "fields": ("ssm_id,genomic_dna_change,"
-                    "consequence.transcript.aa_change,"
-                    "consequence.transcript."
-                    "consequence_type,"
-                    "consequence.transcript."
-                    "gene.symbol"),
-        "size": limit,
-    }
-    resp = requests.get(url, params=params, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
+ params = {
+ "filters": str(filters).replace("'", '"'),
+ "fields": ("ssm_id,genomic_dna_change,"
+ "consequence.transcript.aa_change,"
+ "consequence.transcript."
+ "consequence_type,"
+ "consequence.transcript."
+ "gene.symbol"),
+ "size": limit,
+ }
+ resp = requests.get(url, params=params, timeout=30)
+ resp.raise_for_status
+ data = resp.json
 
-    rows = []
-    for hit in data.get("data", {}).get("hits", []):
-        for csq in hit.get("consequence", []):
-            tx = csq.get("transcript", {})
-            rows.append({
-                "ssm_id": hit.get("ssm_id", ""),
-                "genomic_change": hit.get(
-                    "genomic_dna_change", ""),
-                "gene": tx.get("gene", {}).get(
-                    "symbol", ""),
-                "aa_change": tx.get("aa_change", ""),
-                "consequence_type": tx.get(
-                    "consequence_type", ""),
-            })
+ rows = []
+ for hit in data.get("data", {}).get("hits", []):
+ for csq in hit.get("consequence", []):
+ tx = csq.get("transcript", {})
+ rows.append({
+ "ssm_id": hit.get("ssm_id", ""),
+ "genomic_change": hit.get(
+ "genomic_dna_change", ""),
+ "gene": tx.get("gene", {}).get(
+ "symbol", ""),
+ "aa_change": tx.get("aa_change", ""),
+ "consequence_type": tx.get(
+ "consequence_type", ""),
+ })
 
-    df = pd.DataFrame(rows)
-    print(f"GDC SSM: {gene_symbol} → {len(df)} variants")
-    return df
+ df = pd.DataFrame(rows)
+ print(f"GDC SSM: {gene_symbol} → {len(df)} variants")
+ return df
 ```
 
-## 4. GDC 統合パイプライン
+## 4. GDC integrationpipeline
 
 ```python
 def gdc_pipeline(project_id, gene_symbol=None,
-                    output_dir="results"):
-    """
-    GDC 統合パイプライン。
+ output_dir="results"):
+ """
+ GDC integrationpipeline。
 
-    Parameters:
-        project_id: str — プロジェクト ID
-        gene_symbol: str — 遺伝子フィルタ
-        output_dir: str — 出力ディレクトリ
-    """
-    from pathlib import Path
-    output_dir = Path(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
+ Parameters:
+ project_id: str — project ID
+ gene_symbol: str — genefilter
+ output_dir: str — output directory
+ """
+ from pathlib import Path
+ output_dir = Path(output_dir)
+ output_dir.mkdir(parents=True, exist_ok=True)
 
-    # 1) プロジェクト情報
-    projects = gdc_projects()
-    projects.to_csv(output_dir / "gdc_projects.csv",
-                    index=False)
+ # 1) information
+ projects = gdc_projects
+ projects.to_csv(output_dir / "gdc_projects.csv",
+ index=False)
 
-    # 2) ケースメタデータ
-    cases = gdc_cases(project_id)
-    cases.to_csv(output_dir / "gdc_cases.csv",
-                 index=False)
+ # 2) data
+ cases = gdc_cases(project_id)
+ cases.to_csv(output_dir / "gdc_cases.csv",
+ index=False)
 
-    # 3) 体細胞変異
-    if gene_symbol:
-        ssm = gdc_ssm_by_gene(gene_symbol, project_id)
-        ssm.to_csv(output_dir / "gdc_ssm.csv",
-                   index=False)
+ # 3) cellvariant/mutation
+ if gene_symbol:
+ ssm = gdc_ssm_by_gene(gene_symbol, project_id)
+ ssm.to_csv(output_dir / "gdc_ssm.csv",
+ index=False)
 
-    print(f"GDC pipeline: {project_id} → {output_dir}")
-    return {"cases": cases}
+ print(f"GDC pipeline: {project_id} → {output_dir}")
+ return {"cases": cases}
 ```
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
 | `gdc` | GDC | NCI Genomic Data Commons REST API |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 cancer-genomics → gdc-portal → precision-oncology
-  (COSMIC/DepMap)   (GDC API)    (MTB レポート)
-        │                │              ↓
-icgc-cancer-data ───────┘    variant-interpretation
-  (ICGC DCC)                 (ClinVar/ACMG)
+ (COSMIC/DepMap) (GDC API) (MTB report)
+ │ │ ↓
+icgc-cancer-data ───────┘ variant-interpretation
+ (ICGC DCC) (ClinVar/ACMG)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
-| ファイル | 説明 | 次スキル |
+| File | Description | Next Skill |
 |---------|------|---------|
-| `results/gdc_projects.csv` | プロジェクト一覧 | → cancer-genomics |
-| `results/gdc_cases.csv` | ケースメタデータ | → precision-oncology |
-| `results/gdc_ssm.csv` | 体細胞変異 | → variant-interpretation |
+| `results/gdc_projects.csv` | list | → cancer-genomics |
+| `results/gdc_cases.csv` | data | → precision-oncology |
+| `results/gdc_ssm.csv` | cellvariant/mutation | → variant-interpretation |

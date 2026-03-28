@@ -1,87 +1,87 @@
 ---
 name: scientific-peer-review
 description: |
-  実験結果の査読・レビュースキル。再現性・統計的妥当性・方法論の
-  健全性を体系的に評価し、構造化されたレビューレポートを生成する。
-  「レビューして」「査読して」「実験結果を評価して」で発火。
+ experimentresults'speer reviewskill。reproducibilitymethod's
+ all systematic evaluation、structurereport is generated。
+ 「」「peer review」「experimentresults evaluation」 。
 ---
 
 # Scientific Peer Review
 
-実験結果を体系的に評価し、再現性・統計的妥当性・方法論の
-健全性についてフィードバックを提供するスキル。
+experimentresults systematic evaluation、reproducibilitymethod's
+allabout is providedskill。
 
 ## When to Use
 
-- 実験結果の品質を評価するとき
-- 論文投稿前のセルフレビューを行うとき
-- チームメンバーの実験結果をレビューするとき
-- 統計解析の妥当性を確認するとき
+- experimentresults's is evaluatedand
+- paper's cell is performedand
+- 's experimentresultswhen needed
+- analysis's is verifiedand
 
 ## Quick Start
 
-### Step 1: データ・レポートの読解
-- 実験データファイルの確認（CSV, JSON, 画像）
-- 実験レポート / conversation.md の読解
-- 使用手法・パラメータの把握
+### Step 1: datareport's
+- experimentdatafile's verification（CSV, JSON, ）
+- experimentreport / conversation.md 's
+- formethodparameters's
 
-### Step 2: 方法論の評価
-- 実験デザインの適切性（対照群の有無、ブラインド）
-- サンプルサイズの十分性
-- 測定方法の妥当性
-- バイアスの可能性
+### Step 2: method'sevaluation
+- experiment's（group's 、）
+- sample size's min
+- measurementmethod's
+- 's possible
 
-### Step 3: 統計解析の検証
-- 使用された統計手法の適切性
-- 多重比較補正の有無
-- 効果量の報告
-- 信頼区間の記載
-- p値の解釈の妥当性
+### Step 3: analysis'sverification
+- formethod's
+- multiple comparisoncorrection's
+- effect size's
+- confidence interval's
+- p-value's 's
 
-### Step 4: 再現性の評価
-- 手順の詳細度（第三者が再現可能か）
-- データ・コードの公開状況
-- 環境条件の記録
+### Step 4: reproducibility's evaluation
+- procedure's detailsdegree（possible）
+- data's
+- environmentcondition's
 
-### Step 5: レビューレポート生成
+### Step 5: reportgeneration
 
 ## Output Format
 
-`peer_review.md` を以下の構造で生成:
+`peer_review.md` below/following's structuregeneration:
 
 ```markdown
-# 査読レポート
+# peer reviewreport
 
-## 総合評価
-[A: 優秀 / B: 良好 / C: 要修正 / D: 大幅修正]
+## evaluation
+[A: / B: / C: fix / D: fix]
 
-## 1. 方法論の評価
-## 2. 統計解析の妥当性
-## 3. 再現性の評価
-## 4. データの品質
-## 5. 結論の妥当性
-## 6. 改善提案
-## 7. 推奨事項
+## 1. method'sevaluation
+## 2. analysis's
+## 3. reproducibility's evaluation
+## 4. data's
+## 5. conclusion's
+## 6. improvement
+## 7. recommendedterm
 ```
 
 ## Scoring Criteria
 
-| 項目 | 評価基準 |
+| item | evaluationcriteria |
 |------|---------|
-| 方法論 | 実験デザインの適切性、対照群、ブラインド |
-| 統計 | 手法の適切性、多重比較、効果量 |
-| 再現性 | 手順の詳細度、データ公開 |
-| 結論 | データに基づいた論理的結論か |
+| method | experiment's 、group、 |
+| | method's 、multiple comparison、effect size |
+| reproducibility | procedure's detailsdegree、data |
+| conclusion | dataconclusion |
 
 ## Examples
 
-**プロンプト例:**
-- 「この実験結果をレビューして」
-- 「統計解析の妥当性を査読して」
-- 「再現性の観点から評価して」
+**Prompt Examples:**
+- 「's experimentresults」
+- 「analysis'speer review」
+- 「reproducibility's pointfromevaluation」
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
-| `crossref` | Crossref | 査読指摘の文献裏付け検索 |
+| `crossref` | Crossref | literature evidence for review comments |

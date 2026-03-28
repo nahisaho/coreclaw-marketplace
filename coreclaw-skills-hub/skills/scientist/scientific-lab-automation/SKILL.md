@@ -1,63 +1,63 @@
 ---
 name: scientific-lab-automation
 description: |
-  Lab automation skill. Laboratory workflow automation, instrument control scripting, sample tracking, experimental protocol automation, and LIMS integration.
+ Lab automation skill. Laboratory workflow automation, instrument control scripting, sample tracking, experimental protocol automation, and LIMS integration.
 tu_tools:
-  - key: biotools
-    name: bio.tools
-    description: 実験自動化ツールレジストリ検索
+ - key: biotools
+ name: bio.tools
+ description: experimentautomatedTool Registry Search
 ---
 
 # Scientific Lab Automation
 
-実験室自動化とプロトコル管理のスキル。液体ハンドリングロボットの制御、
-プロトコルの構造化・共有、電子実験ノート（ELN）連携、
-再現性のある実験ワークフローの構築を支援する。
+experimentautomated and protocol'sskill。's 、
+protocol's structure、experiment（ELN）integration、
+reproducibility's experimentworkflow'sconstruction is supported。
 
 ## When to Use
 
-- 液体ハンドリングプロトコルを自動化するとき
-- 実験プロトコルを標準化・共有するとき
-- ELN（電子実験ノート）や LIMS との連携を設定するとき
-- 再現性のある実験ワークフローを設計するとき
-- ハイスループットスクリーニング (HTS) を計画するとき
+- protocol automatedwhen needed
+- experimentprotocolstandardizationwhen needed
+- ELN（experiment） and LIMS and 's integrationsettingswhen needed
+- reproducibility'sexperimentworkflow is designedand
+- loop (HTS) designwhen needed
 
 ## Quick Start
 
-### 実験自動化パイプライン
+### experimentautomatedpipeline
 
 ```
 Step 1: Protocol Design
-  - 手順の構造化（input/output/parameters）
-  - SOP テンプレート作成
-  - パラメータの定義
-    ↓
+ - procedure's structure（input/output/parameters）
+ - SOP template
+ - parameters's definition
+ ↓
 Step 2: Automation Script
-  - PyLabRobot / Opentrons Python API
-  - ウェルプレートレイアウト定義
-  - ピペッティングシーケンス
-    ↓
+ - PyLabRobot / Opentrons Python API
+ - layoutdefinition
+ - 
+ ↓
 Step 3: Validation
-  - ドライラン（シミュレーション）
-  - キャリブレーション確認
-  - エッジケーステスト
-    ↓
+ - （simulation）
+ - verification
+ - edgetesting
+ ↓
 Step 4: Execution & Logging
-  - 自動実行
-  - データ自動記録
-  - 異常検出・アラート
-    ↓
+ - automated
+ - dataautomated
+ - alert
+ ↓
 Step 5: Documentation
-  - ELN エントリ自動生成
-  - Protocols.io 公開
-  - データ管理（LIMS 連携）
+ - ELN entryautomatedgeneration
+ - Protocols.io 
+ - data（LIMS integration）
 ```
 
 ---
 
-## Phase 1: 液体ハンドリング自動化
+## Phase 1: automated
 
-### PyLabRobot プロトコル
+### PyLabRobot protocol
 
 ```python
 # PyLabRobot: Universal Python interface for liquid handling robots
@@ -67,74 +67,74 @@ from pylabrobot.liquid_handling import LiquidHandler
 from pylabrobot.resources import Plate, Tip
 
 async def serial_dilution_protocol(lh: LiquidHandler, source_well, dest_plate,
-                                     dilution_factor=2, n_dilutions=8, volume_ul=100):
-    """
-    系列希釈プロトコル。
-    PyLabRobot の統一 API でロボット非依存の記述。
-    """
-    # 希釈バッファーを全ウェルに分注
-    buffer_volume = volume_ul * (1 - 1/dilution_factor)
-    for i in range(n_dilutions):
-        await lh.aspirate(
-            resource=lh.deck.get_resource("buffer_trough"),
-            volume=buffer_volume,
-        )
-        await lh.dispense(
-            resource=dest_plate[0][i],
-            volume=buffer_volume,
-        )
+ dilution_factor=2, n_dilutions=8, volume_ul=100):
+ """
+ systemprotocol。
+ PyLabRobot 's API dependency's。
+ """
+ # all minnote
+ buffer_volume = volume_ul * (1 - 1/dilution_factor)
+ for i in range(n_dilutions):
+ await lh.aspirate(
+ resource=lh.deck.get_resource("buffer_trough"),
+ volume=buffer_volume,
+ )
+ await lh.dispense(
+ resource=dest_plate[0][i],
+ volume=buffer_volume,
+ )
 
-    # 原液から系列希釈
-    transfer_volume = volume_ul / dilution_factor
-    await lh.aspirate(resource=source_well, volume=transfer_volume)
-    await lh.dispense(resource=dest_plate[0][0], volume=transfer_volume)
+ # fromsystem
+ transfer_volume = volume_ul / dilution_factor
+ await lh.aspirate(resource=source_well, volume=transfer_volume)
+ await lh.dispense(resource=dest_plate[0][0], volume=transfer_volume)
 
-    for i in range(n_dilutions - 1):
-        await lh.aspirate(resource=dest_plate[0][i], volume=transfer_volume)
-        await lh.dispense(resource=dest_plate[0][i+1], volume=transfer_volume)
+ for i in range(n_dilutions - 1):
+ await lh.aspirate(resource=dest_plate[0][i], volume=transfer_volume)
+ await lh.dispense(resource=dest_plate[0][i+1], volume=transfer_volume)
 
-    return {"status": "complete", "n_dilutions": n_dilutions}
+ return {"status": "complete", "n_dilutions": n_dilutions}
 ```
 
-### Opentrons OT-2 プロトコル
+### Opentrons OT-2 protocol
 
 ```python
 from opentrons import protocol_api
 
 metadata = {
-    'protocolName': 'Serial Dilution',
-    'author': 'SATORI',
-    'apiLevel': '2.16',
+ 'protocolName': 'Serial Dilution',
+ 'author': 'SATORI',
+ 'apiLevel': '2.16',
 }
 
 def run(protocol: protocol_api.ProtocolContext):
-    # ラビューアの定義
-    tiprack = protocol.load_labware('opentrons_96_tiprack_300ul', 1)
-    plate = protocol.load_labware('corning_96_wellplate_360ul_flat', 2)
-    reservoir = protocol.load_labware('nest_12_reservoir_15ml', 3)
-    pipette = protocol.load_instrument('p300_single_gen2', 'left', tip_racks=[tiprack])
+ # 'sdefinition
+ tiprack = protocol.load_labware('opentrons_96_tiprack_300ul', 1)
+ plate = protocol.load_labware('corning_96_wellplate_360ul_flat', 2)
+ reservoir = protocol.load_labware('nest_12_reservoir_15ml', 3)
+ pipette = protocol.load_instrument('p300_single_gen2', 'left', tip_racks=[tiprack])
 
-    # 希釈バッファー分注
-    pipette.distribute(
-        100,
-        reservoir['A1'],
-        plate.columns()[1:12],
-    )
+ # minnote
+ pipette.distribute(
+ 100,
+ reservoir['A1'],
+ plate.columns[1:12],
+ )
 
-    # 系列希釈
-    pipette.transfer(
-        100,
-        plate.columns()[:11],
-        plate.columns()[1:12],
-        mix_after=(3, 50),
-    )
+ # system
+ pipette.transfer(
+ 100,
+ plate.columns[:11],
+ plate.columns[1:12],
+ mix_after=(3, 50),
+ )
 ```
 
 ---
 
-## Phase 2: プロトコル構造化
+## Phase 2: protocolstructure
 
-### SOP テンプレート
+### SOP template
 
 ```markdown
 ## Standard Operating Procedure
@@ -178,38 +178,38 @@ def run(protocol: protocol_api.ProtocolContext):
 
 ---
 
-## Phase 3: ELN / LIMS 連携
+## Phase 3: ELN / LIMS integration
 
-### Protocols.io 連携
+### Protocols.io integration
 
 ```python
 def create_protocol_io_entry(protocol_data):
-    """
-    Protocols.io API でプロトコルを作成。
-    """
-    import requests
+ """
+ Protocols.io API protocol。
+ """
+ import requests
 
-    headers = {
-        "Authorization": f"Bearer {PROTOCOLS_IO_TOKEN}",
-        "Content-Type": "application/json",
-    }
+ headers = {
+ "Authorization": f"Bearer {PROTOCOLS_IO_TOKEN}",
+ "Content-Type": "application/json",
+ }
 
-    payload = {
-        "title": protocol_data["title"],
-        "description": protocol_data["description"],
-        "steps": [
-            {"description": step, "duration": dur}
-            for step, dur in zip(protocol_data["steps"], protocol_data["durations"])
-        ],
-        "materials": protocol_data.get("materials", []),
-    }
+ payload = {
+ "title": protocol_data["title"],
+ "description": protocol_data["description"],
+ "steps": [
+ {"description": step, "duration": dur}
+ for step, dur in zip(protocol_data["steps"], protocol_data["durations"])
+ ],
+ "materials": protocol_data.get("materials", []),
+ }
 
-    response = requests.post(
-        "https://www.protocols.io/api/v4/protocols",
-        headers=headers,
-        json=payload,
-    )
-    return response.json()
+ response = requests.post(
+ "https://www.protocols.io/api/v4/protocols",
+ headers=headers,
+ json=payload,
+ )
+ return response.json
 ```
 
 ---
@@ -237,26 +237,26 @@ def create_protocol_io_entry(protocol_data):
 
 ## Completeness Checklist
 
-- [ ] プロトコル構造化: 全ステップが明確に定義
-- [ ] パラメータ定義: ボリューム、温度、時間を指定
-- [ ] バリデーション: ドライラン/シミュレーション実施
-- [ ] QC 基準: 受入基準を事前定義
-- [ ] データ管理: 自動記録の設定
-- [ ] ドキュメント: SOP + ELN エントリ
+- [ ] protocolstructure: allstepcleardefinition
+- [ ] parametersdefinition: 、temperature、time specification
+- [ ] : /simulation
+- [ ] QC criteria: criteriadefinition
+- [ ] data: automated'ssettings
+- [ ] : SOP + ELN entry
 
 ## Best Practices
 
-1. **ロボット非依存で設計**: PyLabRobot の統一 API で機種依存を排除
-2. **ドライランを必ず実施**: 実液を使う前にシミュレーションで確認
-3. **Dead volume を計算**: リザーバの dead volume を考慮した余裕量
-4. **ピペッティング精度を検証**: 蛍光色素/重量法で実測値を確認
-5. **バージョン管理**: プロトコルの変更を Git で追跡
+1. **dependencydesign**: PyLabRobot 's API typedependency
+2. ****: simulationverification
+3. **Dead volume calculation**: 's dead volume amount
+4. **degreeverification**: /amountmethod valueverification
+5. ****: protocol's change Git 
 
 ## ToolUniverse Integration
 
 | TU Key | Tool Name | Integration |
 |--------|---------|--------|
-| `biotools` | bio.tools | 実験自動化ツールレジストリ検索 |
+| `biotools` | bio.tools | experimentautomatedTool Registry Search |
 
 ## References
 
@@ -264,34 +264,34 @@ def create_protocol_io_entry(protocol_data):
 
 | File | Format | Generated When |
 |---|---|---|
-| `protocols/protocol.py` | 自動化プロトコル（Python） | プロトコル設計完了時 |
-| `protocols/sop.md` | SOP テンプレート（Markdown） | SOP 作成完了時 |
-| `results/qc_report.json` | QC レポート（JSON） | バリデーション完了時 |
+| `protocols/protocol.py` | automatedprotocol（Python） | protocoldesigncompletion |
+| `protocols/sop.md` | SOP template（Markdown） | SOP completion |
+| `results/qc_report.json` | QC report（JSON） | completion |
 
 ### Related Skills
 
 | Skill | Integration |
 |---|---|
-| `scientific-protein-design` | ← 設計タンパク質の発現・精製プロトコル |
-| `scientific-doe` | ← 実験計画に基づく自動化プロトコル設計 |
-| `scientific-process-optimization` | ← 最適化パラメータの実装 |
-| `scientific-data-preprocessing` | → 自動取得データの前処理 |
-| `scientific-academic-writing` | → 自動化手法の Methods 記載 |
+| `scientific-protein-design` | ← designprotein's expressionprotocol |
+| `scientific-doe` | ← Experimental Design-basedautomatedprotocoldesign |
+| `scientific-process-optimization` | ← optimizationparameters's implementation |
+| `scientific-data-preprocessing` | → automatedretrievaldata's preprocessing |
+| `scientific-academic-writing` | → automatedmethod's Methods |
 
 ---
 
 ## Verification Loop (v0.3.0)
 
 ```
-PLAN   → define scope, inputs, expected outputs
+PLAN → define scope, inputs, expected outputs
 EXECUTE → run analysis pipeline
-VERIFY  → check outputs against quality gates
-REPORT  → save all artifacts, generate report.md
+VERIFY → check outputs against quality gates
+REPORT → save all artifacts, generate report.md
 ```
 
 ### Quality Gates
 
-- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures saved to `figures/` (not plt.show)
 - [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
 - [ ] Numeric results saved as JSON/CSV in `results/`
 - [ ] Report includes methods, results, and discussion

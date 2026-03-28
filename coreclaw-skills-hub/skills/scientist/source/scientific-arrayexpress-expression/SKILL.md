@@ -1,34 +1,34 @@
 ---
 name: scientific-arrayexpress-expression
 description: |
-  ArrayExpress 発現アーカイブスキル。BioStudies/ArrayExpress
-  REST API によるマイクロアレイ・RNA-seq 発現実験検索・メタ
-  データ取得・データ再解析。ToolUniverse 連携: arrayexpress。
+ ArrayExpress expressionskill。BioStudies/ArrayExpress
+ REST API by/viaRNA-seq expressionexperimentsearch
+ Data Retrievaldataanalysis。ToolUniverse integration: arrayexpress。
 tu_tools:
-  - key: arrayexpress
-    name: ArrayExpress
-    description: ArrayExpress 発現実験検索・メタデータ・ファイル取得
+ - key: arrayexpress
+ name: ArrayExpress
+ description: ArrayExpress expressionexperimentsearchdatafileretrieval
 ---
 
 # Scientific ArrayExpress Expression
 
-EBI ArrayExpress / BioStudies REST API を活用した発現データ
-アーカイブ検索・再解析パイプラインを提供する。
+EBI ArrayExpress / BioStudies REST API utilizingexpressiondata
+searchanalysispipeline is provided。
 
 ## When to Use
 
-- ArrayExpress/BioStudies の発現実験を検索するとき
-- マイクロアレイ/RNA-seq 発現データのメタデータを取得するとき
-- SDRF サンプル情報テーブルを解析するとき
-- E-MTAB/E-GEOD アクセッションからデータ再解析するとき
-- 発現データアーカイブを横断検索するとき
-- GEO と ArrayExpress の両方でデータを探すとき
+- ArrayExpress/BioStudies 's expressionexperiment is searchedand
+- /RNA-seq expressiondata'sdata is retrievedand
+- SDRF informationtableanalysiswhen needed
+- E-MTAB/E-GEOD accessionfromdataanalysiswhen needed
+- expressiondatacross-cuttingsearchwhen needed
+- GEO and ArrayExpress 's data and
 
 ---
 
 ## Quick Start
 
-## 1. BioStudies 発現実験検索
+## 1. BioStudies expressionexperimentsearch
 
 ```python
 import requests
@@ -39,226 +39,226 @@ AE_BASE = "https://www.ebi.ac.uk/arrayexpress/json/v3"
 
 
 def arrayexpress_search_experiments(query, organism=None,
-                                       experiment_type=None,
-                                       limit=50):
-    """
-    ArrayExpress — 発現実験検索 (BioStudies API)。
+ experiment_type=None,
+ limit=50):
+ """
+ ArrayExpress — expressionexperimentsearch (BioStudies API)。
 
-    Parameters:
-        query: str — 検索クエリ (例: "breast cancer RNA-seq")
-        organism: str — 生物種 (例: "Homo sapiens")
-        experiment_type: str — 実験タイプ (例: "RNA-seq of coding RNA")
-        limit: int — 最大結果数
-    """
-    url = f"{BIOSTUDIES_BASE}/search"
-    params = {
-        "query": query,
-        "type": "study",
-        "pageSize": limit,
-    }
-    if organism:
-        params["organism"] = organism
-    if experiment_type:
-        params["experimenttype"] = experiment_type
+ Parameters:
+ query: str — search query (example: "breast cancer RNA-seq")
+ organism: str — organism/species (example: "Homo sapiens")
+ experiment_type: str — experiment (example: "RNA-seq of coding RNA")
+ limit: int — maximum results
+ """
+ url = f"{BIOSTUDIES_BASE}/search"
+ params = {
+ "query": query,
+ "type": "study",
+ "pageSize": limit,
+ }
+ if organism:
+ params["organism"] = organism
+ if experiment_type:
+ params["experimenttype"] = experiment_type
 
-    resp = requests.get(url, params=params, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
+ resp = requests.get(url, params=params, timeout=30)
+ resp.raise_for_status
+ data = resp.json
 
-    hits = data.get("hits", [])
-    results = []
-    for h in hits:
-        attrs = {a.get("name", ""): a.get("value", "")
-                 for a in h.get("attributes", [])}
-        results.append({
-            "accession": h.get("accession", ""),
-            "title": attrs.get("Title", h.get("title", "")),
-            "organism": attrs.get("Organism", ""),
-            "experiment_type": attrs.get("Experiment type", ""),
-            "release_date": h.get("releaseDate", ""),
-            "files_count": h.get("filesCount", 0),
-            "links_count": h.get("linksCount", 0),
-        })
+ hits = data.get("hits", [])
+ results = []
+ for h in hits:
+ attrs = {a.get("name", ""): a.get("value", "")
+ for a in h.get("attributes", [])}
+ results.append({
+ "accession": h.get("accession", ""),
+ "title": attrs.get("Title", h.get("title", "")),
+ "organism": attrs.get("Organism", ""),
+ "experiment_type": attrs.get("Experiment type", ""),
+ "release_date": h.get("releaseDate", ""),
+ "files_count": h.get("filesCount", 0),
+ "links_count": h.get("linksCount", 0),
+ })
 
-    df = pd.DataFrame(results)
-    print(f"ArrayExpress search: {len(df)} experiments "
-          f"(query={query})")
-    return df
+ df = pd.DataFrame(results)
+ print(f"ArrayExpress search: {len(df)} experiments "
+ f"(query={query})")
+ return df
 ```
 
-## 2. 実験メタデータ・SDRF 取得
+## 2. experimentdataSDRF retrieval
 
 ```python
 def arrayexpress_get_experiment(accession):
-    """
-    ArrayExpress — 実験メタデータ & SDRF 取得。
+ """
+ ArrayExpress — experimentdata & SDRF retrieval。
 
-    Parameters:
-        accession: str — アクセッション (例: "E-MTAB-12345")
-    """
-    url = f"{BIOSTUDIES_BASE}/studies/{accession}"
-    resp = requests.get(url, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
+ Parameters:
+ accession: str — accession (example: "E-MTAB-12345")
+ """
+ url = f"{BIOSTUDIES_BASE}/studies/{accession}"
+ resp = requests.get(url, timeout=30)
+ resp.raise_for_status
+ data = resp.json
 
-    # メタデータ
-    attrs = {a.get("name", ""): a.get("value", "")
-             for a in data.get("attributes", [])}
-    metadata = {
-        "accession": accession,
-        "title": attrs.get("Title", ""),
-        "description": attrs.get("Description", "")[:500],
-        "organism": attrs.get("Organism", ""),
-        "experiment_type": attrs.get("Experiment type", ""),
-        "release_date": data.get("releaseDate", ""),
-    }
+ # data
+ attrs = {a.get("name", ""): a.get("value", "")
+ for a in data.get("attributes", [])}
+ metadata = {
+ "accession": accession,
+ "title": attrs.get("Title", ""),
+ "description": attrs.get("Description", "")[:500],
+ "organism": attrs.get("Organism", ""),
+ "experiment_type": attrs.get("Experiment type", ""),
+ "release_date": data.get("releaseDate", ""),
+ }
 
-    # ファイル一覧
-    files = []
-    for section in data.get("section", {}).get("files", []):
-        if isinstance(section, list):
-            for f in section:
-                files.append({
-                    "filename": f.get("path", ""),
-                    "type": f.get("type", ""),
-                    "size": f.get("size", 0),
-                })
-        elif isinstance(section, dict):
-            files.append({
-                "filename": section.get("path", ""),
-                "type": section.get("type", ""),
-                "size": section.get("size", 0),
-            })
+ # filelist
+ files = []
+ for section in data.get("section", {}).get("files", []):
+ if isinstance(section, list):
+ for f in section:
+ files.append({
+ "filename": f.get("path", ""),
+ "type": f.get("type", ""),
+ "size": f.get("size", 0),
+ })
+ elif isinstance(section, dict):
+ files.append({
+ "filename": section.get("path", ""),
+ "type": section.get("type", ""),
+ "size": section.get("size", 0),
+ })
 
-    files_df = pd.DataFrame(files)
+ files_df = pd.DataFrame(files)
 
-    # SDRF 取得試行
-    sdrf_url = (f"https://www.ebi.ac.uk/biostudies/files/"
-                f"{accession}/{accession}.sdrf.txt")
-    sdrf_df = pd.DataFrame()
-    try:
-        sdrf_resp = requests.get(sdrf_url, timeout=30)
-        if sdrf_resp.status_code == 200:
-            from io import StringIO
-            sdrf_df = pd.read_csv(StringIO(sdrf_resp.text), sep="\t")
-    except Exception:
-        pass
+ # SDRF retrieval
+ sdrf_url = (f"https://www.ebi.ac.uk/biostudies/files/"
+ f"{accession}/{accession}.sdrf.txt")
+ sdrf_df = pd.DataFrame
+ try:
+ sdrf_resp = requests.get(sdrf_url, timeout=30)
+ if sdrf_resp.status_code == 200:
+ from io import StringIO
+ sdrf_df = pd.read_csv(StringIO(sdrf_resp.text), sep="\t")
+ except Exception:
+ pass
 
-    print(f"ArrayExpress {accession}: {len(files_df)} files, "
-          f"{len(sdrf_df)} SDRF rows")
-    return metadata, files_df, sdrf_df
+ print(f"ArrayExpress {accession}: {len(files_df)} files, "
+ f"{len(sdrf_df)} SDRF rows")
+ return metadata, files_df, sdrf_df
 ```
 
-## 3. 発現データダウンロード・処理
+## 3. expressiondata
 
 ```python
 def arrayexpress_download_matrix(accession, output_dir="results"):
-    """
-    ArrayExpress — 発現マトリクスダウンロード。
+ """
+ ArrayExpress — expression。
 
-    Parameters:
-        accession: str — アクセッション
-        output_dir: str — 出力ディレクトリ
-    """
-    from pathlib import Path
-    output_dir = Path(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
+ Parameters:
+ accession: str — accession
+ output_dir: str — output directory
+ """
+ from pathlib import Path
+ output_dir = Path(output_dir)
+ output_dir.mkdir(parents=True, exist_ok=True)
 
-    metadata, files_df, sdrf_df = arrayexpress_get_experiment(accession)
+ metadata, files_df, sdrf_df = arrayexpress_get_experiment(accession)
 
-    # 処理済み発現ファイル検索
-    expr_files = files_df[
-        files_df["filename"].str.contains(
-            r"processed|normalized|expression|counts",
-            case=False, na=False)
-    ]
+ # expressionfilesearch
+ expr_files = files_df[
+ files_df["filename"].str.contains(
+ r"processed|normalized|expression|counts",
+ case=False, na=False)
+ ]
 
-    downloaded = []
-    for _, frow in expr_files.iterrows():
-        fname = frow["filename"]
-        url = (f"https://www.ebi.ac.uk/biostudies/files/"
-               f"{accession}/{fname}")
-        try:
-            resp = requests.get(url, timeout=120)
-            if resp.status_code == 200:
-                fpath = output_dir / fname.split("/")[-1]
-                fpath.write_bytes(resp.content)
-                downloaded.append(str(fpath))
-        except Exception:
-            continue
+ downloaded = []
+ for _, frow in expr_files.iterrows:
+ fname = frow["filename"]
+ url = (f"https://www.ebi.ac.uk/biostudies/files/"
+ f"{accession}/{fname}")
+ try:
+ resp = requests.get(url, timeout=120)
+ if resp.status_code == 200:
+ fpath = output_dir / fname.split("/")[-1]
+ fpath.write_bytes(resp.content)
+ downloaded.append(str(fpath))
+ except Exception:
+ continue
 
-    # SDRF 保存
-    if not sdrf_df.empty:
-        sdrf_df.to_csv(output_dir / "sdrf.csv", index=False)
+ # SDRF save
+ if not sdrf_df.empty:
+ sdrf_df.to_csv(output_dir / "sdrf.csv", index=False)
 
-    print(f"ArrayExpress download: {len(downloaded)} files → "
-          f"{output_dir}")
-    return {
-        "metadata": metadata,
-        "files": downloaded,
-        "sdrf": sdrf_df,
-    }
+ print(f"ArrayExpress download: {len(downloaded)} files → "
+ f"{output_dir}")
+ return {
+ "metadata": metadata,
+ "files": downloaded,
+ "sdrf": sdrf_df,
+ }
 ```
 
-## 4. ArrayExpress 統合パイプライン
+## 4. ArrayExpress integrationpipeline
 
 ```python
 def arrayexpress_pipeline(query, organism="Homo sapiens",
-                            output_dir="results"):
-    """
-    ArrayExpress 統合パイプライン。
+ output_dir="results"):
+ """
+ ArrayExpress integrationpipeline。
 
-    Parameters:
-        query: str — 検索クエリ
-        organism: str — 生物種
-        output_dir: str — 出力ディレクトリ
-    """
-    from pathlib import Path
-    output_dir = Path(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
+ Parameters:
+ query: str — search query
+ organism: str — organism/species
+ output_dir: str — output directory
+ """
+ from pathlib import Path
+ output_dir = Path(output_dir)
+ output_dir.mkdir(parents=True, exist_ok=True)
 
-    # 1) 実験検索
-    experiments = arrayexpress_search_experiments(
-        query, organism=organism)
-    experiments.to_csv(output_dir / "experiments.csv", index=False)
+ # 1) experimentsearch
+ experiments = arrayexpress_search_experiments(
+ query, organism=organism)
+ experiments.to_csv(output_dir / "experiments.csv", index=False)
 
-    # 2) トップ実験の詳細
-    if not experiments.empty:
-        top_acc = experiments.iloc[0]["accession"]
-        metadata, files, sdrf = arrayexpress_get_experiment(top_acc)
-        files.to_csv(output_dir / "experiment_files.csv", index=False)
-        if not sdrf.empty:
-            sdrf.to_csv(output_dir / "sdrf.csv", index=False)
+ # 2) experiment'sdetails
+ if not experiments.empty:
+ top_acc = experiments.iloc[0]["accession"]
+ metadata, files, sdrf = arrayexpress_get_experiment(top_acc)
+ files.to_csv(output_dir / "experiment_files.csv", index=False)
+ if not sdrf.empty:
+ sdrf.to_csv(output_dir / "sdrf.csv", index=False)
 
-    print(f"ArrayExpress pipeline: {output_dir}")
-    return {"experiments": experiments}
+ print(f"ArrayExpress pipeline: {output_dir}")
+ return {"experiments": experiments}
 ```
 
 ---
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|---------|
-| `arrayexpress` | ArrayExpress | 発現実験検索・メタデータ・ファイル取得 |
+| `arrayexpress` | ArrayExpress | expressionexperimentsearchdatafileretrieval |
 
-## パイプライン統合
+## Pipeline Integration
 
 ```
 ebi-databases → arrayexpress-expression → gene-expression-transcriptomics
-  (EBI Search)   (ArrayExpress/BioStudies)  (DESeq2/GSEA)
-       │                   │                       ↓
-  geo-expression ─────────┘               pathway-enrichment
-  (GEO データ)        │                   (KEGG/Reactome)
-                       ↓
-                  multi-omics
-                  (統合解析)
+ (EBI Search) (ArrayExpress/BioStudies) (DESeq2/GSEA)
+ │ │ ↓
+ geo-expression ─────────┘ pathway-enrichment
+ (GEO data) │ (KEGG/Reactome)
+ ↓
+ multi-omics
+ (integrated analysis)
 ```
 
-## パイプライン出力
+## Pipeline Output
 
-| ファイル | 説明 | 次スキル |
+| File | Description | Next Skill |
 |---------|------|---------|
-| `results/experiments.csv` | 実験一覧 | → geo-expression |
-| `results/sdrf.csv` | サンプル情報 | → gene-expression-transcriptomics |
-| `results/experiment_files.csv` | ファイルリスト | → data-preprocessing |
+| `results/experiments.csv` | experimentlist | → geo-expression |
+| `results/sdrf.csv` | information | → gene-expression-transcriptomics |
+| `results/experiment_files.csv` | file | → data-preprocessing |

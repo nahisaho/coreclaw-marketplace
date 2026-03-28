@@ -1,28 +1,28 @@
 ---
 name: scientific-expression-comparison
 description: |
-  Gene expression comparison skill. Differential expression analysis (DESeq2/edgeR/limma), multi-condition comparison, volcano plots, and enrichment analysis pipelines.
+ Gene expression comparison skill. Differential expression analysis (DESeq2/edgeR/limma), multi-condition comparison, volcano plots, and enrichment analysis pipelines.
 ---
 
 # Scientific Expression Comparison
 
-EBI Expression Atlas API を中核として GTEx/HPA データと統合した
-遺伝子発現比較パイプラインを提供する。ベースライン発現・差次的発現・
-実験メタデータを横断的に検索・比較。
+EBI Expression Atlas API as GTEx/HPA dataand integration
+gene expressioncomparisonpipeline is provided。expressionexpression
+experimentdatacross-cuttingsearchcomparison。
 
 ## When to Use
 
-- EBI Expression Atlas で遺伝子のベースライン発現パターンを調べるとき
-- 疾患 vs 正常の差次的発現データを検索するとき
-- 複数の組織/細胞型にわたる発現比較を行うとき
-- Expression Atlas の実験メタデータを取得するとき
-- GTEx/HPA の発現データと統合して比較分析するとき
+- EBI Expression Atlas gene's expression is investigatedand
+- disease vs 'sexpressiondata is searchedand
+- multiple'stissue/celltypeexpressioncomparison is performedand
+- Expression Atlas 's experimentdata is retrievedand
+- GTEx/HPA 's expressiondata and integrationcomparisonminwhen needed
 
 ---
 
 ## Quick Start
 
-## 1. ベースライン発現検索
+## 1. expressionsearch
 
 ```python
 import requests
@@ -33,202 +33,202 @@ ATLAS_REST = "https://www.ebi.ac.uk/gxa"
 
 
 def get_baseline_expression(gene, species="homo sapiens"):
-    """
-    Expression Atlas ベースライン発現プロファイル取得。
+ """
+ Expression Atlas expressionfileretrieval。
 
-    Parameters:
-        gene: str — 遺伝子シンボルまたは Ensembl ID
-        species: str — 生物種
+ Parameters:
+ gene: str — gene symbolor Ensembl ID
+ species: str — organism/species
 
-    ToolUniverse:
-        ExpressionAtlas_get_baseline(gene=gene, species=species)
-    """
-    url = f"{ATLAS_REST}/json/baseline_expression"
-    params = {"gene": gene, "species": species}
-    resp = requests.get(url, params=params)
-    resp.raise_for_status()
-    data = resp.json()
+ ToolUniverse:
+ ExpressionAtlas_get_baseline(gene=gene, species=species)
+ """
+ url = f"{ATLAS_REST}/json/baseline_expression"
+ params = {"gene": gene, "species": species}
+ resp = requests.get(url, params=params)
+ resp.raise_for_status
+ data = resp.json
 
-    profiles = data.get("profiles", {}).get("rows", [])
-    rows = []
-    for profile in profiles:
-        gene_name = profile.get("name", gene)
-        for exp in profile.get("expressions", []):
-            rows.append({
-                "gene": gene_name,
-                "factor_value": exp.get("factorValue", ""),
-                "expression_level": exp.get("value"),
-                "unit": "TPM",
-            })
+ profiles = data.get("profiles", {}).get("rows", [])
+ rows = []
+ for profile in profiles:
+ gene_name = profile.get("name", gene)
+ for exp in profile.get("expressions", []):
+ rows.append({
+ "gene": gene_name,
+ "factor_value": exp.get("factorValue", ""),
+ "expression_level": exp.get("value"),
+ "unit": "TPM",
+ })
 
-    df = pd.DataFrame(rows)
-    print(f"Baseline expression for {gene}: {len(df)} tissue/cell profiles")
-    return df
+ df = pd.DataFrame(rows)
+ print(f"Baseline expression for {gene}: {len(df)} tissue/cell profiles")
+ return df
 ```
 
-## 2. 差次的発現検索
+## 2. expressionsearch
 
 ```python
 def search_differential_expression(gene, condition=None, species="homo sapiens"):
-    """
-    差次的発現実験の検索。
+ """
+ expressionexperiment'ssearch。
 
-    Parameters:
-        gene: str — 遺伝子シンボルまたは Ensembl ID
-        condition: str — 条件 (例: "cancer", "inflammation")
-        species: str — 生物種
+ Parameters:
+ gene: str — gene symbolor Ensembl ID
+ condition: str — condition (example: "cancer", "inflammation")
+ species: str — organism/species
 
-    ToolUniverse:
-        ExpressionAtlas_search_differential(
-            gene=gene, condition=condition, species=species
-        )
-    """
-    url = f"{ATLAS_REST}/json/search"
-    params = {"geneQuery": gene, "species": species}
-    if condition:
-        params["conditionQuery"] = condition
+ ToolUniverse:
+ ExpressionAtlas_search_differential(
+ gene=gene, condition=condition, species=species
+ )
+ """
+ url = f"{ATLAS_REST}/json/search"
+ params = {"geneQuery": gene, "species": species}
+ if condition:
+ params["conditionQuery"] = condition
 
-    resp = requests.get(url, params=params)
-    resp.raise_for_status()
-    data = resp.json()
+ resp = requests.get(url, params=params)
+ resp.raise_for_status
+ data = resp.json
 
-    results = data.get("results", [])
-    rows = []
-    for r in results:
-        rows.append({
-            "experiment_accession": r.get("experimentAccession"),
-            "experiment_description": r.get("experimentDescription", "")[:200],
-            "experiment_type": r.get("experimentType"),
-            "species": r.get("species"),
-            "contrast": r.get("contrastId", ""),
-            "log2_fold_change": r.get("foldChange"),
-            "p_value": r.get("pValue"),
-        })
+ results = data.get("results", [])
+ rows = []
+ for r in results:
+ rows.append({
+ "experiment_accession": r.get("experimentAccession"),
+ "experiment_description": r.get("experimentDescription", "")[:200],
+ "experiment_type": r.get("experimentType"),
+ "species": r.get("species"),
+ "contrast": r.get("contrastId", ""),
+ "log2_fold_change": r.get("foldChange"),
+ "p_value": r.get("pValue"),
+ })
 
-    df = pd.DataFrame(rows)
-    print(f"Differential expression for {gene}: {len(df)} contrasts found")
-    return df
+ df = pd.DataFrame(rows)
+ print(f"Differential expression for {gene}: {len(df)} contrasts found")
+ return df
 ```
 
-## 3. 実験メタデータ取得
+## 3. experimentData Retrieval
 
 ```python
 def get_experiment_details(accession):
-    """
-    Expression Atlas 実験詳細取得。
+ """
+ Expression Atlas experimentdetailsretrieval。
 
-    Parameters:
-        accession: str — 実験 ID (例: "E-MTAB-5214")
+ Parameters:
+ accession: str — experiment ID (example: "E-MTAB-5214")
 
-    ToolUniverse:
-        ExpressionAtlas_get_experiment(accession=accession)
-    """
-    url = f"{ATLAS_REST}/json/experiments/{accession}"
-    resp = requests.get(url)
-    resp.raise_for_status()
-    data = resp.json()
+ ToolUniverse:
+ ExpressionAtlas_get_experiment(accession=accession)
+ """
+ url = f"{ATLAS_REST}/json/experiments/{accession}"
+ resp = requests.get(url)
+ resp.raise_for_status
+ data = resp.json
 
-    experiment = data.get("experiment", {})
-    info = {
-        "accession": experiment.get("accession"),
-        "description": experiment.get("description"),
-        "type": experiment.get("type"),
-        "species": experiment.get("species", []),
-        "pubmed_ids": experiment.get("pubmedIds", []),
-        "n_assays": experiment.get("numberOfAssays"),
-        "n_contrasts": experiment.get("numberOfContrasts"),
-        "last_updated": experiment.get("lastUpdate"),
-    }
+ experiment = data.get("experiment", {})
+ info = {
+ "accession": experiment.get("accession"),
+ "description": experiment.get("description"),
+ "type": experiment.get("type"),
+ "species": experiment.get("species", []),
+ "pubmed_ids": experiment.get("pubmedIds", []),
+ "n_assays": experiment.get("numberOfAssays"),
+ "n_contrasts": experiment.get("numberOfContrasts"),
+ "last_updated": experiment.get("lastUpdate"),
+ }
 
-    print(f"Experiment: {info['accession']} — {info['description'][:100]}")
-    return info
+ print(f"Experiment: {info['accession']} — {info['description'][:100]}")
+ return info
 ```
 
-## 4. 実験検索
+## 4. experimentsearch
 
 ```python
 def search_experiments(gene=None, condition=None, species="homo sapiens"):
-    """
-    Expression Atlas 実験検索。
+ """
+ Expression Atlas experimentsearch。
 
-    Parameters:
-        gene: str — 遺伝子クエリ
-        condition: str — 条件クエリ
-        species: str — 生物種
+ Parameters:
+ gene: str — gene
+ condition: str — condition
+ species: str — organism/species
 
-    ToolUniverse:
-        ExpressionAtlas_search_experiments(
-            gene=gene, condition=condition, species=species
-        )
-    """
-    url = f"{ATLAS_REST}/json/search"
-    params = {"species": species}
-    if gene:
-        params["geneQuery"] = gene
-    if condition:
-        params["conditionQuery"] = condition
+ ToolUniverse:
+ ExpressionAtlas_search_experiments(
+ gene=gene, condition=condition, species=species
+ )
+ """
+ url = f"{ATLAS_REST}/json/search"
+ params = {"species": species}
+ if gene:
+ params["geneQuery"] = gene
+ if condition:
+ params["conditionQuery"] = condition
 
-    resp = requests.get(url, params=params)
-    resp.raise_for_status()
-    data = resp.json()
+ resp = requests.get(url, params=params)
+ resp.raise_for_status
+ data = resp.json
 
-    experiments = data.get("matchingExperiments", [])
-    rows = []
-    for e in experiments:
-        rows.append({
-            "accession": e.get("experimentAccession"),
-            "description": e.get("experimentDescription", "")[:200],
-            "type": e.get("experimentType"),
-            "species": e.get("species"),
-            "n_assays": e.get("numberOfAssays"),
-        })
+ experiments = data.get("matchingExperiments", [])
+ rows = []
+ for e in experiments:
+ rows.append({
+ "accession": e.get("experimentAccession"),
+ "description": e.get("experimentDescription", "")[:200],
+ "type": e.get("experimentType"),
+ "species": e.get("species"),
+ "n_assays": e.get("numberOfAssays"),
+ })
 
-    df = pd.DataFrame(rows)
-    print(f"Experiments found: {len(df)}")
-    return df
+ df = pd.DataFrame(rows)
+ print(f"Experiments found: {len(df)}")
+ return df
 ```
 
-## 5. 組織横断発現比較
+## 5. tissuecross-cuttingexpressioncomparison
 
 ```python
 def cross_tissue_comparison(genes, species="homo sapiens"):
-    """
-    複数遺伝子の組織横断発現比較。
+ """
+ multiplegene'stissuecross-cuttingexpressioncomparison。
 
-    Parameters:
-        genes: list — 遺伝子リスト
-        species: str — 生物種
+ Parameters:
+ genes: list — gene list
+ species: str — organism/species
 
-    Returns:
-        DataFrame — genes × tissues 発現マトリクス
-    """
-    all_data = []
-    for gene in genes:
-        df = get_baseline_expression(gene, species)
-        if not df.empty:
-            df["gene_query"] = gene
-            all_data.append(df)
+ Returns:
+ DataFrame — genes × tissues expression
+ """
+ all_data = []
+ for gene in genes:
+ df = get_baseline_expression(gene, species)
+ if not df.empty:
+ df["gene_query"] = gene
+ all_data.append(df)
 
-    if not all_data:
-        print("No expression data found")
-        return pd.DataFrame()
+ if not all_data:
+ print("No expression data found")
+ return pd.DataFrame
 
-    combined = pd.concat(all_data, ignore_index=True)
+ combined = pd.concat(all_data, ignore_index=True)
 
-    # ピボットテーブル (genes × tissues)
-    matrix = combined.pivot_table(
-        index="gene",
-        columns="factor_value",
-        values="expression_level",
-        aggfunc="mean",
-    )
+ # table (genes × tissues)
+ matrix = combined.pivot_table(
+ index="gene",
+ columns="factor_value",
+ values="expression_level",
+ aggfunc="mean",
+ )
 
-    print(f"Expression matrix: {matrix.shape[0]} genes × "
-          f"{matrix.shape[1]} tissues/conditions")
-    return matrix
+ print(f"Expression matrix: {matrix.shape[0]} genes × "
+ f"{matrix.shape[1]} tissues/conditions")
+ return matrix
 ```
 
-## 6. 発現ヒートマップ
+## 6. expressionheatmap
 
 ```python
 import matplotlib.pyplot as plt
@@ -237,35 +237,35 @@ import numpy as np
 
 
 def plot_expression_heatmap(matrix, title="Gene Expression Comparison",
-                            figsize=(14, 8), save_path=None):
-    """
-    発現マトリクスのヒートマップ描画。
+ figsize=(14, 8), save_path=None):
+ """
+ expression'sheatmapdrawing/plotting。
 
-    Parameters:
-        matrix: DataFrame — cross_tissue_comparison の出力
-        title: str — 図タイトル
-        figsize: tuple — 図サイズ
-        save_path: str — 保存パス
-    """
-    log_matrix = np.log2(matrix.fillna(0) + 1)
+ Parameters:
+ matrix: DataFrame — cross_tissue_comparison 's output
+ title: str — figuretitle
+ figsize: tuple — figure
+ save_path: str — save
+ """
+ log_matrix = np.log2(matrix.fillna(0) + 1)
 
-    fig, ax = plt.subplots(figsize=figsize)
-    sns.heatmap(
-        log_matrix,
-        cmap="viridis",
-        xticklabels=True,
-        yticklabels=True,
-        ax=ax,
-    )
-    ax.set_title(title)
-    ax.set_xlabel("Tissue / Condition")
-    ax.set_ylabel("Gene")
-    plt.tight_layout()
+ fig, ax = plt.subplots(figsize=figsize)
+ sns.heatmap(
+ log_matrix,
+ cmap="viridis",
+ xticklabels=True,
+ yticklabels=True,
+ ax=ax,
+ )
+ ax.set_title(title)
+ ax.set_xlabel("Tissue / Condition")
+ ax.set_ylabel("Gene")
+ plt.tight_layout
 
-    if save_path:
-        fig.savefig(save_path, dpi=150, bbox_inches="tight")
-        print(f"Saved: {save_path}")
-    plt.show()
+ if save_path:
+ fig.savefig(save_path, dpi=150, bbox_inches="tight")
+ print(f"Saved: {save_path}")
+ plt.show
 ```
 
 ---
@@ -274,46 +274,46 @@ def plot_expression_heatmap(matrix, title="Gene Expression Comparison",
 
 ```
 gene-expression-transcriptomics → expression-comparison → multi-omics
-  (GEO/GTEx/DESeq2)                (Atlas 発現比較)        (統合解析)
-        │                                │                     ↓
-human-protein-atlas ────────────┘        │            pathway-enrichment
-  (HPA 組織/がん発現)                     ↓              (KEGG/GO)
-                              ontology-enrichment
-                              (EFO 形質マッピング)
+ (GEO/GTEx/DESeq2) (Atlas expressioncomparison) (integrated analysis)
+ │ │ ↓
+human-protein-atlas ────────────┘ │ pathway-enrichment
+ (HPA tissue/cancerexpression) ↓ (KEGG/GO)
+ ontology-enrichment
+ (EFO shapemapping)
 ```
 
 ## Pipeline Output
 
-| ファイル | 説明 | 次スキル |
+| File | Description | Next Skill |
 |---------|------|---------|
-| `results/baseline_expression.csv` | ベースライン発現 | → gene-expression |
-| `results/differential_expression.csv` | 差次的発現 | → pathway-enrichment |
-| `results/expression_matrix.csv` | 発現マトリクス | → multi-omics |
-| `figures/expression_heatmap.png` | ヒートマップ | → publication-figures |
+| `results/baseline_expression.csv` | expression | → gene-expression |
+| `results/differential_expression.csv` | expression | → pathway-enrichment |
+| `results/expression_matrix.csv` | expression | → multi-omics |
+| `figures/expression_heatmap.png` | heatmap | → publication-figures |
 
 ## Available Tools (ToolUniverse SMCP)
 
-| ツール名 | 用途 |
+| Tool Name | Usage |
 |---------|------|
-| `ExpressionAtlas_get_baseline` | ベースライン発現 |
-| `ExpressionAtlas_search_differential` | 差次的発現検索 |
-| `ExpressionAtlas_search_experiments` | 実験検索 |
-| `ExpressionAtlas_get_experiment` | 実験詳細 |
+| `ExpressionAtlas_get_baseline` | expression |
+| `ExpressionAtlas_search_differential` | expressionsearch |
+| `ExpressionAtlas_search_experiments` | experimentsearch |
+| `ExpressionAtlas_get_experiment` | experimentdetails |
 
 ---
 
 ## Verification Loop (v0.3.0)
 
 ```
-PLAN   → define scope, inputs, expected outputs
+PLAN → define scope, inputs, expected outputs
 EXECUTE → run analysis pipeline
-VERIFY  → check outputs against quality gates
-REPORT  → save all artifacts, generate report.md
+VERIFY → check outputs against quality gates
+REPORT → save all artifacts, generate report.md
 ```
 
 ### Quality Gates
 
-- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures saved to `figures/` (not plt.show)
 - [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
 - [ ] Numeric results saved as JSON/CSV in `results/`
 - [ ] Report includes methods, results, and discussion

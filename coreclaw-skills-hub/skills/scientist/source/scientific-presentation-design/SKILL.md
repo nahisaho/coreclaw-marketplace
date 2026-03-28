@@ -1,148 +1,148 @@
 ---
 name: scientific-presentation-design
 description: |
-  科学プレゼンテーション・ポスター・模式図設計スキル。学会発表スライド、
-  LaTeX/PPTX ポスター、科学模式図（ワークフロー図・メカニズム図）、
-  ビジュアルアブストラクトの作成を支援。claude-scientific-skills の
-  Scientific Communication カテゴリ（slides, posters, schematics）を統合。
-  「学会スライドを作成して」「ポスターのレイアウトを設計して」で発火。
+ presentationposterschematic diagramdesignskill。conferencepresentationslide、
+ LaTeX/PPTX poster、schematic diagram（workflowfigurefigure）、
+ visual abstract'ssupport。claude-scientific-skills 's 
+ Scientific Communication （slides, posters, schematics） integration。
+ 「conferenceslide」「poster's layout design」 。
 tu_tools:
-  - key: biotools
-    name: bio.tools
-    description: プレゼンテーション可視化ツール検索
+ - key: biotools
+ name: bio.tools
+ description: presentationvisualizationtoolsearch
 ---
 
 # Scientific Presentation Design
 
-科学プレゼンテーションの設計・制作スキル。学会発表スライド、
-ポスター（LaTeX/PPTX）、科学模式図（pathway/mechanism 図）、
-ビジュアルアブストラクトの作成を支援する。
+presentation's designskill。conferencepresentationslide、
+poster（LaTeX/PPTX）、schematic diagram（pathway/mechanism figure）、
+visual abstract's is supported。
 
 ## When to Use
 
-- 学会発表用のスライドデッキを作成するとき
-- 学会ポスターのレイアウトを設計するとき
-- 論文の Graphical Abstract を作成するとき
-- メカニズム図・ワークフロー図を描くとき
-- 研究成果のビジュアルサマリーを作成するとき
+- conferencepresentationfor's slide is createdand
+- conferenceposter's layout is designedand
+- paper's Graphical Abstract is createdand
+- figureworkflowfigure and
+- research'ssummary is createdand
 
 ## Quick Start
 
-### プレゼンテーション設計パイプライン
+### presentationdesignpipeline
 
 ```
-Input: 研究内容 / 対象学会 / 発表形式
-    ↓
+Input: researchcontent / conference / presentationshapeformula
+ ↓
 Step 1: Structure Design
-  - ストーリーライン構築
-  - セクション構成
-  - 時間配分（oral の場合）
-    ↓
+ - storylineconstruction
+ - configuration
+ - timemin（oral case）
+ ↓
 Step 2: Visual Design
-  - カラーパレット選択
-  - フォント設定
-  - レイアウトグリッド
-    ↓
+ - color paletteselection
+ - fontsettings
+ - layoutgrid
+ ↓
 Step 3: Content Creation
-  - テキストブロック
-  - 図表配置
-  - 模式図作成
-    ↓
+ - text block
+ - figures/tables
+ - schematic diagram
+ ↓
 Step 4: Polish
-  - 整合性チェック
-  - アクセシビリティ確認
-  - エクスポート
-    ↓
+ - consistency check
+ - accessibilityverification
+ - export
+ ↓
 Output: Slides / Poster / Schematic
 ```
 
 ---
 
-## Phase 1: 学会スライド設計
+## Phase 1: Conference Slide Design
 
-### 標準構成テンプレート
+### Standard Composition Template
 
 ```markdown
 ## Oral Presentation Structure (15 min)
 
 ### Slide 1: Title (0:00 - 0:30)
-- タイトル / 著者 / 所属
+- title / author / affiliation
 - 1 sentence hook
 
 ### Slides 2-3: Background (0:30 - 2:30)
-- 研究の文脈・先行研究
-- Knowledge gap の明示
+- research's contextresearch
+- Knowledge gap 's explicit
 
 ### Slide 4: Research Question (2:30 - 3:30)
-- 明確な RQ / 仮説
-- 本研究の目的
+- clear RQ / hypothesis
+- papersresearch's purpose
 
 ### Slides 5-7: Methods (3:30 - 6:00)
-- 実験デザイン
-- 解析手法
-- ワークフロー図
+- experiment
+- analysismethod
+- workflowfigure
 
 ### Slides 8-11: Results (6:00 - 11:00)
-- 主要結果（1 slide = 1 message）
-- 図表は大きく、テキストは最小限
-- 統計値を明示
+- keyresults（1 slide = 1 message）
+- figures/tables、
+- value explicit
 
 ### Slide 12: Discussion (11:00 - 13:00)
-- 結果の解釈
-- 先行研究との比較
-- 限界
+- results's
+- research and 'scomparison
+- limitations
 
 ### Slide 13: Conclusions (13:00 - 14:00)
-- Take-home message（3 点以内）
+- Take-home message（3 point）
 - Future directions
 
 ### Slide 14: Acknowledgments (14:00 - 14:30)
-- 共同研究者 / Funding
+- research / Funding
 
 ### Slide 15: Q&A / Backup
 ```
 
-### スライドデザインルール
+### Slide Design Rules
 
 ```python
 SLIDE_DESIGN_RULES = {
-    "fonts": {
-        "title": {"family": "Arial/Helvetica", "size": 28, "weight": "bold"},
-        "body": {"family": "Arial/Helvetica", "size": 20, "weight": "normal"},
-        "caption": {"family": "Arial/Helvetica", "size": 16, "weight": "normal"},
-    },
-    "colors": {
-        "scientific_blue": ["#1B365D", "#2E5090", "#4A7FB5", "#8CB4D6", "#C5DAE9"],
-        "nature_green": ["#1B4332", "#2D6A4F", "#40916C", "#74C69D", "#B7E4C7"],
-        "warm_red": ["#6A040F", "#9D0208", "#D00000", "#DC2F02", "#E85D04"],
-    },
-    "layout": {
-        "margin": "0.5 inch all sides",
-        "max_bullets": 5,
-        "max_words_per_slide": 40,
-        "figure_ratio": 0.6,  # 図の面積が 60% 以上
-    },
-    "accessibility": {
-        "min_contrast_ratio": 4.5,
-        "colorblind_safe_palette": True,
-        "alt_text_for_figures": True,
-    },
+ "fonts": {
+ "title": {"family": "Arial/Helvetica", "size": 28, "weight": "bold"},
+ "body": {"family": "Arial/Helvetica", "size": 20, "weight": "normal"},
+ "caption": {"family": "Arial/Helvetica", "size": 16, "weight": "normal"},
+ },
+ "colors": {
+ "scientific_blue": ["#1B365D", "#2E5090", "#4A7FB5", "#8CB4D6", "#C5DAE9"],
+ "nature_green": ["#1B4332", "#2D6A4F", "#40916C", "#74C69D", "#B7E4C7"],
+ "warm_red": ["#6A040F", "#9D0208", "#D00000", "#DC2F02", "#E85D04"],
+ },
+ "layout": {
+ "margin": "0.5 inch all sides",
+ "max_bullets": 5,
+ "max_words_per_slide": 40,
+ "figure_ratio": 0.6, # figure's surface 60% above/more
+ },
+ "accessibility": {
+ "min_contrast_ratio": 4.5,
+ "colorblind_safe_palette": True,
+ "alt_text_for_figures": True,
+ },
 }
 ```
 
 ---
 
-## Phase 2: ポスター設計
+## Phase 2: Poster Design
 
-### LaTeX ポスターテンプレート
+### LaTeX Poster Template
 
 ```latex
 \\documentclass[25pt, a0paper, portrait]{tikzposter}
 \\usepackage[utf8]{inputenc}
 
 \\title{\\parbox{\\linewidth}{\\centering
-  Research Title Goes Here: \\\\
-  A Comprehensive Study
+ Research Title Goes Here: \\\\
+ A Comprehensive Study
 }}
 \\author{Author A$^1$, Author B$^{1,2}$}
 \\institute{$^1$Institution, $^2$Institution}
@@ -156,122 +156,122 @@ SLIDE_DESIGN_RULES = {
 \\begin{columns}
 \\column{0.33}
 \\block{Background}{
-  % 背景・先行研究
+ % backgroundresearch
 }
 \\block{Methods}{
-  % 手法（ワークフロー図推奨）
+ % method（workflowfigurerecommended）
 }
 
 \\column{0.34}
 \\block{Results}{
-  % 主要結果・図表
+ % keyresultsfigures/tables
 }
 
 \\column{0.33}
 \\block{Discussion}{
-  % 考察
+ % discussion
 }
 \\block{Conclusions}{
-  % 結論（3 bullet points）
+ % conclusion（3 bullet points）
 }
 \\block{References}{
-  % 引用文献（最小限）
+ % citationliterature（）
 }
 \\end{columns}
 
 \\end{document}
 ```
 
-### ポスターレイアウト原則
+### Poster Layout Principles
 
 ```markdown
 ## Poster Design Principles
 
 ### Layout
 - 3-column or 2-column layout
-- 読み順: 上→下、左→右
-- セクション間の明確な区切り
-- ヘッダー（タイトル + 著者）は上部 15%
+- : →、→
+- 's clear
+- header（title + author） 15%
 
 ### Typography
 - Title: 72-96 pt
 - Section headers: 48-60 pt
 - Body text: 28-36 pt
-- 3 メートル離れて読めること
+- 3 and
 
 ### Figures
-- 高解像度 (300+ DPI)
-- 大きく（ポスター面積の 40-50%）
-- 自己説明的なキャプション
-- カラーバリアフリー
+- degree (300+ DPI)
+- （postersurface's 40-50%）
+- 
+- color
 
 ### Content
 - Introduction: 150-200 words
-- Methods: 図で示す（テキスト最小限）
-- Results: 図中心
+- Methods: figure（）
+- Results: figure
 - Conclusions: 3-5 bullet points
 - References: 5-10 citations max
 ```
 
 ---
 
-## Phase 3: 科学模式図
+## Phase 3: schematic diagram
 
-### Mermaid ベースの模式図
+### Mermaid-Based Schematics
 
 ```markdown
-## 模式図タイプ
+## schematic diagram
 
-### 1. ワークフロー図
-ステップの流れ・パイプラインを視覚化
+### 1. workflowfigure
+step's pipeline
 
-### 2. メカニズム図
-分子・シグナル経路のメカニズムを図示
+### 2. figure
+molecule's figure
 
-### 3. 実験デザイン図
-実験群の配置・処理条件を視覚化
+### 3. experimentfigure
+experimentgroup's condition
 
 ### 4. Graphical Abstract
-論文全体を 1 枚に要約
+paperall 1 sheets
 ```
 
 ```python
-# matplotlib ベースの模式図生成
+# matplotlib 'sschematic diagramgeneration
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
 def create_workflow_schematic(steps, title="Workflow"):
-    """
-    ワークフロー模式図の自動生成。
-    """
-    fig, ax = plt.subplots(1, 1, figsize=(12, len(steps) * 1.5 + 2))
-    ax.set_xlim(0, 10)
-    ax.set_ylim(0, len(steps) * 2 + 1)
-    ax.axis('off')
+ """
+ workflowschematic diagram's automatedgeneration。
+ """
+ fig, ax = plt.subplots(1, 1, figsize=(12, len(steps) * 1.5 + 2))
+ ax.set_xlim(0, 10)
+ ax.set_ylim(0, len(steps) * 2 + 1)
+ ax.axis('off')
 
-    colors = plt.cm.Blues(np.linspace(0.3, 0.8, len(steps)))
+ colors = plt.cm.Blues(np.linspace(0.3, 0.8, len(steps)))
 
-    for i, (step_name, description) in enumerate(steps):
-        y = len(steps) * 2 - i * 2
-        # Box
-        rect = mpatches.FancyBboxPatch(
-            (1, y - 0.5), 8, 1.2,
-            boxstyle="round,pad=0.1",
-            facecolor=colors[i], edgecolor='#333333', linewidth=1.5
-        )
-        ax.add_patch(rect)
-        ax.text(5, y + 0.1, step_name, ha='center', va='center',
-                fontsize=14, fontweight='bold', color='white')
-        ax.text(5, y - 0.25, description, ha='center', va='center',
-                fontsize=10, color='white', style='italic')
-        # Arrow
-        if i < len(steps) - 1:
-            ax.annotate('', xy=(5, y - 0.7), xytext=(5, y - 0.5),
-                        arrowprops=dict(arrowstyle='->', color='#333333', lw=2))
+ for i, (step_name, description) in enumerate(steps):
+ y = len(steps) * 2 - i * 2
+ # Box
+ rect = mpatches.FancyBboxPatch(
+ (1, y - 0.5), 8, 1.2,
+ boxstyle="round,pad=0.1",
+ facecolor=colors[i], edgecolor='#333333', linewidth=1.5
+ )
+ ax.add_patch(rect)
+ ax.text(5, y + 0.1, step_name, ha='center', va='center',
+ fontsize=14, fontweight='bold', color='white')
+ ax.text(5, y - 0.25, description, ha='center', va='center',
+ fontsize=10, color='white', style='italic')
+ # Arrow
+ if i < len(steps) - 1:
+ ax.annotate('', xy=(5, y - 0.7), xytext=(5, y - 0.5),
+ arrowprops=dict(arrowstyle='->', color='#333333', lw=2))
 
-    ax.set_title(title, fontsize=18, fontweight='bold', pad=20)
-    plt.tight_layout()
-    return fig
+ ax.set_title(title, fontsize=18, fontweight='bold', pad=20)
+ plt.tight_layout
+ return fig
 ```
 
 ---
@@ -306,42 +306,42 @@ def create_workflow_schematic(steps, title="Workflow"):
 
 ## Completeness Checklist
 
-- [ ] ストーリーライン: 明確な論理の流れ
-- [ ] デザイン: カラーパレット選択、フォント統一
-- [ ] 図表: 高解像度、カラーバリアフリー
-- [ ] テキスト: 最小限、1 slide = 1 message
-- [ ] アクセシビリティ: コントラスト比 ≥ 4.5
-- [ ] エクスポート: PDF + ソースファイル
+- [ ] Storyline: clear logical flow
+- [ ] Design: color palette selection, font consistency
+- [ ] Figures: high resolution, color-blind friendly
+- [ ] Text: minimal, 1 slide = 1 message
+- [ ] Accessibility: contrast ratio ≥ 4.5
+- [ ] Export: PDF + source files
 
 ## Best Practices
 
-1. **1 Slide = 1 Message**: 情報を詰め込みすぎない
-2. **図 > テキスト**: 視覚的に伝える
-3. **カラーバリアフリー**: viridis/cividis 系パレットを推奨
-4. **3 メートルルール**: ポスターは遠距離から読めること
-5. **10-20-30 ルール**: 10 slides, 20 min, 30pt font (Kawasaki)
+1. **1 Slide = 1 Message**: avoid information overload
+2. **figure > **: 
+3. **color**: viridis/cividis systemrecommended
+4. **3 **: posterfrom and
+5. **10-20-30 **: 10 slides, 20 min, 30pt font (Kawasaki)
 
-## ToolUniverse 連携
+## ToolUniverse Integration
 
-| TU Key | ツール名 | 連携内容 |
+| TU Key | Tool Name | Integration |
 |--------|---------|--------|
-| `biotools` | bio.tools | プレゼンテーション可視化ツール検索 |
+| `biotools` | bio.tools | presentationvisualizationtoolsearch |
 
 ## References
 
 ### Output Files
 
-| ファイル | 形式 | 生成タイミング |
+| File | Format | Generation Timing |
 |---|---|---|
-| `presentation/slides.md` | プレゼンテーション原稿（Markdown） | スライド構成完了時 |
-| `presentation/poster.tex` | ポスターテンプレート（LaTeX） | ポスター設計完了時 |
-| `figures/workflow_schematic.png` | ワークフロー模式図（PNG） | 図表生成完了時 |
+| `presentation/slides.md` | presentation（Markdown） | slideconfigurationcompletion |
+| `presentation/poster.tex` | postertemplate（LaTeX） | Poster Designcompletion |
+| `figures/workflow_schematic.png` | workflowschematic diagram（PNG） | figures/tablesgenerationcompletion |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 連携 |
+| Skill | Integration |
 |---|---|
-| `scientific-publication-figures` | ← Figure 生成・カラーパレット |
-| `scientific-academic-writing` | ← 研究テキスト・要旨 |
-| `scientific-clinical-decision-support` | ← 臨床結果の発表素材 |
-| `scientific-latex-formatter` | ← LaTeX フォーマット支援 |
+| `scientific-publication-figures` | ← Figure generationcolor palette |
+| `scientific-academic-writing` | ← research |
+| `scientific-clinical-decision-support` | ← results's presentation |
+| `scientific-latex-formatter` | ← LaTeX support |

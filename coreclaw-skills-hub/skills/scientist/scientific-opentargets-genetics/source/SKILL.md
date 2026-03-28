@@ -1,270 +1,270 @@
 ---
 name: scientific-opentargets-genetics
 description: |
-  Open Targets Genetics skill. GWAS trait-gene associations, L2G scoring, colocation analysis, and variant-to-gene mapping from Open Targets Genetics portal.
+ Open Targets Genetics skill. GWAS trait-gene associations, L2G scoring, colocation analysis, and variant-to-gene mapping from Open Targets Genetics portal.
 tu_tools:
-  - key: opentarget
-    name: Open Targets
-    description: 標的-疾患アソシエーション GraphQL API
+ - key: opentarget
+ name: Open Targets
+ description: -disease GraphQL API
 ---
 
 # Scientific Open Targets Genetics
 
-Open Targets Platform GraphQL API を活用した標的-疾患
-アソシエーションスコア取得・薬剤エビデンス検索・L2G
-遺伝的関連パイプラインを提供する。
+Open Targets Platform GraphQL API utilizing-disease
+retrievalsearchL2G
+pipeline is provided。
 
 ## When to Use
 
-- 遺伝子 (標的) と疾患のアソシエーションスコアを検索するとき
-- 薬剤エビデンスデータを取得するとき
-- GWAS バリアントから遺伝子を L2G スコアでマッピングするとき
-- 標的の安全性プロファイルを確認するとき
-- ファーマコゲノミクスデータを検索するとき
+- gene  and disease's is searchedand
+- data is retrievedand
+- GWAS fromgene L2G mappingwhen needed
+- 'ssafety profile is verifiedand
+- pharmacogenomicsdata is searchedand
 
 ---
 
 ## Quick Start
 
-## 1. 標的-疾患アソシエーション
+## 1. -disease
 
 ```python
 import requests
 import pandas as pd
 
 OT_API = ("https://api.platform.opentargets.org"
-          "/api/v4/graphql")
+ "/api/v4/graphql")
 
 
 def ot_target_disease_assoc(target_id, limit=25):
-    """
-    Open Targets — 標的-疾患アソシエーション。
+ """
+ Open Targets — -disease。
 
-    Parameters:
-        target_id: str — Ensembl Gene ID
-            (例: "ENSG00000012048" = BRCA1)
-        limit: int — 最大結果数
-    """
-    query = """
-    query targetDisease($id: String!, $size: Int!) {
-      target(ensemblId: $id) {
-        id
-        approvedSymbol
-        associatedDiseases(page: {size: $size, index: 0}) {
-          count
-          rows {
-            disease { id name }
-            score
-            datatypeScores {
-              componentId: id
-              score
-            }
-          }
-        }
-      }
-    }
-    """
-    variables = {"id": target_id, "size": limit}
-    resp = requests.post(OT_API,
-                         json={"query": query,
-                               "variables": variables},
-                         timeout=30)
-    resp.raise_for_status()
-    data = resp.json()["data"]["target"]
+ Parameters:
+ target_id: str — Ensembl Gene ID
+ (example: "ENSG00000012048" = BRCA1)
+ limit: int — maximum results
+ """
+ query = """
+ query targetDisease($id: String!, $size: Int!) {
+ target(ensemblId: $id) {
+ id
+ approvedSymbol
+ associatedDiseases(page: {size: $size, index: 0}) {
+ count
+ rows {
+ disease { id name }
+ score
+ datatypeScores {
+ componentId: id
+ score
+ }
+ }
+ }
+ }
+ }
+ """
+ variables = {"id": target_id, "size": limit}
+ resp = requests.post(OT_API,
+ json={"query": query,
+ "variables": variables},
+ timeout=30)
+ resp.raise_for_status
+ data = resp.json["data"]["target"]
 
-    rows = []
-    for r in data["associatedDiseases"]["rows"]:
-        row = {
-            "target_id": target_id,
-            "target_symbol": data["approvedSymbol"],
-            "disease_id": r["disease"]["id"],
-            "disease_name": r["disease"]["name"],
-            "overall_score": r["score"],
-        }
-        for dt in r["datatypeScores"]:
-            row[dt["componentId"]] = dt["score"]
-        rows.append(row)
+ rows = []
+ for r in data["associatedDiseases"]["rows"]:
+ row = {
+ "target_id": target_id,
+ "target_symbol": data["approvedSymbol"],
+ "disease_id": r["disease"]["id"],
+ "disease_name": r["disease"]["name"],
+ "overall_score": r["score"],
+ }
+ for dt in r["datatypeScores"]:
+ row[dt["componentId"]] = dt["score"]
+ rows.append(row)
 
-    df = pd.DataFrame(rows)
-    total = data["associatedDiseases"]["count"]
-    print(f"OT associations: {data['approvedSymbol']} "
-          f"→ {len(df)}/{total} diseases")
-    return df
+ df = pd.DataFrame(rows)
+ total = data["associatedDiseases"]["count"]
+ print(f"OT associations: {data['approvedSymbol']} "
+ f"→ {len(df)}/{total} diseases")
+ return df
 ```
 
-## 2. 薬剤エビデンス
+## 2. 
 
 ```python
 def ot_drug_evidence(target_id, disease_id, limit=50):
-    """
-    Open Targets — 薬剤エビデンス。
+ """
+ Open Targets — 。
 
-    Parameters:
-        target_id: str — Ensembl Gene ID
-        disease_id: str — EFO Disease ID
-            (例: "EFO_0000305" = breast carcinoma)
-        limit: int — 最大結果数
-    """
-    query = """
-    query drugEvidence($ensemblId: String!,
-                       $efoId: String!,
-                       $size: Int!) {
-      disease(efoId: $efoId) {
-        id
-        name
-        evidences(
-          ensemblIds: [$ensemblId]
-          datasourceIds: ["chembl"]
-          size: $size
-        ) {
-          count
-          rows {
-            id
-            score
-            drug {
-              id name drugType
-              maximumClinicalTrialPhase
-              mechanismsOfAction {
-                rows { actionType }
-              }
-            }
-            clinicalPhase
-            clinicalStatus
-            urls { niceName url }
-          }
-        }
-      }
-    }
-    """
-    variables = {"ensemblId": target_id,
-                 "efoId": disease_id,
-                 "size": limit}
-    resp = requests.post(OT_API,
-                         json={"query": query,
-                               "variables": variables},
-                         timeout=30)
-    resp.raise_for_status()
-    data = resp.json()["data"]["disease"]
+ Parameters:
+ target_id: str — Ensembl Gene ID
+ disease_id: str — EFO Disease ID
+ (example: "EFO_0000305" = breast carcinoma)
+ limit: int — maximum results
+ """
+ query = """
+ query drugEvidence($ensemblId: String!,
+ $efoId: String!,
+ $size: Int!) {
+ disease(efoId: $efoId) {
+ id
+ name
+ evidences(
+ ensemblIds: [$ensemblId]
+ datasourceIds: ["chembl"]
+ size: $size
+ ) {
+ count
+ rows {
+ id
+ score
+ drug {
+ id name drugType
+ maximumClinicalTrialPhase
+ mechanismsOfAction {
+ rows { actionType }
+ }
+ }
+ clinicalPhase
+ clinicalStatus
+ urls { niceName url }
+ }
+ }
+ }
+ }
+ """
+ variables = {"ensemblId": target_id,
+ "efoId": disease_id,
+ "size": limit}
+ resp = requests.post(OT_API,
+ json={"query": query,
+ "variables": variables},
+ timeout=30)
+ resp.raise_for_status
+ data = resp.json["data"]["disease"]
 
-    results = []
-    for ev in data["evidences"]["rows"]:
-        drug = ev.get("drug", {})
-        moas = drug.get("mechanismsOfAction", {})
-        moa_list = [m["actionType"]
-                    for m in moas.get("rows", [])]
-        results.append({
-            "disease": data["name"],
-            "drug_id": drug.get("id", ""),
-            "drug_name": drug.get("name", ""),
-            "drug_type": drug.get("drugType", ""),
-            "max_phase": drug.get(
-                "maximumClinicalTrialPhase", 0),
-            "clinical_phase": ev.get("clinicalPhase", ""),
-            "clinical_status": ev.get(
-                "clinicalStatus", ""),
-            "moa": "; ".join(moa_list),
-            "score": ev.get("score", 0),
-        })
+ results = []
+ for ev in data["evidences"]["rows"]:
+ drug = ev.get("drug", {})
+ moas = drug.get("mechanismsOfAction", {})
+ moa_list = [m["actionType"]
+ for m in moas.get("rows", [])]
+ results.append({
+ "disease": data["name"],
+ "drug_id": drug.get("id", ""),
+ "drug_name": drug.get("name", ""),
+ "drug_type": drug.get("drugType", ""),
+ "max_phase": drug.get(
+ "maximumClinicalTrialPhase", 0),
+ "clinical_phase": ev.get("clinicalPhase", ""),
+ "clinical_status": ev.get(
+ "clinicalStatus", ""),
+ "moa": "; ".join(moa_list),
+ "score": ev.get("score", 0),
+ })
 
-    df = pd.DataFrame(results)
-    print(f"OT drug evidence: {len(df)} entries")
-    return df
+ df = pd.DataFrame(results)
+ print(f"OT drug evidence: {len(df)} entries")
+ return df
 ```
 
-## 3. L2G 遺伝的関連 (Locus-to-Gene)
+## 3. L2G (Locus-to-Gene)
 
 ```python
 def ot_l2g_variants(study_id, limit=50):
-    """
-    Open Targets Genetics — L2G バリアント-遺伝子マッピング。
+ """
+ Open Targets Genetics — L2G -genemapping。
 
-    Parameters:
-        study_id: str — GWAS Study ID
-            (例: "GCST004988")
-        limit: int — 最大結果数
-    """
-    # OT Genetics API
-    OT_GENETICS = ("https://api.genetics.opentargets.org"
-                   "/graphql")
-    query = """
-    query l2g($studyId: String!, $size: Int!) {
-      studyLocus2GeneTable(studyId: $studyId,
-                           pageSize: $size) {
-        rows {
-          gene { id symbol }
-          variant { id rsId }
-          yProbaModel
-          yProbaDistance
-          yProbaInteraction
-          yProbaMolecularQTL
-          yProbaPathogenicity
-          hasColoc
-          distanceToLocus
-        }
-      }
-    }
-    """
-    variables = {"studyId": study_id, "size": limit}
-    resp = requests.post(OT_GENETICS,
-                         json={"query": query,
-                               "variables": variables},
-                         timeout=30)
-    resp.raise_for_status()
-    data = resp.json()["data"]["studyLocus2GeneTable"]
+ Parameters:
+ study_id: str — GWAS Study ID
+ (example: "GCST004988")
+ limit: int — maximum results
+ """
+ # OT Genetics API
+ OT_GENETICS = ("https://api.genetics.opentargets.org"
+ "/graphql")
+ query = """
+ query l2g($studyId: String!, $size: Int!) {
+ studyLocus2GeneTable(studyId: $studyId,
+ pageSize: $size) {
+ rows {
+ gene { id symbol }
+ variant { id rsId }
+ yProbaModel
+ yProbaDistance
+ yProbaInteraction
+ yProbaMolecularQTL
+ yProbaPathogenicity
+ hasColoc
+ distanceToLocus
+ }
+ }
+ }
+ """
+ variables = {"studyId": study_id, "size": limit}
+ resp = requests.post(OT_GENETICS,
+ json={"query": query,
+ "variables": variables},
+ timeout=30)
+ resp.raise_for_status
+ data = resp.json["data"]["studyLocus2GeneTable"]
 
-    rows = []
-    for r in data["rows"]:
-        rows.append({
-            "gene_id": r["gene"]["id"],
-            "gene_symbol": r["gene"]["symbol"],
-            "variant_id": r["variant"]["id"],
-            "rsid": r["variant"]["rsId"],
-            "l2g_score": r["yProbaModel"],
-            "distance_score": r["yProbaDistance"],
-            "interaction_score": r["yProbaInteraction"],
-            "qtl_score": r["yProbaMolecularQTL"],
-            "pathogenicity": r["yProbaPathogenicity"],
-            "has_coloc": r["hasColoc"],
-        })
+ rows = []
+ for r in data["rows"]:
+ rows.append({
+ "gene_id": r["gene"]["id"],
+ "gene_symbol": r["gene"]["symbol"],
+ "variant_id": r["variant"]["id"],
+ "rsid": r["variant"]["rsId"],
+ "l2g_score": r["yProbaModel"],
+ "distance_score": r["yProbaDistance"],
+ "interaction_score": r["yProbaInteraction"],
+ "qtl_score": r["yProbaMolecularQTL"],
+ "pathogenicity": r["yProbaPathogenicity"],
+ "has_coloc": r["hasColoc"],
+ })
 
-    df = pd.DataFrame(rows)
-    if not df.empty:
-        df = df.sort_values("l2g_score", ascending=False)
-    print(f"OT L2G: {study_id} → {len(df)} gene mappings")
-    return df
+ df = pd.DataFrame(rows)
+ if not df.empty:
+ df = df.sort_values("l2g_score", ascending=False)
+ print(f"OT L2G: {study_id} → {len(df)} gene mappings")
+ return df
 ```
 
-## 4. Open Targets 統合パイプライン
+## 4. Open Targets integrationpipeline
 
 ```python
 def ot_pipeline(gene_symbol, ensembl_id,
-                   output_dir="results"):
-    """
-    Open Targets 統合パイプライン。
+ output_dir="results"):
+ """
+ Open Targets integrationpipeline。
 
-    Parameters:
-        gene_symbol: str — 遺伝子シンボル (例: "BRCA1")
-        ensembl_id: str — Ensembl Gene ID
-        output_dir: str — 出力ディレクトリ
-    """
-    from pathlib import Path
-    output_dir = Path(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
+ Parameters:
+ gene_symbol: str — gene symbol (example: "BRCA1")
+ ensembl_id: str — Ensembl Gene ID
+ output_dir: str — output directory
+ """
+ from pathlib import Path
+ output_dir = Path(output_dir)
+ output_dir.mkdir(parents=True, exist_ok=True)
 
-    # 1) 標的-疾患アソシエーション
-    assoc = ot_target_disease_assoc(ensembl_id)
-    assoc.to_csv(output_dir / "ot_associations.csv",
-                 index=False)
+ # 1) -disease
+ assoc = ot_target_disease_assoc(ensembl_id)
+ assoc.to_csv(output_dir / "ot_associations.csv",
+ index=False)
 
-    # 2) トップ疾患の薬剤エビデンス
-    if not assoc.empty:
-        top_disease = assoc.iloc[0]["disease_id"]
-        drugs = ot_drug_evidence(ensembl_id, top_disease)
-        drugs.to_csv(output_dir / "ot_drugs.csv",
-                     index=False)
+ # 2) disease's
+ if not assoc.empty:
+ top_disease = assoc.iloc[0]["disease_id"]
+ drugs = ot_drug_evidence(ensembl_id, top_disease)
+ drugs.to_csv(output_dir / "ot_drugs.csv",
+ index=False)
 
-    print(f"OT pipeline: {gene_symbol} → {output_dir}")
-    return {"associations": assoc}
+ print(f"OT pipeline: {gene_symbol} → {output_dir}")
+ return {"associations": assoc}
 ```
 
 ---
@@ -273,42 +273,42 @@ def ot_pipeline(gene_symbol, ensembl_id,
 
 | TU Key | Tool Name | Integration |
 |--------|---------|---------|
-| `opentarget` | Open Targets | 標的-疾患アソシエーション GraphQL (~55 tools) |
+| `opentarget` | Open Targets | -disease GraphQL (~55 tools) |
 
 ## Pipeline Integration
 
 ```
 disease-research → opentargets-genetics → drug-target-profiling
-  (疾患遺伝子)      (OT Platform API)     (標的プロファイリング)
-        │                   │                    ↓
-variant-interpretation ────┘          pharmacogenomics
-  (ClinVar/VEP)      │              (薬理ゲノミクス)
-                      ↓
-            gnomad-variants
-            (集団頻度)
+ (diseasegene) (OT Platform API) 
+ │ │ ↓
+variant-interpretation ────┘ pharmacogenomics
+ (ClinVar/VEP) │ 
+ ↓
+ gnomad-variants
+ (frequency)
 ```
 
 ## Pipeline Output
 
-| ファイル | 説明 | 次スキル |
+| File | Description | Next Skill |
 |---------|------|---------|
-| `results/ot_associations.csv` | 標的-疾患スコア | → disease-research |
-| `results/ot_drugs.csv` | 薬剤エビデンス | → drug-target-profiling |
+| `results/ot_associations.csv` | -disease | → disease-research |
+| `results/ot_drugs.csv` | | → drug-target-profiling |
 
 ---
 
 ## Verification Loop (v0.3.0)
 
 ```
-PLAN   → define scope, inputs, expected outputs
+PLAN → define scope, inputs, expected outputs
 EXECUTE → run analysis pipeline
-VERIFY  → check outputs against quality gates
-REPORT  → save all artifacts, generate report.md
+VERIFY → check outputs against quality gates
+REPORT → save all artifacts, generate report.md
 ```
 
 ### Quality Gates
 
-- [ ] Figures saved to `figures/` (not plt.show())
+- [ ] Figures saved to `figures/` (not plt.show)
 - [ ] Figures embedded in `report.md` with `![caption](figures/filename)`
 - [ ] Numeric results saved as JSON/CSV in `results/`
 - [ ] Report includes methods, results, and discussion

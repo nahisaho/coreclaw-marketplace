@@ -1,33 +1,33 @@
 ---
 name: scientific-human-protein-atlas
 description: |
-  Human Protein Atlas (HPA) 統合スキル。組織/細胞タンパク質発現、
-  がん予後バイオマーカー、RNA 発現プロファイル、細胞内局在、
-  タンパク質相互作用の包括的検索・解析パイプライン。
+ Human Protein Atlas (HPA) integrationskill。tissue/cellproteinexpression、
+ cancerprognosisbiomarker、RNA expressionfile、cell、
+ proteininteraction's searchanalysispipeline。
 tu_tools:
-  - key: hpa
-    name: Human Protein Atlas
-    description: 組織/細胞タンパク質発現・RNA 発現・がん予後
+ - key: hpa
+ name: Human Protein Atlas
+ description: tissue/cellproteinexpressionRNA expressioncancerprognosis
 ---
 
 # Scientific Human Protein Atlas
 
-HPA REST API を活用した組織・細胞レベルの
-タンパク質発現プロファイリングパイプラインを提供する。
+HPA REST API utilizingtissuecell's
+proteinexpressionpipeline is provided。
 
 ## When to Use
 
-- 遺伝子/タンパク質の組織発現パターンを調べるとき
-- がん予後バイオマーカー候補を評価するとき
-- 細胞内局在 (subcellular localization) を確認するとき
-- 細胞株間の発現比較を行うとき
-- RNA 発現データ (HPA/GTEx/FANTOM5) を統合するとき
+- gene/protein's tissueexpression is investigatedand
+- cancerprognosisbiomarker is evaluatedand
+- cell (subcellular localization) is verifiedand
+- cell'sexpressioncomparison is performedand
+- RNA expressiondata (HPA/GTEx/FANTOM5) integrationwhen needed
 
 ---
 
 ## Quick Start
 
-## 1. HPA 遺伝子基本情報取得
+## 1. HPA genebasicinformationretrieval
 
 ```python
 import requests
@@ -37,176 +37,176 @@ HPA_API = "https://www.proteinatlas.org/api"
 
 
 def get_hpa_gene_info(ensembl_id):
-    """
-    HPA 遺伝子基本情報取得。
+ """
+ HPA genebasicinformationretrieval。
 
-    Parameters:
-        ensembl_id: str — Ensembl gene ID (e.g., "ENSG00000141510")
+ Parameters:
+ ensembl_id: str — Ensembl gene ID (e.g., "ENSG00000141510")
 
-    ToolUniverse:
-        HPA_get_gene_basic_info_by_ensembl_id(ensembl_id=ensembl_id)
-        HPA_get_comprehensive_gene_details_by_ensembl_id(ensembl_id=ensembl_id)
-    """
-    url = f"https://www.proteinatlas.org/{ensembl_id}.json"
-    resp = requests.get(url)
-    resp.raise_for_status()
-    data = resp.json()
+ ToolUniverse:
+ HPA_get_gene_basic_info_by_ensembl_id(ensembl_id=ensembl_id)
+ HPA_get_comprehensive_gene_details_by_ensembl_id(ensembl_id=ensembl_id)
+ """
+ url = f"https://www.proteinatlas.org/{ensembl_id}.json"
+ resp = requests.get(url)
+ resp.raise_for_status
+ data = resp.json
 
-    info = {
-        "ensembl_id": ensembl_id,
-        "gene_name": data.get("Gene", ""),
-        "gene_description": data.get("Gene description", ""),
-        "uniprot_id": data.get("Uniprot", []),
-        "chromosome": data.get("Chromosome", ""),
-        "protein_class": data.get("Protein class", []),
-        "evidence": data.get("Evidence", ""),
-    }
+ info = {
+ "ensembl_id": ensembl_id,
+ "gene_name": data.get("Gene", ""),
+ "gene_description": data.get("Gene description", ""),
+ "uniprot_id": data.get("Uniprot", []),
+ "chromosome": data.get("Chromosome", ""),
+ "protein_class": data.get("Protein class", []),
+ "evidence": data.get("Evidence", ""),
+ }
 
-    print(f"HPA gene: {info['gene_name']} ({ensembl_id})")
-    return info, data
+ print(f"HPA gene: {info['gene_name']} ({ensembl_id})")
+ return info, data
 ```
 
-## 2. 組織 RNA 発現プロファイル
+## 2. tissue RNA expressionfile
 
 ```python
 def get_tissue_rna_expression(gene_name):
-    """
-    HPA 組織別 RNA 発現データ取得。
+ """
+ HPA tissue RNA expressionData Retrieval。
 
-    ToolUniverse:
-        HPA_get_rna_expression_by_source(gene=gene_name, source="HPA")
-        HPA_get_rna_expression_in_specific_tissues(gene=gene_name, tissues=tissues)
-    """
-    url = f"https://www.proteinatlas.org/{gene_name}.json"
-    resp = requests.get(url)
-    resp.raise_for_status()
-    data = resp.json()
+ ToolUniverse:
+ HPA_get_rna_expression_by_source(gene=gene_name, source="HPA")
+ HPA_get_rna_expression_in_specific_tissues(gene=gene_name, tissues=tissues)
+ """
+ url = f"https://www.proteinatlas.org/{gene_name}.json"
+ resp = requests.get(url)
+ resp.raise_for_status
+ data = resp.json
 
-    rna_data = data.get("RNA tissue specific nTPM", [])
-    results = []
-    for entry in rna_data:
-        results.append({
-            "tissue": entry.get("Tissue", ""),
-            "cell_type": entry.get("Cell type", ""),
-            "ntpm": float(entry.get("nTPM", 0)),
-            "detection": entry.get("Detection", ""),
-        })
+ rna_data = data.get("RNA tissue specific nTPM", [])
+ results = []
+ for entry in rna_data:
+ results.append({
+ "tissue": entry.get("Tissue", ""),
+ "cell_type": entry.get("Cell type", ""),
+ "ntpm": float(entry.get("nTPM", 0)),
+ "detection": entry.get("Detection", ""),
+ })
 
-    df = pd.DataFrame(results)
-    if not df.empty:
-        df = df.sort_values("ntpm", ascending=False)
+ df = pd.DataFrame(results)
+ if not df.empty:
+ df = df.sort_values("ntpm", ascending=False)
 
-    print(f"HPA RNA expression '{gene_name}': {len(df)} tissue entries")
-    return df
+ print(f"HPA RNA expression '{gene_name}': {len(df)} tissue entries")
+ return df
 ```
 
-## 3. がん予後バイオマーカー解析
+## 3. cancerprognosisbiomarkeranalysis
 
 ```python
 def get_cancer_prognostics(gene_name):
-    """
-    HPA がん予後データ取得。
+ """
+ HPA cancerprognosisData Retrieval。
 
-    ToolUniverse:
-        HPA_get_cancer_prognostics_by_gene(gene=gene_name)
-    """
-    url = f"https://www.proteinatlas.org/{gene_name}.json"
-    resp = requests.get(url)
-    resp.raise_for_status()
-    data = resp.json()
+ ToolUniverse:
+ HPA_get_cancer_prognostics_by_gene(gene=gene_name)
+ """
+ url = f"https://www.proteinatlas.org/{gene_name}.json"
+ resp = requests.get(url)
+ resp.raise_for_status
+ data = resp.json
 
-    prognostics = data.get("Pathology prognostics", [])
-    results = []
-    for entry in prognostics:
-        results.append({
-            "cancer_type": entry.get("Cancer type", ""),
-            "prognostic_type": entry.get("Prognostic type", ""),
-            "is_prognostic": entry.get("Is prognostic", False),
-            "p_value": float(entry.get("p-value", 1.0)),
-            "high_expression_favorable": entry.get(
-                "High expression is favorable", None
-            ),
-        })
+ prognostics = data.get("Pathology prognostics", [])
+ results = []
+ for entry in prognostics:
+ results.append({
+ "cancer_type": entry.get("Cancer type", ""),
+ "prognostic_type": entry.get("Prognostic type", ""),
+ "is_prognostic": entry.get("Is prognostic", False),
+ "p_value": float(entry.get("p-value", 1.0)),
+ "high_expression_favorable": entry.get(
+ "High expression is favorable", None
+ ),
+ })
 
-    df = pd.DataFrame(results)
-    if not df.empty:
-        df = df.sort_values("p_value")
-        significant = df[df["p_value"] < 0.05]
-        print(f"HPA cancer prognostics '{gene_name}': "
-              f"{len(significant)}/{len(df)} significant")
-    else:
-        print(f"HPA cancer prognostics '{gene_name}': no data")
-    return df
+ df = pd.DataFrame(results)
+ if not df.empty:
+ df = df.sort_values("p_value")
+ significant = df[df["p_value"] < 0.05]
+ print(f"HPA cancer prognostics '{gene_name}': "
+ f"{len(significant)}/{len(df)} significant")
+ else:
+ print(f"HPA cancer prognostics '{gene_name}': no data")
+ return df
 ```
 
-## 4. 細胞内局在
+## 4. cell
 
 ```python
 def get_subcellular_location(gene_name):
-    """
-    HPA 細胞内局在データ取得。
+ """
+ HPA cellData Retrieval。
 
-    ToolUniverse:
-        HPA_get_subcellular_location(gene=gene_name)
-    """
-    url = f"https://www.proteinatlas.org/{gene_name}.json"
-    resp = requests.get(url)
-    resp.raise_for_status()
-    data = resp.json()
+ ToolUniverse:
+ HPA_get_subcellular_location(gene=gene_name)
+ """
+ url = f"https://www.proteinatlas.org/{gene_name}.json"
+ resp = requests.get(url)
+ resp.raise_for_status
+ data = resp.json
 
-    sc = data.get("Subcellular location", [])
-    results = []
-    for entry in sc:
-        results.append({
-            "location": entry.get("Location", ""),
-            "reliability": entry.get("Reliability", ""),
-            "enhanced": entry.get("Enhanced", False),
-            "supported": entry.get("Supported", False),
-            "cell_lines": entry.get("Cell lines", []),
-        })
+ sc = data.get("Subcellular location", [])
+ results = []
+ for entry in sc:
+ results.append({
+ "location": entry.get("Location", ""),
+ "reliability": entry.get("Reliability", ""),
+ "enhanced": entry.get("Enhanced", False),
+ "supported": entry.get("Supported", False),
+ "cell_lines": entry.get("Cell lines", []),
+ })
 
-    df = pd.DataFrame(results)
-    print(f"HPA subcellular '{gene_name}': {len(df)} locations")
-    return df
+ df = pd.DataFrame(results)
+ print(f"HPA subcellular '{gene_name}': {len(df)} locations")
+ return df
 ```
 
-## 5. タンパク質相互作用ネットワーク (HPA)
+## 5. proteininteractionnetwork (HPA)
 
 ```python
 def get_hpa_protein_interactions(gene_name):
-    """
-    HPA タンパク質相互作用データ取得。
+ """
+ HPA proteininteractionData Retrieval。
 
-    ToolUniverse:
-        HPA_get_protein_interactions_by_gene(gene=gene_name)
-        HPA_get_biological_processes_by_gene(gene=gene_name)
-        HPA_get_contextual_biological_process_analysis(gene=gene_name)
-    """
-    url = f"https://www.proteinatlas.org/{gene_name}.json"
-    resp = requests.get(url)
-    resp.raise_for_status()
-    data = resp.json()
+ ToolUniverse:
+ HPA_get_protein_interactions_by_gene(gene=gene_name)
+ HPA_get_biological_processes_by_gene(gene=gene_name)
+ HPA_get_contextual_biological_process_analysis(gene=gene_name)
+ """
+ url = f"https://www.proteinatlas.org/{gene_name}.json"
+ resp = requests.get(url)
+ resp.raise_for_status
+ data = resp.json
 
-    interactions = data.get("Protein interaction partners", [])
-    results = []
-    for partner in interactions:
-        results.append({
-            "partner_gene": partner.get("Gene", ""),
-            "partner_ensembl": partner.get("Ensembl", ""),
-            "confidence": partner.get("Confidence", ""),
-            "source": partner.get("Source", ""),
-        })
+ interactions = data.get("Protein interaction partners", [])
+ results = []
+ for partner in interactions:
+ results.append({
+ "partner_gene": partner.get("Gene", ""),
+ "partner_ensembl": partner.get("Ensembl", ""),
+ "confidence": partner.get("Confidence", ""),
+ "source": partner.get("Source", ""),
+ })
 
-    df = pd.DataFrame(results)
-    print(f"HPA interactions '{gene_name}': {len(df)} partners")
-    return df
+ df = pd.DataFrame(results)
+ print(f"HPA interactions '{gene_name}': {len(df)} partners")
+ return df
 ```
 
 ## References
 
 ### Output Files
 
-| ファイル | 形式 |
+| File | Format |
 |---|---|
 | `results/hpa_gene_info.json` | JSON |
 | `results/hpa_tissue_expression.csv` | CSV |
@@ -214,35 +214,35 @@ def get_hpa_protein_interactions(gene_name):
 | `results/hpa_subcellular.csv` | CSV |
 | `results/hpa_interactions.csv` | CSV |
 
-### 利用可能ツール
+### Available Tools
 
-| カテゴリ | 主要ツール | 用途 |
+| Category | Key Tools | Usage |
 |---|---|---|
-| HPA | `HPA_generic_search` | 汎用検索 |
-| HPA | `HPA_get_gene_basic_info_by_ensembl_id` | 遺伝子基本情報 |
-| HPA | `HPA_get_comprehensive_gene_details_by_ensembl_id` | 包括的詳細 |
-| HPA | `HPA_get_rna_expression_by_source` | RNA 発現 |
-| HPA | `HPA_get_rna_expression_in_specific_tissues` | 組織別発現 |
-| HPA | `HPA_get_cancer_prognostics_by_gene` | がん予後 |
-| HPA | `HPA_get_subcellular_location` | 細胞内局在 |
+| HPA | `HPA_generic_search` | forsearch |
+| HPA | `HPA_get_gene_basic_info_by_ensembl_id` | genebasicinformation |
+| HPA | `HPA_get_comprehensive_gene_details_by_ensembl_id` | details |
+| HPA | `HPA_get_rna_expression_by_source` | RNA expression |
+| HPA | `HPA_get_rna_expression_in_specific_tissues` | tissueexpression |
+| HPA | `HPA_get_cancer_prognostics_by_gene` | cancerprognosis |
+| HPA | `HPA_get_subcellular_location` | cell |
 | HPA | `HPA_get_protein_interactions_by_gene` | PPI |
-| HPA | `HPA_get_biological_processes_by_gene` | 生物学的プロセス |
-| HPA | `HPA_get_contextual_biological_process_analysis` | プロセス解析 |
-| HPA | `HPA_get_disease_expression_by_gene_tissue_disease` | 疾患発現 |
-| HPA | `HPA_get_comparative_expression_by_gene_and_cellline` | 細胞株比較 |
-| HPA | `HPA_get_gene_tsv_data_by_ensembl_id` | TSV データ |
-| HPA | `HPA_search_genes_by_query` | 遺伝子検索 |
+| HPA | `HPA_get_biological_processes_by_gene` | process |
+| HPA | `HPA_get_contextual_biological_process_analysis` | processanalysis |
+| HPA | `HPA_get_disease_expression_by_gene_tissue_disease` | diseaseexpression |
+| HPA | `HPA_get_comparative_expression_by_gene_and_cellline` | cellcomparison |
+| HPA | `HPA_get_gene_tsv_data_by_ensembl_id` | TSV data |
+| HPA | `HPA_search_genes_by_query` | genesearch |
 
-### 参照スキル
+### Related Skills
 
-| スキル | 関連 |
+| Skill | Relationship |
 |---|---|
-| `scientific-gene-expression-transcriptomics` | GEO/GTEx 発現解析 |
-| `scientific-proteomics-mass-spectrometry` | プロテオミクス |
-| `scientific-cancer-genomics` | がんゲノミクス |
-| `scientific-protein-interaction-network` | PPI ネットワーク |
-| `scientific-pathway-enrichment` | パスウェイ濃縮 |
+| `scientific-gene-expression-transcriptomics` | GEO/GTEx expressionanalysis |
+| `scientific-proteomics-mass-spectrometry` | proteomics |
+| `scientific-cancer-genomics` | cancer genomics |
+| `scientific-protein-interaction-network` | PPI network |
+| `scientific-pathway-enrichment` | pathway |
 
-### 依存パッケージ
+### Dependencies
 
 `requests`, `pandas`

@@ -1,11 +1,11 @@
 ---
 name: scientific-assistant
 description: |
-  Harness-optimized scientific research assistant with 195 specialized sub-skills.
-  Covers bayesian statistics, deep research, molecular modeling, genomics,
-  clinical NLP, cheminformatics, advanced visualization, and more.
-  Implements verification loops, quality gates, and eval checkpoints
-  following the SHIKIGAMI paradigm (Think → Report → Action iterative cycle).
+ Harness-optimized scientific research assistant with 195 specialized sub-skills.
+ Covers bayesian statistics, deep research, molecular modeling, genomics,
+ clinical NLP, cheminformatics, advanced visualization, and more.
+ Implements verification loops, quality gates, and eval checkpoints
+ following the SHIKIGAMI paradigm (Think → Report → Action iterative cycle).
 ---
 
 # Scientific Assistant v0.3.0
@@ -57,14 +57,14 @@ ax.legend(["Control", "Treatment A", "Treatment B"])
 
 ```
 /workspace/group/
-├── report.md          ← Main report (required)
-├── figures/           ← Graphs and figures
-│   ├── figure_01.png
-│   └── figure_02.png
-├── results/           ← JSON/CSV/text results
-│   └── summary.json
-└── data/              ← Processed data
-    └── processed.csv
+├── report.md ← Main report (required)
+├── figures/ ← Graphs and figures
+│ ├── figure_01.png
+│ └── figure_02.png
+├── results/ ← JSON/CSV/text results
+│ └── summary.json
+└── data/ ← Processed data
+ └── processed.csv
 ```
 
 ### Required Python Pattern
@@ -73,14 +73,14 @@ ax.legend(["Control", "Treatment A", "Treatment B"])
 from pathlib import Path
 
 BASE_DIR = Path("/workspace/group")
-FIG_DIR  = BASE_DIR / "figures"
-RES_DIR  = BASE_DIR / "results"
+FIG_DIR = BASE_DIR / "figures"
+RES_DIR = BASE_DIR / "results"
 DATA_DIR = BASE_DIR / "data"
 
 for d in [FIG_DIR, RES_DIR, DATA_DIR]:
-    d.mkdir(parents=True, exist_ok=True)
+ d.mkdir(parents=True, exist_ok=True)
 
-# Always save figures to file (never use plt.show())
+# Always save figures to file (never use plt.show)
 fig_path = FIG_DIR / "figure_01.png"
 fig.savefig(fig_path, dpi=300, bbox_inches="tight")
 plt.close(fig)
@@ -92,7 +92,7 @@ fig_embed = f"![Figure 1: <caption>]({fig_rel})"
 # Save results as JSON/CSV
 import json
 with open(RES_DIR / "summary.json", "w", encoding="utf-8") as f:
-    json.dump(results, f, ensure_ascii=False, indent=2)
+ json.dump(results, f, ensure_ascii=False, indent=2)
 ```
 
 ### Required Report Structure
@@ -135,17 +135,17 @@ PC1 explains 68.3% of total variance with clear separation between conditions.
 Every sub-skill execution follows a structured verification loop:
 
 ```
-Step 1: PLAN   — Define scope, inputs, expected outputs
+Step 1: PLAN — Define scope, inputs, expected outputs
 Step 2: EXECUTE — Run analysis pipeline
-Step 3: VERIFY  — Check outputs against quality gates
-Step 4: REPORT  — Save all artifacts, generate report.md
+Step 3: VERIFY — Check outputs against quality gates
+Step 4: REPORT — Save all artifacts, generate report.md
 ```
 
 ### Quality Gates
 
 Before marking any task complete, verify:
 
-- [ ] All figures saved to `figures/` (never `plt.show()`)
+- [ ] All figures saved to `figures/` (never `plt.show`)
 - [ ] All figures embedded in `report.md` with `![caption](figures/filename)`
 - [ ] Caption and description follow each figure
 - [ ] Numeric results saved to `results/` as JSON or CSV
