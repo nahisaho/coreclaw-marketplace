@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Entrypoint for imported skill: agent-skills-builder (v0.8.0).
+"""Entrypoint for imported skill: agent-skills-builder (v0.9.0).
 
 Harness-optimized with 5-phase verification loops, domain-specific eval criteria,
 model routing, sub-agent orchestration, and error recovery protocol.
@@ -14,10 +14,19 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 
 SKILL_NAME = "agent-skills-builder"
-SKILL_VERSION = "v0.8.0"
+SKILL_VERSION = "v0.9.0"
 WORKSPACE_ROOT = Path(__file__).resolve().parents[3]
 ARTIFACT_ROOT = WORKSPACE_ROOT / "coreclaw-skills-hub" / ".artifacts" / "generated-skills"
 DEFAULT_GROUP_ICON = "🧰"
+TARGET_FORMAT_ALIASES = {
+    "agent-skills": "agent-skills",
+    "agentskills": "agent-skills",
+    "copilot": "agent-skills",
+    "copilot-cli": "agent-skills",
+    "github-copilot-cli": "agent-skills",
+    "coreclaw": "coreclaw",
+    "legacy": "coreclaw",
+}
 SUITE_PROFILE_ALIASES = {
     "default": "ops",
     "standard": "ops",
@@ -32,7 +41,22 @@ SUITE_PROFILE_ALIASES = {
 
 def _slugify(value: str) -> str:
     slug = re.sub(r"[^a-z0-9-]+", "-", value.lower()).strip("-")
+    slug = re.sub(r"-+", "-", slug)
     return slug or "generated-skill"
+
+
+def _target_format(payload: dict) -> str:
+    raw = _stringify(
+        payload.get("target_format")
+        or payload.get("format")
+        or payload.get("skill_format")
+        or payload.get("output_format")
+    ).lower()
+    return TARGET_FORMAT_ALIASES.get(raw, "agent-skills")
+
+
+def _agent_skill_name(value: str) -> str:
+    return _slugify(value)[:64].strip("-") or "generated-skill"
 
 
 def _artifact_dir(skill_name: str) -> Path:
@@ -163,6 +187,175 @@ def _suite_requested(payload: dict, explicit_files: dict[str, str]) -> bool:
     if payload.get("subskills") or payload.get("sub_skills") or payload.get("sub_agents"):
         return True
     return any(path == "group.json" or ("/" in path and not path.startswith("source/")) for path in explicit_files)
+
+
+def _yaml_scalar(value: str) -> str:
+    if not value:
+        return '""'
+    if re.match(r"^[A-Za-z0-9._/-]+$", value):
+        return value
+    return json.dumps(value, ensure_ascii=False)
+
+
+def _render_agent_frontmatter(name: str, description: str, payload: dict) -> str:
+    lines = ["---", f"name: {name}", "description: |", f"  {description}"]
+
+    license_value = _stringify(payload.get("license"))
+    if license_value:
+        lines.append(f"license: {_yaml_scalar(license_value)}")
+
+    compatibility = _stringify(payload.get("compatibility"))
+    if compatibility:
+        lines.append(f"compatibility: {_yaml_scalar(compatibility)}")
+
+    metadata = payload.get("metadata") or {}
+    if isinstance(metadata, dict) and metadata:
+        lines.append("metadata:")
+        for key, value in metadata.items():
+            lines.append(f"  {_slugify(str(key)).replace('-', '_')}: {_yaml_scalar(_stringify(value))}")
+
+    allowed_tools = payload.get("allowed_tools") or payload.get("allowed-tools")
+    if isinstance(allowed_tools, list):
+        allowed_tools_value = " ".join(_stringify(item) for item in allowed_tools if _stringify(item))
+    else:
+        allowed_tools_value = _stringify(allowed_tools)
+    if allowed_tools_value:
+        lines.append(f"allowed-tools: {_yaml_scalar(allowed_tools_value)}")
+
+    lines.append("---")
+    return "\n".join(lines)
+
+
+def _render_agent_body(skill_name: str, title: str, description: str, payload: dict, role_summary: str | None = None) -> str:
+    when_to_use = _stringify(payload.get("when_to_use")) or description
+    quick_steps = [
+        "Read the task request and confirm the expected outcome.",
+        "Review any referenced files or scripts in this skill before acting.",
+        "Produce the requested artifact and summarize key assumptions.",
+    ]
+    edge_cases = [
+        "If required context is missing, ask for the minimum clarification needed.",
+        "If dependencies or tools are unavailable, state the limitation and provide a fallback path.",
+    ]
+    role_line = f"\n## Role\n\n- {role_summary}\n" if role_summary else ""
+    return f'''{_render_agent_frontmatter(skill_name, description, payload)}
+
+# {title}
+
+{description}
+
+## When to Use
+
+- {when_to_use}
+
+{role_line}
+## Instructions
+
+1. Parse the request and identify the target deliverable.
+2. Gather the minimum required inputs, constraints, and references.
+3. Execute the task using this skill's guidance and any packaged resources.
+4. Return a concise result with assumptions, risks, and next steps.
+
+## Example Inputs
+
+- A user asks for help related to {title.lower()}.
+- The request includes constraints, desired output format, or attached context.
+
+## Example Outputs
+
+- A completed task artifact or actionable recommendation.
+- A short summary of what was done and any remaining gaps.
+
+## Quick Start
+
+{chr(10).join(f'- {step}' for step in quick_steps)}
+
+## Edge Cases
+
+{chr(10).join(f'- {item}' for item in edge_cases)}
+'''
+
+
+def _render_agent_collection_readme(collection_name: str, skill_dirs: list[str], target_format: str) -> str:
+    items = "\n".join(f"- `{item}`" for item in skill_dirs)
+    return f'''# {collection_name}
+
+Generated skill collection in `{target_format}` format.
+
+## Included Skills
+
+{items}
+
+Each listed directory is an individual Agent Skill with its own `SKILL.md`.
+'''
+
+
+def _render_agent_single_files(payload: dict) -> tuple[dict[str, str], dict[str, object]]:
+    skill_name = _agent_skill_name(payload.get("skill_name") or payload.get("name") or "generated-skill")
+    title = _stringify(payload.get("title")) or _display_name(skill_name)
+    description = _default_description(payload, title)
+    files = {
+        "SKILL.md": _render_agent_body(skill_name, title, description, payload),
+    }
+    return files, {
+        "structure_type": "single",
+        "target_format": "agent-skills",
+        "skill_name": skill_name,
+    }
+
+
+def _render_agent_suite_files(payload: dict) -> tuple[dict[str, str], dict[str, object]]:
+    group_name = _agent_skill_name(payload.get("group_name") or payload.get("skill_name") or payload.get("name") or "generated-collection")
+    group_title = _stringify(payload.get("group_title") or payload.get("title")) or _display_name(group_name)
+    suite_profile = _suite_profile(payload)
+    orchestrator_name = _agent_skill_name(payload.get("orchestrator_name") or f"{group_name}-orchestrator")
+    orchestrator_description = _stringify(payload.get("orchestrator_description")) or _default_orchestrator_description(group_title)
+    orchestrator_contracts = _orchestrator_profile_contracts(group_title, suite_profile)
+    subskills = _normalize_subskills(payload, group_name, group_title)
+
+    files: dict[str, str] = {
+        "README.md": _render_agent_collection_readme(group_name, [orchestrator_name, *[item["name"] for item in subskills]], "agent-skills"),
+        f"{orchestrator_name}/SKILL.md": _render_agent_body(
+            orchestrator_name,
+            _display_name(orchestrator_name),
+            orchestrator_description,
+            {
+                **payload,
+                "metadata": {
+                    **(payload.get("metadata") or {}),
+                    "suite_profile": suite_profile,
+                    "role": "orchestrator",
+                },
+            },
+            role_summary="Routes work across specialized skills and validates the outputs before final delivery.",
+        ) + f'''\n\n## Orchestration Flow\n\n- {'\n- '.join(item['name'] for item in subskills)}\n\n## Input Contract\n\n- {'\n- '.join(orchestrator_contracts['input_contract'])}\n\n## Output Contract\n\n- {'\n- '.join(orchestrator_contracts['output_contract'])}\n\n## Quality Gates\n\n- {'\n- '.join(orchestrator_contracts['quality_gates'])}\n\n## Fallback Policy\n\n- {'\n- '.join(orchestrator_contracts['fallback_policy'])}\n''',
+    }
+
+    for item in subskills:
+        files[f"{item['name']}/SKILL.md"] = _render_agent_body(
+            item["name"],
+            item["title"],
+            item["description"],
+            {
+                **payload,
+                "metadata": {
+                    **(payload.get("metadata") or {}),
+                    "suite_profile": suite_profile,
+                    "role": "specialized-subskill",
+                },
+            },
+            role_summary=f"Handles the {item['title'].lower()} step within the collection.",
+        )
+
+    return files, {
+        "structure_type": "suite",
+        "target_format": "agent-skills",
+        "collection_name": group_name,
+        "suite_profile": suite_profile,
+        "orchestrator_name": orchestrator_name,
+        "subskills": [item["name"] for item in subskills],
+        "orchestrator_contracts": orchestrator_contracts,
+    }
 
 
 def _render_skill_json(skill_name: str, version: str, description: str, entrypoint: str) -> str:
@@ -759,14 +952,21 @@ def _should_generate_template(payload: dict, explicit_files: dict[str, str]) -> 
 def _build_files(payload: dict) -> tuple[dict[str, str], list[str], dict[str, object]]:
     explicit_files = dict(payload.get("files") or {})
     generated_files: list[str] = []
-    template_meta = {"structure_type": "single"}
+    target_format = _target_format(payload)
+    template_meta = {"structure_type": "single", "target_format": target_format}
     if not _should_generate_template(payload, explicit_files):
         return explicit_files, generated_files, template_meta
 
-    if _suite_requested(payload, explicit_files):
-        defaults, template_meta = _render_suite_files(payload)
+    if target_format == "agent-skills":
+        if _suite_requested(payload, explicit_files):
+            defaults, template_meta = _render_agent_suite_files(payload)
+        else:
+            defaults, template_meta = _render_agent_single_files(payload)
     else:
-        defaults = _render_single_files(payload)
+        if _suite_requested(payload, explicit_files):
+            defaults, template_meta = _render_suite_files(payload)
+        else:
+            defaults = _render_single_files(payload)
 
     for relative_path, content in defaults.items():
         if relative_path not in explicit_files:
@@ -850,6 +1050,8 @@ def run(input_data: dict | None = None) -> dict:
         "skill_path": SKILL_NAME,
         "status": "artifact-output-ready",
         "capabilities": [
+            "agent-skills-compliant-output",
+            "target-format-selection",
             "verification-loop",
             "quality-gates",
             "harness-optimized",
@@ -872,14 +1074,15 @@ def run(input_data: dict | None = None) -> dict:
             "written_files": written_files,
             "generated_template_files": generated_files,
             "template_mode": template_meta.get("structure_type", "single"),
+            "target_format": template_meta.get("target_format", "agent-skills"),
         },
         "template_summary": template_meta,
         "zip_bundle": zip_bundle,
         "harness": {
             "verification_loop": "PLAN → EXECUTE → VERIFY → RECOVER → REPORT",
             "quality_gates": [
-                "skill-json-schema-valid",
-                "entrypoint-file-exists",
+                "skill-structure-valid",
+                "required-entry-files-exist",
                 "skill-md-structure-complete",
                 "kebab-case-naming",
                 "semver-version",
