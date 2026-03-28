@@ -486,20 +486,31 @@ def generate_pv_report(target_drug, signals_df, ebgm_df, output_dir="results"):
 | `figures/pv_temporal_trend.png` | time seriesfigure | min |
 | `figures/pv_demographics.png` | distributionfigure | min |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| FAERS | `FAERS_count_reactions_by_drug_event` | |
-| FAERS | `FAERS_calculate_disproportionality` | PRR/ROR/IC min |
-| FAERS | `FAERS_stratify_by_demographics` | |
-| FDA | `FDA_get_adverse_reactions_by_drug_name` | forinformation |
-| DailyMed | `DailyMed_search_spls` | search |
-| DailyMed | `DailyMed_parse_adverse_reactions` | fortableextraction |
-| PharmGKB | `PharmGKB_get_dosing_guidelines` | PGx dosing guidelines |
-| CPIC | `CPIC_get_guidelines` | CPIC retrieval |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -516,7 +527,7 @@ def generate_pv_report(target_drug, signals_df, ebgm_df, output_dir="results"):
 | `scientific-pharmacogenomics` | ← PGx metabolismtypeallevaluation |
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

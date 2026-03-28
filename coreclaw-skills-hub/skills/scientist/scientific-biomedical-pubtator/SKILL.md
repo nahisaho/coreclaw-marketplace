@@ -41,9 +41,6 @@ def annotate_pmids(pmids, concepts=None):
  concepts: list — 
  "gene", "disease", "chemical", "mutation", "species", "cellline"
 
- ToolUniverse:
- PubTator_annotate(pmids=pmids, concepts=concepts)
- PubTator_search(query=query)
  """
  if concepts is None:
  concepts = ["gene", "disease", "chemical", "mutation", "species"]
@@ -302,11 +299,31 @@ def build_entity_network(pmids, min_cooccurrence=2):
 
 ---
 
-## Available Tools
+## Data Acquisition
 
-| ToolUniverse Category | Key Tools |
-|---|---|
-| `pubtator` | `PubTator_annotate`, `PubTator_search` |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ## Pipeline Output
 
@@ -329,7 +346,7 @@ literature-search ──→ biomedical-pubtator ──→ text-mining-nlp
 ```
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

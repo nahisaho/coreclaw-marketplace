@@ -2,10 +2,6 @@
 name: scientific-cell-line-resources
 description: |
  Cell line resource skill. Cellosaurus, ATCC, DepMap cell line data retrieval, cell line authentication, STR profiling, and cross-reference between cell line databases.
-tu_tools:
- - key: cellosaurus
- name: Cellosaurus
- description: celldatabase (ExPASy)
 ---
 
 # Scientific Cell Line Resources
@@ -42,10 +38,6 @@ def search_cellosaurus(query, limit=25):
  query: str — cell (e.g., "HeLa", "MCF-7", "A549")
  limit: int — maximum retrieval count
 
- ToolUniverse:
- Cellosaurus_search(query=query)
- Cellosaurus_get_cell_line(accession=accession)
- Cellosaurus_get_str_profile(accession=accession)
  """
  params = {"q": query, "rows": limit, "format": "json"}
  resp = requests.get(f"{CELLOSAURUS_API}/search/cell-line", params=params)
@@ -234,11 +226,31 @@ def check_contamination_status(cell_line_names):
 
 ---
 
-## Available Tools
+## Data Acquisition
 
-| ToolUniverse Category | Key Tools |
-|---|---|
-| `cellosaurus` | `Cellosaurus_search`, `Cellosaurus_get_cell_line`, `Cellosaurus_get_str_profile` |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ## Pipeline Output
 
@@ -260,7 +272,7 @@ cancer-genomics ──→ cell-line-resources ──→ lab-automation
 ```
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

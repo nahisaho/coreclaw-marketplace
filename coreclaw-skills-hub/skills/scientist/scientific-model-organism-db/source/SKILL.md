@@ -2,13 +2,6 @@
 name: scientific-model-organism-db
 description: |
  Model organism database skill. FlyBase/WormBase/SGD/ZFIN/MGI queries, ortholog mapping, phenotype data retrieval, and cross-species gene function comparison.
-tu_tools:
- - key: impc
- name: IMPC
- description: tabletypeanalysis
- - key: mpd
- name: MPD
- description: Mouse Phenome Database tabletype
 ---
 
 # Scientific Model Organism Database
@@ -333,7 +326,7 @@ biothings-idmapping ──┘ ↓ rare-disease-genetics
 | `results/cross_species.json` | cross-cuttingcomparisonresults | → phylogenetics |
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

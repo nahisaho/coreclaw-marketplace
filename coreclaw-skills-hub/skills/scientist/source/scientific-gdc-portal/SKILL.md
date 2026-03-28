@@ -4,12 +4,7 @@ description: |
  NCI Genomic Data Commons skill。GDC REST API
  usingcancergenomecross-cuttingsearchdata
  cellvariant/mutation (SSM)gene expressionfileretrieval。
- ToolUniverse integration: gdc。
-tu_tools:
- - key: gdc
- name: GDC
- description: NCI Genomic Data Commons REST API
----
+ ---
 
 # Scientific GDC Portal
 
@@ -255,11 +250,31 @@ def gdc_pipeline(project_id, gene_symbol=None,
 
 ---
 
-## ToolUniverse Integration
+## Data Acquisition
 
-| TU Key | Tool Name | Integration |
-|--------|---------|---------|
-| `gdc` | GDC | NCI Genomic Data Commons REST API |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ## Pipeline Integration
 
@@ -280,7 +295,7 @@ icgc-cancer-data ───────┘ variant-interpretation
 | `results/gdc_ssm.csv` | cellvariant/mutation | → variant-interpretation |
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

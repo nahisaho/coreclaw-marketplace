@@ -40,14 +40,6 @@ def get_pdbe_entry(pdb_id):
  Parameters:
  pdb_id: str — PDB ID (e.g., "1cbs")
 
- ToolUniverse:
- pdbe_get_entry_summary(pdb_id=pdb_id)
- pdbe_get_entry_quality(pdb_id=pdb_id)
- pdbe_get_entry_experiment(pdb_id=pdb_id)
- pdbe_get_entry_molecules(pdb_id=pdb_id)
- pdbe_get_entry_secondary_structure(pdb_id=pdb_id)
- pdbe_get_entry_assemblies(pdb_id=pdb_id)
- pdbe_get_entry_publications(pdb_id=pdb_id)
  """
  pdb = pdb_id.lower
 
@@ -95,14 +87,6 @@ def get_emdb_structure(emdb_id):
  Parameters:
  emdb_id: str — EMDB ID (e.g., "EMD-1234")
 
- ToolUniverse:
- EMDB_get_structure(emdb_id=emdb_id)
- EMDB_get_map_info(emdb_id=emdb_id)
- EMDB_get_sample_info(emdb_id=emdb_id)
- EMDB_get_imaging_info(emdb_id=emdb_id)
- EMDB_get_validation(emdb_id=emdb_id)
- EMDB_get_publications(emdb_id=emdb_id)
- EMDB_search_structures(query=query)
  """
  url = f"{EMDB_API}/entry/{emdb_id}"
  resp = requests.get(url)
@@ -137,12 +121,6 @@ def get_protein_features(uniprot_id):
  Parameters:
  uniprot_id: str — UniProt accession (e.g., "P04637")
 
- ToolUniverse:
- proteins_api_get_protein(accession=uniprot_id)
- proteins_api_get_features(accession=uniprot_id)
- proteins_api_get_variants(accession=uniprot_id)
- proteins_api_get_xrefs(accession=uniprot_id)
- proteins_api_get_genome_mappings(accession=uniprot_id)
  """
  headers = {"Accept": "application/json"}
 
@@ -178,9 +156,6 @@ def get_complex_portal(complex_id):
  Parameters:
  complex_id: str — Complex Portal ID (e.g., "CPX-1")
 
- ToolUniverse:
- ComplexPortal_get_complex(complex_id=complex_id)
- ComplexPortal_search_complexes(query=query)
  """
  url = (
  f"https://www.ebi.ac.uk/intact/complex-ws/complex/{complex_id}"
@@ -211,8 +186,6 @@ def predict_deepgo_function(sequence):
  """
  DeepGO proteinsequencefrom GO prediction。
 
- ToolUniverse:
- DeepGO_predict_function(sequence=sequence)
  """
  url = "https://deepgo.cbrc.kaust.edu.sa/deepgo/api/create"
  resp = requests.post(url, json={"data_format": "fasta", "data": sequence})
@@ -229,9 +202,6 @@ def get_eve_variant_score(gene_name, variant=None):
  EVE (Evolutionary model of Variant Effect) by/via
  missense variant/mutation'sretrieval。
 
- ToolUniverse:
- EVE_get_gene_info(gene_name=gene_name)
- EVE_get_variant_score(gene_name=gene_name, variant=variant)
  """
  url = f"https://evemodel.org/api/proteins/{gene_name}"
 
@@ -265,42 +235,31 @@ def get_eve_variant_score(gene_name, variant=None):
 | `results/deepgo_predictions.json` | JSON |
 | `results/eve_scores.json` | JSON |
 
-### Available Tools
+## Data Acquisition
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| PDBe | `pdbe_get_entry_summary` | entrysummary |
-| PDBe | `pdbe_get_entry_quality` | structure |
-| PDBe | `pdbe_get_entry_experiment` | experimentmethod |
-| PDBe | `pdbe_get_entry_molecules` | moleculeinformation |
-| PDBe | `pdbe_get_entry_secondary_structure` | structure |
-| PDBe | `pdbe_get_entry_assemblies` | |
-| PDBe | `pdbe_get_entry_publications` | literature |
-| PDBe | `pdbe_get_entry_related_publications` | literature |
-| PDBe | `pdbe_get_entry_observed_residues_ratio` | observation |
-| PDBe | `pdbe_get_entry_status` | |
-| EMDB | `EMDB_get_structure` | EM structure |
-| EMDB | `EMDB_get_map_info` | information |
-| EMDB | `EMDB_get_sample_info` | information |
-| EMDB | `EMDB_get_imaging_info` | |
-| EMDB | `EMDB_get_validation` | |
-| EMDB | `EMDB_get_publications` | literature |
-| EMDB | `EMDB_search_structures` | EM structuresearch |
-| Proteins API | `proteins_api_get_protein` | proteininformation |
-| Proteins API | `proteins_api_get_features` | |
-| Proteins API | `proteins_api_get_variants` | variant/mutation |
-| Proteins API | `proteins_api_get_xrefs` | reference |
-| Proteins API | `proteins_api_get_genome_mappings` | genomemapping |
-| Proteins API | `proteins_api_get_epitopes` | |
-| Proteins API | `proteins_api_get_proteomics` | proteomics |
-| Proteins API | `proteins_api_get_publications` | literature |
-| Proteins API | `proteins_api_get_comments` | |
-| Proteins API | `proteins_api_search` | search |
-| Complex Portal | `ComplexPortal_get_complex` | details |
-| Complex Portal | `ComplexPortal_search_complexes` | search |
-| DeepGO | `DeepGO_predict_function` | GO prediction |
-| EVE | `EVE_get_gene_info` | geneinformation |
-| EVE | `EVE_get_variant_score` | variant/mutation |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -317,7 +276,7 @@ def get_eve_variant_score(gene_name, variant=None):
 `requests`, `pandas`
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

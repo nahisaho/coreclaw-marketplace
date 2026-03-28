@@ -38,8 +38,6 @@ def score_regulome_variants(variants):
  variants: list — (rsID or chr:pos shapeformula)
  e.g., ["rs12345", "chr1:109274570"]
 
- ToolUniverse:
- RegulomeDB_score_variant(variant=variant)
  """
  results = []
  for variant in variants:
@@ -89,9 +87,6 @@ def search_remap_binding(chrom, start, end, genome="hg38"):
  end: int — endcoordinates
  genome: str — genomeassembly ("hg38", "hg19", "mm10")
 
- ToolUniverse:
- ReMap_search_peaks(chrom=chrom, start=start, end=end)
- ReMap_get_tf_targets(tf_name=tf_name)
  """
  params = {
  "chrom": chrom,
@@ -162,8 +157,6 @@ def search_4dn_experiments(query, experiment_type=None):
  query: str — search query (cell、protein)
  experiment_type: str — experiment ("in situ Hi-C", "SPRITE", "GAM")
 
- ToolUniverse:
- FourDN_search_experiments(query=query)
  """
  params = {
  "searchTerm": query,
@@ -244,13 +237,31 @@ def regulatory_variant_pipeline(variants, genome="hg38"):
 
 ---
 
-## Available Tools
+## Data Acquisition
 
-| ToolUniverse Category | Key Tools |
-|---|---|
-| `regulomedb` | `RegulomeDB_score_variant` |
-| `remap` | `ReMap_search_peaks`, `ReMap_get_tf_targets` |
-| `fourdn_portal` | `FourDN_search_experiments` |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ## Pipeline Output
 
@@ -272,7 +283,7 @@ variant-interpretation ──→ regulatory-genomics ──→ epigenomics-chrom
 ```
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

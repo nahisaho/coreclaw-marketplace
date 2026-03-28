@@ -44,10 +44,6 @@ def search_biorxiv(query, server="biorxiv", days=30, cursor=0):
  days: int — min is searched
  cursor: int — offset
 
- ToolUniverse:
- bioRxiv_search_preprints(query=query, server=server)
- bioRxiv_get_preprint_details(doi=doi)
- medRxiv_search_preprints(query=query)
  """
  end_date = datetime.now.strftime("%Y-%m-%d")
  start_date = (datetime.now - timedelta(days=days)).strftime("%Y-%m-%d")
@@ -96,9 +92,6 @@ def search_arxiv(query, category=None, max_results=50, sort_by="submittedDate"):
  max_results: int — maximum retrieval count
  sort_by: str — "submittedDate", "lastUpdatedDate", "relevance"
 
- ToolUniverse:
- arXiv_search_papers(query=query, category=category)
- arXiv_get_paper(arxiv_id=arxiv_id)
  """
  search_query = f"all:{query}"
  if category:
@@ -156,8 +149,6 @@ def get_pmc_fulltext(pmcid, email="user@example.com"):
  pmcid: str — PMC ID (e.g., "PMC1234567")
  email: str — NCBI API for
 
- ToolUniverse:
- PMC_get_fulltext(pmcid=pmcid)
  """
  params = {
  "db": "pmc",
@@ -196,8 +187,6 @@ def find_oa_version(doi, email="user@example.com"):
  doi: str — DOI
  email: str — API use
 
- ToolUniverse:
- Unpaywall_get_oa_status(doi=doi)
  """
  resp = requests.get(f"{UNPAYWALL_API}/{doi}", params={"email": email})
  resp.raise_for_status
@@ -240,9 +229,6 @@ def search_core(query, api_key, limit=25):
  api_key: str — CORE API 
  limit: int — maximum retrieval count
 
- ToolUniverse:
- CORE_search_works(query=query)
- CORE_get_work(core_id=core_id)
  """
  headers = {"Authorization": f"Bearer {api_key}"}
  params = {"q": query, "limit": limit}
@@ -284,8 +270,6 @@ def search_zenodo(query, resource_type=None, size=25):
  resource_type: str — "publication", "dataset", "software", "poster"
  size: int — maximum retrieval count
 
- ToolUniverse:
- Zenodo_search_records(query=query, type=resource_type)
  """
  params = {"q": query, "size": size}
  if resource_type:
@@ -324,8 +308,6 @@ def search_doaj_articles(query, page=1, page_size=25):
  """
  DOAJ OA search。
 
- ToolUniverse:
- DOAJ_search_articles(query=query)
  """
  params = {"q": query, "page": page, "pageSize": page_size}
  resp = requests.get(f"{DOAJ_API}/search/articles/{query}")
@@ -361,8 +343,6 @@ def search_openaire(query, result_type="publication", size=25):
  """
  OpenAIRE researchsearch (EU research)。
 
- ToolUniverse:
- OpenAIRE_search_publications(query=query)
  """
  params = {
  "keywords": query,
@@ -432,25 +412,31 @@ def multi_archive_search(query, archives=None, **kwargs):
 
 ---
 
-## Available Tools
+## Data Acquisition
 
-below/following's tool ToolUniverse SMCP usepossible:
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| ToolUniverse Category | Key Tools |
-|---|---|
-| `biorxiv` | `bioRxiv_search_preprints`, `bioRxiv_get_preprint_details` |
-| `medrxiv` | `medRxiv_search_preprints` |
-| `arxiv` | `arXiv_search_papers`, `arXiv_get_paper` |
-| `pmc` | `PMC_get_fulltext` |
-| `doaj` | `DOAJ_search_articles` |
-| `unpaywall` | `Unpaywall_get_oa_status` |
-| `hal` | `HAL_search` |
-| `core` | `CORE_search_works`, `CORE_get_work` |
-| `zenodo` | `Zenodo_search_records` |
-| `openaire` | `OpenAIRE_search_publications` |
-| `osf_preprints` | `OSF_search_preprints` |
-| `fatcat` | `Fatcat_search_releases` |
-| `dblp` | `DBLP_search_publications` |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ## Pipeline Output
 
@@ -473,7 +459,7 @@ literature-search ──→ preprint-archive ──→ systematic-review
 ```
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

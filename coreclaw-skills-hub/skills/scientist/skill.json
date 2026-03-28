@@ -1,6 +1,6 @@
 {
   "name": "scientific-assistant",
-  "version": "v0.4.0",
+  "version": "v0.5.0",
   "description": "Harness-optimized scientific research suite (195 sub-skills) with verification loops, quality gates, and English-only prompts for token efficiency. Covers literature review, data analysis, modeling, bioinformatics, and publication-ready reporting.",
   "entrypoint": "main.py"
 }

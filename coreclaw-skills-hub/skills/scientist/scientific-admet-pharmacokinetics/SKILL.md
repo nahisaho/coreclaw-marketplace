@@ -2,10 +2,6 @@
 name: scientific-admet-pharmacokinetics
 description: |
  ADMET and pharmacokinetics prediction skill. Absorption, Distribution, Metabolism, Excretion, Toxicity modeling with RDKit, DeepChem, and PK/PD simulation pipelines.
-tu_tools:
- - key: pubchem
- name: PubChem
- description: compoundactivitydatabase
 ---
 
 # Scientific ADMET & Pharmacokinetics
@@ -351,19 +347,31 @@ def one_compartment_pk(dose, ka, ke, vd, time_points):
 | `results/admet_report.md` | ADMET evaluationreport（Markdown） | allanalysiscompletion |
 | `results/pk_model.json` | PK parameters（JSON） | PK completion |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| ADMET-AI | `ADMETAI_predict_BBB_penetrance` | BBB prediction |
-| ADMET-AI | `ADMETAI_predict_CYP_interactions` | CYP interactionprediction |
-| ADMET-AI | `ADMETAI_predict_toxicity` | toxicityprediction |
-| ADMET-AI | `ADMETAI_predict_bioavailability` | prediction |
-| PubChem | `PubChem_get_compound_properties_by_CID` | compound property retrieval |
-| ChEMBL | `ChEMBL_get_molecule` | molecule information retrieval |
-| ChEMBL | `ChEMBL_get_activity` | bioassay data |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -377,7 +385,7 @@ def one_compartment_pk(dose, ka, ke, vd, time_points):
 | `scientific-regulatory-science` | → FDA |
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

@@ -2,13 +2,6 @@
 name: scientific-metabolomics
 description: |
  Metabolomics skill. LC-MS/GC-MS data processing, metabolite identification, pathway mapping, biomarker discovery, and metabolomics statistical analysis pipelines.
-tu_tools:
- - key: hmdb
- name: HMDB
- description: metabolomedatabase
- - key: metabolomics_workbench
- name: Metabolomics Workbench
- description: Metabolomics Workbench REST API metabolomedataRefMet
 ---
 
 # Scientific Metabolomics Analysis
@@ -325,25 +318,35 @@ def metabolite_correlation_network(df, metabolite_cols, method="spearman",
 | `figures/vip_barplot.png` | PNG |
 | `figures/metabolite_network.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| HMDB | `HMDB_search` | metabolite search |
-| HMDB | `HMDB_get_metabolite` | metabolite detail retrieval |
-| HMDB | `HMDB_get_diseases` | metabolite-disease |
-| KEGG | `kegg_get_pathway_info` | metabolic pathway information |
-| MetaCyc | `MetaCyc_search_pathways` | metabolic pathway search |
-| MetabolomicsWB | `MetabolomicsWorkbench_search_compound_by_name` | metabolitedatabasesearch |
+### Implementation Pattern
 
-#### Reference Experiments
+```python
+import requests
+import pandas as pd
 
-- **Exp-07**: PLS-DA + VIP、Pareto 、pathway、correlationnetwork
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
+
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

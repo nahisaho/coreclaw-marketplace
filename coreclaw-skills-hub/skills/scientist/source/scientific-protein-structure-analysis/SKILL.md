@@ -3,13 +3,9 @@ name: scientific-protein-structure-analysis
 description: |
  proteinstructureanalysisskill。PDB / AlphaFold DB / PDBe utilizing 3D structureanalysis。
  structure、binding、molecular docking、structureevaluation。
- ToolUniverse 's Protein Structure Retrieval and claude-scientific-skills 's 
+  claude-scientific-skills 's 
  PDB/AlphaFold skill integration。
  「protein's structure analysis」「PDB structure」「」 。
-tu_tools:
- - key: proteinsplus
- name: ProteinsPlus
- description: proteinbindingstructureanalysistoolgroup
 ---
 
 # Scientific Protein Structure Analysis
@@ -313,18 +309,31 @@ def detect_binding_sites(pdb_id):
 | `results/structure_analysis.json` | structuredata（JSON） | evaluationcompletion |
 | `results/binding_sites.json` | bindingdata（JSON） | analysiscompletion |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| UniProt | `UniProt_get_entry_by_accession` | protein entry retrieval |
-| InterPro | `InterPro_get_protein_domains` | domain annotation |
-| InterPro | `InterProScan_scan_sequence` | sequence domain scan |
-| BindingDB | `BindingDB_get_ligands_by_uniprot` | ligandbindingdata |
-| Proteins API | `proteins_api_get_features` | protein feature information |
-| AlphaMissense | `AlphaMissense_get_protein_scores` | prediction |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -338,7 +347,7 @@ def detect_binding_sites(pdb_id):
 | `scientific-academic-writing` | → publishing research results |
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

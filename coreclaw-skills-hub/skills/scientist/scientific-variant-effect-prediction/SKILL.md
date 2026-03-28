@@ -2,13 +2,6 @@
 name: scientific-variant-effect-prediction
 description: |
  Variant effect prediction skill. CADD/REVEL/AlphaMissense scoring, splice variant prediction, regulatory variant impact, and variant pathogenicity classification.
-tu_tools:
- - key: spliceai
- name: SpliceAI
- description: prediction
- - key: cadd
- name: CADD
- description: integrationannotationdependency
 ---
 
 # Scientific Variant Effect Prediction
@@ -50,7 +43,6 @@ def alphamissense_predict(variants, uniprot_id=None):
  # proteinall'sretrieval
  # AlphaMissense calculationproviding
  print(f"Fetching AlphaMissense scores for {uniprot_id}...")
- # ToolUniverse : AlphaMissense_get_protein_scores
  # or AlphaMissense_get_residue_scores
 
  for var in variants:
@@ -112,7 +104,6 @@ def cadd_score_variants(variants, genome="GRCh38", version="v1.7"):
  alt = var["alt"]
 
  # CADD API 
- # ToolUniverse : CADD_get_variant_score
  url = f"{base_url}/{genome}/{chrom}:{pos}"
  try:
  resp = requests.get(url, timeout=30)
@@ -177,7 +168,6 @@ def spliceai_predict(variants, genome="GRCh38",
  ref = var["ref"]
  alt = var["alt"]
 
- # ToolUniverse : SpliceAI_predict_splice
  # SpliceAI 4 items's Δoutput:
  # DS_AG: acceptor gain, DS_AL: acceptor loss
  # DS_DG: donor gain, DS_DL: donor loss
@@ -297,21 +287,31 @@ def consensus_pathogenicity(am_df, cadd_df, spliceai_df,
 | `results/consensus_pathogenicity.csv` | CSV |
 | `figures/variant_score_distribution.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| AlphaMissense | `AlphaMissense_get_protein_scores` | proteinall |
-| AlphaMissense | `AlphaMissense_get_variant_score` | units |
-| AlphaMissense | `AlphaMissense_get_residue_scores` | |
-| CADD | `CADD_get_variant_score` | units PHRED |
-| CADD | `CADD_get_position_scores` | all |
-| CADD | `CADD_get_range_scores` | range |
-| SpliceAI | `SpliceAI_predict_splice` | Δprediction |
-| SpliceAI | `SpliceAI_predict_pangolin` | Pangolin prediction |
-| SpliceAI | `SpliceAI_get_max_delta` | Δretrieval |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -328,7 +328,7 @@ def consensus_pathogenicity(am_df, cadd_df, spliceai_df,
 `pandas`, `numpy`, `requests`
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

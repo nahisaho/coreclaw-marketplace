@@ -2,10 +2,6 @@
 name: scientific-publication-figures
 description: |
  Publication figures skill. Journal-specification figure generation, multi-panel layout, color-blind safe palettes, resolution/DPI compliance, and figure annotation.
-tu_tools:
- - key: biotools
- name: bio.tools
- description: visualizationTool Registry Search
 ---
 
 # Scientific Publication-Quality Figure Generation
@@ -198,11 +194,31 @@ def create_composite_figure(plot_functions, layout=(2, 3),
 | 2 column | (7.0, 5.0) | Nature 2 column ≈ 183 mm |
 | | (7.0, 9.0) | A4 's |
 
-## ToolUniverse Integration
+## Data Acquisition
 
-| TU Key | Tool Name | Integration |
-|--------|---------|--------|
-| `biotools` | bio.tools | visualizationTool Registry Search |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ## References
 
@@ -220,7 +236,7 @@ def create_composite_figure(plot_functions, layout=(2, 3),
 - **Exp-11〜13**: rcParams settings and color palette's
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

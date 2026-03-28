@@ -42,9 +42,6 @@ def search_ebi(query, domain="allebi", size=25, fields=None):
  size: int — maximum retrieval count
  fields: list — field
 
- ToolUniverse:
- EBI_Search_query(query=query, domain=domain)
- EBI_Search_get_entry(domain=domain, entry_id=entry_id)
  """
  params = {
  "query": query,
@@ -86,9 +83,6 @@ def search_ena(query, result_type="sequence", limit=100):
  result_type: str — "sequence", "read_run", "analysis", "study"
  limit: int — maximum retrieval count
 
- ToolUniverse:
- ENA_search(query=query, result=result_type)
- ENA_get_entry(accession=accession)
  """
  params = {
  "query": query,
@@ -135,9 +129,6 @@ def search_biostudies(query, page_size=25):
  query: str — search query
  page_size: int — 
 
- ToolUniverse:
- BioStudies_search(query=query)
- BioStudies_get_study(accession=accession)
  """
  params = {"query": query, "pageSize": page_size}
  resp = requests.get(f"{BIOSTUDIES_API}/search", params=params)
@@ -178,8 +169,6 @@ def dbfetch(db, ids, format_type="json", style="raw"):
  format_type: str — outputshapeformula ("json", "fasta", "xml")
  style: str — ("raw", "html")
 
- ToolUniverse:
- dbfetch_get_entries(db=db, ids=ids, format=format_type)
  """
  ids_str = ",".join(ids) if isinstance(ids, list) else ids
  params = {
@@ -211,9 +200,6 @@ def search_metabolights(query):
  Parameters:
  query: str — search query (compound、disease、organism/species)
 
- ToolUniverse:
- MetaboLights_search_studies(query=query)
- MetaboLights_get_study(study_id=study_id)
  """
  resp = requests.get(
  f"{METABOLIGHTS_API}/studies/search",
@@ -249,15 +235,31 @@ def get_metabolights_study(study_id):
 
 ---
 
-## Available Tools
+## Data Acquisition
 
-| ToolUniverse Category | Key Tools |
-|---|---|
-| `ebi_search` | `EBI_Search_query`, `EBI_Search_get_entry` |
-| `ena_browser` | `ENA_search`, `ENA_get_entry` |
-| `biostudies` | `BioStudies_search`, `BioStudies_get_study` |
-| `dbfetch` | `dbfetch_get_entries` |
-| `metabolights` | `MetaboLights_search_studies`, `MetaboLights_get_study` |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ## Pipeline Output
 
@@ -280,7 +282,7 @@ genome-sequence-tools ──→ ebi-databases ──→ metabolomics-databases
 ```
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

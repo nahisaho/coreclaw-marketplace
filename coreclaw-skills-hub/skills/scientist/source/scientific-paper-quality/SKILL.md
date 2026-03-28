@@ -5,10 +5,6 @@ description: |
  、forrate、table、items、
  possible is executed。
  「paper's」「 」「」 。
-tu_tools:
- - key: crossref
- name: Crossref
- description: citationmetricsreference
 ---
 
 # Scientific Paper Quality
@@ -793,11 +789,31 @@ def _vocabulary_score(vocabulary):
  return max(0.0, round(score, 2))
 ```
 
-## ToolUniverse Integration
+## Data Acquisition
 
-| TU Key | Tool Name | Integration |
-|--------|---------|--------|
-| `crossref` | Crossref | citationmetricsreference |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ## References
 
@@ -831,7 +847,7 @@ def _vocabulary_score(vocabulary):
 | `scientific-latex-formatter` | 's |
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

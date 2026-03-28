@@ -5,10 +5,6 @@ description: |
  genomeanalysis（MetaPhlAn / HUMAnN）α/β 
  amountanalysis（DESeq2 / ANCOM-BC）
  dataanalysis（CoDA）pipeline。
-tu_tools:
- - key: mgnify
- name: MGnify
- description: EBI analysis
 ---
 
 # Scientific Microbiome & Metagenomics
@@ -325,18 +321,31 @@ def functional_profiling(fastq_files, method="humann"):
 | `figures/pcoa_plot.png` | PNG |
 | `figures/barplot_taxonomy.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| MGnify | `MGnify_search_studies` | genomeresearchsearch |
-| MGnify | `MGnify_list_analyses` | genomeanalysislist |
-| KEGG | `kegg_get_pathway_info` | metabolic pathway information |
-| KEGG | `kegg_search_pathway` | pathwaysearch |
-| MetaCyc | `MetaCyc_search_pathways` | metabolic pathway search |
-| PubMed | `PubMed_search_articles` | microbiomeliteraturesearch |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -353,7 +362,7 @@ def functional_profiling(fastq_files, method="humann"):
 - scikit-bio, biom-format, qiime2, dada2 (R), ANCOM-BC (R), DESeq2 (R), HUMAnN, MetaPhlAn
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

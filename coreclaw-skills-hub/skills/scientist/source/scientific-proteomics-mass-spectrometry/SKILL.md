@@ -372,19 +372,31 @@ def differential_protein_expression(intensity_matrix, groups,
 | `figures/volcano_proteomics.png` | PNG |
 | `figures/molecular_network.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| PRIDE | `PRIDE_search_proteomics` | proteomicssearch |
-| PRIDE | `PRIDE_get_project` | detailsretrieval |
-| PRIDE | `PRIDE_get_project_files` | proteomicsdatafileretrieval |
-| UniProt | `search_uniprot_by_name` | search |
-| UniProt | `get_uniprot_entry` | entrydetails |
-| KEGG | `kegg_get_pathway_info` | pathway information |
-| Reactome | `reactome_pathway_analysis` | pathwayanalysis |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -401,7 +413,7 @@ def differential_protein_expression(intensity_matrix, groups,
 `pyopenms`, `matchms`, `pandas`, `numpy`, `scipy`, `scikit-learn`, `networkx`, `statsmodels`
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

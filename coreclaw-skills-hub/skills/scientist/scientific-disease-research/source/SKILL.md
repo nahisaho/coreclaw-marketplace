@@ -2,10 +2,6 @@
 name: scientific-disease-research
 description: |
  Disease research skill. Disease ontology queries, phenotype-genotype associations, clinical feature extraction, and disease mechanism pathway analysis.
-tu_tools:
- - key: disgenet
- name: DisGeNET
- description: disease-gene (GDA) database
 ---
 
 # Scientific Disease Research
@@ -368,19 +364,31 @@ def generate_disease_report(disease_name, gwas_df, gda_df, hpo_df,
 | `results/disease_research_report.md` | diseaseresearchreport（Markdown） | reportgeneration |
 | `results/gwas_significant_loci.json` | GWAS significant loci（JSON） | GWAS searchcompletion |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| OpenTargets | `OpenTargets_get_disease_id_description_by_name` | disease IDretrieval |
-| OpenTargets | `OpenTargets_get_associated_targets_by_disease_efoId` | disease |
-| EFO/OLS | `OSL_get_efo_id_by_disease_name` | EFO ID |
-| HPO | `get_HPO_ID_by_phenotype` | tabletype→HPO mapping |
-| Monarch | `Monarch_get_gene_diseases` | gene-disease |
-| ClinVar | `clinvar_search_variants` | search |
-| ClinicalTrials | `search_clinical_trials` | diseaseclinical trial |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -394,7 +402,7 @@ def generate_disease_report(disease_name, gwas_df, gda_df, hpo_df,
 | `scientific-deep-research` | ← diseaseliterature |
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

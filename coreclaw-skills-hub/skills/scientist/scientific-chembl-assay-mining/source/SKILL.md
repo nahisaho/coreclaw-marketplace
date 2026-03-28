@@ -2,10 +2,6 @@
 name: scientific-chembl-assay-mining
 description: |
  ChEMBL assay mining skill. Bioactivity data retrieval, target-compound mapping, SAR analysis, assay type classification, and compound potency comparison from ChEMBL database.
-tu_tools:
- - key: chembl
- name: ChEMBL
- description: activitydatabase (EBI)
 ---
 
 # Scientific ChEMBL Assay Mining
@@ -46,9 +42,6 @@ def search_target(query, organism="Homo sapiens", limit=10):
  organism: str — organism/species
  limit: int — maximum retrieval count
 
- ToolUniverse:
- ChEMBL_search_targets(pref_name__contains=query, organism=organism)
- ChEMBL_get_target(target_chembl_id=target_id)
  """
  url = f"{CHEMBL_API}/target.json"
  params = {
@@ -88,7 +81,6 @@ def get_target_activities(target_chembl_id, standard_type="IC50",
  max_value: float — nM threshold
  limit: int — maximum retrieval count
 
- ToolUniverse:
  ChEMBL_search_activities(
  target_chembl_id=target_chembl_id,
  standard_type=standard_type,
@@ -141,7 +133,6 @@ def search_assays(target_chembl_id=None, assay_type=None, limit=50):
  assay_type: str — "B" (Binding), "F" (Functional), "A" (ADME)
  limit: int — maximum retrieval count
 
- ToolUniverse:
  ChEMBL_search_assays(
  target_chembl_id=target_chembl_id,
  assay_type=assay_type
@@ -234,7 +225,6 @@ def selectivity_profile(molecule_chembl_id, limit=100):
  molecule_chembl_id: str — compound ChEMBL ID
  limit: int — maximum retrieval count
 
- ToolUniverse:
  ChEMBL_get_molecule_targets(
  molecule_chembl_id__exact=molecule_chembl_id
  )
@@ -289,7 +279,6 @@ def similarity_search(smiles, threshold=70, max_results=25):
  threshold: int — Tanimoto threshold (%)
  max_results: int — maximum results
 
- ToolUniverse:
  ChEMBL_search_similar_molecules(
  query=smiles, similarity_threshold=threshold
  )
@@ -325,9 +314,6 @@ def search_approved_drugs(target_chembl_id, limit=50):
  """
  for/against ATC classificationand and alsosearch。
 
- ToolUniverse:
- ChEMBL_search_drugs(max_phase=4)
- ChEMBL_search_mechanisms(target_chembl_id=target_chembl_id)
  ChEMBL_search_atc_classification
  """
  url = f"{CHEMBL_API}/mechanism.json"
@@ -369,7 +355,6 @@ def check_structural_alerts(molecule_chembl_id):
  """
  compound's structurealert (PAINS, Dundee) 。
 
- ToolUniverse:
  ChEMBL_search_compound_structural_alerts(
  molecule_chembl_id=molecule_chembl_id
  )
@@ -485,32 +470,35 @@ compound-screening selectivity_profile molecular-docking
 | `results/selectivity_profile.csv` | selectionfile | → compound-screening |
 | `results/structural_alerts.json` | structurealertresults | → molecular-docking |
 
-## Available Tools (ToolUniverse SMCP)
+## Data Acquisition
 
-| Tool Name | Usage |
-|---------|------|
-| `ChEMBL_search_targets` | search |
-| `ChEMBL_get_target` | details |
-| `ChEMBL_search_assays` | search |
-| `ChEMBL_get_assay` | details |
-| `ChEMBL_get_assay_activities` | activitydata |
-| `ChEMBL_search_activities` | activitysearch (filter) |
-| `ChEMBL_get_activity` | activitydatadetails |
-| `ChEMBL_get_molecule` | compounddetails |
-| `ChEMBL_get_molecule_targets` | compound- |
-| `ChEMBL_search_similar_molecules` | search |
-| `ChEMBL_search_substructure` | structuresearch |
-| `ChEMBL_search_drugs` | search |
-| `ChEMBL_search_mechanisms` | forsearch |
-| `ChEMBL_search_atc_classification` | ATC classification |
-| `ChEMBL_search_compound_structural_alerts` | structurealert |
-| `ChEMBL_search_cell_lines` | cellsearch |
-| `ChEMBL_search_binding_sites` | binding |
-| `ChEMBL_get_drug` | information |
-| `ChEMBL_get_drug_mechanisms` | for |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
+
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

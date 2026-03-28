@@ -4,10 +4,6 @@ description: |
  analysis'sskill。Thornton-Anders structure（SZM）、
  XRD crystalanalysis（Scherrer formula）、Williamson-Hall plot、methoddataanalysis、
  PSP frameworkdesign is performedfor。Scientific Skills Exp-13 。
-tu_tools:
- - key: materials_project
- name: Materials Project
- description: databasesearch
 ---
 
 # Scientific Materials Characterization
@@ -352,11 +348,31 @@ def tauc_plot_bandgap(wavelength_nm, transmittance_pct, thickness_nm,
  return energy_eV, tauc
 ```
 
-## ToolUniverse Integration
+## Data Acquisition
 
-| TU Key | Tool Name | Integration |
-|--------|---------|--------|
-| `materials_project` | Materials Project | databasesearch |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ## References
 
@@ -378,7 +394,7 @@ def tauc_plot_bandgap(wavelength_nm, transmittance_pct, thickness_nm,
 - **Exp-11**: ARIM data'sdatautilizing
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

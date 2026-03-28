@@ -190,26 +190,35 @@ def scaffold_analysis(smiles_list, names=None):
 | `figures/chemical_space_pca.png` | PNG |
 | `figures/similarity_heatmap.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| PubChem | `PubChem_get_CID_by_compound_name` | compound→CID transformation |
-| PubChem | `PubChem_get_compound_properties_by_CID` | compound property retrieval |
-| PubChem | `PubChem_search_compounds_by_similarity` | compoundsearch |
-| ChEMBL | `ChEMBL_search_molecules` | moleculesearch |
-| ChEMBL | `ChEMBL_get_molecule` | molecule information retrieval |
-| ZINC | `ZINC_search_by_smiles` | SMILES search |
+### Implementation Pattern
 
-#### Reference Experiments
+```python
+import requests
+import pandas as pd
 
-- **Exp-02**: EGFR inhibition SAR analysis（、Tanimoto、MCS、Scaffold）
-- **Exp-05**: toxicityprediction（structurealert、Morgan FP classification）
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
+
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

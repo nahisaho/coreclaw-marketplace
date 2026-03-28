@@ -5,8 +5,7 @@ description: |
  Reactome pathwayanalysis、Gene Ontology (BP/MF/CC) annotation、
  WikiPathways pathway、Pathway Commons integrationinteraction cross-cutting
  use ORA (Over-Representation Analysis)、GSEA (Gene Set Enrichment Analysis)、
- analysispipeline。34+ 's ToolUniverse SMCP tool and integration。
----
+ analysispipeline。34+ ---
 
 # Scientific Pathway & Enrichment Analysis
 
@@ -391,46 +390,31 @@ def integrated_enrichment_heatmap(ora_results_dict, top_n=20,
 | `figures/enrichment_heatmap.png` | PNG |
 | `figures/gsea_running_sum.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| KEGG | `kegg_search_pathway` | pathwaykeyword search |
-| KEGG | `kegg_get_pathway_info` | pathwaydetailsinformationretrieval |
-| KEGG | `kegg_find_genes` | genesearch |
-| KEGG | `kegg_get_gene_info` | genedetailsinformation |
-| KEGG | `kegg_list_organisms` | supportorganism/specieslist |
-| Reactome | `Reactome_get_pathway` | pathwaydetailsretrieval |
-| Reactome | `Reactome_get_pathway_hierarchy` | pathwaystructure |
-| Reactome | `Reactome_get_pathway_reactions` | pathwayreactionlist |
-| Reactome | `Reactome_map_uniprot_to_pathways` | UniProt→pathwaytransformation |
-| Reactome | `Reactome_map_uniprot_to_reactions` | UniProt→reactiontransformation |
-| Reactome | `Reactome_get_pathways_low_entity` | pathway |
-| Reactome | `Reactome_list_top_pathways` | pathwaylist |
-| Reactome | `Reactome_list_species` | supporttypelist |
-| Reactome | `Reactome_get_event_ancestors` | retrieval |
-| Reactome | `Reactome_get_events_hierarchy` | |
-| Reactome | `Reactome_get_participant_reference_entities` | |
-| Reactome | `Reactome_get_participants` | elementretrieval |
-| Reactome | `Reactome_get_complex` | information |
-| Reactome | `Reactome_get_diseases` | diseasepathway |
-| Reactome | `Reactome_get_interactor` | interaction |
-| Reactome | `Reactome_query_by_ids` | batch ID |
-| Reactome | `Reactome_get_reaction` | reactiondetails |
-| Reactome | `Reactome_get_entity_compartment` | |
-| Reactome | `Reactome_get_entity_events` | |
-| Reactome | `Reactome_get_database_version` | DB verification |
-| GO | `GO_search_terms` | GO forsearch |
-| GO | `GO_get_term_by_id` | GO ID → forinformation |
-| GO | `GO_get_term_details` | fordetails (definition/) |
-| GO | `GO_get_annotations_for_gene` | gene GO annotation |
-| GO | `GO_get_genes_for_term` | GO term → gene list |
-| WikiPathways | `WikiPathways_search` | pathwaysearch |
-| WikiPathways | `WikiPathways_get_pathway` | pathwaydetailsretrieval |
-| Pathway Commons | `pc_search_pathways` | integrationpathwaysearch |
-| Pathway Commons | `pc_get_interactions` | moleculeinteractionretrieval |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -449,7 +433,7 @@ def integrated_enrichment_heatmap(ora_results_dict, top_n=20,
 `scipy`, `statsmodels`, `pandas`, `numpy`, `matplotlib`, `requests`, `gseapy` (optional)
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

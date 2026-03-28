@@ -223,20 +223,31 @@ def search_patents(query, start_date=None, end_date=None,
 | `results/patent_search.csv` | CSV |
 | `figures/patent_timeline.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| FDA Orange Book | `FDA_OrangeBook_search_drug` | search |
-| FDA Orange Book | `FDA_OrangeBook_get_approval_history` | retrieval |
-| FDA Orange Book | `FDA_OrangeBook_get_patent_info` | informationretrieval |
-| FDA Orange Book | `FDA_OrangeBook_get_exclusivity` | information |
-| FDA Orange Book | `FDA_OrangeBook_check_generic_availability` | |
-| FDA Orange Book | `FDA_OrangeBook_get_te_code` | treatment |
-| FAERS | `FAERS_search_adverse_event_reports` | reportsearch |
-| FAERS | `FAERS_calculate_disproportionality` | min (ROR/PRR/IC) |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -253,7 +264,7 @@ def search_patents(query, start_date=None, end_date=None,
 `pandas`, `numpy`, `requests`, `json`
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

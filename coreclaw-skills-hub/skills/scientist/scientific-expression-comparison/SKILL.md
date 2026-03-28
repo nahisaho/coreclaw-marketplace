@@ -40,8 +40,6 @@ def get_baseline_expression(gene, species="homo sapiens"):
  gene: str — gene symbolor Ensembl ID
  species: str — organism/species
 
- ToolUniverse:
- ExpressionAtlas_get_baseline(gene=gene, species=species)
  """
  url = f"{ATLAS_REST}/json/baseline_expression"
  params = {"gene": gene, "species": species}
@@ -78,7 +76,6 @@ def search_differential_expression(gene, condition=None, species="homo sapiens")
  condition: str — condition (example: "cancer", "inflammation")
  species: str — organism/species
 
- ToolUniverse:
  ExpressionAtlas_search_differential(
  gene=gene, condition=condition, species=species
  )
@@ -120,8 +117,6 @@ def get_experiment_details(accession):
  Parameters:
  accession: str — experiment ID (example: "E-MTAB-5214")
 
- ToolUniverse:
- ExpressionAtlas_get_experiment(accession=accession)
  """
  url = f"{ATLAS_REST}/json/experiments/{accession}"
  resp = requests.get(url)
@@ -156,7 +151,6 @@ def search_experiments(gene=None, condition=None, species="homo sapiens"):
  condition: str — condition
  species: str — organism/species
 
- ToolUniverse:
  ExpressionAtlas_search_experiments(
  gene=gene, condition=condition, species=species
  )
@@ -291,17 +285,35 @@ human-protein-atlas ────────────┘ │ pathway-enrichme
 | `results/expression_matrix.csv` | expression | → multi-omics |
 | `figures/expression_heatmap.png` | heatmap | → publication-figures |
 
-## Available Tools (ToolUniverse SMCP)
+## Data Acquisition
 
-| Tool Name | Usage |
-|---------|------|
-| `ExpressionAtlas_get_baseline` | expression |
-| `ExpressionAtlas_search_differential` | expressionsearch |
-| `ExpressionAtlas_search_experiments` | experimentsearch |
-| `ExpressionAtlas_get_experiment` | experimentdetails |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
+
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

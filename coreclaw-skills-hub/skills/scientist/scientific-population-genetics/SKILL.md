@@ -303,21 +303,31 @@ def selection_scan(haplotype_matrix, positions, method="ihs"):
 | `figures/admixture_barplot.png` | PNG |
 | `figures/manhattan_fst.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| gnomAD | `gnomad_get_variant` | frequency |
-| gnomAD | `gnomad_get_gene_constraints` | gene |
-| gnomAD | `gnomad_get_region` | |
-| gnomAD | `gnomad_search_variants` | search |
-| GWAS | `GWAS_search_associations_by_gene` | gene GWAS |
-| GWAS | `gwas_search_studies` | GWAS researchsearch |
-| GWAS | `gwas_get_variants_for_trait` | shape |
-| GWAS | `gwas_get_associations_for_snp` | SNP |
-| GWAS | `gwas_get_snps_for_gene` | gene SNP |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -336,7 +346,7 @@ def selection_scan(haplotype_matrix, positions, method="ihs"):
 - scikit-allel, plink2, admixture, pandas, numpy, scipy
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

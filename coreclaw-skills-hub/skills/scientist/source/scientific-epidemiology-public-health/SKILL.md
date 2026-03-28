@@ -5,12 +5,7 @@ description: |
  （RR/OR/HR/NNT）standardization（SMR）rate
  （GIS / clustering）causal inference（DAG）
  WHO/CDC/EU dataintegrationpipeline。
- ToolUniverse integration: who_gho。
-tu_tools:
- - key: who_gho
- name: WHO GHO
- description: WHO Global Health Observatory API
----
+ ---
 
 # Scientific Epidemiology & Public Health
 
@@ -304,23 +299,31 @@ def blocks_all_backdoor(G, X, Y, Z):
 | `figures/dag_diagram.png` | PNG |
 | `figures/forest_plot.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| WHO | `who_gho_get_data` | WHO GHO Data Retrieval |
-| WHO | `who_gho_query_health_data` | WHO |
-| CDC | `cdc_data_search_datasets` | CDC dataset search |
-| CDC | `cdc_data_get_dataset` | CDC data retrieval |
-| EUHealthInfo | `euhealthinfo_search_surveillance_mortality_rates` | ratedata |
-| EUHealthInfo | `euhealthinfo_search_healthcare_expenditure` | data |
-| EUHealthInfo | `euhealthinfo_search_population_health_survey` | investigationdata |
-| HealthDisparities | `health_disparities_get_svi_info` | |
-| HealthDisparities | `health_disparities_get_county_rankings_info` | |
-| ClinicalTrials | `search_clinical_trials` | clinical trial search |
-| PubMed | `PubMed_Guidelines_Search` | |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -338,7 +341,7 @@ def blocks_all_backdoor(G, X, Y, Z):
 - geopandas, libpysal, esda, dowhy, lifelines, scipy, statsmodels
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

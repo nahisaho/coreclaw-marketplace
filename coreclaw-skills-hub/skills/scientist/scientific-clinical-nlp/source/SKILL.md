@@ -2,10 +2,6 @@
 name: scientific-clinical-nlp
 description: |
  Clinical NLP skill. MedSpaCy/cTAKES/scispaCy-based clinical text NER, section detection, negation detection, ICD-10/SNOMED-CT entity linking, and de-identification pipelines.
-tu_tools:
- - key: umls
- name: UMLS
- description: forsearch
 ---
 
 # Scientific Clinical NLP
@@ -249,14 +245,35 @@ text-mining-nlp → clinical-nlp → clinical-reporting
 | `results/clinical_sections.csv` | classification | → clinical-reporting |
 | `results/entity_linking.csv` | UMLS/SNOMED | → disease-research |
 
-## ToolUniverse Integration
+## Data Acquisition
 
-| TU Key | Tool Name | Integration |
-|--------|---------|--------|
-| `umls` | UMLS | forsearch |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
+
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

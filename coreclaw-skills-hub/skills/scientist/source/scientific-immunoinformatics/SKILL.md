@@ -5,19 +5,6 @@ description: |
  T cell/B cellmappingantibodystructureanalysis（CDR loop）
  immuneanalysis（TCR/BCR ）design
  IEDB/IMGT/SAbDab databaseintegrationpipeline。
-tu_tools:
- - key: iedb
- name: IEDB
- description: immunedatabase
- - key: imgt
- name: IMGT
- description: immuneinformation
- - key: sabdab
- name: SAbDab
- description: structureantibodydatabase
- - key: therasabdab
- name: TheraSAbDab
- description: treatmentforantibodystructuredatabase
 ---
 
 # Scientific Immunoinformatics
@@ -319,25 +306,31 @@ def vaccine_candidate_ranking(antigens_df, weights=None):
 | `figures/epitope_map.png` | PNG |
 | `figures/repertoire_clonality.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| IEDB | `iedb_search_epitopes` | search |
-| IEDB | `iedb_get_epitope_mhc` | -MHC bindingdata |
-| IEDB | `iedb_search_bcell` | B cellsearch |
-| IEDB | `iedb_search_mhc` | MHC search |
-| IEDB | `iedb_search_antigens` | antigensearch |
-| IMGT | `IMGT_get_gene_info` | immunegeneinformation |
-| IMGT | `IMGT_get_sequence` | immunesequenceretrieval |
-| IMGT | `IMGT_search_genes` | immunegenesearch |
-| SAbDab | `SAbDab_search_structures` | antibodystructuresearch |
-| SAbDab | `SAbDab_get_structure` | antibodystructureretrieval |
-| TheraSAbDab | `TheraSAbDab_search_therapeutics` | treatmentforantibodysearch |
-| TheraSAbDab | `TheraSAbDab_search_by_target` | treatmentforantibody |
-| UniProt | `UniProt_get_entry_by_accession` | proteininformationretrieval |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -354,7 +347,7 @@ def vaccine_candidate_ranking(antigens_df, weights=None):
 - mhcflurry, anarci, biopython, immcantation, scirpy
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

@@ -305,21 +305,31 @@ def trial_design_summary(trials_df):
 | `figures/trial_phase_distribution.png` | PNG |
 | `figures/trial_timeline.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| ClinicalTrials | `clinical_trials_search` | clinical trial search |
-| ClinicalTrials | `search_clinical_trials` | detailsparameterssearch |
-| ClinicalTrials | `get_clinical_trial_conditions_and_interventions` | diseaseinformationretrieval |
-| ClinicalTrials | `get_clinical_trial_locations` | retrieval |
-| ClinicalTrials | `extract_clinical_trial_adverse_events` | extraction |
-| ClinicalTrials | `extract_clinical_trial_outcomes` | extraction |
-| ClinicalTrials | `ClinicalTrialDesignAgent` | AI support |
-| FDA | `FDA_get_clinical_studies_info_by_drug_name` | drugresearchinformation |
-| FDA | `FDA_get_drug_names_by_clinical_studies` | researchfromdrug |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -336,7 +346,7 @@ def trial_design_summary(trials_df):
 `pandas`, `numpy`, `requests`, `json`
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

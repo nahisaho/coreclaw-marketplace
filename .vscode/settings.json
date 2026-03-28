@@ -1,0 +1,12 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^cd /home/nahisaho/GitHub/coreclaw-marketplace && python3 scripts/remove_tooluniverse_v050\\.py$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^cd /home/nahisaho/GitHub/coreclaw-marketplace && python3 -c \"\nimport json, glob\n# Check skill\\.json versions\njsons = glob\\.glob\\('coreclaw-skills-hub/skills/scientist/\\*\\*/skill\\.json', recursive=True\\)\nversions = \\{\\}\nfor f in jsons:\n    v = json\\.load\\(open\\(f\\)\\)\\['version'\\]\n    versions\\[v\\] = versions\\.get\\(v, 0\\) \\+ 1\nprint\\('skill\\.json versions:', versions\\)\nprint\\('Total skill\\.json:', sum\\(versions\\.values\\(\\)\\)\\)\n\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

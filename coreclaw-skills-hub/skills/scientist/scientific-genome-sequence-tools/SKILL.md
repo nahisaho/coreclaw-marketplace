@@ -35,10 +35,6 @@ def get_dbsnp_variant(rsid):
  Parameters:
  rsid: str — e.g. "rs7412"
 
- ToolUniverse:
- dbsnp_get_variant_by_rsid(rsid=rsid)
- dbsnp_get_frequencies(rsid=rsid)
- dbsnp_search_by_gene(gene_symbol=gene_symbol)
  """
  url = f"https://api.ncbi.nlm.nih.gov/variation/v0/refsnp/{rsid.lstrip('rs')}"
  resp = requests.get(url)
@@ -86,9 +82,6 @@ def blast_search(sequence, program="blastn", database="nt", max_hits=10):
  program: str — "blastn", "blastp", "blastx", "tblastn"
  database: str — "nt", "nr", "refseq_rna", etc.
 
- ToolUniverse:
- BLAST_nucleotide_search(sequence=sequence, database=database)
- BLAST_protein_search(sequence=sequence, database=database)
  """
  put_url = "https://blast.ncbi.nlm.nih.gov/blast/Blast.cgi"
  params = {
@@ -135,10 +128,6 @@ def fetch_ncbi_sequence(accession, rettype="fasta"):
  accession: str — NCBI accession (e.g., "NM_000546.6")
  rettype: str — "fasta", "gb", "gbwithparts"
 
- ToolUniverse:
- NCBI_search_nucleotide(query=query)
- NCBI_fetch_accessions(accessions=accessions)
- NCBI_get_sequence(accession=accession)
  """
  url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
  params = {
@@ -165,11 +154,6 @@ def get_gdc_mutations(gene_symbol, project_id=None):
  gene_symbol: str — e.g. "TP53"
  project_id: str | None — e.g. "TCGA-BRCA"
 
- ToolUniverse:
- GDC_get_ssm_by_gene(gene_symbol=gene_symbol)
- GDC_get_mutation_frequency(project_id=project_id)
- GDC_get_gene_expression(gene_id=gene_id, project_id=project_id)
- GDC_get_cnv_data(gene_id=gene_id)
  GDC_list_projects
  GDC_search_cases(filters=filters)
  GDC_list_files(filters=filters)
@@ -232,10 +216,6 @@ def integrated_variant_pipeline(rsid, gene_symbol=None):
  """
  dbSNP + GDC integrationgenomevariant/mutationanalysispipeline。
 
- ToolUniverse (cross-cutting):
- dbsnp_get_variant_by_rsid(rsid) → GDC_get_ssm_by_gene(gene_symbol)
- """
- pipeline_result = {"rsid": rsid}
 
  # Step 1: dbSNP
  info, freq_df = get_dbsnp_variant(rsid)
@@ -267,25 +247,31 @@ def integrated_variant_pipeline(rsid, gene_symbol=None):
 | `results/ncbi_sequence.fasta` | FASTA |
 | `results/gdc_mutations.csv` | CSV |
 
-### Available Tools
+## Data Acquisition
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| dbSNP | `dbsnp_get_variant_by_rsid` | rsID variant/mutationinformation |
-| dbSNP | `dbsnp_get_frequencies` | allele frequency |
-| dbSNP | `dbsnp_search_by_gene` | gene→variant/mutation |
-| BLAST | `BLAST_nucleotide_search` | nucleotide homology search |
-| BLAST | `BLAST_protein_search` | protein homology search |
-| NCBI | `NCBI_search_nucleotide` | sequencesearch |
-| NCBI | `NCBI_fetch_accessions` | accessionretrieval |
-| NCBI | `NCBI_get_sequence` | sequence |
-| GDC | `GDC_get_ssm_by_gene` | cellvariant/mutation |
-| GDC | `GDC_get_mutation_frequency` | variant/mutationfrequency |
-| GDC | `GDC_get_gene_expression` | expressiondata |
-| GDC | `GDC_get_cnv_data` | CNV data |
-| GDC | `GDC_list_projects` | list |
-| GDC | `GDC_search_cases` | casesearch |
-| GDC | `GDC_list_files` | filelist |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -302,7 +288,7 @@ def integrated_variant_pipeline(rsid, gene_symbol=None):
 `requests`, `pandas`
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

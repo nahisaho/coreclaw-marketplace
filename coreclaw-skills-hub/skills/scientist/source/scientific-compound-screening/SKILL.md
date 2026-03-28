@@ -4,10 +4,6 @@ description: |
  compoundskill。ZINC databaseutilizingpossiblecompoundsearch、
  SMILES/name'ssearch、logfilter、
  preprocessingpipeline。
-tu_tools:
- - key: zinc
- name: ZINC
- description: possiblecompounddatabase
 ---
 
 # Scientific Compound Screening
@@ -44,8 +40,6 @@ def zinc_search_by_name(name, max_results=20):
  name: str — compound name (e.g., "aspirin")
  max_results: int — maximum results
 
- ToolUniverse:
- ZINC_search_by_name(name=name)
  """
  url = f"{ZINC_API}/substances/search"
  params = {"q": name, "count": max_results}
@@ -80,8 +74,6 @@ def zinc_search_by_smiles(smiles, similarity=0.7, max_results=20):
  smiles: str — SMILES string
  similarity: float — Tanimoto similarity threshold (0-1)
 
- ToolUniverse:
- ZINC_search_by_smiles(smiles=smiles)
  """
  url = f"{ZINC_API}/substances/search"
  params = {
@@ -120,8 +112,6 @@ def zinc_get_substance(zinc_id):
  Parameters:
  zinc_id: str — ZINC ID (e.g., "ZINC000000000001")
 
- ToolUniverse:
- ZINC_get_substance(zinc_id=zinc_id)
  """
  url = f"{ZINC_API}/substances/{zinc_id}.json"
  resp = requests.get(url)
@@ -153,7 +143,6 @@ def zinc_get_catalogs:
  """
  ZINC 's usepossiblelog  list retrieval。
 
- ToolUniverse:
  ZINC_get_catalogs
  """
  url = f"{ZINC_API}/catalogs.json"
@@ -183,12 +172,6 @@ def virtual_screening_prep(query_smiles, lipinski=True, max_compounds=100):
  for's compound。
  Lipinski's Rule of Five filterincludes。
 
- ToolUniverse (cross-cutting):
- ZINC_search_by_smiles(smiles=query_smiles) → ZINC_get_substance(zinc_id)
- """
- # Step 1: Similar compound search
- df = zinc_search_by_smiles(query_smiles, similarity=0.6,
- max_results=max_compounds)
 
  if df.empty:
  print("No similar compounds found")
@@ -225,14 +208,31 @@ def virtual_screening_prep(query_smiles, lipinski=True, max_compounds=100):
 | `results/zinc_catalogs.csv` | CSV |
 | `results/vs_library.csv` | CSV |
 
-### Available Tools
+## Data Acquisition
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| ZINC | `ZINC_search_by_name` | compoundsearch |
-| ZINC | `ZINC_search_by_smiles` | SMILES search |
-| ZINC | `ZINC_get_substance` | compounddetails |
-| ZINC | `ZINC_get_catalogs` | loglist |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -249,7 +249,7 @@ def virtual_screening_prep(query_smiles, lipinski=True, max_compounds=100):
 `requests`, `pandas`
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

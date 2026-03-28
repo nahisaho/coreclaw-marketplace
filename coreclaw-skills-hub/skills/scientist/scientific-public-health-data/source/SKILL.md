@@ -2,16 +2,6 @@
 name: scientific-public-health-data
 description: |
  Public health data skill. WHO/CDC/national health data retrieval, health indicator analysis, demographic health survey processing, and public health metric calculation.
-tu_tools:
- - key: nhanes
- name: NHANES
- description: allinvestigationdata
- - key: medlineplus
- name: MedlinePlus
- description: NLM information API
- - key: odphp
- name: ODPHP
- description: Healthy People target
 ---
 
 # Scientific Public Health Data
@@ -50,9 +40,6 @@ def get_nhanes_dataset(cycle, dataset_name):
  cycle: str — investigationcycle (e.g., "2017-2018", "2019-2020")
  dataset_name: str — dataset name (e.g., "DEMO_J", "BIOPRO_J")
 
- ToolUniverse:
- NHANES_get_dataset(cycle=cycle, dataset=dataset_name)
- NHANES_list_datasets(cycle=cycle)
  """
  cycle_code = cycle.replace("-", "_")
  url = f"{NHANES_BASE}/search/DataPage.aspx"
@@ -74,8 +61,6 @@ def search_nhanes_variables(keyword):
  Parameters:
  keyword: str — number/count/'ssearch term
 
- ToolUniverse:
- NHANES_search_variables(keyword=keyword)
  """
  url = f"{NHANES_BASE}/search/variablelist.aspx"
  params = {"SearchTarget": keyword}
@@ -97,12 +82,6 @@ def search_medlineplus_health_topics(query, language="English"):
  """
  MedlinePlus search。
 
- ToolUniverse:
- MedlinePlus_search_health_topics(query=query)
- MedlinePlus_get_health_topic(topic_id=topic_id)
- MedlinePlus_search_drugs(query=query)
- MedlinePlus_search_labs(query=query)
- MedlinePlus_connect(code=code, code_system=system)
  """
  params = {
  "db": "healthTopics",
@@ -144,8 +123,6 @@ def rxnorm_lookup(drug_name):
  Parameters:
  drug_name: str — ( or )
 
- ToolUniverse:
- RxNorm_get_rxcui(name=drug_name)
  """
  resp = requests.get(
  f"{RXNORM_API}/rxcui.json",
@@ -205,9 +182,6 @@ def get_health_disparities(indicator, dataset_id="pqnx-3xr5"):
  indicator: str — 
  dataset_id: str — CDC Socrata dataset ID
 
- ToolUniverse:
- HealthDisparities_search(query=indicator)
- HealthDisparities_get_indicators(category=category)
  """
  params = {
  "$where": f"indicator LIKE '%{indicator}%'",
@@ -232,9 +206,6 @@ def search_health_guidelines(keyword, category=None):
  """
  ODPHP MyHealthfinder guideline search。
 
- ToolUniverse:
- ODPHP_search_topics(keyword=keyword)
- ODPHP_get_topic(topic_id=topic_id)
  """
  params = {"keyword": keyword}
  if category:
@@ -266,9 +237,6 @@ def search_clinical_guidelines(query, source="uspstf"):
  """
  USPSTF/WHO guideline search。
 
- ToolUniverse:
- Guidelines_search(query=query, source=source)
- Guidelines_get_recommendations(topic_id=topic_id)
  """
  sources = {
  "uspstf": "https://www.uspreventiveservicestaskforce.org/uspstf/api",
@@ -298,16 +266,31 @@ def search_clinical_guidelines(query, source="uspstf"):
 
 ---
 
-## Available Tools
+## Data Acquisition
 
-| ToolUniverse Category | Key Tools |
-|---|---|
-| `nhanes` | `NHANES_get_dataset`, `NHANES_list_datasets`, `NHANES_search_variables` |
-| `health_disparities` | `HealthDisparities_search`, `HealthDisparities_get_indicators` |
-| `medlineplus` | `MedlinePlus_search_health_topics`, `MedlinePlus_get_health_topic`, `MedlinePlus_search_drugs`, `MedlinePlus_search_labs`, `MedlinePlus_connect` |
-| `odphp` | `ODPHP_search_topics`, `ODPHP_get_topic` |
-| `rxnorm` | `RxNorm_get_rxcui` |
-| `guidelines_tools` | `Guidelines_search`, `Guidelines_get_recommendations` |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ## Pipeline Output
 
@@ -330,7 +313,7 @@ epidemiology-public-health ──→ public-health-data ──→ clinical-decis
 ```
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

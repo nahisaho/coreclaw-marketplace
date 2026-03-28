@@ -272,19 +272,31 @@ Clinical decisions must be made by qualified healthcare professionals.
 | `results/clinical_recommendation.json` | recommendedtermdata（JSON） | GRADE evaluationcompletion |
 | `results/trial_matches.json` | clinical trialresults（JSON） | searchcompletion |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| ClinicalTrials | `search_clinical_trials` | clinical trial search |
-| ClinicalTrials | `clinical_trials_get_details` | trial detail retrieval |
-| PharmGKB | `PharmGKB_get_dosing_guidelines` | PGx dosing guidelines |
-| PharmGKB | `PharmGKB_get_clinical_annotations` | annotation |
-| CPIC | `CPIC_get_guidelines` | CPIC |
-| DGIdb | `DGIdb_get_drug_gene_interactions` | drug-gene interaction |
-| PubMed | `PubMed_search_articles` | search |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -301,7 +313,7 @@ Clinical decisions must be made by qualified healthcare professionals.
 | `scientific-pharmacogenomics` | ← PGx biomarkeramount |
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

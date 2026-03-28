@@ -2,10 +2,6 @@
 name: scientific-biothings-idmapping
 description: |
  BioThings ID mapping skill. Gene/variant/chemical/disease identifier conversion using MyGene.info, MyVariant.info, and MyChem.info APIs.
-tu_tools:
- - key: biothings
- name: BioThings
- description: MyGene/MyVariant/MyChem integrationannotation API
 ---
 
 # Scientific BioThings ID Mapping
@@ -43,8 +39,6 @@ def mygene_query(query, fields=None, species="human", size=10):
  fields: str | None — comma-separated fields
  species: str — "human", "mouse", etc.
 
- ToolUniverse:
- MyGene_query_genes(q=query, fields=fields, species=species)
  """
  params = {
  "q": query,
@@ -68,8 +62,6 @@ def mygene_get_gene(gene_id, fields=None):
  """
  MyGene.info genedetailsannotationretrieval。
 
- ToolUniverse:
- MyGene_get_gene_annotation(gene_id=gene_id, fields=fields)
  """
  params = {}
  if fields:
@@ -88,8 +80,6 @@ def mygene_batch_query(gene_ids, fields=None, species="human"):
  """
  MyGene.info batchgeneannotation。
 
- ToolUniverse:
- MyGene_batch_query(ids=gene_ids, fields=fields, species=species)
  """
  payload = {
  "ids": ",".join(str(g) for g in gene_ids),
@@ -119,8 +109,6 @@ def myvariant_get(variant_id, fields=None):
  Parameters:
  variant_id: str — HGVS notation (e.g., "chr17:g.7674220C>T")
 
- ToolUniverse:
- MyVariant_get_variant_annotation(variant_id=variant_id, fields=fields)
  """
  params = {}
  if fields:
@@ -142,8 +130,6 @@ def myvariant_query(query, fields=None, size=10):
  """
  MyVariant.info variant/mutationsearch。
 
- ToolUniverse:
- MyVariant_query_variants(q=query, fields=fields, size=size)
  """
  params = {"q": query, "size": size}
  if fields:
@@ -171,8 +157,6 @@ def mychem_get(chem_id, fields=None):
  Parameters:
  chem_id: str — InChIKey, DrugBank ID, ChEMBL ID, etc.
 
- ToolUniverse:
- MyChem_get_chemical_annotation(chem_id=chem_id, fields=fields)
  """
  params = {}
  if fields:
@@ -191,8 +175,6 @@ def mychem_query(query, fields=None, size=10):
  """
  MyChem.info compoundsearch。
 
- ToolUniverse:
- MyChem_query_chemicals(q=query, fields=fields, size=size)
  """
  params = {"q": query, "size": size}
  if fields:
@@ -214,11 +196,6 @@ def cross_db_id_mapping(gene_symbol):
  """
  gene symbolfrom Entrez, Ensembl, UniProt, RefSeq retrieval。
 
- ToolUniverse (cross-cutting):
- MyGene_query_genes(q=gene_symbol, fields="entrezgene,ensembl.gene,uniprot,refseq")
- """
- fields = "entrezgene,ensembl.gene,uniprot.Swiss-Prot,refseq.rna,symbol,name"
- hits = mygene_query(gene_symbol, fields=fields)
 
  results = []
  for hit in hits:
@@ -248,15 +225,6 @@ def batch_integrated_annotation(gene_symbols, include_variants=False):
  """
  multiplegene'sbatchintegrationannotation。
 
- ToolUniverse (cross-cutting):
- MyGene_batch_query(ids=entrez_ids, fields=fields)
- MyVariant_query_variants(q=gene_query) [optional]
- """
- # Step 1: Batch gene annotation
- all_hits = []
- for symbol in gene_symbols:
- hits = mygene_query(symbol, fields="entrezgene,symbol,name,summary")
- all_hits.extend(hits[:1]) # top hit per symbol
 
  df = pd.DataFrame(all_hits)
  print(f"Batch annotation: {len(gene_symbols)} genes → {len(df)} results")
@@ -274,17 +242,31 @@ def batch_integrated_annotation(gene_symbols, include_variants=False):
 | `results/mychem_annotation.json` | JSON |
 | `results/id_mapping.csv` | CSV |
 
-### Available Tools
+## Data Acquisition
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| BioThings | `MyGene_query_genes` | genesearch |
-| BioThings | `MyGene_get_gene_annotation` | genedetails |
-| BioThings | `MyGene_batch_query` | batchannotation |
-| BioThings | `MyVariant_get_variant_annotation` | variant annotation |
-| BioThings | `MyVariant_query_variants` | variant/mutationsearch |
-| BioThings | `MyChem_get_chemical_annotation` | compoundannotation |
-| BioThings | `MyChem_query_chemicals` | compoundsearch |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -301,7 +283,7 @@ def batch_integrated_annotation(gene_symbols, include_variants=False):
 `requests`, `pandas`
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

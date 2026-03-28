@@ -2,10 +2,6 @@
 name: scientific-metabolic-modeling
 description: |
  Metabolic modeling skill. Constraint-based metabolic modeling (COBRApy), genome-scale model construction, gene knockout simulation, and metabolic engineering predictions.
-tu_tools:
- - key: biomodels
- name: BioModels
- description: SBML (EBI)
 ---
 
 # Scientific Metabolic Modeling
@@ -42,8 +38,6 @@ def bigg_search(query, search_type="models"):
  query: str — search term
  search_type: str — "models", "reactions", "metabolites"
 
- ToolUniverse:
- BiGG_search(query=query, search_type=search_type)
  BiGG_list_models
  """
  url = f"{BIGG_API}/search"
@@ -71,9 +65,6 @@ def bigg_get_model(model_id):
  Parameters:
  model_id: str — BiGG model ID (e.g., "iJO1366")
 
- ToolUniverse:
- BiGG_get_model(model_id=model_id)
- BiGG_get_model_reactions(model_id=model_id)
  BiGG_get_database_version
  """
  url = f"{BIGG_API}/models/{model_id}"
@@ -104,8 +95,6 @@ def bigg_get_reaction(reaction_id):
  """
  BiGG reaction's details (reactionformula, ) retrieval。
 
- ToolUniverse:
- BiGG_get_reaction(reaction_id=reaction_id)
  """
  url = f"{BIGG_API}/universal/reactions/{reaction_id}"
  resp = requests.get(url)
@@ -128,8 +117,6 @@ def bigg_get_metabolite(metabolite_id):
  """
  BiGG metabolite's detailsretrieval。
 
- ToolUniverse:
- BiGG_get_metabolite(metabolite_id=metabolite_id)
  """
  url = f"{BIGG_API}/universal/metabolites/{metabolite_id}"
  resp = requests.get(url)
@@ -161,9 +148,6 @@ def biomodels_search(query, num_results=10):
  Parameters:
  query: str — search term
 
- ToolUniverse:
- biomodels_search(query=query)
- BioModels_search_parameters(query=query)
  """
  url = f"{BIOMODELS_API}/search"
  params = {"query": query, "numResults": num_results}
@@ -192,10 +176,6 @@ def biomodels_get_model(model_id):
  """
  BioModels detailsretrieval。
 
- ToolUniverse:
- BioModels_get_model(model_id=model_id)
- BioModels_list_files(model_id=model_id)
- BioModels_download_model(model_id=model_id)
  """
  url = f"{BIOMODELS_API}/{model_id}"
  resp = requests.get(url, headers={"Accept": "application/json"})
@@ -220,11 +200,6 @@ def metabolic_model_exploration(organism_query):
  """
  BiGG + BioModels cross-cuttingmetabolismsearch/exploration。
 
- ToolUniverse (cross-cutting):
- BiGG_search(query=organism_query) → BiGG_get_model(model_id)
- biomodels_search(query=organism_query) → BioModels_get_model(model_id)
- """
- pipeline = {"query": organism_query}
 
  # Step 1: BiGG search
  bigg_df = bigg_search(organism_query, search_type="models")
@@ -259,22 +234,31 @@ def metabolic_model_exploration(organism_query):
 | `results/biomodels_search.csv` | CSV |
 | `results/biomodels_model.json` | JSON |
 
-### Available Tools
+## Data Acquisition
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| BiGG | `BiGG_search` | /reaction/metabolite search |
-| BiGG | `BiGG_list_models` | list |
-| BiGG | `BiGG_get_model` | details |
-| BiGG | `BiGG_get_model_reactions` | reactionlist |
-| BiGG | `BiGG_get_reaction` | reactiondetails |
-| BiGG | `BiGG_get_metabolite` | metabolitedetails |
-| BiGG | `BiGG_get_database_version` | DB |
-| BioModels | `biomodels_search` | search |
-| BioModels | `BioModels_get_model` | details |
-| BioModels | `BioModels_list_files` | filelist |
-| BioModels | `BioModels_download_model` | DL |
-| BioModels | `BioModels_search_parameters` | parameterssearch |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -290,7 +274,7 @@ def metabolic_model_exploration(organism_query):
 `requests`, `pandas`
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

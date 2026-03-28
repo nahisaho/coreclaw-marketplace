@@ -2,16 +2,11 @@
 name: scientific-drug-repurposing
 description: |
  Drug repurposing skill. Computational drug repositioning, network-based prediction, molecular similarity-based repurposing, and clinical trial evidence mining for new indications.
-tu_tools:
- - key: pharos
- name: Pharos
- description: IDG Pharos/TCRD target knowledge base
 ---
 
 # Scientific Drug Repurposing
 
-existing's novelsearch/explorationskill。ToolUniverse（mims-harvard）'s 
-Drug Repurposing SATORI integration、
+existing's novelsearch/explorationskill。Drug Repurposing SATORI integration、
 systematicevaluates。
 
 ## When to Use
@@ -239,19 +234,31 @@ def network_proximity(drug_targets, disease_genes, ppi_network):
 | `results/repurposing_report.md` | evaluationreport（Markdown） | allanalysiscompletion |
 | `results/network_proximity.json` | network（JSON） | networkanalysiscompletion |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| ChEMBL | `ChEMBL_search_drugs` | drugsearch |
-| ChEMBL | `ChEMBL_get_drug_mechanisms` | drugfor |
-| OpenTargets | `OpenTargets_get_associated_drugs_by_disease_efoId` | diseasedrug |
-| DGIdb | `DGIdb_get_drug_gene_interactions` | drug-gene interaction |
-| ClinicalTrials | `search_clinical_trials` | clinical trial |
-| FAERS | `FAERS_count_reactions_by_drug_event` | adverse event data |
-| PubMed | `PubMed_search_articles` | literature |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -265,7 +272,7 @@ def network_proximity(drug_targets, disease_genes, ppi_network):
 | `scientific-academic-writing` | → publishing research results |
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

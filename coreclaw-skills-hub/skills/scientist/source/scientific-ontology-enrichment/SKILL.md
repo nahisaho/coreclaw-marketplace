@@ -40,8 +40,6 @@ def search_efo(query, exact=False):
  query: str — search term (disease、celltype、tissue)
  exact: bool — allsearch
 
- ToolUniverse:
- EFO_search(query=query, exact=exact)
  """
  params = {
  "q": query,
@@ -82,10 +80,6 @@ def search_ols(query, ontologies=None, type_filter=None):
  ontologies: list — ID (e.g., ["hp", "mondo", "go"])
  type_filter: str — "class", "property", "individual"
 
- ToolUniverse:
- OLS_search(query=query, ontology=ontology)
- OLS_get_term(ontology=ontology, iri=iri)
- OLS_get_ancestors(ontology=ontology, iri=iri)
  """
  params = {"q": query, "rows": 50}
  if ontologies:
@@ -174,9 +168,6 @@ def run_enrichr(gene_list, description="", gene_set_libraries=None):
  description: str — analysis's
  gene_set_libraries: list — forgenelibrary
 
- ToolUniverse:
- Enrichr_submit_gene_list(genes=gene_list)
- Enrichr_get_enrichment(user_list_id=id, library=library)
  """
  if gene_set_libraries is None:
  gene_set_libraries = [
@@ -245,9 +236,6 @@ def search_umls(query, api_key, search_type="words"):
  api_key: str — UMLS API key
  search_type: str — "words", "exact", "leftTruncation"
 
- ToolUniverse:
- UMLS_search(query=query, search_type=search_type)
- UMLS_get_concept(cui=cui)
  """
  params = {
  "string": query,
@@ -310,14 +298,31 @@ def get_umls_crosswalk(cui, api_key, target_source=None):
 
 ---
 
-## Available Tools
+## Data Acquisition
 
-| ToolUniverse Category | Key Tools |
-|---|---|
-| `efo` | `EFO_search` |
-| `ols` | `OLS_search`, `OLS_get_term`, `OLS_get_ancestors` |
-| `enrichr` | `Enrichr_submit_gene_list`, `Enrichr_get_enrichment` |
-| `umls` | `UMLS_search`, `UMLS_get_concept` |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ## Pipeline Output
 
@@ -340,7 +345,7 @@ disease-research ──→ ontology-enrichment ──→ pathway-enrichment
 ```
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

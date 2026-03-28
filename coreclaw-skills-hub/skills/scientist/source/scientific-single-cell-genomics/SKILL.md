@@ -330,21 +330,31 @@ def sc_visualization_panel(adata, deg_df=None, save_dir="figures"):
 | `figures/velocity_stream.png` | PNG |
 | `figures/deg_dotplot.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| CELLxGENE | `CELLxGENE_get_expression_data` | single-cellexpressionData Retrieval |
-| CELLxGENE | `CELLxGENE_get_cell_metadata` | cellData Retrieval |
-| CELLxGENE | `CELLxGENE_get_gene_metadata` | geneData Retrieval |
-| CELLxGENE | `CELLxGENE_get_presence_matrix` | gene |
-| CELLxGENE | `CELLxGENE_get_embeddings` | retrieval |
-| CELLxGENE | `CELLxGENE_download_h5ad` | H5AD file |
-| HCA | `hca_search_projects` | Human Cell Atlas search |
-| HCA | `hca_get_file_manifest` | HCA fileretrieval |
-| HPA | `HPA_get_rna_expression_by_source` | tissue RNA expressiondata |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -363,7 +373,7 @@ def sc_visualization_panel(adata, deg_df=None, save_dir="figures"):
 - scanpy, anndata, scvelo, cellchat, leidenalg, umap-learn
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

@@ -6,10 +6,6 @@ description: |
  gene/loopID 
  pipeline。
  TU skill ( REST API)。
-tu_tools:
- - key: hgnc
- name: HGNC
- description: genemethodsearch
 ---
 
 # Scientific HGNC Nomenclature
@@ -285,14 +281,35 @@ biothings-idmapping → hgnc-nomenclature → genome-sequence-tools
 | `results/hgnc_alias_resolved.csv` | | → biothings-idmapping |
 | `results/hgnc_xref.csv` | ID phasereference | → genome-sequence-tools |
 
-## ToolUniverse Integration
+## Data Acquisition
 
-| TU Key | Tool Name | Integration |
-|--------|---------|--------|
-| `hgnc` | HGNC | genemethodsearch |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
+
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

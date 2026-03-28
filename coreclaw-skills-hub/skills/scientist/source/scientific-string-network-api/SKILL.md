@@ -4,10 +4,6 @@ description: |
  STRING/BioGRID/STITCH networkanalysisskill。STRING proteininteraction
  network API、BioGRID experiment PPI、STITCH -proteinnetwork、
  networkanalysisintegrationpipeline。
-tu_tools:
- - key: ppi
- name: STRING/BioGRID PPI
- description: proteininteractionnetwork
 ---
 
 # Scientific STRING Network API
@@ -53,7 +49,6 @@ def get_string_network(proteins, species=9606, score_threshold=400,
  network_type: str — "functional" or "physical"
  limit: int — interactor number/count
 
- ToolUniverse:
  STRING_get_protein_interactions(
  protein_ids=proteins, species=species,
  confidence_score=score_threshold/1000,
@@ -109,7 +104,6 @@ def get_biogrid_interactions(genes, organism=9606, evidence_type=None,
  api_key: str — BioGRID API key (https://webservice.thebiogrid.org)
  limit: int — maximum retrieval count
 
- ToolUniverse:
  BioGRID_get_interactions(
  gene_names=genes, organism=organism,
  interaction_type=evidence_type, limit=limit
@@ -161,7 +155,6 @@ def get_stitch_interactions(identifiers, species=9606, score=400, limit=20):
  score: int — threshold
  limit: int — maximum results
 
- ToolUniverse:
  STITCH_get_chemical_protein_interactions(
  identifiers=identifiers, species=species,
  required_score=score, limit=limit
@@ -369,7 +362,6 @@ protein-interaction ───┘ │ ontology-enrichment
 | `results/ppi_communities.csv` | | → pathway-enrichment |
 | `results/string_enrichment.csv` | results | → ontology-enrichment |
 
-## usepossibletool (ToolUniverse SMCP)
 
 | Tool Name | Usage |
 |---------|------|
@@ -380,7 +372,7 @@ protein-interaction ───┘ │ ontology-enrichment
 | `STITCH_resolve_identifier` | STITCH ID |
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

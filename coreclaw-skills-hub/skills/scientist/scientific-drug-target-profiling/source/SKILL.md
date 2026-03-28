@@ -2,16 +2,11 @@
 name: scientific-drug-target-profiling
 description: |
  Drug-target profiling skill. Target identification, binding affinity prediction, selectivity profiling, polypharmacology analysis, and target deconvolution pipelines.
-tu_tools:
- - key: dgidb
- name: DGIdb
- description: drug-gene interactiondatabase
 ---
 
 # Scientific Drug Target Profiling
 
-'sskill。ToolUniverse（mims-harvard）'s 
-Target Intelligence Gatherer 、9 items's
+'sskill。Target Intelligence Gatherer 、9 items's
 evaluates。
 
 ## When to Use
@@ -314,19 +309,31 @@ def grade_disease_association(target_id, disease_id, evidence_sources):
 | `results/target_profile.json` | structurefiledata（JSON） | allanalysiscompletion |
 | `results/druggability_matrix.json` | druggability（JSON） | Druggability evaluationcompletion |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| UniProt | `UniProt_get_entry_by_accession` | protein entry retrieval |
-| UniProt | `UniProt_get_function_by_accession` | proteininformation |
-| ChEMBL | `ChEMBL_get_target` | informationretrieval |
-| ChEMBL | `ChEMBL_get_target_activities` | activitydata |
-| OpenTargets | `OpenTargets_get_associated_targets_by_disease_efoId` | disease- |
-| DGIdb | `DGIdb_get_gene_druggability` | druggabilityevaluation |
-| DGIdb | `DGIdb_get_drug_gene_interactions` | drug-gene interaction |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -342,7 +349,7 @@ def grade_disease_association(target_id, disease_id, evidence_sources):
 | `scientific-academic-writing` | → publishing research results |
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

@@ -42,8 +42,6 @@ def get_baseline_expression(gene, species="homo sapiens"):
  gene: str — gene symbolor Ensembl ID
  species: str — organism/species
 
- ToolUniverse:
- ExpressionAtlas_get_baseline(gene=gene, species=species)
  """
  url = f"{ATLAS_REST}/json/baseline_expression"
  params = {"gene": gene, "species": species}
@@ -80,7 +78,6 @@ def search_differential_expression(gene, condition=None, species="homo sapiens")
  condition: str — condition (example: "cancer", "inflammation")
  species: str — organism/species
 
- ToolUniverse:
  ExpressionAtlas_search_differential(
  gene=gene, condition=condition, species=species
  )
@@ -122,8 +119,6 @@ def get_experiment_details(accession):
  Parameters:
  accession: str — experiment ID (example: "E-MTAB-5214")
 
- ToolUniverse:
- ExpressionAtlas_get_experiment(accession=accession)
  """
  url = f"{ATLAS_REST}/json/experiments/{accession}"
  resp = requests.get(url)
@@ -158,7 +153,6 @@ def search_experiments(gene=None, condition=None, species="homo sapiens"):
  condition: str — condition
  species: str — organism/species
 
- ToolUniverse:
  ExpressionAtlas_search_experiments(
  gene=gene, condition=condition, species=species
  )
@@ -293,7 +287,6 @@ human-protein-atlas ────────────┘ │ pathway-enrichme
 | `results/expression_matrix.csv` | expression | → multi-omics |
 | `figures/expression_heatmap.png` | heatmap | → publication-figures |
 
-## usepossibletool (ToolUniverse SMCP)
 
 | Tool Name | Usage |
 |---------|------|
@@ -303,7 +296,7 @@ human-protein-atlas ────────────┘ │ pathway-enrichme
 | `ExpressionAtlas_get_experiment` | experimentdetails |
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

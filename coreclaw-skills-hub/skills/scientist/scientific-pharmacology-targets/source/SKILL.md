@@ -2,16 +2,6 @@
 name: scientific-pharmacology-targets
 description: |
  Pharmacology targets skill. Target validation, druggability assessment, target prioritization scoring, and pharmacological target-disease mapping.
-tu_tools:
- - key: bindingdb
- name: BindingDB
- description: bindingdatabase
- - key: gtopdb
- name: GtoPdb
- description: Guide to PHARMACOLOGY
- - key: brenda
- name: BRENDA
- description: enzymedatabase
 ---
 
 # Scientific Pharmacology Targets
@@ -46,9 +36,6 @@ def get_bindingdb_ligands(uniprot_id, cutoff=None):
  uniprot_id: str — UniProt accession (e.g., "P00533")
  cutoff: float | None — affinity cutoff nM
 
- ToolUniverse:
- BindingDB_get_ligands_by_uniprot(uniprot_id=uniprot_id)
- BindingDB_get_targets_by_compound(smiles=smiles)
  """
  url = "https://bindingdb.org/axis2/services/BDBService"
  params = {
@@ -88,11 +75,6 @@ def get_gpcrdb_profile(protein_entry):
  Parameters:
  protein_entry: str — GPCRdb entry name (e.g., "adrb2_human")
 
- ToolUniverse:
- GPCRdb_get_protein(entry_name=protein_entry)
- GPCRdb_get_ligands(entry_name=protein_entry)
- GPCRdb_get_mutations(entry_name=protein_entry)
- GPCRdb_get_structures(entry_name=protein_entry)
  GPCRdb_list_proteins
  """
  base = "https://gpcrdb.org/services"
@@ -139,11 +121,6 @@ def get_gtopdb_target_pharmacology(target_id):
  Guide to PHARMACOLOGY (GtoPdb) from
  's interactionData Retrieval。
 
- ToolUniverse:
- GtoPdb_get_target(target_id=target_id)
- GtoPdb_get_target_interactions(target_id=target_id)
- GtoPdb_get_ligand(ligand_id=ligand_id)
- GtoPdb_search_interactions(query=query)
  """
  base = "https://www.guidetopharmacology.org/services"
 
@@ -186,9 +163,6 @@ def search_pharos_targets(query, tdl=None):
  query: str — gene symbol or target name
  tdl: str | None — "Tclin", "Tchem", "Tbio", "Tdark"
 
- ToolUniverse:
- Pharos_search_targets(q=query)
- Pharos_get_target(q=query)
  Pharos_get_tdl_summary
  Pharos_get_disease_targets(disease_name=disease_name)
  """
@@ -245,15 +219,6 @@ def integrated_target_profile(uniprot_id, gene_symbol):
  """
  multipledatabase integrationfile。
 
- ToolUniverse (cross-cutting):
- BindingDB_get_ligands_by_uniprot(uniprot_id)
- Pharos_get_target(q=gene_symbol)
- GtoPdb_get_targets → GtoPdb_get_target_interactions
- """
- profile = {
- "uniprot_id": uniprot_id,
- "gene_symbol": gene_symbol,
- }
 
  # BindingDB ligands
  try:
@@ -289,32 +254,31 @@ def integrated_target_profile(uniprot_id, gene_symbol):
 | `results/pharos_targets.csv` | CSV |
 | `results/integrated_target_profile.json` | JSON |
 
-### Available Tools
+## Data Acquisition
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| BindingDB | `BindingDB_get_ligands_by_uniprot` | UniProt→ligand |
-| BindingDB | `BindingDB_get_ligands_by_uniprots` | batch |
-| BindingDB | `BindingDB_get_ligands_by_pdb` | PDB→ligand |
-| BindingDB | `BindingDB_get_targets_by_compound` | compound→ |
-| GPCRdb | `GPCRdb_get_protein` | GPCR details |
-| GPCRdb | `GPCRdb_get_ligands` | GPCR ligand |
-| GPCRdb | `GPCRdb_get_mutations` | GPCR variant/mutation |
-| GPCRdb | `GPCRdb_get_structures` | GPCR structure |
-| GPCRdb | `GPCRdb_list_proteins` | GPCR list |
-| GtoPdb | `GtoPdb_get_target` | information |
-| GtoPdb | `GtoPdb_get_target_interactions` | interaction |
-| GtoPdb | `GtoPdb_get_ligand` | ligandinformation |
-| GtoPdb | `GtoPdb_get_targets` | list |
-| GtoPdb | `GtoPdb_list_ligands` | ligandlist |
-| GtoPdb | `GtoPdb_get_disease` | disease |
-| GtoPdb | `GtoPdb_list_diseases` | diseaselist |
-| GtoPdb | `GtoPdb_search_interactions` | interactionsearch |
-| BRENDA | `BRENDA_get_inhibitors` | enzymeinhibition |
-| Pharos | `Pharos_search_targets` | search |
-| Pharos | `Pharos_get_target` | details |
-| Pharos | `Pharos_get_tdl_summary` | TDL summary |
-| Pharos | `Pharos_get_disease_targets` | disease→ |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -331,7 +295,7 @@ def integrated_target_profile(uniprot_id, gene_symbol):
 `requests`, `pandas`
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

@@ -5,12 +5,7 @@ description: |
  220,000+ metabolite)、MetaCyc (metabolismpathway)、Metabolomics Workbench
  (NIH ) 's 3 DB integration
  metabolite、pathway mapping、biomarker、
- RefMet standardizationpipeline。13 's ToolUniverse SMCP tool and integration。
-tu_tools:
- - key: metacyc
- name: MetaCyc
- description: metabolismpathwayreactioncompounddatabase
----
+ RefMet standardizationpipeline。13 ---
 
 # Scientific Metabolomics Databases
 
@@ -45,7 +40,6 @@ def hmdb_search(query, search_type="name", max_results=50):
  query: str — search query (metabolite, HMDB ID, formula)
  search_type: "name", "hmdb_id", "formula", "mass"
  """
- # ToolUniverse : HMDB_search, HMDB_get_metabolite, HMDB_get_diseases
 
  base_url = "https://hmdb.ca/metabolites"
 
@@ -72,7 +66,6 @@ def hmdb_search(query, search_type="name", max_results=50):
  results = []
  params = {"query": query, "search_type": search_type}
  print(f"HMDB search: '{query}' (type={search_type})")
- # 's search ToolUniverse SMCP 
  return pd.DataFrame(results)
 ```
 
@@ -87,7 +80,6 @@ def metacyc_pathway_search(query, organism="Homo sapiens"):
  query: str — pathway/metabolite/enzyme
  organism: str — organism/speciesfilter
  """
- # ToolUniverse :
  # MetaCyc_search_pathways, MetaCyc_get_pathway
  # MetaCyc_get_compound, MetaCyc_get_reaction
 
@@ -123,7 +115,6 @@ def metabolomics_workbench_search(query, search_type="compound_name",
  """
  base_url = "https://www.metabolomicsworkbench.org/rest"
 
- # ToolUniverse :
  # MetabolomicsWorkbench_search_compound_by_name
  # MetabolomicsWorkbench_get_refmet_info
  # MetabolomicsWorkbench_get_study
@@ -227,7 +218,6 @@ def refmet_standardize(metabolite_names):
  results = []
 
  for name in metabolite_names:
- # ToolUniverse : MetabolomicsWorkbench_get_refmet_info
  result = {
  "input_name": name,
  "refmet_name": None,
@@ -257,25 +247,31 @@ def refmet_standardize(metabolite_names):
 | `results/refmet_standardized.csv` | CSV |
 | `figures/metabolite_class_distribution.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| HMDB | `HMDB_get_metabolite` | metabolite detail retrieval |
-| HMDB | `HMDB_search` | metabolite search |
-| HMDB | `HMDB_get_diseases` | diseasemetabolite |
-| MetaCyc | `MetaCyc_search_pathways` | metabolismpathwaysearch |
-| MetaCyc | `MetaCyc_get_pathway` | pathwaydetails |
-| MetaCyc | `MetaCyc_get_compound` | compounddetails |
-| MetaCyc | `MetaCyc_get_reaction` | reactiondetails |
-| MWB | `MetabolomicsWorkbench_search_compound_by_name` | compoundsearch |
-| MWB | `MetabolomicsWorkbench_get_refmet_info` | RefMet standardizationinformation |
-| MWB | `MetabolomicsWorkbench_get_study` | researchData Retrieval |
-| MWB | `MetabolomicsWorkbench_search_by_exact_mass` | amountsearch |
-| MWB | `MetabolomicsWorkbench_search_by_mz` | m/z valuesearch |
-| MWB | `MetabolomicsWorkbench_get_compound_by_pubchem_cid` | PubChem CID search |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -292,7 +288,7 @@ def refmet_standardize(metabolite_names):
 `requests`, `pandas`, `numpy`, `xml.etree.ElementTree` (stdlib)
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

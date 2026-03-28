@@ -6,12 +6,7 @@ description: |
  histonechromatinstatus (ChromHMM)、Hi-C TAD 、
  factorbindingprediction 、bindinganalysis (DiffBind) integration
  calculationpipeline。ChIP-Atlas 43 +experimentand 'sintegrationsupport。
- ToolUniverse integration: chipatlas。
-tu_tools:
- - key: chipatlas
- name: ChIP-Atlas
- description: ChIP-Atlas analysis (43+experiment)
----
+ ---
 
 # Scientific Epigenomics & Chromatin Biology
 
@@ -538,24 +533,31 @@ def differential_binding_analysis(sample_sheet, peaks_dir,
 | `figures/chromatin_state_heatmap.png` | PNG |
 | `figures/hic_contact_map.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| ChIP-Atlas | `ChIPAtlas_enrichment_analysis` | TF/histoneanalysis |
-| ChIP-Atlas | `ChIPAtlas_get_experiments` | experimentData Retrieval (43 +experiment) |
-| ChIP-Atlas | `ChIPAtlas_get_peak_data` | peakData Retrieval |
-| ChIP-Atlas | `ChIPAtlas_search_datasets` | Dataset Search (antigen/celltype) |
-| 4DN | `FourDN_search_data` | Hi-C/ChIA-PET 3D genomedatasearch |
-| JASPAR | `jaspar_search_matrices` | factorbinding (PWM) search |
-| JASPAR | `jaspar_get_matrix` | PWM (Position Weight Matrix) retrieval |
-| JASPAR | `jaspar_list_collections` | JASPAR list |
-| SCREEN | `SCREEN_get_regulatory_elements` | cCRE  retrieval |
-| ENCODE | `ENCODE_search_experiments` | ENCODE ChIP-seq/ATAC-seq experimentsearch |
-| ENCODE | `ENCODE_get_experiment` | ENCODE experimentdetailsretrieval |
-| ENCODE | `ENCODE_list_files` | ENCODE filelist |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -572,7 +574,7 @@ def differential_binding_analysis(sample_sheet, peaks_dir,
 `macs3`, `cooler`, `pybedtools`, `deeptools`, `scikit-learn`, `scipy`, `pandas`, `numpy`, `biopython`
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

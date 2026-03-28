@@ -5,8 +5,7 @@ description: |
  OpenAlex、EuropePMC、CrossRef 's 5 database API integration
  literaturesearchpipeline。MeSH structuresearch、citationnetworkmin、
  author/metrics、allretrieval、PICO searchsupport。
- 29 's ToolUniverse SMCP tool and integration。
----
+ 29 ---
 
 # Scientific Literature Search
 
@@ -391,41 +390,31 @@ def build_citation_network(seed_pmids, depth=1, max_per_level=20):
 | `results/citation_network.graphml` | GraphML |
 | `figures/citation_network.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| PubMed | `PubMed_search_articles` | PubMed papersearch |
-| PubMed | `PubMed_get_article` | paperdetailsretrieval |
-| PubMed | `PubMed_get_cited_by` | cited-by article retrieval |
-| PubMed | `PubMed_get_related` | papersearch |
-| PubMed | `PubMed_get_links` | retrieval |
-| PubMed | `PubMed_Guidelines_Search` | guideline search |
-| EuropePMC | `EuropePMC_search_articles` | EuropePMC search |
-| EuropePMC | `EuropePMC_get_article` | detailsretrieval |
-| EuropePMC | `EuropePMC_get_references` | referenceliteratureretrieval |
-| EuropePMC | `EuropePMC_get_citations` | citationretrieval |
-| EuropePMC | `EuropePMC_get_fulltext` | allretrieval |
-| EuropePMC | `EuropePMC_get_fulltext_snippets` | all |
-| EuropePMC | `EuropePMC_Guidelines_Search` | guideline search |
-| Semantic Scholar | `SemanticScholar_search_papers` | papersearch |
-| Semantic Scholar | `SemanticScholar_get_pdf_snippets` | PDF |
-| OpenAlex | `openalex_literature_search` | literaturesearch |
-| OpenAlex | `openalex_get_work` | paperdetails |
-| OpenAlex | `openalex_get_work_by_doi` | DOI → paper |
-| OpenAlex | `openalex_search_works` | papersearch (REST) |
-| OpenAlex | `openalex_get_author` | authordetails |
-| OpenAlex | `openalex_search_authors` | authorsearch |
-| OpenAlex | `openalex_get_institution` | details |
-| OpenAlex | `openalex_search_institutions` | search |
-| CrossRef | `Crossref_search_works` | DOI datasearch |
-| CrossRef | `Crossref_get_work` | article metadata retrieval |
-| CrossRef | `Crossref_get_funder` | information |
-| CrossRef | `Crossref_get_journal` | information |
-| CrossRef | `Crossref_list_funders` | list |
-| CrossRef | `Crossref_list_types` | publicationlist |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -443,7 +432,7 @@ def build_citation_network(seed_pmids, depth=1, max_per_level=20):
 `requests`, `pandas`, `networkx`, `xml.etree.ElementTree` (stdlib)
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

@@ -2,10 +2,6 @@
 name: scientific-precision-oncology
 description: |
  Precision oncology skill. Tumor molecular profiling, actionable mutation identification, treatment matching, clinical trial matching, and molecular tumor board support.
-tu_tools:
- - key: oncokb
- name: OncoKB
- description: tumorannotation
 ---
 
 # Scientific Precision Oncology
@@ -399,19 +395,31 @@ def generate_mtb_report(patient_id, variants, civic_data, oncokb_data,
 | `results/mtb_report.md` | MTB report（Markdown） | reportgeneration |
 | `results/variant_actionability.json` | significance（JSON） | annotationcompletion |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| OncoKB | `OncoKB_annotate_variant` | cellvariant/mutation'sannotation |
-| OncoKB | `OncoKB_get_cancer_genes` | cancergene listretrieval |
-| CIViC | `civic_search_evidence_items` | search |
-| CIViC | `civic_get_variant` | |
-| COSMIC | `COSMIC_get_mutations_by_gene` | cellvariant/mutationfrequencydata |
-| GDC | `GDC_get_mutation_frequency` | TCGA variant/mutationfrequency |
-| ClinicalTrials | `search_clinical_trials` | tumorclinical trial |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -427,7 +435,7 @@ def generate_mtb_report(patient_id, variants, civic_data, oncokb_data,
 | `scientific-pharmacogenomics` | ← PGx metabolismtypeamount |
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

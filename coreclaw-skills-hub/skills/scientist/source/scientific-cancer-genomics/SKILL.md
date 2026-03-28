@@ -6,15 +6,7 @@ description: |
  3 cancer genomicsdatabaseintegrationvariant/mutation、
  variant/mutationanalysis、genedependency (essentiality) evaluation、
  number/countcancertypecross-cuttinganalysispipeline。
- 13 's ToolUniverse SMCP tool and integration。
-tu_tools:
- - key: cosmic
- name: COSMIC
- description: cancercellvariant/mutationlog
- - key: cbioportal
- name: cBioPortal
- description: cancer genomics
----
+ 13 ---
 
 # Scientific Cancer Genomics
 
@@ -50,7 +42,6 @@ def cosmic_search_mutations(gene, cancer_type=None, mutation_type=None):
  cancer_type: str — cancertypefilter (e.g., "melanoma")
  mutation_type: str — variant/mutation ("missense", "nonsense", "frameshift")
  """
- # ToolUniverse : COSMIC_search_mutations, COSMIC_get_mutations_by_gene
  # COSMIC API necessary (Academic )
 
  # Cancer Gene Census (CGC) 
@@ -153,7 +144,6 @@ def depmap_gene_dependency(genes, cell_lineage=None):
  genes: list — gene symbol list
  cell_lineage: str — cellphylogenyfilter (e.g., "Lung", "Breast")
  """
- # ToolUniverse :
  # DepMap_search_genes, DepMap_get_gene_dependencies
  # DepMap_get_cell_line, DepMap_get_cell_lines, DepMap_search_cell_lines
 
@@ -168,7 +158,6 @@ def depmap_gene_dependency(genes, cell_lineage=None):
  "gene": gene,
  "cell_lineage": cell_lineage,
  "query_type": "CRISPR_dependency",
- # 's ToolUniverse retrieval
  "interpretation": (
  "Chronos score < 0: gene essentiality increases. "
  "score < -0.5: likely essential in this lineage. "
@@ -259,25 +248,31 @@ def mutational_signature_analysis(mutations_df, genome="GRCh38",
 | `figures/mutation_spectrum.png` | PNG |
 | `figures/signature_profiles.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| COSMIC | `COSMIC_search_mutations` | cellvariant/mutationsearch |
-| COSMIC | `COSMIC_get_mutations_by_gene` | genevariant/mutationretrieval |
-| cBioPortal | `cBioPortal_get_cancer_studies` | cancerresearchlist |
-| cBioPortal | `cBioPortal_get_mutations` | variant/mutationData Retrieval |
-| cBioPortal | `cBioPortal_get_molecular_profiles` | moleculefile |
-| cBioPortal | `cBioPortal_get_patients` | patientData Retrieval |
-| cBioPortal | `cBioPortal_get_sample_lists` | |
-| cBioPortal | `cBioPortal_get_samples` | details |
-| DepMap | `DepMap_get_gene_dependencies` | genedependency |
-| DepMap | `DepMap_get_cell_line` | cellinformation |
-| DepMap | `DepMap_get_cell_lines` | celllist |
-| DepMap | `DepMap_search_cell_lines` | cellsearch |
-| DepMap | `DepMap_search_genes` | genesearch |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -294,7 +289,7 @@ def mutational_signature_analysis(mutations_df, genome="GRCh38",
 `pandas`, `numpy`, `requests`, `scikit-learn`, `matplotlib`
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

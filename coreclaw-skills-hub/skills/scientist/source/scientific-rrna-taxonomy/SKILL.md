@@ -372,14 +372,13 @@ environmental-ecology ─────────┘ population-genetics
 | `results/refs/` | SILVA/GG2 | — |
 | `results/mgnify_taxonomy.csv` | MGnify classificationresults | → environmental-ecology |
 
-### usepossibletool (ToolUniverse SMCP)
 
 | Config Key | toolnumber/count | key |
 |-----------|---------|---------|
 | `mgnify` | 3+ | genomeresearchsearchclassificationfileannotation |
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

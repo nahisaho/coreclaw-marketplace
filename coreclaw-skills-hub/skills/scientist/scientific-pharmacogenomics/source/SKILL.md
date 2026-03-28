@@ -2,10 +2,6 @@
 name: scientific-pharmacogenomics
 description: |
  Pharmacogenomics skill. Genotype-drug response associations, pharmacogenomic variant annotation, dosing guideline integration, and PGx biomarker analysis.
-tu_tools:
- - key: fda_pharmacogenomic_biomarkers
- name: FDA PGx Biomarkers
- description: FDA biomarkertable
 ---
 
 # Scientific Pharmacogenomics
@@ -309,23 +305,31 @@ def generate_pgx_report(patient_results, output_file="results/pgx_report.json"):
 | `results/dosing_recommendations.csv` | CSV |
 | `figures/pgx_phenotype_summary.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| PharmGKB | `PharmGKB_search_drugs` | drugsearch (gene) |
-| PharmGKB | `PharmGKB_search_genes` | PGx genesearch |
-| PharmGKB | `PharmGKB_get_drug_details` | drugdetails  |
-| PharmGKB | `PharmGKB_get_gene_details` | genedetails (information) |
-| PharmGKB | `PharmGKB_get_clinical_annotations` | gene-drugannotation |
-| PharmGKB | `PharmGKB_get_dosing_guidelines` | CPIC/DPWG dosing guidelines |
-| PharmGKB | `PharmGKB_search_variants` | variant/mutationsearch |
-| FDA | `fda_pharmacogenomic_biomarkers` | FDA PGx biomarkerlist |
-| FDA | `FDA_get_pharmacogenomics_info_by_drug_name` | drug PGx informationretrieval |
-| FDA | `FDA_get_drug_name_by_pharmacogenomics` | PGx fromdrugretrieval |
-| OpenTargets | `OpenTargets_drug_pharmacogenomics_data` | drug PGx data |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -342,7 +346,7 @@ def generate_pgx_report(patient_results, output_file="results/pgx_report.json"):
 `pandas`, `numpy`, `json`
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

@@ -4,10 +4,6 @@ description: |
  diseaseskill。OMIM gene-diseasemapping、Orphanet disease
  classificationgene、DisGeNET disease-gene、IMPC tabletype
  reference、gene-tabletypeintegrated analysispipeline。
-tu_tools:
- - key: orphanet
- name: Orphanet
- description: diseaseclassificationgeneratedatabase
 ---
 
 # Scientific Rare Disease Genetics
@@ -45,11 +41,6 @@ def search_omim(query, api_key, include="geneMap"):
  api_key: str — OMIM API 
  include: str — "geneMap", "clinicalSynopsis", "all"
 
- ToolUniverse:
- OMIM_search(query=query)
- OMIM_get_entry(mim_number=mim_number)
- OMIM_get_gene_map(gene_symbol=gene_symbol)
- OMIM_get_clinical_synopsis(mim_number=mim_number)
  """
  params = {
  "search": query,
@@ -96,12 +87,6 @@ def search_orphanet_diseases(query):
  """
  Orphanet diseasesearch。
 
- ToolUniverse:
- Orphanet_search_diseases(query=query)
- Orphanet_search_by_name(name=query)
- Orphanet_get_disease(orpha_code=code)
- Orphanet_get_genes(orpha_code=code)
- Orphanet_get_classification(orpha_code=code)
  """
  resp = requests.get(
  f"{ORPHANET_API}/rd-cross-referencing",
@@ -140,12 +125,6 @@ def get_disease_gene_associations(disease_id, api_key):
  disease_id: str — UMLS CUI (e.g., "C0023264") or disease name
  api_key: str — DisGeNET API key
 
- ToolUniverse:
- DisGeNET_search_disease(query=disease_id)
- DisGeNET_get_disease_genes(disease_id=disease_id)
- DisGeNET_search_gene(query=gene)
- DisGeNET_get_gene_diseases(gene_symbol=gene)
- DisGeNET_get_variant_diseases(variant_id=variant)
  """
  headers = {"Authorization": f"Bearer {api_key}"}
  resp = requests.get(
@@ -186,11 +165,6 @@ def get_impc_mouse_phenotypes(gene_symbol):
  """
  IMPC tabletypeData Retrieval。
 
- ToolUniverse:
- IMPC_search_genes(query=gene_symbol)
- IMPC_get_gene_summary(gene_symbol=gene_symbol)
- IMPC_get_phenotypes_by_gene(gene_symbol=gene_symbol)
- IMPC_get_gene_phenotype_hits(gene_symbol=gene_symbol)
  """
  params = {
  "q": f"marker_symbol:{gene_symbol}",
@@ -294,27 +268,31 @@ def rare_disease_gene_analysis(gene_symbol, omim_api_key=None,
 | `results/impc_phenotypes.csv` | CSV |
 | `results/rare_disease_profile.json` | JSON |
 
-### Available Tools
+## Data Acquisition
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| OMIM | `OMIM_search` | gene/diseasesearch |
-| OMIM | `OMIM_get_entry` | MIM entryretrieval |
-| OMIM | `OMIM_get_gene_map` | gene |
-| OMIM | `OMIM_get_clinical_synopsis` | overview |
-| Orphanet | `Orphanet_search_diseases` | diseasesearch |
-| Orphanet | `Orphanet_get_disease` | diseasedetails |
-| Orphanet | `Orphanet_get_genes` | gene |
-| Orphanet | `Orphanet_get_classification` | classificationinformation |
-| Orphanet | `Orphanet_search_by_name` | namesearch |
-| DisGeNET | `DisGeNET_search_disease` | diseasesearch |
-| DisGeNET | `DisGeNET_get_disease_genes` | diseasegene |
-| DisGeNET | `DisGeNET_get_gene_diseases` | genedisease |
-| DisGeNET | `DisGeNET_get_variant_diseases` | disease |
-| IMPC | `IMPC_search_genes` | genesearch |
-| IMPC | `IMPC_get_gene_summary` | genesummary |
-| IMPC | `IMPC_get_phenotypes_by_gene` | tabletyperetrieval |
-| IMPC | `IMPC_get_gene_phenotype_hits` | number/count |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -331,7 +309,7 @@ def rare_disease_gene_analysis(gene_symbol, omim_api_key=None,
 `requests`, `pandas`
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

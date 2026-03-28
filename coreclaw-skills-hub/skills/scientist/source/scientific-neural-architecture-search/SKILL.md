@@ -4,10 +4,6 @@ description: |
  search/exploration (NAS) skill。DARTS minpossible NAS
  Optuna NAS integrationratenetworkdesignsearch/explorationdefinition
  Pareto optimization (degree vs FLOPS)。
-tu_tools:
- - key: papers_with_code
- name: Papers with Code
- description: NAS search/explorationsearch
 ---
 
 # Scientific Neural Architecture Search
@@ -209,14 +205,35 @@ def nas_pareto_search(train_loader, val_loader,
 | `pareto_front.csv` | Pareto Optimal solutiongroup | → selection |
 | `best_architecture.json` | | → deep-learning |
 
-## ToolUniverse Integration
+## Data Acquisition
 
-| TU Key | Tool Name | Integration |
-|--------|---------|--------|
-| `papers_with_code` | Papers with Code | NAS search/explorationsearch |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
+
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

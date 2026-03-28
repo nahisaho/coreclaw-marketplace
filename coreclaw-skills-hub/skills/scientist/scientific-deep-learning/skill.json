@@ -1,6 +1,6 @@
 {
   "name": "scientific-deep-learning",
-  "version": "v0.4.0",
+  "version": "v0.5.0",
   "description": "Supports ML researchers with experiment structure, model comparison logic, interpretability considerations, and reproducible reporting.",
   "entrypoint": "main.py"
 }

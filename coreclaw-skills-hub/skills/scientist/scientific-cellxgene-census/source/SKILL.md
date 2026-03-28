@@ -2,10 +2,6 @@
 name: scientific-cellxgene-census
 description: |
  CellxGene Census skill. Single-cell RNA-seq data retrieval from CZ CELLxGENE, cell type annotation, cross-dataset comparison, and gene expression atlas queries.
-tu_tools:
- - key: cellxgene_census
- name: CELLxGENE Census
- description: large-scale single-cell atlas data API
 ---
 
 # Scientific CELLxGENE Census
@@ -228,11 +224,31 @@ def census_pipeline(organism="Homo sapiens",
 
 ---
 
-## ToolUniverse Integration
+## Data Acquisition
 
-| TU Key | Tool Name | Integration |
-|--------|---------|---------|
-| `cellxgene_census` | CELLxGENE Census | large-scalesingle-cell API |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ## Pipeline Integration
 
@@ -253,7 +269,7 @@ human-cell-atlas → cellxgene-census → single-cell-genomics
 | `results/census_expression.h5ad` | expression (AnnData) | → scvi-integration |
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

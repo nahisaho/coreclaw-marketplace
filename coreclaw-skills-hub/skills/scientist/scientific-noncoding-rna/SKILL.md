@@ -37,9 +37,6 @@ def get_rfam_family(rfam_acc):
  Parameters:
  rfam_acc: str — Rfam accession (e.g., "RF00001") or ID
 
- ToolUniverse:
- Rfam_get_family(rfam_acc=rfam_acc)
- Rfam_id_to_accession(rfam_id=rfam_id)
  """
  url = f"https://rfam.org/family/{rfam_acc}?content-type=application/json"
  resp = requests.get(url)
@@ -67,8 +64,6 @@ def rfam_sequence_search(sequence, email=None):
  Parameters:
  sequence: str — RNA sequence
 
- ToolUniverse:
- Rfam_search_sequence(sequence=sequence)
  """
  url = "https://rfam.org/search/sequence"
 
@@ -105,11 +100,6 @@ def get_rfam_structure_mapping(rfam_acc):
  """
  Rfam 's PDB structuremappinginformationretrieval。
 
- ToolUniverse:
- Rfam_get_structure_mapping(rfam_acc=rfam_acc)
- Rfam_get_covariance_model(rfam_acc=rfam_acc)
- Rfam_get_tree_data(rfam_acc=rfam_acc)
- Rfam_get_sequence_regions(rfam_acc=rfam_acc)
  """
  # Structure mapping
  url_struct = (
@@ -145,8 +135,6 @@ def rnacentral_search(query, page_size=10):
  Parameters:
  query: str — search term (gene name, accession, keyword)
 
- ToolUniverse:
- RNAcentral_search(query=query)
  """
  url = f"{RNACENTRAL_API}/rna/"
  params = {"query": query, "page_size": page_size}
@@ -175,8 +163,6 @@ def rnacentral_get_by_accession(accession):
  """
  RNAcentral accessionfrom ncRNA detailsinformationretrieval。
 
- ToolUniverse:
- RNAcentral_get_by_accession(accession=accession)
  """
  url = f"{RNACENTRAL_API}/rna/{accession}/"
  resp = requests.get(url)
@@ -194,11 +180,6 @@ def ncRNA_integrated_search(sequence, rfam_acc=None):
  """
  sequence's ncRNA integrated analysis。
 
- ToolUniverse (cross-cutting):
- Rfam_search_sequence(sequence) → Rfam_get_family(rfam_acc)
- RNAcentral_search(query)
- """
- pipeline = {"sequence_length": len(sequence)}
 
  # Step 1: Rfam family identification
  rfam_hits = rfam_sequence_search(sequence)
@@ -232,19 +213,31 @@ def ncRNA_integrated_search(sequence, rfam_acc=None):
 | `results/rfam_structures.json` | JSON |
 | `results/rnacentral_search.csv` | CSV |
 
-### Available Tools
+## Data Acquisition
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| Rfam | `Rfam_get_family` | information |
-| Rfam | `Rfam_search_sequence` | sequence→ |
-| Rfam | `Rfam_get_covariance_model` | variance |
-| Rfam | `Rfam_get_structure_mapping` | PDB mapping |
-| Rfam | `Rfam_get_tree_data` | phylogeny |
-| Rfam | `Rfam_get_sequence_regions` | sequence |
-| Rfam | `Rfam_id_to_accession` | ID→accessiontransformation |
-| RNAcentral | `RNAcentral_search` | ncRNA search |
-| RNAcentral | `RNAcentral_get_by_accession` | detailsretrieval |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -260,7 +253,7 @@ def ncRNA_integrated_search(sequence, rfam_acc=None):
 `requests`, `pandas`
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

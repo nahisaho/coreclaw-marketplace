@@ -294,26 +294,31 @@ def overrepresentation_analysis(gene_list, background=None,
 | `figures/ma_plot.png` | PNG |
 | `figures/gsea_dotplot.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| GEO | `geo_search_datasets` | GEO Dataset Search |
-| GEO | `geo_get_dataset_info` | datasetdetailsretrieval |
-| GEO | `geo_get_sample_info` | informationretrieval |
-| GTEx | `GTEx_get_median_gene_expression` | tissuemedianexpression level |
-| GTEx | `GTEx_get_gene_expression` | expressiondata |
-| GTEx | `GTEx_get_top_expressed_genes` | expressiongeneretrieval |
-| GTEx | `GTEx_get_eqtl_genes` | eQTL gene (eGenes) |
-| GTEx | `GTEx_get_single_tissue_eqtls` | singletissue eQTL |
-| GTEx | `GTEx_get_multi_tissue_eqtls` | tissue eQTL |
-| GTEx | `GTEx_calculate_eqtl` | eQTL calculation |
-| Expression Atlas | `ExpressionAtlas_search_experiments` | experimentsearch |
-| Expression Atlas | `ExpressionAtlas_get_baseline` | expression |
-| Expression Atlas | `ExpressionAtlas_search_differential` | expressionexperiment |
-| ArrayExpress | `arrayexpress_search_experiments` | ArrayExpress experimentsearch |
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -330,7 +335,7 @@ def overrepresentation_analysis(gene_list, background=None,
 `pydeseq2`, `GEOparse`, `gseapy`, `pandas`, `numpy`, `matplotlib`, `scipy`
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

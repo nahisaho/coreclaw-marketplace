@@ -210,28 +210,35 @@ def metabolomics_preprocessing(df, metabolite_cols, group_col=None):
 | `figures/umap_clusters.png` | PNG |
 | `figures/network_visualization.png` | PNG |
 
-### Available Tools
+## Data Acquisition
 
-> External tools available via [ToolUniverse](https://github.com/mims-harvard/ToolUniverse) SMCP.
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| MyGene | `MyGene_get_gene_annotation` | geneannotation |
-| UniProt | `UniProt_search` | protein search |
-| KEGG | `kegg_get_pathway_info` | pathway informationretrieval |
-| Reactome | `Reactome_map_uniprot_to_pathways` | UniProt→pathway mapping |
-| GO | `GO_get_annotations_for_gene` | GO annotation |
-| GEO | `geo_search_datasets` | expressionDataset Search |
+### Implementation Pattern
 
-#### Reference Experiments
+```python
+import requests
+import pandas as pd
 
-- **Exp-01**: scRNA-seq（Scanpy + PyDESeq2 + KEGG）
-- **Exp-04**: PPI network（NetworkX + Louvain）
-- **Exp-07**: （KNN + PLS-DA + VIP）
-- **Exp-09**: genomesequence（BioPython + phylogeny + RSCU）
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
+
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

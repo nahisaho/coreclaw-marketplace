@@ -41,8 +41,6 @@ def lookup_gene(gene_id, expand=True):
  gene_id: str — Ensembl Gene ID (example: "ENSG00000141510")
  expand: bool — information
 
- ToolUniverse:
- ensembl_lookup_gene(gene_id=gene_id, species="homo_sapiens")
  """
  url = f"{ENSEMBL_REST}/lookup/id/{gene_id}"
  params = {"expand": 1 if expand else 0}
@@ -84,8 +82,6 @@ def get_sequence(seq_id, seq_type="genomic", species="homo_sapiens"):
  seq_type: str — "genomic", "cdna", "cds", "protein"
  species: str — organism/species
 
- ToolUniverse:
- ensembl_get_sequence(id=seq_id, type=seq_type, species=species)
  """
  url = f"{ENSEMBL_REST}/sequence/id/{seq_id}"
  params = {"type": seq_type}
@@ -122,7 +118,6 @@ def vep_region(species, chromosome, position, allele,
  polyphen: bool — PolyPhen prediction
  cadd: bool — CADD 
 
- ToolUniverse:
  ensembl_vep_region(
  species=species, region=f"{chromosome}:{position}:{position}",
  allele=allele, SIFT="b", PolyPhen="b"
@@ -178,8 +173,6 @@ def get_xrefs(ensembl_id, external_db=None):
  ensembl_id: str — Ensembl ID
  external_db: str — filter DB (example: "UniProt", "RefSeq", "HGNC")
 
- ToolUniverse:
- ensembl_get_xrefs(id=ensembl_id, external_db=external_db)
  """
  url = f"{ENSEMBL_REST}/xrefs/id/{ensembl_id}"
  params = {}
@@ -218,7 +211,6 @@ def get_homology(species, gene_symbol, target_species=None,
  target_species: str — organism/species (None alltype)
  homology_type: str — "orthologues", "paralogues", "all"
 
- ToolUniverse:
  ensembl_get_homology(
  species=species, symbol=gene_symbol,
  target_species=target_species, type=homology_type
@@ -263,9 +255,6 @@ def get_regulatory_features(species, region):
  species: str — organism/species (example: "homo_sapiens")
  region: str — genome (example: "7:140000000-140100000")
 
- ToolUniverse:
- ensembl_get_regulatory_features(region=region, species=species)
- ensembl_get_overlap_features(region=region)
  """
  url = f"{ENSEMBL_REST}/overlap/region/{species}/{region}"
  params = {"feature": "regulatory"}
@@ -301,8 +290,6 @@ def get_gene_tree(gene_id, prune_species=None):
  gene_id: str — Ensembl Gene ID
  prune_species: list — phylogenyorganism/species
 
- ToolUniverse:
- ensembl_get_genetree(id=gene_id, prune_species=species_list)
  """
  url = f"{ENSEMBL_REST}/genetree/member/id/{gene_id}"
  params = {"sequence": "none", "aligned": 0}
@@ -354,29 +341,35 @@ genome-sequence-tools ──┘ │ variant-effect-prediction
 | `results/homology_table.csv` | log/log | → phylogenetics |
 | `results/regulatory_features.csv` | element | → regulatory-genomics |
 
-## Available Tools (ToolUniverse SMCP)
+## Data Acquisition
 
-| Tool Name | Usage |
-|---------|------|
-| `ensembl_lookup_gene` | gene |
-| `ensembl_get_sequence` | sequenceretrieval |
-| `ensembl_get_variants` | retrieval |
-| `ensembl_get_variation` | details |
-| `ensembl_get_variation_phenotypes` | tabletype |
-| `ensembl_vep_region` | VEP prediction |
-| `ensembl_get_xrefs` | |
-| `ensembl_get_xrefs_by_name` | name xref |
-| `ensembl_get_regulatory_features` | element |
-| `ensembl_get_genetree` | genephylogeny |
-| `ensembl_get_homology` | phasesearch |
-| `ensembl_get_alignment` | sequence |
-| `ensembl_get_taxonomy` | classificationinformation |
-| `ensembl_get_species` | organism/specieslist |
-| `ensembl_get_ontology_term` | GO |
-| `ensembl_get_overlap_features` | |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
+
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,

@@ -4,10 +4,6 @@ description: |
  Human Protein Atlas (HPA) integrationskill。tissue/cellproteinexpression、
  cancerprognosisbiomarker、RNA expressionfile、cell、
  proteininteraction's searchanalysispipeline。
-tu_tools:
- - key: hpa
- name: Human Protein Atlas
- description: tissue/cellproteinexpressionRNA expressioncancerprognosis
 ---
 
 # Scientific Human Protein Atlas
@@ -43,9 +39,6 @@ def get_hpa_gene_info(ensembl_id):
  Parameters:
  ensembl_id: str — Ensembl gene ID (e.g., "ENSG00000141510")
 
- ToolUniverse:
- HPA_get_gene_basic_info_by_ensembl_id(ensembl_id=ensembl_id)
- HPA_get_comprehensive_gene_details_by_ensembl_id(ensembl_id=ensembl_id)
  """
  url = f"https://www.proteinatlas.org/{ensembl_id}.json"
  resp = requests.get(url)
@@ -73,9 +66,6 @@ def get_tissue_rna_expression(gene_name):
  """
  HPA tissue RNA expressionData Retrieval。
 
- ToolUniverse:
- HPA_get_rna_expression_by_source(gene=gene_name, source="HPA")
- HPA_get_rna_expression_in_specific_tissues(gene=gene_name, tissues=tissues)
  """
  url = f"https://www.proteinatlas.org/{gene_name}.json"
  resp = requests.get(url)
@@ -107,8 +97,6 @@ def get_cancer_prognostics(gene_name):
  """
  HPA cancerprognosisData Retrieval。
 
- ToolUniverse:
- HPA_get_cancer_prognostics_by_gene(gene=gene_name)
  """
  url = f"https://www.proteinatlas.org/{gene_name}.json"
  resp = requests.get(url)
@@ -146,8 +134,6 @@ def get_subcellular_location(gene_name):
  """
  HPA cellData Retrieval。
 
- ToolUniverse:
- HPA_get_subcellular_location(gene=gene_name)
  """
  url = f"https://www.proteinatlas.org/{gene_name}.json"
  resp = requests.get(url)
@@ -177,10 +163,6 @@ def get_hpa_protein_interactions(gene_name):
  """
  HPA proteininteractionData Retrieval。
 
- ToolUniverse:
- HPA_get_protein_interactions_by_gene(gene=gene_name)
- HPA_get_biological_processes_by_gene(gene=gene_name)
- HPA_get_contextual_biological_process_analysis(gene=gene_name)
  """
  url = f"https://www.proteinatlas.org/{gene_name}.json"
  resp = requests.get(url)
@@ -214,24 +196,31 @@ def get_hpa_protein_interactions(gene_name):
 | `results/hpa_subcellular.csv` | CSV |
 | `results/hpa_interactions.csv` | CSV |
 
-### Available Tools
+## Data Acquisition
 
-| Category | Key Tools | Usage |
-|---|---|---|
-| HPA | `HPA_generic_search` | forsearch |
-| HPA | `HPA_get_gene_basic_info_by_ensembl_id` | genebasicinformation |
-| HPA | `HPA_get_comprehensive_gene_details_by_ensembl_id` | details |
-| HPA | `HPA_get_rna_expression_by_source` | RNA expression |
-| HPA | `HPA_get_rna_expression_in_specific_tissues` | tissueexpression |
-| HPA | `HPA_get_cancer_prognostics_by_gene` | cancerprognosis |
-| HPA | `HPA_get_subcellular_location` | cell |
-| HPA | `HPA_get_protein_interactions_by_gene` | PPI |
-| HPA | `HPA_get_biological_processes_by_gene` | process |
-| HPA | `HPA_get_contextual_biological_process_analysis` | processanalysis |
-| HPA | `HPA_get_disease_expression_by_gene_tissue_disease` | diseaseexpression |
-| HPA | `HPA_get_comparative_expression_by_gene_and_cellline` | cellcomparison |
-| HPA | `HPA_get_gene_tsv_data_by_ensembl_id` | TSV data |
-| HPA | `HPA_search_genes_by_query` | genesearch |
+> All data retrieval is implemented in Python using `requests` and public REST APIs.
+> No external ToolUniverse tools are required.
+
+### Implementation Pattern
+
+```python
+import requests
+import pandas as pd
+
+def fetch_api_data(url, params=None):
+    """Generic REST API data retrieval with error handling."""
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+```
+
+### Report Generation
+
+After data acquisition, generate a structured report:
+
+1. Save raw results to `results/` as CSV/JSON
+2. Create visualizations in `figures/`
+3. Write `report.md` summarizing methods, results, and interpretation
 
 ### Related Skills
 
@@ -248,7 +237,7 @@ def get_hpa_protein_interactions(gene_name):
 `requests`, `pandas`
 ---
 
-## Harness Optimization (v0.4.0)
+## Harness Optimization (v0.5.0)
 
 > Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 > harness performance patterns: eval-first, multi-phase verification, model routing,
