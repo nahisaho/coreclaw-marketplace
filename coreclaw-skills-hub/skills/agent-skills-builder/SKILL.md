@@ -6,101 +6,228 @@ description: |
   generates, validates, and distributes Agent configurations to achieve that objective.
 ---
 
-# Agent Skills Builder
+# Agent Skills Builder v0.4.0
 
 A builder that creates CoreClaw Skills through dialogue-based requirements discovery.
 
 ## Purpose
 
-- Standardization of skill creation
-- Deep exploration of user needs
-- 表面的な依頼の背後にある真の目的の特定
-- 提案による要件の具体化
-- 必要に応じたサブエージェント構成の自動生成
-- `docs/SKILLS_GUIDE.md` 準拠のディレクトリ・ファイル構成の保証
-- `skill.json` の整合性確保
-- ドキュメント品質の担保
-- リリース運用ミスの削減
-- 成果物のZIP化による配布性向上
+- Standardize skill creation across the CoreClaw ecosystem
+- Deep exploration of user needs through structured dialogue
+- Identify the true objective behind surface-level requests
+- Concretize requirements through proactive proposals
+- Auto-generate sub-agent configurations when needed
+- Ensure `docs/SKILLS_GUIDE.md`-compliant directory and file structure
+- Guarantee `skill.json` consistency and completeness
+- Maintain documentation quality standards
+- Reduce release operation errors
+- Improve deliverable distribution via ZIP packaging
 
 ## Interaction Policy
 
-- ユーザーへの質問を通じて、背景・目的・制約を引き出す
-- ユーザーへの問いかけは必ず1問1答で行い、1回の応答で複数質問を投げない
-- 直前の回答を確認してから次の質問へ進み、質問の先回りや同時展開をしない
-- 表層要求・背景課題・成功条件・制約を順に確認し、真の目的を明文化して合意する
-- 要件が曖昧な場合は、こちらから複数案を積極提案する
-- 提案時は、メリット・デメリット・推奨理由を簡潔に示す
-- サブエージェントが必要と判断した場合は、その理由と構成案を提示して合意を取る
-- 最終的に、ユーザーが選べる形で仕様を確定する
+- Elicit background, purpose, and constraints through user questions
+- Always conduct one-question-at-a-time interviews (never bundle multiple questions)
+- Confirm the previous answer before proceeding to the next question
+- Sequentially confirm: surface request → background problem → success criteria → constraints
+- Articulate the true objective in writing and obtain user agreement
+- Proactively propose multiple options when requirements are ambiguous
+- Show pros, cons, and recommendation rationale concisely for each proposal
+- When sub-agents are deemed necessary, present reasoning and architecture for agreement
+- Finalize specifications in a form the user can choose from
 
 ## Expected Workflow
 
-1. 1問1答で表層要求（ユーザーが最初に欲しいもの）を確認
-2. 背景課題・成功条件・制約を順に確認
-3. 真の目的を文章化し、ユーザー合意を取得
-4. 真の目的達成に必要なAgent責務を分解し、単体/サブエージェント構成を提案
-5. `docs/SKILLS_GUIDE.md` を参照して構成タイプ（suite-style / single）を決定
-6. 方針確定後に必須ファイル生成（`skill.json`, `main.py`, `README.md`, `SKILL.md`）
-7. 必要に応じてサブエージェント（サブスキル）構成と `group.json` を生成
-8. 命名・バージョン・entrypointの検証
-9. 成果物をZIPにまとめ、ダウンロード可能な形で出力
-10. リリースタグの提案
+1. Confirm the surface request (what the user initially wants) via one-question dialogue
+2. Sequentially confirm background problem, success criteria, and constraints
+3. Articulate the true objective in writing and obtain user agreement
+4. Decompose agent responsibilities needed to achieve the true objective; propose single or sub-agent architecture
+5. Reference `docs/SKILLS_GUIDE.md` to determine structure type (suite-style / single)
+6. After confirming approach, generate required files (`skill.json`, `main.py`, `README.md`, `SKILL.md`)
+7. Generate sub-agent (sub-skill) structure and `group.json` when needed
+8. Validate naming, version, and entrypoint consistency
+9. Bundle deliverables into a downloadable ZIP
+10. Suggest release tags
 
 ## Input
 
-- Skill名
-- 対象グループ（例: `scientist`, `enterprise`）
-- ユーザーの表層要求
-- 背景課題・成功条件・制約
-- 合意済みの真の目的
-- サブエージェント要否（必要時は役割数と責務分担）
-- 必要な入出力形式
-- バージョン方針（通常は `v0.1.0` 開始）
-- 運用条件（納期、品質要件、依存関係）
+- Skill name
+- Target group (e.g., `scientist`, `enterprise`)
+- User's surface request
+- Background problem, success criteria, constraints
+- Agreed-upon true objective
+- Sub-agent requirement (number of roles and responsibility split when needed)
+- Required input/output formats
+- Version policy (typically starts at `v0.1.0`)
+- Operational conditions (deadline, quality requirements, dependencies)
 
 ## Output
 
-- 作成されたSkillパッケージ
-- 必要に応じて作成されたサブエージェント（サブスキル）群
-- 真の目的整理メモ（表層要求との差分付き）
-- 提案比較（採用案/代替案）
-- バリデーション結果
-- ダウンロード用ZIP成果物（パス付き）
-- リリース手順案
+- Generated Skill package
+- Sub-agent (sub-skill) groups when required
+- True objective summary (with diff from surface request)
+- Proposal comparison (selected vs. alternatives)
+- Validation results
+- Downloadable ZIP deliverable (with path)
+- Release procedure proposal
 
 ## Character Limits
 
-- Skill本体の記述は1500文字以内
-- サブスキルの記述は2000文字以内
-- 制約超過時は要約して再生成する
+- Main skill description: 1500 characters max
+- Sub-skill descriptions: 2000 characters max
+- Re-summarize and regenerate when limits are exceeded
 
 ## Quality Criteria
 
-- 必須フィールドを満たす `skill.json`
-- `entrypoint` と実ファイル一致
-- 説明文は明確で簡潔
-- リポジトリ規約（命名、構成）に準拠
-- `docs/SKILLS_GUIDE.md` の構成要件に準拠
-- 対話ログに基づいた要件反映が確認できる
-- 1問1答の対話順序が守られている
-- 真の目的が明文化され、設計したAgent責務と整合している
-- ZIP成果物が生成され、主要ファイルが同梱されている
+- `skill.json` contains all required fields
+- `entrypoint` matches actual file
+- Descriptions are clear and concise
+- Compliant with repository conventions (naming, structure)
+- Compliant with `docs/SKILLS_GUIDE.md` structure requirements
+- Requirements traceable to dialogue log
+- One-question-at-a-time dialogue order maintained
+- True objective articulated and aligned with designed agent responsibilities
+- ZIP deliverable generated with all key files included
 
 ---
 
-## Verification Loop (v0.2.0)
+## Harness Optimization (v0.4.0)
+
+> Optimized following [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
+> harness performance patterns: eval-first, multi-phase verification, model routing,
+> sub-agent orchestration, and systematic error recovery.
+
+### Eval Criteria (Skill Building)
+
+Before execution, define:
+- [ ] **Target skill name**: valid kebab-case identifier
+- [ ] **Target group**: existing group or new group creation needed
+- [ ] **True objective**: confirmed by user (not just surface request)
+- [ ] **Structure type**: single skill vs. suite-style with sub-agents
+- [ ] **Completeness**: all required files identified
+
+#### Pass Criteria
+- `skill.json` passes schema validation (name, version, description, entrypoint)
+- Entrypoint file exists and is importable
+- `SKILL.md` contains: description, When to Use, Quick Start, Verification Loop
+- `README.md` contains: title, features, quick start, output description
+- Naming follows kebab-case convention
+- Version follows semver `vX.Y.Z` format
+- ZIP bundle contains all generated files
+- True objective documented and aligned with agent design
+
+### Verification Loop
 
 ```
-PLAN   → define scope, inputs, expected outputs
-EXECUTE → run analysis pipeline
-VERIFY  → check outputs against quality gates
-REPORT  → save all artifacts, generate report
+Phase 1: PLAN
+  |-- Confirm true objective via 1-question dialogue
+  |-- Determine structure type (single / suite-style)
+  |-- List all files to generate
+  +-- Estimate character counts against limits
+
+Phase 2: EXECUTE
+  |-- Generate skill.json with required fields
+  |-- Generate main.py entrypoint
+  |-- Generate SKILL.md with full structure
+  |-- Generate README.md with usage guide
+  |-- Generate sub-agent files if suite-style
+  +-- Bundle into ZIP
+
+Phase 3: VERIFY
+  |-- Validate skill.json schema (name, version, description, entrypoint)
+  |-- Confirm entrypoint file exists
+  |-- Check character limits (main <= 1500, sub <= 2000)
+  |-- Verify naming convention compliance
+  |-- Cross-check true objective alignment
+  +-- Test ZIP integrity
+
+Phase 4: RECOVER (on failure)
+  |-- Identify which file or field failed validation
+  |-- Regenerate only the failed component
+  |-- Re-summarize if character limit exceeded
+  |-- Log fix as reusable pattern
+  +-- If unrecoverable: deliver partial package with documented gaps
+
+Phase 5: REPORT
+  |-- Present generated file list to user
+  |-- Show validation results
+  |-- Provide ZIP download path
+  |-- Suggest release tag format
+  +-- Record true objective summary and proposal comparison
 ```
 
 ### Quality Gates
 
-- [ ] All outputs include explicit assumptions and constraints
-- [ ] Traceable reasoning between steps
-- [ ] Final recommendation with clear next actions
-- [ ] Artifacts saved as files (not chat-only output)
+| Gate | Check | Required |
+|------|-------|----------|
+| G1 | `skill.json` has all required fields | MUST |
+| G2 | Entrypoint file matches `skill.json.entrypoint` | MUST |
+| G3 | SKILL.md contains description + When to Use + Quick Start | MUST |
+| G4 | Naming follows kebab-case convention | MUST |
+| G5 | Version follows semver `vX.Y.Z` | MUST |
+| G6 | Character limits respected (main 1500 / sub 2000) | MUST |
+| G7 | ZIP bundle generated and non-empty | MUST |
+| G8 | True objective documented and user-confirmed | MUST |
+| G9 | One-question-at-a-time dialogue maintained | RECOMMENDED |
+| G10 | Release tag suggestion provided | RECOMMENDED |
+
+### Model Routing
+
+| Task Complexity | Model Tier | Examples |
+|----------------|-----------|----------|
+| Mechanical | `fast` (haiku-class) | File scaffolding, JSON generation, ZIP bundling |
+| Implementation | `standard` (sonnet-class) | SKILL.md writing, README generation, validation |
+| Reasoning | `premium` (opus-class) | True objective discovery, architecture decisions, proposal comparison |
+
+### Sub-Agent Orchestration
+
+For suite-style skill packages, split generation into parallel agents:
+
+```
+Orchestrator (this skill)
+|-- Agent 1: Requirements discovery and true objective articulation
+|-- Agent 2: Skill architecture design and file structure planning
+|-- Agent 3: File generation (skill.json, main.py, SKILL.md, README.md)
++-- Agent 4: Validation, ZIP bundling, and release preparation
+```
+
+### Token Optimization
+
+- Use structured JSON for intermediate skill specifications (not prose)
+- Generate files from templates rather than free-form writing
+- Cache `docs/SKILLS_GUIDE.md` structure requirements (avoid re-reading)
+- Compact dialogue history after true objective confirmation
+- Prefer code generation over natural language descriptions for entrypoints
+
+### Error Recovery Protocol
+
+```python
+def validate_skill_package(skill_dir):
+    """Validate generated skill package against quality gates."""
+    errors = []
+    
+    # G1: skill.json schema
+    skill_json = skill_dir / "skill.json"
+    if not skill_json.exists():
+        errors.append("G1: skill.json missing")
+    else:
+        data = json.loads(skill_json.read_text())
+        for field in ["name", "version", "description", "entrypoint"]:
+            if field not in data:
+                errors.append(f"G1: skill.json missing '{field}'")
+    
+    # G2: entrypoint exists
+    if skill_json.exists():
+        ep = data.get("entrypoint", "main.py")
+        if not (skill_dir / ep).exists():
+            errors.append(f"G2: entrypoint '{ep}' not found")
+    
+    # G4: naming convention
+    if not re.match(r'^[a-z][a-z0-9-]*$', data.get("name", "")):
+        errors.append("G4: name not kebab-case")
+    
+    # G5: semver
+    if not re.match(r'^v\d+\.\d+\.\d+$', data.get("version", "")):
+        errors.append("G5: version not semver vX.Y.Z")
+    
+    return errors
+```
