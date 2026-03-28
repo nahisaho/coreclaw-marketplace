@@ -1,6 +1,6 @@
 {
   "name": "scientific-latex-formatter",
-  "version": "v0.3.0",
+  "version": "v0.4.0",
   "description": "Prepares scientific outputs for LaTeX-based authoring workflows where formatting consistency and publication-ready structure matter.",
   "entrypoint": "main.py"
 }

@@ -1,6 +1,6 @@
 {
   "name": "scientific-peer-review-response",
-  "version": "v0.3.0",
+  "version": "v0.4.0",
   "description": "Helps authors answer reviewer comments with point-by-point responses that connect evidence, revisions, and scientific rationale.",
   "entrypoint": "main.py"
 }

@@ -8,12 +8,43 @@ description: |
  following the SHIKIGAMI paradigm (Think → Report → Action iterative cycle).
 ---
 
-# Scientific Assistant v0.3.0
+# Scientific Assistant v0.4.0
 
 A harness-optimized collection of 195 scientific research skills, organized
 as sub-skill directories within this skill package. v0.3.0 applies token
 optimization (English-only prompts) and structured verification loops
 inspired by the everything-claude-code harness performance system.
+
+## Harness Optimization
+
+v0.4.0 applies harness performance optimization inspired by
+[everything-claude-code](https://github.com/affaan-m/everything-claude-code).
+Each sub-skill now includes:
+
+| Feature | Description |
+|---------|-------------|
+| **Eval Criteria** | Domain-specific pre-execution checklists (10 categories) |
+| **5-Phase Verification** | PLAN → EXECUTE → VERIFY → RECOVER → REPORT |
+| **10 Quality Gates** | G1-G7 mandatory, G8-G10 recommended |
+| **Model Routing** | Task complexity → model tier (fast/standard/premium) |
+| **Sub-Agent Orchestration** | Parallel agent splitting for complex tasks |
+| **Error Recovery** | Retry with parameter adjustment, graceful degradation |
+| **Token Optimization** | Context compaction, structured output, caching |
+
+### Domain Categories
+
+| Category | Sub-skills | Eval Focus |
+|----------|-----------|------------|
+| Data Analysis | 15 | Statistical validity, reproducibility |
+| ML/AI | 12 | Baseline comparison, overfitting check |
+| Bioinformatics | 60 | QC metrics, nomenclature, FDR correction |
+| Chemistry/Materials | 17 | Structure validation, uncertainty estimates |
+| Clinical/Health | 17 | CONSORT/STROBE compliance, safety data |
+| Visualization | 7 | Accessibility, save-only, English text |
+| Writing/Review | 14 | Citation verification, completeness |
+| Experimental | 6 | Orthogonality, power analysis, randomization |
+| Databases | 28 | Schema validation, provenance, caching |
+| Other | 19 | General measurable outcomes |
 
 ## Required: All Charts and Figures Must Use English (All Sub-Skills)
 

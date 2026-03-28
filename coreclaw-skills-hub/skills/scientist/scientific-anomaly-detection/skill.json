@@ -1,6 +1,6 @@
 {
   "name": "scientific-anomaly-detection",
-  "version": "v0.3.0",
+  "version": "v0.4.0",
   "description": "Supports researchers working on anomaly detection with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
   "entrypoint": "main.py"
 }

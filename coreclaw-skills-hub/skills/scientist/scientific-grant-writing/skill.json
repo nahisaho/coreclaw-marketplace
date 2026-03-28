@@ -1,6 +1,6 @@
 {
   "name": "scientific-grant-writing",
-  "version": "v0.3.0",
+  "version": "v0.4.0",
   "description": "Supports researchers preparing manuscripts by structuring arguments, grounding claims in evidence, and producing manuscript-ready scientific prose.",
   "entrypoint": "main.py"
 }

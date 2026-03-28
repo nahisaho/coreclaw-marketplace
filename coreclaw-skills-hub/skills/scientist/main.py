@@ -9,7 +9,7 @@ quality gates, and English-only prompts for token efficiency.
 def run(input_data: dict | None = None) -> dict:
     return {
         "skill": "scientific-assistant",
-        "version": "v0.3.0",
+        "version": "v0.4.0",
         "skill_path": "scientist",
         "status": "imported",
         "capabilities": [

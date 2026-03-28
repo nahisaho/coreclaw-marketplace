@@ -1,6 +1,6 @@
 {
   "name": "scientific-epidemiology-public-health",
-  "version": "v0.3.0",
+  "version": "v0.4.0",
   "description": "Supports disease-focused research teams with evidence synthesis, analytical rigor, and interpretation grounded in translational relevance.",
   "entrypoint": "main.py"
 }

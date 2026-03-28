@@ -1,6 +1,6 @@
 {
   "name": "scientific-experiment-template",
-  "version": "v0.3.0",
+  "version": "v0.4.0",
   "description": "Supports researchers designing studies, hypotheses, and experiment branches with explicit variables, comparisons, and decision logic.",
   "entrypoint": "main.py"
 }

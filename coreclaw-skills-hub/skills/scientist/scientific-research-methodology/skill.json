@@ -1,6 +1,6 @@
 {
   "name": "scientific-research-methodology",
-  "version": "v0.3.0",
+  "version": "v0.4.0",
   "description": "Supports researchers selecting methods and study structures, with explicit reasoning about validity, trade-offs, and research design quality.",
   "entrypoint": "main.py"
 }
