@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-29T12:43:07+00:00",
+  "generated_at": "2026-03-29T12:44:11+00:00",
   "skills": {
     "consultant": {
       "latest": "v0.1.0",
@@ -36,7 +36,7 @@
         {
           "version": "v0.7.0",
           "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/scientist/v0.7.0/scientist-v0.7.0.zip",
-          "released_at": "2026-03-29T12:43:07+00:00"
+          "released_at": "2026-03-29T12:44:11+00:00"
         }
       ],
       "name": "scientist",
