@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-28T21:27:54+00:00",
+  "generated_at": "2026-03-29T11:30:50+00:00",
   "skills": {
     "consultant": {
       "latest": "v0.1.0",
@@ -810,8 +810,13 @@
       "versions": []
     },
     "agent-skills-builder": {
-      "latest": "v0.9.0",
+      "latest": "v0.10.0",
       "versions": [
+        {
+          "version": "v0.10.0",
+          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/agent-skills-builder/v0.10.0/agent-skills-builder-v0.10.0.zip",
+          "released_at": "2026-03-29T11:30:50+00:00"
+        },
         {
           "version": "v0.8.0",
           "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/agent-skills-builder/v0.8.0/agent-skills-builder-v0.8.0.zip",
@@ -822,7 +827,10 @@
           "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/agent-skills-builder/v0.9.0/agent-skills-builder-v0.9.0.zip",
           "released_at": "2026-03-28T21:27:54+00:00"
         }
-      ]
+      ],
+      "name": "agent-skills-builder",
+      "description": "Builder skill that designs and generates Agent Skills compliant packages through user dialogue. Discovers the true objective behind surface-level requests, then designs, generates, validates, and distributes skill configurations for GitHub Copilot CLI and related runtimes.",
+      "metadataSource": "SKILL.md"
     }
   }
 }
