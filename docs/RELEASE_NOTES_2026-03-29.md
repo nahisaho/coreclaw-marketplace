@@ -16,7 +16,7 @@ This document contains copy-ready GitHub Releases body text for the skills updat
 - Legacy compatibility files and wrapper runtimes removed from imported skills.
 - Release documentation updated to reflect the new builder-only Agent Skills path.
 
-## scientist/v0.6.0
+## scientist/v0.7.0
 
 ### Highlights
 

@@ -7,7 +7,7 @@ description: |
  Requires file-first outputs, verification gates, and timestamped execution logging.
 ---
 
-# Scientist v0.6.0
+# Scientist v0.7.0
 
 Scientific research suite with 195 sub-skills. Route work to the smallest suitable sub-skill, save all outputs as files, and leave a complete timestamped execution trace.
 
