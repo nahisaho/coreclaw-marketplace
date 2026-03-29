@@ -103,3 +103,21 @@ Use the Shared Body section above.
 ### supply/v0.3.0
 
 Use the Shared Body section above.
+
+## Scientific Subskill Releases v0.2.0
+
+Use the following body for each `scientific-*` tag added in this release.
+
+### Shared Body
+
+#### Highlights
+
+- Refreshed the imported scientific subskill package to `v0.2.0`.
+- Aligned the subskill with the scientist suite cleanup and compact execution-contract format.
+- Removed compatibility-layer artifacts from the imported skill layout.
+
+#### Included Changes
+
+- Updated imported version markers in subskill documentation to `v0.2.0`.
+- Removed legacy `skill.json`, compatibility wrapper `main.py`, and mirrored `source/SKILL.md` files.
+- Kept the published layout compatible with the current `SKILL.md`-native validation and release pipeline.
