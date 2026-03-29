@@ -1,6 +1,0 @@
-{
-  "name": "growth-experiment-design",
-  "version": "v0.2.0",
-  "description": "Designs growth experiments for product and lifecycle teams with clear hypotheses, success metrics, guardrails, and operational execution notes.",
-  "entrypoint": "main.py"
-}

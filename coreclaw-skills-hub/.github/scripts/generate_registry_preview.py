@@ -12,6 +12,8 @@ import datetime as dt
 import json
 import pathlib
 
+from skill_metadata import SkillMetadataError, resolve_skill_metadata
+
 
 def utc_now_iso() -> str:
     return dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
@@ -19,32 +21,29 @@ def utc_now_iso() -> str:
 
 def build_preview(skills_root: pathlib.Path) -> dict:
     skills: dict[str, dict[str, str | int | list]] = {}
-    groups_seen: set[str] = set()
 
-    # Process individual skills
-    for skill_json_path in sorted(skills_root.rglob("skill.json")):
-        skill_dir = skill_json_path.parent
-        skill_path = skill_dir.relative_to(skills_root).as_posix()
-        
-        # Skip if this is a group-level metadata file
+    for skill_md_path in sorted(skills_root.rglob("SKILL.md")):
+        skill_dir = skill_md_path.parent
         if skill_dir.name == "source":
             continue
-        
-        data = json.loads(skill_json_path.read_text(encoding="utf-8"))
-        
-        # Track groups
-        parts = skill_path.split("/")
-        if len(parts) > 1:
-            group_name = parts[0]
-            if group_name not in groups_seen:
-                groups_seen.add(group_name)
-        
-        skills[skill_path] = {
-            "name": data["name"],
-            "version": data["version"],
-            "entrypoint": data["entrypoint"],
-            "description": data["description"],
+
+        skill_path = skill_dir.relative_to(skills_root).as_posix()
+        try:
+            metadata = resolve_skill_metadata(skill_dir)
+        except SkillMetadataError as exc:
+            raise ValueError(f"failed to resolve metadata for {skill_dir}: {exc}") from exc
+
+        entry: dict[str, str | int | list | None] = {
+            "name": metadata.name,
+            "description": metadata.description,
+            "metadataSource": metadata.metadata_source,
         }
+        if metadata.version:
+            entry["version"] = metadata.version
+        if metadata.entrypoint:
+            entry["entrypoint"] = metadata.entrypoint
+
+        skills[skill_path] = entry
 
     # Process group-level metadata
     for group_dir in sorted(skills_root.iterdir()):

@@ -1,6 +1,0 @@
-{
-  "name": "sales-assistant",
-  "version": "v0.2.0",
-  "description": "Coordinates strategic sales execution for account teams handling complex deals, from account research and stakeholder analysis to objections and proposal shaping.",
-  "entrypoint": "main.py"
-}

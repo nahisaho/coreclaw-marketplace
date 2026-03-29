@@ -1,6 +1,6 @@
 {
   "name": "Agent Skills Builder",
-  "description": "Skills for creating, validating, and preparing CoreClaw skill packages for release.",
+  "description": "Skills for creating, validating, and preparing Agent Skills packages for release.",
   "icon": "🧰",
   "count": 1
 }

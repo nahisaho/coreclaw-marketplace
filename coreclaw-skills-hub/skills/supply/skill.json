@@ -1,6 +1,0 @@
-{
-  "name": "supply-assistant",
-  "version": "v0.2.0",
-  "description": "Coordinates supply-chain planning for operations and planning teams across forecasting, inventory, logistics, supplier risk, and disruption scenario modeling.",
-  "entrypoint": "main.py"
-}

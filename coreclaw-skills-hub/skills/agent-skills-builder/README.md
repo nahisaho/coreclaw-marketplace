@@ -1,6 +1,6 @@
 # agent-skills-builder
 
-Builds Agent Skills compliant packages for GitHub Copilot CLI by default, while preserving the previous CoreClaw package layout as an explicit legacy mode.
+Builds Agent Skills compliant packages for GitHub Copilot CLI.
 
 ## Features
 
@@ -11,11 +11,10 @@ Builds Agent Skills compliant packages for GitHub Copilot CLI by default, while 
 - Profile-based suite presets for `ops`, `research`, and `consulting`
 - Profile-specific orchestrator Input Contract, Output Contract, Quality Gates, and Fallback Policy sections
 - Workspace-visible artifact output and optional ZIP bundling
-- Backward-compatible CoreClaw generation via `target_format: "coreclaw"`
 
 ## Default Output Format
 
-If `target_format` is omitted, the builder generates Agent Skills compliant output.
+The builder generates Agent Skills compliant output.
 
 Single-skill output:
 
@@ -29,17 +28,6 @@ Suite output:
 
 The generated `SKILL.md` files include YAML frontmatter with `name` and `description`, and optionally add `license`, `compatibility`, `metadata`, and `allowed-tools` when supplied in the input payload.
 
-## Legacy CoreClaw Mode
-
-Set `target_format` to `coreclaw` to generate the previous repository-specific scaffold:
-
-- `skill.json`
-- `main.py`
-- `README.md`
-- `SKILL.md`
-- `source/SKILL.md`
-- `group.json` for suite mode
-
 ## Artifact Output
 
 Generated skills are saved to a workspace-visible location so they can be surfaced in Artifacts.
@@ -51,7 +39,16 @@ Generated skills are saved to a workspace-visible location so they can be surfac
 ## Quick Start
 
 ```bash
-python main.py
+python - <<'PY'
+from main import run
+
+result = run({
+	"skill_name": "incident-triage",
+	"description": "Triage operational incidents and prepare a concise action plan.",
+})
+print(result["template_summary"])
+print(result["artifact_output"])
+PY
 ```
 
 ## Example: Default Agent Skills Output
@@ -100,21 +97,6 @@ Expected generated directories:
 - `lab-workflow-intake/`
 - `lab-workflow-evidence-synthesis/`
 - `lab-workflow-report-assembly/`
-
-## Example: Legacy CoreClaw Output
-
-```bash
-python - <<'PY'
-from main import run
-
-result = run({
-	"target_format": "coreclaw",
-	"skill_name": "coreclaw-demo",
-	"description": "Generate the previous CoreClaw package layout.",
-})
-print(result["template_summary"])
-PY
-```
 
 ## Interaction Rule
 

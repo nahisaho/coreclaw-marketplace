@@ -1,6 +1,0 @@
-{
-  "name": "compliance-assistant",
-  "version": "v0.2.0",
-  "description": "Coordinates compliance and audit-readiness work for control owners, risk teams, and auditors by mapping controls, identifying gaps, and shaping traceable responses.",
-  "entrypoint": "main.py"
-}

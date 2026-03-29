@@ -7,6 +7,8 @@ import pathlib
 import sys
 from typing import Any
 
+from skill_metadata import SkillMetadataError, resolve_skill_metadata
+
 REGISTRY_FILE = pathlib.Path("registry.json")
 
 
@@ -35,6 +37,20 @@ def load_group_metadata(group_name: str) -> dict[str, Any] | None:
     if group_json.exists():
         return json.loads(group_json.read_text(encoding="utf-8"))
     return None
+
+
+def load_skill_metadata(skill_path: str) -> dict[str, str] | None:
+    skill_dir = pathlib.Path("skills") / skill_path
+    try:
+        metadata = resolve_skill_metadata(skill_dir)
+    except SkillMetadataError:
+        return None
+
+    return {
+        "name": metadata.name,
+        "description": metadata.description,
+        "metadataSource": metadata.metadata_source,
+    }
 
 
 def main() -> None:
@@ -72,6 +88,9 @@ def main() -> None:
     versions.sort(key=lambda x: x.get("version", ""))
     item["latest"] = version
     item["versions"] = versions
+    metadata = load_skill_metadata(skill)
+    if metadata:
+        item.update(metadata)
     skills[skill] = item
 
     # Add group metadata if this skill belongs to a group

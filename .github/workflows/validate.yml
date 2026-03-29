@@ -30,7 +30,7 @@ jobs:
               text=True,
           ).stdout.splitlines()
 
-          skill_json_paths = set()
+            skill_dirs = set()
           for item in diff_output:
               path = repo_root / item
               try:
@@ -40,20 +40,20 @@ jobs:
 
               current = path if path.is_dir() else path.parent
               while current != current.parent and current != skills_root.parent:
-                  candidate = current / "skill.json"
+                  candidate = current / "SKILL.md"
                   if candidate.exists():
-                      skill_json_paths.add(candidate)
+                    skill_dirs.add(current)
                       break
                   if current == skills_root:
                       break
                   current = current.parent
 
-          if not skill_json_paths:
+              if not skill_dirs:
               print("No skill changes detected.")
               raise SystemExit(0)
 
-          for skill_json in sorted(skill_json_paths):
-              subprocess.run([sys.executable, str(validator), str(skill_json)], check=True)
+              for skill_dir in sorted(skill_dirs):
+                subprocess.run([sys.executable, str(validator), str(skill_dir)], check=True)
           PY
 
       - name: Generate registry preview

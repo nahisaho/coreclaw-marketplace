@@ -10,4 +10,4 @@ Produces concise executive briefings with options, trade-offs, and recommendatio
 
 ## Quick Start
 
-python main.py
+Use this skill through the accompanying SKILL.md in an Agent Skills compatible harness. The legacy standalone main.py entrypoint has been removed.

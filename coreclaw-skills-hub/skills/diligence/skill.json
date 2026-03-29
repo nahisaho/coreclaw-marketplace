@@ -1,6 +1,0 @@
-{
-  "name": "diligence-assistant",
-  "version": "v0.2.0",
-  "description": "Coordinates diligence workflows for investors, corporate strategy teams, and M&A practitioners across market analysis, risk framing, and investment memo development.",
-  "entrypoint": "main.py"
-}

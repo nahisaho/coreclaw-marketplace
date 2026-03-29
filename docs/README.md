@@ -10,7 +10,7 @@ Complete guide for creating and registering skills in the marketplace.
 
 **Contents:**
 - Directory structure and file placement
-- `skill.json` and `group.json` schemas
+- `SKILL.md` canonical metadata and optional `skill.json` compatibility schema
 - Naming conventions and version management
 - Step-by-step skill creation process
 - Release procedures and best practices
@@ -43,28 +43,14 @@ Detailed information about the registry system and automated workflows.
 mkdir -p coreclaw-skills-hub/skills/<group>/<skill-name>
 cd coreclaw-skills-hub/skills/<group>/<skill-name>
 
-# Create skill.json
-cat > skill.json << 'EOF'
-{
-  "name": "my-skill",
-  "version": "v0.1.0",
-  "description": "Description",
-  "entrypoint": "main.py"
-}
-EOF
-
-# Create main.py
-cat > main.py << 'EOF'
-#!/usr/bin/env python3
-def main():
-    print("Skill execution")
-
-if __name__ == "__main__":
-    main()
-EOF
-
 # Create SKILL.md
 cat > SKILL.md << 'EOF'
+---
+name: my-skill
+description: |
+    Description
+---
+
 # My Skill
 
 ## Overview
@@ -72,6 +58,25 @@ Skill description
 
 ## Usage
 Usage instructions
+EOF
+
+# Optional compatibility metadata
+cat > skill.json << 'EOF'
+{
+    "name": "my-skill",
+    "version": "v0.1.0",
+    "description": "Description",
+    "entrypoint": "main.py"
+}
+EOF
+
+cat > main.py << 'EOF'
+#!/usr/bin/env python3
+def main():
+        print("Skill execution")
+
+if __name__ == "__main__":
+        main()
 EOF
 
 # Commit
@@ -85,7 +90,7 @@ For detailed instructions, see [Skills Development Guide](./SKILLS_GUIDE.md).
 ### 2. Release a Skill
 
 ```bash
-# Update version in skill.json
+# If compatibility metadata exists, update version in skill.json
 # version: "v0.1.0" → "v0.2.0"
 
 git add coreclaw-skills-hub/skills/<group>/<skill-name>/skill.json
@@ -109,11 +114,12 @@ coreclaw-skills-hub/
 │   ├── scientist/
 │   │   ├── group.json                                  # Group metadata
 │   │   ├── scientific-academic-writing/
-│   │   │   ├── skill.json                             # Skill metadata
-│   │   │   ├── main.py                                # Entrypoint
+│   │   │   ├── SKILL.md                               # Canonical skill definition
+│   │   │   ├── skill.json                             # Optional compatibility metadata
+│   │   │   ├── main.py                                # Optional compatibility entrypoint
 │   │   │   ├── SKILL.md
 │   │   │   ├── README.md
-│   │   │   └── source/                                # Original payload
+│   │   │   └── [other assets]
 │   │   └── [...other skills...]
 │   ├── consultant/
 │   └── [...other groups...]

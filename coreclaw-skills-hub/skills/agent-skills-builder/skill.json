@@ -1,6 +1,0 @@
-{
-  "name": "agent-skills-builder",
-  "version": "v0.9.0",
-  "description": "Discovers the user's true objective through one-question dialogue, then generates Agent Skills compliant single-skill or suite-style templates for GitHub Copilot CLI by default, while preserving legacy CoreClaw scaffolds through an explicit target_format override.",
-  "entrypoint": "main.py"
-}

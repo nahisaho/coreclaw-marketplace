@@ -1,6 +1,0 @@
-{
-  "name": "learning-assistant",
-  "version": "v0.2.0",
-  "description": "Coordinates learning-design work for instructors, enablement teams, and curriculum owners from objective definition to assessment and feedback-driven refinement.",
-  "entrypoint": "main.py"
-}

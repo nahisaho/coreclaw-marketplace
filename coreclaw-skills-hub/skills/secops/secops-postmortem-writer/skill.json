@@ -1,6 +1,0 @@
-{
-  "name": "secops-postmortem-writer",
-  "version": "v0.2.0",
-  "description": "Drafts post-incident reviews for security and engineering stakeholders with timeline, impact, root causes, corrective actions, and preventive recommendations.",
-  "entrypoint": "main.py"
-}

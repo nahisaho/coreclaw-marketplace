@@ -1,6 +1,0 @@
-{
-  "name": "sales-account-research",
-  "version": "v0.2.0",
-  "description": "Builds account intelligence briefs for strategic sales teams, covering business priorities, timing, risks, buying context, and trigger events.",
-  "entrypoint": "main.py"
-}

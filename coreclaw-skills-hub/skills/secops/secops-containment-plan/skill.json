@@ -1,6 +1,0 @@
-{
-  "name": "secops-containment-plan",
-  "version": "v0.2.0",
-  "description": "Builds containment and eradication plans for security teams that balance response speed, rollback safety, operational continuity, and evidence preservation.",
-  "entrypoint": "main.py"
-}

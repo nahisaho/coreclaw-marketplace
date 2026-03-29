@@ -1,227 +1,117 @@
 ---
-name: scientific-assistant
+name: scientist
 description: |
- Harness-optimized scientific research assistant with 195 specialized sub-skills.
- Covers bayesian statistics, deep research, molecular modeling, genomics,
- clinical NLP, cheminformatics, advanced visualization, and more.
- Implements verification loops, quality gates, and eval checkpoints
- following the SHIKIGAMI paradigm (Think → Report → Action iterative cycle).
+ Scientific research suite with 195 specialized sub-skills.
+ Covers literature review, experimental design, data analysis, modeling,
+ bioinformatics, cheminformatics, visualization, and publication-ready reporting.
+ Requires file-first outputs, verification gates, and timestamped execution logging.
 ---
 
-# Scientific Assistant v0.4.0
+# Scientist v0.6.0
 
-A harness-optimized collection of 195 scientific research skills, organized
-as sub-skill directories within this skill package. v0.3.0 applies token
-optimization and structured verification loops
-inspired by the everything-claude-code harness performance system.
+Scientific research suite with 195 sub-skills. Route work to the smallest suitable sub-skill, save all outputs as files, and leave a complete timestamped execution trace.
 
-## Harness Optimization
+## Core Rules
 
-v0.4.0 applies harness performance optimization inspired by
-[everything-claude-code](https://github.com/affaan-m/everything-claude-code).
-Each sub-skill now includes:
+- Write `report.md` in the same language as the user's input.
+- Keep all figure, chart, axis, legend, and annotation text in English.
+- Save every artifact to files. Do not leave analysis, code, tables, or figures only in chat.
+- Prefer the narrowest matching sub-skill instead of loading broad context.
+- Final chat output should summarize saved files, not reproduce the full analysis.
 
-| Feature | Description |
-|---------|-------------|
-| **Eval Criteria** | Domain-specific pre-execution checklists (10 categories) |
-| **5-Phase Verification** | PLAN → EXECUTE → VERIFY → RECOVER → REPORT |
-| **10 Quality Gates** | G1-G7 mandatory, G8-G10 recommended |
-| **Model Routing** | Task complexity → model tier (fast/standard/premium) |
-| **Sub-Agent Orchestration** | Parallel agent splitting for complex tasks |
-| **Error Recovery** | Retry with parameter adjustment, graceful degradation |
-| **Token Optimization** | Context compaction, structured output, caching |
+## Required Output Layout
 
-### Domain Categories
+Use this structure unless the task requires a stricter downstream format.
 
-| Category | Sub-skills | Eval Focus |
-|----------|-----------|------------|
-| Data Analysis | 15 | Statistical validity, reproducibility |
-| ML/AI | 12 | Baseline comparison, overfitting check |
-| Bioinformatics | 60 | QC metrics, nomenclature, FDR correction |
-| Chemistry/Materials | 17 | Structure validation, uncertainty estimates |
-| Clinical/Health | 17 | CONSORT/STROBE compliance, safety data |
-| Visualization | 7 | Accessibility, save-only, English figure text |
-| Writing/Review | 14 | Citation verification, completeness |
-| Experimental | 6 | Orthogonality, power analysis, randomization |
-| Databases | 28 | Schema validation, provenance, caching |
-| Other | 19 | General measurable outcomes |
-
-## Required: report.md Uses the User's Input Language, Charts and Figures Use English (All Sub-Skills)
-
-**When creating `report.md`, use the user's input language. When creating graphs, charts, or figures
-(matplotlib / seaborn / plotly / any visualization library), all figure text elements MUST be written in English.**
-
-| Text Element | Rule |
-|---|---|
-| Figure title (`title`, `suptitle`) | **English only** |
-| Axis labels (`xlabel`, `ylabel`, `set_xlabel`, `set_ylabel`) | **English only** |
-| Legend (`legend`, `label=`) | **English only** |
-| Tick labels (`xticklabels`, `yticklabels`) | **English only** |
-| Text annotations (`ax.text`, `ax.annotate`, `plt.text`) | **English only** |
-| Colorbar label (`colorbar label`) | **English only** |
-| Panel labels and captions | **English only** |
-
-```python
-# Correct
-ax.set_title("Gene Expression by Condition")
-ax.set_xlabel("Time (hours)")
-ax.set_ylabel("Expression Level (log2 FPKM)")
-ax.legend(["Control", "Treatment A", "Treatment B"])
-```
-
----
-
-## Required: Artifact File-Save Rules (All Sub-Skills)
-
-**All artifacts MUST be saved as files. Chat-only output is prohibited.**
-
-| Artifact Type | Format | Example Path |
-|---|---|---|
-| Reports / analysis results | `report.md` / `report.txt` | `/workspace/group/` |
-| Code / scripts | `.py` / `.r` / `.sh` | `/workspace/group/` |
-| Numeric results / stats | `results.json` / `summary.csv` | `/workspace/group/results/` |
-| Figures / graphs | `.png` / `.svg` / `.pdf` | `/workspace/group/figures/` |
-| Papers / drafts | `paper.md` / `paper.tex` | `/workspace/group/` |
-| Processed data | `.csv` / `.tsv` / `.parquet` | `/workspace/group/data/` |
-
-### Standard Directory Structure
-
-```
+```text
 /workspace/group/
-├── report.md ← Main report (required)
-├── figures/ ← Graphs and figures
-│ ├── figure_01.png
-│ └── figure_02.png
-├── results/ ← JSON/CSV/text results
-│ └── summary.json
-└── data/ ← Processed data
- └── processed.csv
+├── report.md
+├── figures/
+├── results/
+├── data/
+└── logs/
+	└── process-log.jsonl
 ```
 
-### Required Python Pattern
+Minimum file expectations:
 
-```python
-from pathlib import Path
+- `report.md`: title, execution timestamp, objective, methods, results, discussion, generated file inventory.
+- `figures/`: saved plots only; never rely on interactive display.
+- `results/`: numeric summaries, model outputs, metrics, or structured intermediate results.
+- `data/`: processed datasets when data transformation occurs.
+- `logs/process-log.jsonl`: append-only execution trace with one JSON object per event.
 
-BASE_DIR = Path("/workspace/group")
-FIG_DIR = BASE_DIR / "figures"
-RES_DIR = BASE_DIR / "results"
-DATA_DIR = BASE_DIR / "data"
+## Required Execution Logging
 
-for d in [FIG_DIR, RES_DIR, DATA_DIR]:
- d.mkdir(parents=True, exist_ok=True)
+For every task, write a timestamped process log to `logs/process-log.jsonl`. The log must capture the full workflow, including:
 
-# Always save figures to file (never use plt.show)
-fig_path = FIG_DIR / "figure_01.png"
-fig.savefig(fig_path, dpi=300, bbox_inches="tight")
-plt.close(fig)
+- the user prompt actually used for the run
+- each selected sub-skill or external prompt template
+- information passed into each skill or tool handoff
+- information received back from each skill or tool handoff
+- every file created, updated, or finalized
+- any recovery action, retry, or fallback decision
 
-# Generate embed link for report
-fig_rel = fig_path.relative_to(BASE_DIR)
-fig_embed = f"![Figure 1: <caption>]({fig_rel})"
+Required event fields:
 
-# Save results as JSON/CSV
-import json
-with open(RES_DIR / "summary.json", "w", encoding="utf-8") as f:
- json.dump(results, f, ensure_ascii=False, indent=2)
+- `timestamp`
+- `phase`
+- `event_type`
+- `actor`
+- `input_prompt`
+- `skill_or_tool`
+- `handoff_in`
+- `handoff_out`
+- `files_written`
+- `status`
+
+Recommended event order:
+
+1. `run_started`
+2. `prompt_received`
+3. `skill_selected` for each invoked sub-skill
+4. `handoff_started` and `handoff_completed` for each transfer
+5. `file_written` whenever a file is created or updated
+6. `report_finalized`
+7. `run_completed`
+
+Example record:
+
+```json
+{"timestamp":"2026-03-29T10:15:00Z","phase":"EXECUTE","event_type":"skill_selected","actor":"scientist","input_prompt":"optimize the assay design","skill_or_tool":"scientific-doe","handoff_in":{"objective":"maximize yield"},"handoff_out":{"design_type":"fractional-factorial"},"files_written":["results/doe_plan.json"],"status":"ok"}
 ```
 
-### Required Report Structure
+## Verification Loop
 
-Every report file (`report.md`) must include:
+Every execution follows this loop:
 
-1. **Title and execution timestamp**
-2. **Objective / background**
-3. **Methods summary**
-4. **Results summary** (with numeric/statistical values)
-5. **Embedded figures** (see figure-link rules below)
-6. **Discussion / conclusions**
-7. **Generated file listing** (figures/, results/ inventory)
+1. `PLAN`: define objective, constraints, target outputs, and candidate sub-skills.
+2. `EXECUTE`: run the selected analysis pipeline and save intermediate artifacts.
+3. `VERIFY`: check outputs against scientific and formatting quality gates.
+4. `REPORT`: write `report.md` in the user's language and embed saved figures.
+5. `LOG`: finalize `logs/process-log.jsonl` and confirm the generated file inventory.
 
-### Figure Link Rules (Required)
+## Quality Gates
 
-All generated figures must be embedded in `report.md` using Markdown image
-links with relative paths from `figures/`.
+- [ ] Figures are saved to `figures/` and referenced from `report.md`.
+- [ ] Numeric and structured outputs are saved under `results/`.
+- [ ] `report.md` includes timestamp, methods, results, discussion, and file inventory.
+- [ ] Figure text is English-only.
+- [ ] `logs/process-log.jsonl` exists and includes prompt, sub-skill usage, handoff I/O, and files written with timestamps.
+- [ ] No essential result remains chat-only.
 
-```markdown
-## Results
+## Coverage
 
-### Figure 1: Expression Distribution by Condition
+- Data analysis: Bayesian statistics, time-series, anomaly detection, causal inference.
+- Life sciences: genomics, proteomics, ADMET, clinical NLP, structural biology.
+- Chemistry and materials: cheminformatics, molecular modeling, docking, simulations.
+- Research workflows: systematic review, hypothesis design, DOE, reproducible reporting.
+- Visualization and AI: advanced plotting, dashboards, ML, transfer learning, ensemble methods.
 
-![Figure 1: Expression Distribution by Condition](figures/figure_01.png)
+## Routing Notes
 
-Condition B showed significantly higher expression (p < 0.01).
+- Use `scientific-deep-research` when literature discovery and source synthesis dominate.
+- Use the most domain-specific sub-skill available for computation-heavy tasks.
+- Split work across sub-skills only when it improves correctness, reproducibility, or traceability.
 
-### Figure 2: Principal Component Analysis (PCA)
-
-![Figure 2: PCA](figures/figure_02.png)
-
-PC1 explains 68.3% of total variance with clear separation between conditions.
-```
-
----
-
-## Verification Loop (Harness Optimization)
-
-Every sub-skill execution follows a structured verification loop:
-
-```
-Step 1: PLAN — Define scope, inputs, expected outputs
-Step 2: EXECUTE — Run analysis pipeline
-Step 3: VERIFY — Check outputs against quality gates
-Step 4: REPORT — Save all artifacts, generate report.md in the user's input language
-```
-
-### Quality Gates
-
-Before marking any task complete, verify:
-
-- [ ] All figures saved to `figures/` (never `plt.show`)
-- [ ] All figures embedded in `report.md` with `![caption](figures/filename)`
-- [ ] Caption and description follow each figure
-- [ ] Numeric results saved to `results/` as JSON or CSV
-- [ ] Report includes methods, results, and discussion sections
-- [ ] All text in figures is English-only
-- [ ] No raw data or analysis output left only in chat
-
----
-
-## Capabilities
-
-- **Data Analysis**: Bayesian statistics, time-series, anomaly detection, causal inference
-- **Life Sciences**: AlphaFold structures, genomics, ADMET pharmacokinetics, clinical NLP
-- **Chemistry**: Cheminformatics, molecular dynamics, reaction predictions
-- **Research Workflows**: Deep research, systematic reviews, experiment design
-- **Visualization**: Advanced plotting, network graphs, geospatial mapping
-- **AI/ML**: Active learning, transfer learning, ensemble methods, NLP
-
-## Usage
-
-Each sub-skill is automatically loaded and activated based on the user's
-request. The SHIKIGAMI paradigm guides complex research tasks through
-iterative cycles of thinking, reporting, and acting.
-
-**Important**: On task completion, chat output should only list saved files
-and their summaries. All analysis results, code, and figures must already
-be persisted as files.
-
-## MCP Integration
-
-When the `deep-research` MCP server is available, use the `deep-research`
-prompt template for literature surveys, prior research, and comprehensive
-topic investigation. Combine MCP structured research (question refinement →
-sub-question decomposition → web search → source evaluation → report
-generation) with scientific evidence hierarchy assessment.
-Save research reports as `report.md`, not chat-only output.
-
-## Education Theory Database
-
-Shared with `teaching-assistant`. Data is stored at `skills/teaching-assistant/data/`:
-
-| File | Size | Contents |
-|------|------|----------|
-| `theories.db` | 1.5MB | 175 education theories (SQLite FTS5 trigram) |
-| `theories.json` | 315KB | Education theories in JSON |
-| `relations.json` | 9.4KB | Inter-theory relationships (77 entries) |
-| `curriculum/*.md` | 5.2MB | Curriculum guidelines (elementary/middle/high school) |
 

@@ -1,6 +1,0 @@
-{
-  "name": "sales-discovery-questioning",
-  "version": "v0.2.0",
-  "description": "Generates discovery question sets for account teams, tailored to buyer context, sales stage, and commercial risks that must be surfaced early.",
-  "entrypoint": "main.py"
-}

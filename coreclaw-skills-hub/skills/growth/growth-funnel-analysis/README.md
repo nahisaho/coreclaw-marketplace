@@ -10,4 +10,4 @@ Detects conversion bottlenecks and quantifies drop-off points by segment.
 
 ## Quick Start
 
-python main.py
+Use this skill through the accompanying SKILL.md in an Agent Skills compatible harness. The legacy standalone main.py entrypoint has been removed.

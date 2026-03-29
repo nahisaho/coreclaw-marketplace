@@ -1,6 +1,0 @@
-{
-  "name": "diligence-orchestrator",
-  "version": "v0.2.0",
-  "description": "Coordinates market, competitive, financial, and risk analysis for integrated diligence workflows that lead to investment recommendations.",
-  "entrypoint": "main.py"
-}

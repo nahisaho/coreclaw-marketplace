@@ -32,6 +32,7 @@ This document explains the registry system and automated workflows in coreclaw-s
       "name": "scientific-academic-writing",
       "version": "v0.1.0",
       "entrypoint": "main.py",
+      "metadataSource": "skill.json",
       "description": "Assists researchers in composing...",
       "latest": "v0.1.0",
       "versions": [
@@ -72,7 +73,8 @@ This document explains the registry system and automated workflows in coreclaw-s
 | `name` | Unique skill name |
 | `version` | Current version |
 | `description` | Skill description |
-| `entrypoint` | Execution file (usually `main.py`) |
+| `entrypoint` | Compatibility execution file when present |
+| `metadataSource` | `SKILL.md` or `skill.json` |
 | `latest` | Latest version number |
 | `versions` | Version history (includes URL and release date) |
 
@@ -88,15 +90,15 @@ This document explains the registry system and automated workflows in coreclaw-s
 ### Workflow Process
 
 ```
-Create PR → Detect changes → Validate skill.json → Generate registry preview → Upload artifact → Review
+Create PR → Detect changes → Validate SKILL.md and compatibility metadata → Generate registry preview → Upload artifact → Review
 ```
 
 ### Validation Items
 
-1. **skill.json Existence**: Check if each skill directory has `skill.json`
-2. **Required Fields**: Verify `name`, `version`, `description`, `entrypoint` exist
-3. **Version Format**: Confirm `vX.Y.Z` format (Semantic Versioning)
-4. **Entrypoint Existence**: Verify file specified in entrypoint exists
+1. **SKILL.md Existence**: Check if each skill directory has canonical `SKILL.md`
+2. **Frontmatter Consistency**: Verify `name` and `description` exist and `name` matches the directory name
+3. **Compatibility Metadata**: If `skill.json` exists, verify `name`, `version`, `description`, `entrypoint`
+4. **Entrypoint Existence**: If `skill.json` exists, verify file specified in entrypoint exists
 
 ### Registry Preview
 
@@ -137,7 +139,7 @@ git tag scientist/scientific-academic-writing/v0.2.0
 ```
 Create tag
   ↓
-Validate skill.json
+Validate skill metadata
   ↓
 Zip skill directory
   ↓
@@ -155,7 +157,7 @@ Push registry.json to main
 Created on release page:
 
 - **Title**: `[<skill-path>] Release v<version>`
-- **Description**: From skill.json `description`
+- **Description**: From `SKILL.md` frontmatter description
 - **Asset**: `skill.zip` (entire skill zipped)
 
 **URL Example:**
@@ -191,23 +193,24 @@ https://github.com/nahisaho/coreclaw-marketplace/releases/download/scientist/sci
 
 ### Validation Errors
 
-#### Error: `skill.json not found`
+#### Error: `missing SKILL.md`
 
-**Cause**: skill.json missing from skill directory
+**Cause**: canonical skill definition is missing from the skill directory
 
 **Solution**:
 ```bash
 # Verify skill directory
-ls coreclaw-skills-hub/skills/<group>/<skill-name>/skill.json
+ls coreclaw-skills-hub/skills/<group>/<skill-name>/SKILL.md
 
 # Create if missing
-cat > coreclaw-skills-hub/skills/<group>/<skill-name>/skill.json << 'EOF'
-{
-  "name": "your-skill",
-  "version": "v0.1.0",
-  "description": "Description",
-  "entrypoint": "main.py"
-}
+cat > coreclaw-skills-hub/skills/<group>/<skill-name>/SKILL.md << 'EOF'
+---
+name: your-skill
+description: |
+  Description
+---
+
+# Your Skill
 EOF
 ```
 

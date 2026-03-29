@@ -1,0 +1,1332 @@
+{
+  "generated_at": "2026-03-29T11:13:33+00:00",
+  "skills": {
+    "agent-skills-builder": {
+      "name": "Agent Skills Builder",
+      "description": "Skills for creating, validating, and preparing Agent Skills packages for release.",
+      "icon": "🧰",
+      "isGroup": true,
+      "skillCount": 1
+    },
+    "compliance": {
+      "name": "Compliance and Audit Automation",
+      "description": "Skills for control mapping, evidence readiness, and audit response workflows.",
+      "icon": "📋",
+      "isGroup": true,
+      "skillCount": 7
+    },
+    "compliance/compliance-audit-response": {
+      "name": "compliance-audit-response",
+      "description": "Drafts audit-ready responses with traceable control evidence references.",
+      "metadataSource": "SKILL.md"
+    },
+    "compliance/compliance-control-mapping": {
+      "name": "compliance-control-mapping",
+      "description": "Maps regulations and frameworks to internal controls and ownership.",
+      "metadataSource": "SKILL.md"
+    },
+    "compliance/compliance-evidence-collector": {
+      "name": "compliance-evidence-collector",
+      "description": "Defines required evidence sets and collection cadences for controls.",
+      "metadataSource": "SKILL.md"
+    },
+    "compliance/compliance-gap-analysis": {
+      "name": "compliance-gap-analysis",
+      "description": "Detects control and evidence gaps and ranks remediation urgency.",
+      "metadataSource": "SKILL.md"
+    },
+    "compliance/compliance-orchestrator": {
+      "name": "compliance-orchestrator",
+      "description": "Orchestrates compliance workflows from control mapping to audit-ready response.",
+      "metadataSource": "SKILL.md"
+    },
+    "compliance/compliance-remediation-plan": {
+      "name": "compliance-remediation-plan",
+      "description": "Creates phased remediation plans with milestones and accountability.",
+      "metadataSource": "SKILL.md"
+    },
+    "consultant": {
+      "name": "Consultant",
+      "description": "General consultant skills. Essential skills for consulting work including business analysis, strategy development, problem-solving, presentations, and client management.",
+      "icon": "💼",
+      "isGroup": true,
+      "skillCount": 1
+    },
+    "consultant-acn": {
+      "name": "Consultant - Accenture",
+      "description": "Specialized skills in Accenture's strategic consulting, digital transformation, and technology consulting.",
+      "icon": "💼",
+      "isGroup": true,
+      "skillCount": 1
+    },
+    "consultant-bcg": {
+      "name": "Consultant - BCG",
+      "description": "Specialized skills in BCG's business strategy, business unit strategy, and marketing strategy.",
+      "icon": "💼",
+      "isGroup": true,
+      "skillCount": 1
+    },
+    "consultant-mck": {
+      "name": "Consultant - McKinsey",
+      "description": "Specialized skills in McKinsey & Company's management consulting, organizational diagnosis, and change management.",
+      "icon": "💼",
+      "isGroup": true,
+      "skillCount": 1
+    },
+    "consultant-pwc": {
+      "name": "Consultant - PwC",
+      "description": "Specialized skills in PwC's audit, assurance, and consulting services.",
+      "icon": "💼",
+      "isGroup": true,
+      "skillCount": 1
+    },
+    "diligence": {
+      "name": "Investment and Due Diligence",
+      "description": "Skills for investment research, risk review, and decision memo generation.",
+      "icon": "🔎",
+      "isGroup": true,
+      "skillCount": 7
+    },
+    "diligence/diligence-competitive-benchmark": {
+      "name": "diligence-competitive-benchmark",
+      "description": "Benchmarks target positioning against direct and adjacent competitors.",
+      "metadataSource": "SKILL.md"
+    },
+    "diligence/diligence-financial-redflags": {
+      "name": "diligence-financial-redflags",
+      "description": "Highlights financial red flags and scenario-sensitive assumptions.",
+      "metadataSource": "SKILL.md"
+    },
+    "diligence/diligence-investment-memo": {
+      "name": "diligence-investment-memo",
+      "description": "Produces investment memo drafts with thesis, risks, and recommendation.",
+      "metadataSource": "SKILL.md"
+    },
+    "diligence/diligence-market-scan": {
+      "name": "diligence-market-scan",
+      "description": "Builds market landscape summaries with demand and trend signals.",
+      "metadataSource": "SKILL.md"
+    },
+    "diligence/diligence-orchestrator": {
+      "name": "diligence-orchestrator",
+      "description": "Orchestrates due diligence from market scan to investment memo recommendation.",
+      "metadataSource": "SKILL.md"
+    },
+    "diligence/diligence-risk-matrix": {
+      "name": "diligence-risk-matrix",
+      "description": "Builds weighted risk matrices with mitigation options and owners.",
+      "metadataSource": "SKILL.md"
+    },
+    "educationalist": {
+      "name": "Educationalist",
+      "description": "Skills for educators. Essential skills for educational settings including subject teaching methods, educational program design, learning assessment, and curriculum development.",
+      "icon": "📚",
+      "isGroup": true,
+      "skillCount": 1
+    },
+    "enterprise": {
+      "name": "Enterprise Transformation",
+      "description": "Skills for enterprise transformation workflows, from problem structuring to executive decision support.",
+      "icon": "🏢",
+      "isGroup": true,
+      "skillCount": 7
+    },
+    "enterprise/enterprise-exec-briefing": {
+      "name": "enterprise-exec-briefing",
+      "description": "Produces concise executive briefings with options, trade-offs, and recommendations.",
+      "metadataSource": "SKILL.md"
+    },
+    "enterprise/enterprise-initiative-prioritization": {
+      "name": "enterprise-initiative-prioritization",
+      "description": "Prioritizes initiatives by impact, feasibility, risk, and strategic fit.",
+      "metadataSource": "SKILL.md"
+    },
+    "enterprise/enterprise-kpi-diagnostics": {
+      "name": "enterprise-kpi-diagnostics",
+      "description": "Analyzes KPI gaps and identifies root causes and leading indicators.",
+      "metadataSource": "SKILL.md"
+    },
+    "enterprise/enterprise-orchestrator": {
+      "name": "enterprise-orchestrator",
+      "description": "Orchestrates enterprise transformation from problem framing to executive decision output.",
+      "metadataSource": "SKILL.md"
+    },
+    "enterprise/enterprise-problem-structuring": {
+      "name": "enterprise-problem-structuring",
+      "description": "Structures ambiguous business problems into decision-ready workstreams.",
+      "metadataSource": "SKILL.md"
+    },
+    "enterprise/enterprise-roadmap-simulation": {
+      "name": "enterprise-roadmap-simulation",
+      "description": "Builds and simulates phased transformation roadmaps with dependencies.",
+      "metadataSource": "SKILL.md"
+    },
+    "growth": {
+      "name": "Product Growth Intelligence",
+      "description": "Skills for product growth analysis and experiment-driven optimization workflows.",
+      "icon": "📈",
+      "isGroup": true,
+      "skillCount": 7
+    },
+    "growth/growth-copy-variants": {
+      "name": "growth-copy-variants",
+      "description": "Generates variant messaging and calls-to-action for experiment arms.",
+      "metadataSource": "SKILL.md"
+    },
+    "growth/growth-experiment-design": {
+      "name": "growth-experiment-design",
+      "description": "Designs hypothesis-driven experiments with success criteria and guardrails.",
+      "metadataSource": "SKILL.md"
+    },
+    "growth/growth-funnel-analysis": {
+      "name": "growth-funnel-analysis",
+      "description": "Detects conversion bottlenecks and quantifies drop-off points by segment.",
+      "metadataSource": "SKILL.md"
+    },
+    "growth/growth-learning-synthesis": {
+      "name": "growth-learning-synthesis",
+      "description": "Synthesizes experiment outcomes into decisions and next-step hypotheses.",
+      "metadataSource": "SKILL.md"
+    },
+    "growth/growth-orchestrator": {
+      "name": "growth-orchestrator",
+      "description": "Orchestrates product growth loops from segmentation to experiment learning synthesis.",
+      "metadataSource": "SKILL.md"
+    },
+    "growth/growth-user-segmentation": {
+      "name": "growth-user-segmentation",
+      "description": "Builds actionable user segments from behavior, value, and lifecycle signals.",
+      "metadataSource": "SKILL.md"
+    },
+    "learning": {
+      "name": "Learning Design and Assessment",
+      "description": "Skills for outcome-based learning design, assessment, and feedback loops.",
+      "icon": "📚",
+      "isGroup": true,
+      "skillCount": 7
+    },
+    "learning/learning-activity-generator": {
+      "name": "learning-activity-generator",
+      "description": "Generates aligned learning activities for engagement and retention.",
+      "metadataSource": "SKILL.md"
+    },
+    "learning/learning-curriculum-builder": {
+      "name": "learning-curriculum-builder",
+      "description": "Builds sequenced curriculum structures with scaffolding and pacing.",
+      "metadataSource": "SKILL.md"
+    },
+    "learning/learning-feedback-analyzer": {
+      "name": "learning-feedback-analyzer",
+      "description": "Analyzes learner feedback and performance data for iterative improvement.",
+      "metadataSource": "SKILL.md"
+    },
+    "learning/learning-objective-designer": {
+      "name": "learning-objective-designer",
+      "description": "Designs measurable learning objectives aligned with learner outcomes.",
+      "metadataSource": "SKILL.md"
+    },
+    "learning/learning-orchestrator": {
+      "name": "learning-orchestrator",
+      "description": "Orchestrates learning design from measurable objectives to feedback-driven iteration.",
+      "metadataSource": "SKILL.md"
+    },
+    "learning/learning-rubric-designer": {
+      "name": "learning-rubric-designer",
+      "description": "Creates analytic rubrics with clear performance level descriptors.",
+      "metadataSource": "SKILL.md"
+    },
+    "sales": {
+      "name": "Strategic Sales Enablement",
+      "description": "Skills for account strategy, discovery quality, and proposal acceleration.",
+      "icon": "💼",
+      "isGroup": true,
+      "skillCount": 7
+    },
+    "sales/sales-account-research": {
+      "name": "sales-account-research",
+      "description": "Builds account intelligence briefs including priorities, risks, and timing.",
+      "metadataSource": "SKILL.md"
+    },
+    "sales/sales-discovery-questioning": {
+      "name": "sales-discovery-questioning",
+      "description": "Generates discovery question sets tailored to account context and stage.",
+      "metadataSource": "SKILL.md"
+    },
+    "sales/sales-objection-handling": {
+      "name": "sales-objection-handling",
+      "description": "Prepares objection-handling playbooks with evidence-backed responses.",
+      "metadataSource": "SKILL.md"
+    },
+    "sales/sales-orchestrator": {
+      "name": "sales-orchestrator",
+      "description": "Orchestrates strategic sales workflows from account intelligence to proposal output.",
+      "metadataSource": "SKILL.md"
+    },
+    "sales/sales-proposal-builder": {
+      "name": "sales-proposal-builder",
+      "description": "Builds structured proposal outlines aligned to stakeholder priorities.",
+      "metadataSource": "SKILL.md"
+    },
+    "sales/sales-stakeholder-mapping": {
+      "name": "sales-stakeholder-mapping",
+      "description": "Maps buying committee stakeholders, influence, and decision criteria.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist": {
+      "name": "Scientist",
+      "description": "Skills for scientists. Comprehensive collection of skills needed for research activities including academic writing, scientific methods, experimental design, data analysis, and academic presentations.",
+      "icon": "🔬",
+      "isGroup": true,
+      "skillCount": 196
+    },
+    "scientist/scientific-academic-writing": {
+      "name": "scientific-academic-writing",
+      "description": "Academic paper writing skill. Supports IMRaD standard, Nature/Science, ACS, IEEE, and Elsevier journal formats with section design, writing patterns, and citation management.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-active-learning": {
+      "name": "scientific-active-learning",
+      "description": "Active learning skill. Uncertainty sampling, Query-by-Committee, expected model change, pool-based/stream-based, batch active learning, GP-based active learning with ARD-RBF kernel, dimension-adaptive convergence, stopping criteria, and model improvement pipeline.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-adaptive-experiments": {
+      "name": "scientific-adaptive-experiments",
+      "description": "Adaptive experiment design skill. Sequential experiment optimization, Bayesian optimization, multi-armed bandit, response-adaptive randomization, and interim analysis for efficient experimental workflows.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-admet-pharmacokinetics": {
+      "name": "scientific-admet-pharmacokinetics",
+      "description": "ADMET and pharmacokinetics prediction skill. Absorption, Distribution, Metabolism, Excretion, Toxicity modeling with RDKit, DeepChem, and PK/PD simulation pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-advanced-imaging": {
+      "name": "scientific-advanced-imaging",
+      "description": "Advanced imaging analysis skill. Microscopy image processing, segmentation, super-resolution, 3D reconstruction, fluorescence quantification, and multi-channel analysis pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-advanced-visualization": {
+      "name": "scientific-advanced-visualization",
+      "description": "Advanced scientific visualization skill. Multi-panel figures, 3D plots, interactive dashboards, heatmaps, volcano plots, Manhattan plots, and publication-quality figure generation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-alphafold-structures": {
+      "name": "scientific-alphafold-structures",
+      "description": "AlphaFold structure prediction skill. Protein structure retrieval from AlphaFold DB, pLDDT confidence scoring, structural alignment, and downstream structural analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-anomaly-detection": {
+      "name": "scientific-anomaly-detection",
+      "description": "Anomaly detection skill. Isolation Forest, LOF, One-Class SVM, autoencoders, statistical control charts, time-series anomaly detection, and multivariate outlier analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-arrayexpress-expression": {
+      "name": "scientific-arrayexpress-expression",
+      "description": "ArrayExpress gene expression skill. Microarray and RNA-seq data retrieval from ArrayExpress/BioStudies, normalization, differential expression, and cross-study comparison.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-audit-report": {
+      "name": "scientific-audit-report",
+      "description": "Research audit report skill. Systematic quality assessment of experimental designs, statistical analyses, reproducibility, and reporting standards compliance.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-automl": {
+      "name": "scientific-automl",
+      "description": "AutoML pipeline skill. Optuna hyperparameter optimization, FLAML fast AutoML, Auto-sklearn model selection, NAS, automated feature engineering, and model comparison pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-bayesian-statistics": {
+      "name": "scientific-bayesian-statistics",
+      "description": "Bayesian statistics skill. PyMC/Stan/ArviZ-based Bayesian regression, hierarchical models, MCMC sampling, Bayesian optimization, posterior predictive checks, and model comparison.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-biobank-cohort": {
+      "name": "scientific-biobank-cohort",
+      "description": "Biobank cohort analysis skill. UK Biobank, All of Us, and large-scale cohort data integration, phenotype extraction, population stratification, and epidemiological analysis pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-bioinformatics": {
+      "name": "scientific-bioinformatics",
+      "description": "Bioinformatics workflow skill. Sequence alignment, variant calling, genome assembly, annotation, phylogenetic analysis, and multi-omics data integration pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-biomedical-pubtator": {
+      "name": "scientific-biomedical-pubtator",
+      "description": "PubTator biomedical text mining skill. Named entity recognition for genes, diseases, chemicals, mutations, and species from PubMed literature using PubTator3 API.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-biosignal-processing": {
+      "name": "scientific-biosignal-processing",
+      "description": "Biosignal processing skill. EEG, ECG, EMG signal processing with filtering, spectral analysis, wavelet transforms, and time-frequency analysis pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-biothings-idmapping": {
+      "name": "scientific-biothings-idmapping",
+      "description": "BioThings ID mapping skill. Gene/variant/chemical/disease identifier conversion using MyGene.info, MyVariant.info, and MyChem.info APIs.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-cancer-genomics": {
+      "name": "scientific-cancer-genomics",
+      "description": "Cancer genomics skill. Somatic mutation analysis, copy number variation, tumor mutational burden, microsatellite instability, driver gene identification, and oncological pathway analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-causal-inference": {
+      "name": "scientific-causal-inference",
+      "description": "Causal inference skill. DoWhy/EconML-based causal analysis, propensity score matching, instrumental variables, difference-in-differences, regression discontinuity, and DAG-based causal reasoning.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-causal-ml": {
+      "name": "scientific-causal-ml",
+      "description": "Causal machine learning skill. Heterogeneous treatment effects, CATE estimation, causal forests, meta-learners (S/T/X), uplift modeling, and policy optimization.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-cell-line-resources": {
+      "name": "scientific-cell-line-resources",
+      "description": "Cell line resource skill. Cellosaurus, ATCC, DepMap cell line data retrieval, cell line authentication, STR profiling, and cross-reference between cell line databases.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-cellxgene-census": {
+      "name": "scientific-cellxgene-census",
+      "description": "CellxGene Census skill. Single-cell RNA-seq data retrieval from CZ CELLxGENE, cell type annotation, cross-dataset comparison, and gene expression atlas queries.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-chembl-assay-mining": {
+      "name": "scientific-chembl-assay-mining",
+      "description": "ChEMBL assay mining skill. Bioactivity data retrieval, target-compound mapping, SAR analysis, assay type classification, and compound potency comparison from ChEMBL database.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-cheminformatics": {
+      "name": "scientific-cheminformatics",
+      "description": "Cheminformatics skill. RDKit molecular property calculation, SMILES/InChI handling, molecular fingerprints, substructure search, chemical similarity, and ADMET prediction.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-citation-checker": {
+      "name": "scientific-citation-checker",
+      "description": "Citation checking skill. Reference validation, DOI verification, retraction detection, citation consistency checking, and bibliography formatting compliance.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-civic-evidence": {
+      "name": "scientific-civic-evidence",
+      "description": "CIViC clinical interpretation skill. Clinical Interpretations of Variants in Cancer (CIViC) database queries, evidence level assessment, and clinical actionability evaluation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-clingen-curation": {
+      "name": "scientific-clingen-curation",
+      "description": "ClinGen curation skill. Gene-disease validity classification, variant pathogenicity assessment, dosage sensitivity, and clinical actionability curation using ClinGen resources.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-clinical-decision-support": {
+      "name": "scientific-clinical-decision-support",
+      "description": "Clinical decision support skill. Evidence-based clinical guidelines, risk scoring models, diagnostic algorithms, treatment pathway selection, and clinical prediction rules.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-clinical-nlp": {
+      "name": "scientific-clinical-nlp",
+      "description": "Clinical NLP skill. MedSpaCy/cTAKES/scispaCy-based clinical text NER, section detection, negation detection, ICD-10/SNOMED-CT entity linking, and de-identification pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-clinical-pharmacology": {
+      "name": "scientific-clinical-pharmacology",
+      "description": "Clinical pharmacology skill. Dose-response modeling, PK/PD simulation, drug interaction prediction, therapeutic drug monitoring, and population pharmacokinetics.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-clinical-reporting": {
+      "name": "scientific-clinical-reporting",
+      "description": "Clinical reporting skill. Structured clinical study reports, CONSORT/STROBE compliance, patient demographics tables, efficacy/safety summaries, and regulatory submission formatting.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-clinical-standards": {
+      "name": "scientific-clinical-standards",
+      "description": "Clinical standards skill. CDISC SDTM/ADaM data standards, HL7 FHIR resource mapping, LOINC/SNOMED coding, and regulatory data submission format compliance.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-clinical-trials-analytics": {
+      "name": "scientific-clinical-trials-analytics",
+      "description": "Clinical trials analytics skill. Trial design comparison, enrollment simulation, interim analysis, survival analysis, and adverse event signal detection from ClinicalTrials.gov data.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-compound-screening": {
+      "name": "scientific-compound-screening",
+      "description": "Compound screening skill. High-throughput screening data analysis, hit identification, dose-response curve fitting, Z-factor calculation, and compound library management.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-computational-materials": {
+      "name": "scientific-computational-materials",
+      "description": "Computational materials science skill. DFT calculations, molecular dynamics for materials, crystal structure prediction, band structure analysis, and materials property prediction.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-crispr-design": {
+      "name": "scientific-crispr-design",
+      "description": "CRISPR design skill. Guide RNA design, off-target analysis, CRISPR screen analysis, gene knockout/knock-in design, and editing efficiency prediction.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-critical-review": {
+      "name": "scientific-critical-review",
+      "description": "Critical review skill. Systematic assessment of research quality, experimental rigor evaluation, statistical claim verification, and comprehensive peer review analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-crossref-metadata": {
+      "name": "scientific-crossref-metadata",
+      "description": "Crossref metadata skill. Scholarly publication metadata retrieval, citation count tracking, DOI resolution, funder information extraction, and bibliometric analysis via Crossref API.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-data-preprocessing": {
+      "name": "scientific-data-preprocessing",
+      "description": "Data preprocessing skill. Missing value imputation, outlier detection, normalization, feature scaling, encoding, and data cleaning pipelines for scientific datasets.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-data-profiling": {
+      "name": "scientific-data-profiling",
+      "description": "Data profiling skill. Automated dataset characterization, distribution analysis, data quality metrics, schema inference, and statistical summary generation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-data-simulation": {
+      "name": "scientific-data-simulation",
+      "description": "Data simulation skill. Synthetic data generation, Monte Carlo simulation, bootstrap resampling, parametric/non-parametric simulation, and power analysis via simulation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-data-submission": {
+      "name": "scientific-data-submission",
+      "description": "Data submission skill. GEO/SRA/ENA/DDBJ data deposition, metadata preparation, compliance with FAIR principles, and repository-specific format conversion.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-deep-chemistry": {
+      "name": "scientific-deep-chemistry",
+      "description": "Deep chemistry skill. Graph neural networks for molecular property prediction, molecular generation with VAE/GAN, reaction prediction, and retrosynthesis planning.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-deep-learning": {
+      "name": "scientific-deep-learning",
+      "description": "Deep learning skill. PyTorch/TensorFlow model building, CNN/RNN/Transformer architectures, training optimization, GPU acceleration, and deep learning experiment management.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-deep-research": {
+      "name": "scientific-deep-research",
+      "description": "Deep research skill. Iterative literature research following the SHIKIGAMI WebResearcher paradigm (Think→Report→Action cycle) with academic database search, evidence hierarchy assessment, source tracking, and hallucination prevention.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-depmap-dependencies": {
+      "name": "scientific-depmap-dependencies",
+      "description": "DepMap dependency skill. Cancer cell line dependency data from DepMap/CRISPR screens, gene essentiality scoring, and functional genomics analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-disease-research": {
+      "name": "scientific-disease-research",
+      "description": "Disease research skill. Disease ontology queries, phenotype-genotype associations, clinical feature extraction, and disease mechanism pathway analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-doe": {
+      "name": "scientific-doe",
+      "description": "Design of Experiments (DOE) skill. Factorial design, response surface methodology, Latin hypercube sampling with auto-sized pool generation, Taguchi methods, ARD-RBF Bayesian optimization, and optimal experimental design generation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-drug-repurposing": {
+      "name": "scientific-drug-repurposing",
+      "description": "Drug repurposing skill. Computational drug repositioning, network-based prediction, molecular similarity-based repurposing, and clinical trial evidence mining for new indications.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-drug-target-profiling": {
+      "name": "scientific-drug-target-profiling",
+      "description": "Drug-target profiling skill. Target identification, binding affinity prediction, selectivity profiling, polypharmacology analysis, and target deconvolution pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-drugbank-resources": {
+      "name": "scientific-drugbank-resources",
+      "description": "DrugBank resource skill. Drug information retrieval, drug-target interactions, drug-drug interactions, pharmacological classifications, and clinical indication mapping.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-ebi-databases": {
+      "name": "scientific-ebi-databases",
+      "description": "EBI databases skill. EMBL-EBI resource integration including UniProt, PDB, ChEMBL, Ensembl, InterPro, and cross-database querying strategies.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-eda-correlation": {
+      "name": "scientific-eda-correlation",
+      "description": "EDA and correlation analysis skill. Exploratory data analysis, correlation matrices, distribution visualization, multivariate analysis, and automated EDA report generation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-encode-screen": {
+      "name": "scientific-encode-screen",
+      "description": "ENCODE screen skill. ENCODE project data access, regulatory element annotation, epigenomic data analysis, and functional genomics screen result interpretation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-ensembl-genomics": {
+      "name": "scientific-ensembl-genomics",
+      "description": "Ensembl genomics skill. Genome browser API queries, gene annotation retrieval, variant effect prediction, comparative genomics, and regulatory feature mapping via Ensembl REST API.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-ensemble-methods": {
+      "name": "scientific-ensemble-methods",
+      "description": "Ensemble methods skill. Random forests, gradient boosting (XGBoost/LightGBM/CatBoost), stacking, blending, voting classifiers, and ensemble model interpretation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-environmental-ecology": {
+      "name": "scientific-environmental-ecology",
+      "description": "Environmental ecology skill. Biodiversity analysis, species distribution modeling, ecological niche analysis, community ecology metrics, and conservation assessment pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-environmental-geodata": {
+      "name": "scientific-environmental-geodata",
+      "description": "Environmental geodata skill. Satellite imagery analysis, remote sensing data processing, climate data integration, land use classification, and environmental monitoring.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-epidemiology-public-health": {
+      "name": "scientific-epidemiology-public-health",
+      "description": "Epidemiology and public health skill. Disease surveillance, outbreak analysis, incidence/prevalence estimation, risk factor analysis, and population health metrics.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-epigenomics-chromatin": {
+      "name": "scientific-epigenomics-chromatin",
+      "description": "Epigenomics and chromatin skill. ChIP-seq/ATAC-seq analysis, histone modification mapping, chromatin accessibility, DNA methylation analysis, and epigenetic regulatory networks.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-experiment-fork": {
+      "name": "scientific-experiment-fork",
+      "description": "Experiment forking skill. A/B test branching, experiment versioning, parameter variation management, and parallel experimental workflow orchestration.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-experiment-template": {
+      "name": "scientific-experiment-template",
+      "description": "Experiment template skill. Standardized experimental protocol generation, reproducible experiment setup, parameter configuration templates, and lab notebook formatting.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-explainable-ai": {
+      "name": "scientific-explainable-ai",
+      "description": "Explainable AI skill. SHAP values, LIME explanations, feature importance, partial dependence plots, model-agnostic interpretability, and explanation report generation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-expression-comparison": {
+      "name": "scientific-expression-comparison",
+      "description": "Gene expression comparison skill. Differential expression analysis (DESeq2/edgeR/limma), multi-condition comparison, volcano plots, and enrichment analysis pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-feature-importance": {
+      "name": "scientific-feature-importance",
+      "description": "Feature importance skill. Permutation importance, SHAP-based feature ranking, mutual information, recursive feature elimination, and feature selection pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-federated-learning": {
+      "name": "scientific-federated-learning",
+      "description": "Federated learning skill. Privacy-preserving distributed model training, federated averaging, differential privacy, secure aggregation, and cross-silo federation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-gdc-portal": {
+      "name": "scientific-gdc-portal",
+      "description": "GDC Portal skill. Genomic Data Commons cancer data retrieval, mutation frequency analysis, clinical-genomic correlation, and multi-project data integration.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-gene-expression-transcriptomics": {
+      "name": "scientific-gene-expression-transcriptomics",
+      "description": "Gene expression and transcriptomics skill. RNA-seq analysis pipeline, gene quantification, isoform analysis, co-expression networks, and transcriptome-wide association.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-genome-sequence-tools": {
+      "name": "scientific-genome-sequence-tools",
+      "description": "Genome sequence tools skill. BLAST searches, multiple sequence alignment, genome annotation, primer design, and sequence manipulation utilities.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-geo-expression": {
+      "name": "scientific-geo-expression",
+      "description": "GEO expression skill. Gene Expression Omnibus data retrieval, microarray/RNA-seq dataset processing, GEO2R analysis, and cross-platform data normalization.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-geospatial-analysis": {
+      "name": "scientific-geospatial-analysis",
+      "description": "Geospatial analysis skill. Spatial data processing with GeoPandas, coordinate transformations, spatial statistics, map visualization, and geospatial machine learning.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-glycomics": {
+      "name": "scientific-glycomics",
+      "description": "Glycomics skill. Glycan structure analysis, glycosylation site prediction, glycoproteomics data processing, and carbohydrate database queries.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-gnomad-variants": {
+      "name": "scientific-gnomad-variants",
+      "description": "gnomAD variant skill. Population allele frequency queries, variant filtering, loss-of-function constraint metrics, and clinical variant annotation from gnomAD database.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-gpu-singlecell": {
+      "name": "scientific-gpu-singlecell",
+      "description": "GPU-accelerated single-cell skill. RAPIDS/cuML-based single-cell analysis, GPU-accelerated dimensionality reduction, clustering, and differential expression on large datasets.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-grant-writing": {
+      "name": "scientific-grant-writing",
+      "description": "Grant writing skill. Research proposal drafting, specific aims composition, budget justification, significance/innovation statements, and funding agency format compliance.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-graph-neural-networks": {
+      "name": "scientific-graph-neural-networks",
+      "description": "Graph neural networks skill. GNN architectures (GCN/GAT/GraphSAGE), molecular graph learning, knowledge graph embeddings, and graph-level prediction tasks.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-gtex-tissue-expression": {
+      "name": "scientific-gtex-tissue-expression",
+      "description": "GTEx tissue expression skill. Tissue-specific gene expression queries from GTEx portal, eQTL analysis, cross-tissue comparison, and gene expression variation analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-gwas-catalog": {
+      "name": "scientific-gwas-catalog",
+      "description": "GWAS Catalog skill. Genome-wide association study result queries, trait-variant associations, LD analysis, and polygenic risk score construction from GWAS Catalog data.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-healthcare-ai": {
+      "name": "scientific-healthcare-ai",
+      "description": "Healthcare AI skill. Clinical prediction models, patient risk stratification, medical image classification, electronic health record analysis, and clinical decision support ML.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-hgnc-nomenclature": {
+      "name": "scientific-hgnc-nomenclature",
+      "description": "HGNC nomenclature skill. Official gene symbol resolution, gene name standardization, symbol history tracking, and gene family classification via HGNC database.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-human-cell-atlas": {
+      "name": "scientific-human-cell-atlas",
+      "description": "Human Cell Atlas skill. HCA data portal queries, cell type reference mapping, organ-specific cell atlases, and single-cell study integration across the Human Cell Atlas project.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-human-protein-atlas": {
+      "name": "scientific-human-protein-atlas",
+      "description": "Human Protein Atlas skill. Protein expression data retrieval, tissue/cell/pathology atlas queries, subcellular localization, and protein classification from HPA database.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-hypothesis-pipeline": {
+      "name": "scientific-hypothesis-pipeline",
+      "description": "Hypothesis pipeline skill. Structured hypothesis generation, testable prediction formulation, experimental design derivation, and hypothesis-driven research workflow orchestration.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-icgc-cancer-data": {
+      "name": "scientific-icgc-cancer-data",
+      "description": "ICGC cancer data skill. International Cancer Genome Consortium data retrieval, pan-cancer mutation analysis, driver mutation identification, and multi-project comparison.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-image-analysis": {
+      "name": "scientific-image-analysis",
+      "description": "Image analysis skill. Scientific image processing, segmentation, morphological analysis, particle detection, colocalization analysis, and quantitative microscopy pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-immunoinformatics": {
+      "name": "scientific-immunoinformatics",
+      "description": "Immunoinformatics skill. Epitope prediction, MHC binding analysis, TCR/BCR repertoire analysis, immune cell deconvolution, and vaccine design support.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-infectious-disease": {
+      "name": "scientific-infectious-disease",
+      "description": "Infectious disease skill. Pathogen genomics, antimicrobial resistance prediction, epidemiological modeling, phylogenetic tracking, and outbreak analysis pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-interactive-dashboard": {
+      "name": "scientific-interactive-dashboard",
+      "description": "Interactive dashboard skill. Streamlit/Plotly Dash scientific dashboard creation, real-time data visualization, parameter exploration interfaces, and research result presentation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-lab-automation": {
+      "name": "scientific-lab-automation",
+      "description": "Lab automation skill. Laboratory workflow automation, instrument control scripting, sample tracking, experimental protocol automation, and LIMS integration.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-lab-data-management": {
+      "name": "scientific-lab-data-management",
+      "description": "Lab data management skill. Research data organization, metadata management, electronic lab notebook integration, data versioning, and FAIR data compliance.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-latex-export": {
+      "name": "scientific-latex-export",
+      "description": "LaTeX export skill. Markdown-to-LaTeX conversion, journal-specific LaTeX template generation, bibliography management, and publication-ready PDF compilation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-latex-formatter": {
+      "name": "scientific-latex-formatter",
+      "description": "LaTeX formatter skill. LaTeX document formatting, equation typesetting, table formatting, figure placement optimization, and style file customization.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-lipidomics": {
+      "name": "scientific-lipidomics",
+      "description": "Lipidomics skill. Lipid species identification, quantification, lipid class profiling, lipidome-wide association, and lipidomics pathway analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-literature-search": {
+      "name": "scientific-literature-search",
+      "description": "Literature search skill. PubMed/Scopus/Web of Science search strategy design, systematic search query construction, citation screening, and reference manager integration.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-marine-ecology": {
+      "name": "scientific-marine-ecology",
+      "description": "Marine ecology skill. Ocean biodiversity analysis, marine species distribution modeling, fisheries data analysis, coral reef assessment, and marine environmental monitoring.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-materials-characterization": {
+      "name": "scientific-materials-characterization",
+      "description": "Materials characterization skill. XRD pattern analysis, SEM/TEM image processing, spectroscopy data analysis (XPS/FTIR/Raman), and materials property database queries.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-md-simulation": {
+      "name": "scientific-md-simulation",
+      "description": "Molecular dynamics simulation skill. GROMACS/OpenMM simulation setup, force field selection, trajectory analysis, free energy calculations, and enhanced sampling methods.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-medical-imaging": {
+      "name": "scientific-medical-imaging",
+      "description": "Medical imaging skill. DICOM processing, image segmentation (U-Net), classification, registration, radiomics feature extraction, and clinical imaging pipeline development.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-meta-analysis": {
+      "name": "scientific-meta-analysis",
+      "description": "Meta-analysis skill. Effect size calculation, random/fixed effects models, heterogeneity assessment (I², Q-test), forest plots, funnel plots, and publication bias analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-metabolic-atlas": {
+      "name": "scientific-metabolic-atlas",
+      "description": "Metabolic atlas skill. Genome-scale metabolic model queries, metabolic pathway visualization, flux balance analysis results, and cross-species metabolic comparison.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-metabolic-flux": {
+      "name": "scientific-metabolic-flux",
+      "description": "Metabolic flux analysis skill. ¹³C metabolic flux analysis, flux balance analysis, flux variability analysis, and metabolic network constraint-based modeling.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-metabolic-modeling": {
+      "name": "scientific-metabolic-modeling",
+      "description": "Metabolic modeling skill. Constraint-based metabolic modeling (COBRApy), genome-scale model construction, gene knockout simulation, and metabolic engineering predictions.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-metabolomics": {
+      "name": "scientific-metabolomics",
+      "description": "Metabolomics skill. LC-MS/GC-MS data processing, metabolite identification, pathway mapping, biomarker discovery, and metabolomics statistical analysis pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-metabolomics-databases": {
+      "name": "scientific-metabolomics-databases",
+      "description": "Metabolomics databases skill. HMDB/METLIN/MassBank database queries, metabolite annotation, spectral library matching, and cross-database metabolite identification.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-metabolomics-network": {
+      "name": "scientific-metabolomics-network",
+      "description": "Metabolomics network skill. Metabolite correlation networks, pathway-level network analysis, metabolite-gene interaction mapping, and multi-omics network integration.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-metagenome-assembled-genomes": {
+      "name": "scientific-metagenome-assembled-genomes",
+      "description": "Metagenome-assembled genomes (MAG) skill. Metagenomic binning, genome quality assessment (CheckM), taxonomic classification, and functional annotation of MAGs.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-microbiome-metagenomics": {
+      "name": "scientific-microbiome-metagenomics",
+      "description": "Microbiome and metagenomics skill. 16S rRNA analysis, shotgun metagenomics, diversity metrics, taxonomic profiling, functional metagenomics, and microbiome association studies.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-missing-data-analysis": {
+      "name": "scientific-missing-data-analysis",
+      "description": "Missing data analysis skill. Missing data pattern detection, MCAR/MAR/MNAR classification, multiple imputation (MICE), sensitivity analysis, and missing data reporting.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-ml-classification": {
+      "name": "scientific-ml-classification",
+      "description": "ML classification skill. Binary/multi-class classification, model selection, hyperparameter tuning, cross-validation, metrics evaluation, and classification pipeline orchestration.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-ml-regression": {
+      "name": "scientific-ml-regression",
+      "description": "ML regression skill. Linear/nonlinear regression, regularization (L1/L2/ElasticNet), polynomial features, cross-validation, and regression diagnostics pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-model-monitoring": {
+      "name": "scientific-model-monitoring",
+      "description": "Model monitoring skill. ML model performance tracking, data drift detection, prediction quality monitoring, model degradation alerts, and A/B test monitoring.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-model-organism-db": {
+      "name": "scientific-model-organism-db",
+      "description": "Model organism database skill. FlyBase/WormBase/SGD/ZFIN/MGI queries, ortholog mapping, phenotype data retrieval, and cross-species gene function comparison.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-molecular-docking": {
+      "name": "scientific-molecular-docking",
+      "description": "Molecular docking skill. AutoDock Vina/SMINA docking simulations, binding pose prediction, scoring function evaluation, virtual screening, and protein-ligand interaction analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-monarch-ontology": {
+      "name": "scientific-monarch-ontology",
+      "description": "Monarch ontology skill. Monarch Initiative queries for disease-gene associations, phenotype ontology navigation, cross-species phenotype comparison, and knowledge graph exploration.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-multi-omics": {
+      "name": "scientific-multi-omics",
+      "description": "Multi-omics integration skill. Genomics/transcriptomics/proteomics/metabolomics data integration, multi-omics factor analysis (MOFA), pathway-level integration, and cross-omics correlation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-multi-task-learning": {
+      "name": "scientific-multi-task-learning",
+      "description": "Multi-task learning skill. Shared representation learning, task-specific heads, gradient balancing, auxiliary task selection, and multi-task model evaluation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-nci60-screening": {
+      "name": "scientific-nci60-screening",
+      "description": "NCI-60 screening skill. NCI-60 cancer cell line panel data analysis, drug sensitivity profiling, COMPARE algorithm, and multi-drug response comparison.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-network-analysis": {
+      "name": "scientific-network-analysis",
+      "description": "Network analysis skill. NetworkX graph construction, centrality analysis, community detection, network visualization, PPI networks, and correlation network building.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-network-visualization": {
+      "name": "scientific-network-visualization",
+      "description": "Network visualization skill. Interactive network plots (Cytoscape.js/D3/NetworkX), layout algorithms, edge bundling, node clustering visualization, and publication-quality network figures.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-neural-architecture-search": {
+      "name": "scientific-neural-architecture-search",
+      "description": "Neural architecture search (NAS) skill. Architecture space definition, search strategy implementation, performance estimation, and efficient NAS methods (DARTS/ENAS).",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-neuroscience-electrophysiology": {
+      "name": "scientific-neuroscience-electrophysiology",
+      "description": "Neuroscience electrophysiology skill. Spike sorting, LFP analysis, neural oscillation characterization, connectivity analysis, and electrophysiology data preprocessing.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-noncoding-rna": {
+      "name": "scientific-noncoding-rna",
+      "description": "Non-coding RNA skill. miRNA target prediction, lncRNA functional annotation, ncRNA expression analysis, small RNA-seq processing, and RNA secondary structure prediction.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-ontology-enrichment": {
+      "name": "scientific-ontology-enrichment",
+      "description": "Ontology enrichment skill. GO enrichment analysis, KEGG pathway enrichment, disease ontology enrichment, multiple testing correction, and enrichment visualization.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-opentargets-genetics": {
+      "name": "scientific-opentargets-genetics",
+      "description": "Open Targets Genetics skill. GWAS trait-gene associations, L2G scoring, colocation analysis, and variant-to-gene mapping from Open Targets Genetics portal.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-paleobiology": {
+      "name": "scientific-paleobiology",
+      "description": "Paleobiology skill. Fossil record analysis, paleobiodiversity estimation, extinction rate calculation, stratigraphic data processing, and macroevolutionary pattern analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-paper-quality": {
+      "name": "scientific-paper-quality",
+      "description": "Paper quality assessment skill. Manuscript quality scoring, structural completeness checking, statistical reporting assessment, and writing clarity evaluation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-parasite-genomics": {
+      "name": "scientific-parasite-genomics",
+      "description": "Parasite genomics skill. Parasite genome analysis, drug resistance marker identification, population genetics of parasites, and host-parasite interaction genomics.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-pathway-enrichment": {
+      "name": "scientific-pathway-enrichment",
+      "description": "Pathway enrichment skill. GSEA, ORA, KEGG/Reactome/WikiPathways enrichment, gene set analysis, leading-edge analysis, and pathway crosstalk identification.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-pca-tsne": {
+      "name": "scientific-pca-tsne",
+      "description": "Dimensionality reduction skill. PCA, t-SNE, UMAP, MDS implementations with visualization, parameter tuning, and biological interpretation of reduced dimensions.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-peer-review": {
+      "name": "scientific-peer-review",
+      "description": "Peer review skill. Structured peer review generation following journal guidelines, constructive critique formulation, statistical audit, and review scoring.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-peer-review-response": {
+      "name": "scientific-peer-review-response",
+      "description": "Peer review response skill. Point-by-point response to reviewer comments, revision tracking, rebuttal letter drafting, and manuscript revision management.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-perturbation-analysis": {
+      "name": "scientific-perturbation-analysis",
+      "description": "Perturbation analysis skill. CRISPR screen analysis, drug perturbation response, perturbation signature comparison, and connectivity map (CMap) analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-pharmacogenomics": {
+      "name": "scientific-pharmacogenomics",
+      "description": "Pharmacogenomics skill. Genotype-drug response associations, pharmacogenomic variant annotation, dosing guideline integration, and PGx biomarker analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-pharmacology-targets": {
+      "name": "scientific-pharmacology-targets",
+      "description": "Pharmacology targets skill. Target validation, druggability assessment, target prioritization scoring, and pharmacological target-disease mapping.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-pharmacovigilance": {
+      "name": "scientific-pharmacovigilance",
+      "description": "Pharmacovigilance skill. Adverse event signal detection, FAERS/VAERS data analysis, disproportionality analysis, and drug safety signal evaluation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-pharmgkb-pgx": {
+      "name": "scientific-pharmgkb-pgx",
+      "description": "PharmGKB pharmacogenomics skill. PharmGKB clinical annotation queries, drug-gene interaction lookup, dosing guideline retrieval, and pharmacogenomic pathway analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-pharos-targets": {
+      "name": "scientific-pharos-targets",
+      "description": "Pharos targets skill. Target Development Level (TDL) classification, understudied protein identification, Illuminating the Druggable Genome (IDG) resource queries.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-phylogenetics": {
+      "name": "scientific-phylogenetics",
+      "description": "Phylogenetics skill. Phylogenetic tree construction (ML/Bayesian), multiple sequence alignment, divergence time estimation, and evolutionary analysis pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-pipeline-scaffold": {
+      "name": "scientific-pipeline-scaffold",
+      "description": "Pipeline scaffold skill. Bioinformatics pipeline scaffolding with Snakemake/Nextflow, workflow configuration, reproducible analysis environment setup.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-plant-biology": {
+      "name": "scientific-plant-biology",
+      "description": "Plant biology skill. Plant genomics, transcriptomics, phenomics data analysis, crop improvement, and plant-specific database queries (TAIR, Phytozome).",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-population-genetics": {
+      "name": "scientific-population-genetics",
+      "description": "Population genetics skill. Allele frequency analysis, Hardy-Weinberg testing, Fst/neutrality statistics, population structure (ADMIXTURE/PCA), and demographic inference.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-precision-oncology": {
+      "name": "scientific-precision-oncology",
+      "description": "Precision oncology skill. Tumor molecular profiling, actionable mutation identification, treatment matching, clinical trial matching, and molecular tumor board support.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-preprint-archive": {
+      "name": "scientific-preprint-archive",
+      "description": "Preprint archive skill. bioRxiv/medRxiv/arXiv search, preprint tracking, citation monitoring, and preprint-to-publication linking.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-presentation-design": {
+      "name": "scientific-presentation-design",
+      "description": "Presentation design skill. Scientific slide design, figure layout optimization, conference poster creation, and data visualization for oral presentations.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-process-optimization": {
+      "name": "scientific-process-optimization",
+      "description": "Process optimization skill. Industrial process optimization, response surface methodology, constraint optimization, and process parameter tuning pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-protein-design": {
+      "name": "scientific-protein-design",
+      "description": "Protein design skill. De novo protein design, directed evolution simulation, stability prediction, and protein engineering workflow support.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-protein-domain-family": {
+      "name": "scientific-protein-domain-family",
+      "description": "Protein domain and family skill. InterPro/Pfam domain annotation, protein family classification, domain architecture analysis, and functional domain prediction.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-protein-interaction-network": {
+      "name": "scientific-protein-interaction-network",
+      "description": "Protein interaction network skill. STRING/BioGRID PPI data integration, interaction confidence scoring, network topology analysis, and protein complex identification.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-protein-structure-analysis": {
+      "name": "scientific-protein-structure-analysis",
+      "description": "Protein structure analysis skill. PDB structure retrieval, structural alignment (TM-align), binding site analysis, and structure-function relationship exploration.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-proteomics-mass-spectrometry": {
+      "name": "scientific-proteomics-mass-spectrometry",
+      "description": "Proteomics and mass spectrometry skill. MS data processing, peptide identification, protein quantification (LFQ/TMT/iTRAQ), and proteomics statistical analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-public-health-data": {
+      "name": "scientific-public-health-data",
+      "description": "Public health data skill. WHO/CDC/national health data retrieval, health indicator analysis, demographic health survey processing, and public health metric calculation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-publication-figures": {
+      "name": "scientific-publication-figures",
+      "description": "Publication figures skill. Journal-specification figure generation, multi-panel layout, color-blind safe palettes, resolution/DPI compliance, and figure annotation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-quantum-computing": {
+      "name": "scientific-quantum-computing",
+      "description": "Quantum computing skill. Qiskit/Cirq quantum circuit design, VQE/QAOA algorithms, quantum chemistry simulation, and quantum machine learning experiments.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-radiology-ai": {
+      "name": "scientific-radiology-ai",
+      "description": "Radiology AI skill. Medical image classification, detection, and segmentation for radiology, DICOM handling, radiomics, and clinical AI model evaluation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-rare-disease-genetics": {
+      "name": "scientific-rare-disease-genetics",
+      "description": "Rare disease genetics skill. Rare variant prioritization, exome/genome sequencing analysis, phenotype-driven gene ranking, and diagnostic yield optimization.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-rcsb-pdb-search": {
+      "name": "scientific-rcsb-pdb-search",
+      "description": "RCSB PDB search skill. Protein Data Bank structure search, advanced query construction, structure clustering, and PDB data retrieval/parsing.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-reactome-pathways": {
+      "name": "scientific-reactome-pathways",
+      "description": "Reactome pathways skill. Reactome pathway queries, pathway hierarchy navigation, pathway enrichment analysis, and pathway diagram generation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-regulatory-genomics": {
+      "name": "scientific-regulatory-genomics",
+      "description": "Regulatory genomics skill. Enhancer/promoter annotation, transcription factor binding, regulatory variant analysis, and chromatin state classification.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-regulatory-science": {
+      "name": "scientific-regulatory-science",
+      "description": "Regulatory science skill. FDA/EMA regulatory guidance, clinical trial regulation, drug approval pathway analysis, and regulatory document preparation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-reinforcement-learning": {
+      "name": "scientific-reinforcement-learning",
+      "description": "Reinforcement learning skill. Policy gradient methods, Q-learning, actor-critic architectures, environment design, reward shaping, and RL experiment management.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-reproducible-reporting": {
+      "name": "scientific-reproducible-reporting",
+      "description": "Reproducible reporting skill. Jupyter/Quarto/R Markdown report automation, computational reproducibility, environment snapshot, and version-controlled analysis reports.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-research-methodology": {
+      "name": "scientific-research-methodology",
+      "description": "Research methodology skill. Study design planning, sampling strategy selection, measurement validity/reliability assessment, and methodological quality framework.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-revision-tracker": {
+      "name": "scientific-revision-tracker",
+      "description": "Revision tracker skill. Manuscript revision tracking, diff generation between drafts, change log maintenance, and reviewer comment integration management.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-rrna-taxonomy": {
+      "name": "scientific-rrna-taxonomy",
+      "description": "rRNA taxonomy skill. 16S/18S/ITS rRNA-based taxonomic classification, OTU/ASV analysis, taxonomic database queries, and microbial diversity profiling.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-scatac-signac": {
+      "name": "scientific-scatac-signac",
+      "description": "scATAC-seq Signac skill. Single-cell ATAC-seq analysis with Signac/ArchR, peak calling, motif enrichment, chromatin accessibility clustering, and gene activity scoring.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-scientific-schematics": {
+      "name": "scientific-scientific-schematics",
+      "description": "Scientific schematics skill. Pathway diagrams, mechanism illustrations, experimental workflow diagrams, and scientific concept visualization generation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-scvi-integration": {
+      "name": "scientific-scvi-integration",
+      "description": "scVI integration skill. Deep generative model-based single-cell analysis with scvi-tools, batch correction, cell type annotation, and multi-modal data integration.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-semantic-scholar": {
+      "name": "scientific-semantic-scholar",
+      "description": "Semantic Scholar skill. Academic paper search via Semantic Scholar API, citation graph exploration, author profiling, and research impact metrics retrieval.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-semi-supervised-learning": {
+      "name": "scientific-semi-supervised-learning",
+      "description": "Semi-supervised learning skill. Self-training, co-training, label propagation, MixMatch/FixMatch, and semi-supervised model evaluation pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-sequence-analysis": {
+      "name": "scientific-sequence-analysis",
+      "description": "Sequence analysis skill. DNA/RNA/protein sequence alignment, motif discovery, sequence feature extraction, homology search, and sequence comparison tools.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-single-cell-genomics": {
+      "name": "scientific-single-cell-genomics",
+      "description": "Single-cell genomics skill. scRNA-seq analysis (Scanpy/Seurat), cell clustering, trajectory inference, cell type annotation, and gene regulatory network inference.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-spatial-multiomics": {
+      "name": "scientific-spatial-multiomics",
+      "description": "Spatial multi-omics skill. Spatially resolved transcriptomics + proteomics integration, spatial niche identification, and multi-modal spatial data analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-spatial-transcriptomics": {
+      "name": "scientific-spatial-transcriptomics",
+      "description": "Spatial transcriptomics skill. Visium/MERFISH/Slide-seq data analysis, spatial gene expression mapping, spatial clustering, and tissue region deconvolution.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-spectral-signal": {
+      "name": "scientific-spectral-signal",
+      "description": "Spectral signal processing skill. Spectroscopy data analysis (UV-Vis/NMR/MS), peak detection, spectral deconvolution, and signal-to-noise optimization.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-squidpy-advanced": {
+      "name": "scientific-squidpy-advanced",
+      "description": "Squidpy advanced skill. Spatial omics analysis with Squidpy: neighborhood enrichment, spatial autocorrelation, ligand-receptor analysis, and image feature extraction.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-statistical-simulation": {
+      "name": "scientific-statistical-simulation",
+      "description": "Statistical simulation skill. Monte Carlo methods, bootstrap confidence intervals, permutation tests, power simulation, and simulation-based inference.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-statistical-testing": {
+      "name": "scientific-statistical-testing",
+      "description": "Statistical testing skill. Frequentist hypothesis testing (t-test, ANOVA, chi-square, nonparametric tests), multiple testing correction, effect size calculation, and power analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-stitch-chemical-network": {
+      "name": "scientific-stitch-chemical-network",
+      "description": "STITCH chemical network skill. STITCH chemical-protein interaction queries, chemical similarity networks, and drug-target network construction.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-streaming-analytics": {
+      "name": "scientific-streaming-analytics",
+      "description": "Streaming analytics skill. Real-time data processing, stream windowing, online learning, event-driven analysis, and streaming aggregation pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-string-network-api": {
+      "name": "scientific-string-network-api",
+      "description": "STRING network API skill. Protein-protein interaction network queries, functional enrichment via STRING, network clustering, and PPI confidence scoring.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-structural-proteomics": {
+      "name": "scientific-structural-proteomics",
+      "description": "Structural proteomics skill. Cross-linking mass spectrometry analysis, HDX-MS data processing, native MS, and structural biology data integration.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-supplementary-generator": {
+      "name": "scientific-supplementary-generator",
+      "description": "Supplementary materials generator skill. Supplementary data preparation, extended methods writing, supplementary table/figure organization, and SI document formatting.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-survival-clinical": {
+      "name": "scientific-survival-clinical",
+      "description": "Survival and clinical analysis skill. Kaplan-Meier estimation, Cox proportional hazards, time-to-event analysis, competing risks, and clinical outcome modeling.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-symbolic-mathematics": {
+      "name": "scientific-symbolic-mathematics",
+      "description": "Symbolic mathematics skill. SymPy-based symbolic computation, equation solving, calculus, linear algebra, and mathematical proof assistance.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-systematic-review": {
+      "name": "scientific-systematic-review",
+      "description": "Systematic review skill. PRISMA-compliant systematic review workflow, literature screening, data extraction, risk of bias assessment, and evidence synthesis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-systems-biology": {
+      "name": "scientific-systems-biology",
+      "description": "Systems biology skill. Network modeling, flux balance analysis, dynamical systems simulation, and multi-scale biological system analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-text-mining-nlp": {
+      "name": "scientific-text-mining-nlp",
+      "description": "Text mining and NLP skill. Scientific text mining, named entity recognition, relation extraction, topic modeling, and biomedical NLP pipelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-time-series": {
+      "name": "scientific-time-series",
+      "description": "Time series analysis skill. Trend decomposition, stationarity testing, ARIMA/SARIMA modeling, spectral analysis, and time series feature extraction.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-time-series-forecasting": {
+      "name": "scientific-time-series-forecasting",
+      "description": "Time series forecasting skill. Prophet/NeuralProphet/LSTM forecasting, ensemble forecasting, forecast evaluation metrics, and confidence interval estimation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-toxicology-env": {
+      "name": "scientific-toxicology-env",
+      "description": "Toxicology and environmental skill. Toxicity prediction, dose-response modeling, environmental risk assessment, and chemical hazard characterization.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-transfer-learning": {
+      "name": "scientific-transfer-learning",
+      "description": "Transfer learning skill. Domain adaptation, fine-tuning pretrained models, feature extraction, few-shot learning, and transfer learning strategy selection.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-uncertainty-quantification": {
+      "name": "scientific-uncertainty-quantification",
+      "description": "Uncertainty quantification skill. Aleatory/epistemic uncertainty estimation, ensemble uncertainty, conformal prediction, calibration, and uncertainty propagation.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-uniprot-proteome": {
+      "name": "scientific-uniprot-proteome",
+      "description": "UniProt proteome skill. UniProt protein sequence/annotation retrieval, proteome-wide queries, functional annotation extraction, and protein feature analysis.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-variant-effect-prediction": {
+      "name": "scientific-variant-effect-prediction",
+      "description": "Variant effect prediction skill. CADD/REVEL/AlphaMissense scoring, splice variant prediction, regulatory variant impact, and variant pathogenicity classification.",
+      "metadataSource": "SKILL.md"
+    },
+    "scientist/scientific-variant-interpretation": {
+      "name": "scientific-variant-interpretation",
+      "description": "Variant interpretation skill. ACMG/AMP variant classification, pathogenicity evidence aggregation, clinical significance assessment, and variant report generation.",
+      "metadataSource": "SKILL.md"
+    },
+    "secops": {
+      "name": "Security Incident Response",
+      "description": "Skills for security incident triage, containment, and post-incident improvement.",
+      "icon": "🛡️",
+      "isGroup": true,
+      "skillCount": 7
+    },
+    "secops/secops-alert-triage": {
+      "name": "secops-alert-triage",
+      "description": "Classifies alerts by severity, confidence, and business impact.",
+      "metadataSource": "SKILL.md"
+    },
+    "secops/secops-containment-plan": {
+      "name": "secops-containment-plan",
+      "description": "Builds practical containment and eradication plans with rollback safety.",
+      "metadataSource": "SKILL.md"
+    },
+    "secops/secops-log-correlation": {
+      "name": "secops-log-correlation",
+      "description": "Correlates multi-source logs and events to build attack timelines.",
+      "metadataSource": "SKILL.md"
+    },
+    "secops/secops-orchestrator": {
+      "name": "secops-orchestrator",
+      "description": "Orchestrates security incident response from triage to post-incident improvement.",
+      "metadataSource": "SKILL.md"
+    },
+    "secops/secops-postmortem-writer": {
+      "name": "secops-postmortem-writer",
+      "description": "Documents incident postmortems with corrective and preventive actions.",
+      "metadataSource": "SKILL.md"
+    },
+    "secops/secops-root-cause-analysis": {
+      "name": "secops-root-cause-analysis",
+      "description": "Identifies probable root causes and contributing control failures.",
+      "metadataSource": "SKILL.md"
+    },
+    "supply": {
+      "name": "Supply Chain Decision",
+      "description": "Skills for forecasting, inventory decisions, and supply risk scenario planning.",
+      "icon": "🚚",
+      "isGroup": true,
+      "skillCount": 7
+    },
+    "supply/supply-demand-forecast": {
+      "name": "supply-demand-forecast",
+      "description": "Creates demand forecasts with confidence ranges and assumptions.",
+      "metadataSource": "SKILL.md"
+    },
+    "supply/supply-inventory-optimizer": {
+      "name": "supply-inventory-optimizer",
+      "description": "Optimizes inventory targets under service-level and cost constraints.",
+      "metadataSource": "SKILL.md"
+    },
+    "supply/supply-logistics-simulation": {
+      "name": "supply-logistics-simulation",
+      "description": "Simulates logistics routing scenarios for lead time and cost trade-offs.",
+      "metadataSource": "SKILL.md"
+    },
+    "supply/supply-orchestrator": {
+      "name": "supply-orchestrator",
+      "description": "Orchestrates supply chain decisions from forecasting through scenario planning.",
+      "metadataSource": "SKILL.md"
+    },
+    "supply/supply-scenario-planner": {
+      "name": "supply-scenario-planner",
+      "description": "Builds scenario plans for disruptions, shocks, and capacity shifts.",
+      "metadataSource": "SKILL.md"
+    },
+    "supply/supply-supplier-risk": {
+      "name": "supply-supplier-risk",
+      "description": "Assesses supplier risk exposure and continuity mitigation options.",
+      "metadataSource": "SKILL.md"
+    }
+  }
+}

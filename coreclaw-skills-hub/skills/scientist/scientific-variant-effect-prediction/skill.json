@@ -1,6 +1,0 @@
-{
-  "name": "scientific-variant-effect-prediction",
-  "version": "v0.5.0",
-  "description": "Supports researchers working on variant effect prediction with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
-  "entrypoint": "main.py"
-}

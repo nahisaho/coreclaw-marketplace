@@ -1,6 +1,0 @@
-{
-  "name": "secops-log-correlation",
-  "version": "v0.2.0",
-  "description": "Correlates logs, alerts, and event trails for incident responders to reconstruct attack timelines, identify pivots, and scope affected assets.",
-  "entrypoint": "main.py"
-}

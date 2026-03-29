@@ -1,5 +1,5 @@
 ---
-name: growth-assistant
+name: growth
 description: |
   Product Growth Intelligence skill suite for coordinated multi-step workflows.
   Includes an orchestrator plus specialized sub-skills designed
@@ -8,40 +8,43 @@ description: |
 
 # Product Growth Intelligence
 
-This suite is a coordinated skill package under `growth`.
+Product Growth Intelligence skill suite for coordinated multi-step workflows. Includes an orchestrator plus specialized sub-skills designed to produce higher-quality outcomes through structured chaining.
 
-## Package Structure
+## Use This Skill When
 
-- Root skill: `growth-assistant`
-- Orchestrator skill: `growth-orchestrator`
-- Specialized sub-skills: domain-focused execution skills
+- A growth workflow needs segmentation, funnel analysis, experiments, copy, or synthesis to be coordinated.
+- Multiple growth sub-skills must contribute to a single optimization recommendation.
+- Intermediate outputs require validation before a final decision is issued.
 
-## Orchestration Principle
+## Local Resources
 
-The orchestrator routes tasks to specialized sub-skills in sequence,
-checks intermediate quality gates, and consolidates outputs into a
-final actionable result.
+- Route through `growth-orchestrator` when multiple growth sub-skills are needed.
+- Use the specialized growth sub-skills directly for focused execution.
 
-## Common Output Requirements
+## Required Inputs
 
-- Explicit assumptions and constraints
-- Traceable reasoning between steps
-- Final recommendation with next actions
+- Growth objective, target segment, and business metric to improve.
+- Available evidence, constraints, data quality, and delivery timeline.
+- Required deliverables, decision criteria, and audience.
 
----
+## Workflow
 
-## Verification Loop (v0.2.0)
+1. Confirm scope, evidence path, and the artifact set to save.
+2. Route through the orchestrator or local helpers only when they materially improve the current task.
+3. Save analyses, intermediate outputs, and recommendations to files instead of leaving results in chat.
+4. Verify assumptions, traceability, and recommendation quality before finalizing conclusions.
+5. Append skill selection, handoff I/O, and file writes to `logs/process-log.jsonl` when the execution harness requires trace logging.
 
-```
-PLAN   → define scope, inputs, expected outputs
-EXECUTE → run analysis / generation pipeline
-VERIFY  → check outputs against quality gates
-REPORT  → deliver structured artifacts with traceable reasoning
-```
+## Deliverables
 
-### Quality Gates
+- `report.md`: objective, analysis, recommendation, and file inventory.
+- `results/`: funnel outputs, experiment plans, segment analyses, and structured growth artifacts.
+- `figures/`: English-only charts or growth visuals when needed.
+- `data/`: processed source data when transformation occurs.
 
-- [ ] All outputs include explicit assumptions and constraints
-- [ ] Traceable reasoning between steps
-- [ ] Final recommendation with clear next actions
-- [ ] Artifacts saved as files (not chat-only output)
+## Quality Gates
+
+- Outputs include explicit assumptions, target metrics, and constraints.
+- Evidence and reasoning are traceable from inputs to recommendation.
+- Final recommendations are actionable and saved as files.
+- `report.md` and, when used, `logs/process-log.jsonl` reference generated artifacts.

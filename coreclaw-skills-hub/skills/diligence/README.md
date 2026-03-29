@@ -1,7 +1,6 @@
-# diligence-assistant
+# diligence
 
 Coordinated due diligence skills from market scan to investment memo.
 
 - Source path: `diligence`
-- Original definition: `source/SKILL.md`
-- Imported version: `v0.1.0`
+- Imported version: `v0.3.0`

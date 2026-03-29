@@ -1,6 +1,0 @@
-{
-  "name": "supply-supplier-risk",
-  "version": "v0.2.0",
-  "description": "Assesses supplier exposure, concentration, continuity risk, and mitigation options for procurement and supply continuity planning.",
-  "entrypoint": "main.py"
-}

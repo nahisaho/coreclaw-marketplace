@@ -56,16 +56,17 @@ Japanese documentation:
 ### Add a new skill
 
 1. Create a skill directory under `coreclaw-skills-hub/skills/`
-2. Add `skill.json`, `main.py`, `SKILL.md`, and `README.md`
-3. If needed, add or update `group.json` for the skill group
-4. Commit and push to `main`
+2. Add `SKILL.md` and `README.md`
+3. Add `skill.json` and `main.py` only if the skill needs marketplace compatibility metadata
+4. If needed, add or update `group.json` for the skill group
+5. Commit and push to `main`
 
 Detailed instructions: [docs/SKILLS_GUIDE.md](docs/SKILLS_GUIDE.md)
 
 ### Release a skill
 
-1. Update the version in `skill.json`
-2. Commit and push the version change
+1. Commit and push the skill changes
+2. If compatibility metadata is present, update the version in `skill.json`
 3. Create and push a release tag such as `scientist/scientific-academic-writing/v0.2.0`
 
 Detailed workflow: [docs/REGISTRY_AND_CI_CD.md](docs/REGISTRY_AND_CI_CD.md)

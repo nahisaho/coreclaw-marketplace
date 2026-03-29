@@ -1,6 +1,0 @@
-{
-  "name": "compliance-evidence-collector",
-  "version": "v0.2.0",
-  "description": "Defines the evidence each control needs, including source systems, collection cadence, ownership, and review expectations for audit preparation.",
-  "entrypoint": "main.py"
-}

@@ -1,6 +1,0 @@
-{
-  "name": "diligence-market-scan",
-  "version": "v0.2.0",
-  "description": "Builds market landscape scans for investors and strategy teams, covering demand signals, structural trends, segments, and competitive motion.",
-  "entrypoint": "main.py"
-}

@@ -10,4 +10,4 @@ Defines required evidence sets and collection cadences for controls.
 
 ## Quick Start
 
-python main.py
+Use this skill through the accompanying SKILL.md in an Agent Skills compatible harness. The legacy standalone main.py entrypoint has been removed.

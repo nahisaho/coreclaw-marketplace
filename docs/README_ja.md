@@ -1,6 +1,6 @@
 # Documentation - coreclaw-skills-hub
 
-coreclaw-skills-hub マーケットプレースの完全なドキュメンテーション。
+coreclaw-skills-hubマーケットプレースの完全なドキュメンテーション。
 
 ## 📚 ドキュメント一覧
 
@@ -10,7 +10,7 @@ coreclaw-skills-hub マーケットプレースの完全なドキュメンテー
 
 **含まれる内容：**
 - ディレクトリ構造とファイル配置
-- `skill.json` と `group.json` のスキーマ
+- `SKILL.md` 正式メタデータと任意の `skill.json` 互換スキーマ
 - 命名規則とバージョン管理
 - スキル作成の手順
 - ベストプラクティス
@@ -24,10 +24,10 @@ coreclaw-skills-hub マーケットプレースの完全なドキュメンテー
 系統の仕組みと自動化ワークフローの詳細。
 
 **含まれる内容：**
-- Registry （registry.json）の構造
-- PR 検証ワークフロー（validation.yml）
+- Registry（registry.json）の構造
+- PR検証ワークフロー（validation.yml）
 - リリースワークフロー（release.yml）
-- GitHub Release 自動生成
+- GitHub Release自動生成
 - トラブルシューティング
 
 **対象者:** マーケットプレース管理者、ワークフロー理解のための技術者
@@ -43,28 +43,14 @@ coreclaw-skills-hub マーケットプレースの完全なドキュメンテー
 mkdir -p coreclaw-skills-hub/skills/<group>/<skill-name>
 cd coreclaw-skills-hub/skills/<group>/<skill-name>
 
-# skill.json 作成
-cat > skill.json << 'EOF'
-{
-  "name": "my-skill",
-  "version": "v0.1.0",
-  "description": "Description",
-  "entrypoint": "main.py"
-}
-EOF
-
-# main.py 作成
-cat > main.py << 'EOF'
-#!/usr/bin/env python3
-def main():
-    print("Skill execution")
-
-if __name__ == "__main__":
-    main()
-EOF
-
 # SKILL.md 作成
 cat > SKILL.md << 'EOF'
+---
+name: my-skill
+description: |
+    Description
+---
+
 # My Skill
 
 ## 概要
@@ -72,6 +58,25 @@ cat > SKILL.md << 'EOF'
 
 ## 使用方法
 使用方法
+EOF
+
+# 互換メタデータが必要な場合のみ作成
+cat > skill.json << 'EOF'
+{
+    "name": "my-skill",
+    "version": "v0.1.0",
+    "description": "Description",
+    "entrypoint": "main.py"
+}
+EOF
+
+cat > main.py << 'EOF'
+#!/usr/bin/env python3
+def main():
+        print("Skill execution")
+
+if __name__ == "__main__":
+        main()
 EOF
 
 # コミット
@@ -85,7 +90,7 @@ git push origin main
 ### 2. スキルをリリース
 
 ```bash
-# skill.json のバージョン更新
+# 互換メタデータがある場合は skill.json のバージョン更新
 # version: "v0.1.0" → "v0.2.0"
 
 git add coreclaw-skills-hub/skills/<group>/<skill-name>/skill.json
@@ -109,11 +114,12 @@ coreclaw-skills-hub/
 │   ├── scientist/
 │   │   ├── group.json                                  # グループメタデータ
 │   │   ├── scientific-academic-writing/
-│   │   │   ├── skill.json                             # スキルメタデータ
-│   │   │   ├── main.py                                # エントリポイント
+│   │   │   ├── SKILL.md                               # 正式なスキル定義
+│   │   │   ├── skill.json                             # 任意の互換メタデータ
+│   │   │   ├── main.py                                # 任意の互換エントリポイント
 │   │   │   ├── SKILL.md
 │   │   │   ├── README.md
-│   │   │   └── source/                                # オリジナルペイロード
+│   │   │   └── [その他のアセット]
 │   │   └── [...その他のスキル...]
 │   ├── consultant/
 │   └── [...その他のグループ...]
@@ -167,9 +173,9 @@ consultant/v0.1.0
 
 ### Registry の更新タイミング
 
-- **自動更新**: タグのプッシュ時のみ（GitHub Actions による）
+- **自動更新**: タグのプッシュ時のみ（GitHub Actionsによる）
 - **手動更新**: 不可（自動ワークフロー以外では変更不可）
-- **PR では**: プレビュー生成のみ（registry.json 変更なし）
+- **PRでは**: プレビュー生成のみ（registry.json変更なし）
 
 ---
 
@@ -202,14 +208,14 @@ git push origin :refs/tags/tag-name
 ```
 
 Q: **Registry プレビューはどこで見られる？**
-A: PR の Artifacts セクションから `registry-preview` をダウンロード。
+A: PRのArtifactsセクションから `registry-preview` をダウンロード。
 
 ### 問題報告
 
 問題や質問が発生した場合：
-1. GitHub Issues で報告
+1. GitHub Issuesで報告
 2. 詳細なエラーログを含める
-3. 関連するファイル（skill.json など）を添付
+3. 関連するファイル（skill.jsonなど）を添付
 
 ---
 

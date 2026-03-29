@@ -1,6 +1,0 @@
-{
-  "name": "secops-root-cause-analysis",
-  "version": "v0.2.0",
-  "description": "Identifies likely technical causes, control failures, and contributing conditions so security and engineering teams can implement durable fixes.",
-  "entrypoint": "main.py"
-}

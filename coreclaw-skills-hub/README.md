@@ -6,7 +6,7 @@ Marketplace repository for Core-Claw Agent Skills.
 
 - `.github/workflows/release.yml`: package and release a skill from a tag.
 - `.github/workflows/validate.yml`: validate changed skills on pull requests.
-- `.github/scripts/validate_skill.py`: validates each `skill.json`.
+- `.github/scripts/validate_skill.py`: validates each skill directory using `SKILL.md` as canonical metadata and checks `skill.json` only when present.
 - `.github/scripts/update_registry.py`: updates `registry.json` after release.
 - `skills/<group>/<skill-name>/`: nested skill packages, e.g. `skills/scientist/scientific-academic-writing/`.
 - `registry.json`: generated index for all released skills.
@@ -18,28 +18,26 @@ The current layout is intentional and is the official marketplace format.
 
 For each imported skill directory such as `skills/scientist/scientific-academic-writing/`, the following files are maintained:
 
-- `SKILL.md`: the original skill definition copied to the skill root for direct consumption.
-- `skill.json`: marketplace metadata used by validation and release workflows.
-- `main.py`: marketplace entrypoint placeholder.
+- `SKILL.md`: the canonical installable skill definition at the skill root.
 - `README.md`: marketplace-facing description for the imported skill.
-- `source/`: preserved original source payload copied from `nahisaho/coreclaw`.
+
+Compatibility metadata files are no longer retained in the repository. The only remaining implementation helper is `skills/agent-skills-builder/main.py`, which generates Agent Skills artifacts.
 
 Examples:
 
 - Original file `coreclaw/skills/scientist/scientific-academic-writing/SKILL.md`
-   is preserved as `skills/scientist/scientific-academic-writing/SKILL.md`
-   and also as `skills/scientist/scientific-academic-writing/source/SKILL.md`.
-- Original directory `coreclaw/skills/scientist/scientific-academic-writing/assets/`
-   is preserved under `skills/scientist/scientific-academic-writing/source/assets/`.
+   is preserved as `skills/scientist/scientific-academic-writing/SKILL.md`.
+- Installable helper assets such as prompts, skills, or assets are kept outside `source/`
+   because CoreClaw does not install files from `source/`.
 
 This means:
 
 - skill directory nesting is preserved
-- original source files are preserved
-- marketplace-specific files are added
-- helper files from the source repository may live under `source/` rather than at the original top-level position
+- the root `SKILL.md` is the only installable skill definition
+- marketplace-specific files are added only when a real compatibility consumer still exists
+- current CI and release workflows validate `SKILL.md` first and do not require `skill.json` / `main.py`
 
-If you compare `coreclaw/skills` and `coreclaw-skills-hub/skills`, they are expected to differ structurally, but the original source content should still be present.
+If you compare `coreclaw/skills` and `coreclaw-skills-hub/skills`, they are expected to differ structurally because this repository is organized for marketplace validation and release.
 
 ## Release Flow
 
@@ -48,7 +46,7 @@ If you compare `coreclaw/skills` and `coreclaw-skills-hub/skills`, they are expe
    - Example: `scientist/scientific-academic-writing/v0.1.0`
 2. Push the tag.
 3. The release workflow will:
-   - validate `skills/<skill-path>/skill.json`
+   - validate `skills/<skill-path>/`
    - zip that nested skill directory
    - create a GitHub Release and upload the zip
    - update `registry.json` and push to `main`
@@ -60,7 +58,9 @@ Pull requests that touch files under `skills/**` run metadata validation for cha
 PR validation does not commit `registry.json` changes.
 Instead, CI generates a preview registry artifact so reviewers can inspect the current skill catalog without polluting the pull request branch with bot commits.
 
-## skill.json Schema (minimum)
+## Compatibility skill.json Schema (minimum)
+
+`SKILL.md` frontmatter is canonical. Add `skill.json` only when you intentionally support an external legacy consumer.
 
 ```json
 {

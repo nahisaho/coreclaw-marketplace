@@ -1,6 +1,0 @@
-{
-  "name": "diligence-risk-matrix",
-  "version": "v0.2.0",
-  "description": "Builds weighted risk matrices for diligence discussions, combining likelihood, impact, mitigation options, and ownership framing.",
-  "entrypoint": "main.py"
-}

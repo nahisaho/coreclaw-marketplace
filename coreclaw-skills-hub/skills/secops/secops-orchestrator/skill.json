@@ -1,6 +1,0 @@
-{
-  "name": "secops-orchestrator",
-  "version": "v0.2.0",
-  "description": "Coordinates triage, evidence correlation, containment planning, root-cause analysis, and postmortem writing across the full incident-response lifecycle.",
-  "entrypoint": "main.py"
-}

@@ -1,6 +1,0 @@
-{
-  "name": "enterprise-initiative-prioritization",
-  "version": "v0.2.0",
-  "description": "Ranks transformation initiatives for portfolio and PMO discussions by strategic impact, feasibility, dependency load, and execution risk.",
-  "entrypoint": "main.py"
-}

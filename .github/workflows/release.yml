@@ -23,10 +23,10 @@ jobs:
           echo "skill_path=${SKILL_PATH}" >> "${GITHUB_OUTPUT}"
           echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
 
-      - name: Validate skill.json
+      - name: Validate skill metadata
         run: |
           SKILL_PATH="${{ steps.meta.outputs.skill_path }}"
-          python coreclaw-skills-hub/.github/scripts/validate_skill.py "coreclaw-skills-hub/skills/${SKILL_PATH}/skill.json"
+          python coreclaw-skills-hub/.github/scripts/validate_skill.py "coreclaw-skills-hub/skills/${SKILL_PATH}"
 
       - name: Package skill as zip
         run: |

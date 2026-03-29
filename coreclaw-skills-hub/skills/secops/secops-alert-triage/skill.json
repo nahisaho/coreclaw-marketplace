@@ -1,6 +1,0 @@
-{
-  "name": "secops-alert-triage",
-  "version": "v0.2.0",
-  "description": "Classifies security alerts for SOC analysts by severity, confidence, likely blast radius, and business impact so high-risk incidents rise first.",
-  "entrypoint": "main.py"
-}

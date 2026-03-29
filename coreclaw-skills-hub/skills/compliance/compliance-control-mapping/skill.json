@@ -1,6 +1,0 @@
-{
-  "name": "compliance-control-mapping",
-  "version": "v0.2.0",
-  "description": "Maps regulations and frameworks to internal controls, owners, and evidence expectations for risk, compliance, and audit-readiness programs.",
-  "entrypoint": "main.py"
-}

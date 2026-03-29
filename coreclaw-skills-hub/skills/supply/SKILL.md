@@ -1,5 +1,5 @@
 ---
-name: supply-assistant
+name: supply
 description: |
   Supply Chain Decision skill suite for coordinated multi-step workflows.
   Includes an orchestrator plus specialized sub-skills designed
@@ -8,40 +8,43 @@ description: |
 
 # Supply Chain Decision
 
-This suite is a coordinated skill package under `supply`.
+Supply Chain Decision skill suite for coordinated multi-step workflows. Includes an orchestrator plus specialized sub-skills designed to produce higher-quality outcomes through structured chaining.
 
-## Package Structure
+## Use This Skill When
 
-- Root skill: `supply-assistant`
-- Orchestrator skill: `supply-orchestrator`
-- Specialized sub-skills: domain-focused execution skills
+- A supply-chain workflow needs forecasting, inventory optimization, logistics simulation, supplier risk, or scenario planning.
+- Multiple supply sub-skills must be coordinated into a single recommendation.
+- Intermediate outputs require validation before the final decision package is issued.
 
-## Orchestration Principle
+## Local Resources
 
-The orchestrator routes tasks to specialized sub-skills in sequence,
-checks intermediate quality gates, and consolidates outputs into a
-final actionable result.
+- Route through `supply-orchestrator` when multiple supply sub-skills are required.
+- Use the specialized supply sub-skills directly for focused execution.
 
-## Common Output Requirements
+## Required Inputs
 
-- Explicit assumptions and constraints
-- Traceable reasoning between steps
-- Final recommendation with next actions
+- Supply objective, network scope, and decision horizon.
+- Available data, constraints, assumptions, and deadline.
+- Required deliverables, review expectations, and decision criteria.
 
----
+## Workflow
 
-## Verification Loop (v0.2.0)
+1. Confirm scope, evidence path, and the artifact set to save.
+2. Route through the orchestrator or local helpers only when they materially improve the current task.
+3. Save analyses, intermediate outputs, and recommendations to files instead of leaving results in chat.
+4. Verify assumptions, traceability, and recommendation quality before finalizing conclusions.
+5. Append skill selection, handoff I/O, and file writes to `logs/process-log.jsonl` when the execution harness requires trace logging.
 
-```
-PLAN   → define scope, inputs, expected outputs
-EXECUTE → run analysis / generation pipeline
-VERIFY  → check outputs against quality gates
-REPORT  → deliver structured artifacts with traceable reasoning
-```
+## Deliverables
 
-### Quality Gates
+- `report.md`: objective, findings, recommendation, and file inventory.
+- `results/`: forecasts, optimization outputs, simulations, and structured supply artifacts.
+- `figures/`: English-only charts or network visuals when needed.
+- `data/`: processed source data when transformation occurs.
 
-- [ ] All outputs include explicit assumptions and constraints
-- [ ] Traceable reasoning between steps
-- [ ] Final recommendation with clear next actions
-- [ ] Artifacts saved as files (not chat-only output)
+## Quality Gates
+
+- Outputs include explicit assumptions, supply scope, and constraints.
+- Evidence and reasoning are traceable from inputs to recommendation.
+- Final recommendations are actionable and saved as files.
+- `report.md` and, when used, `logs/process-log.jsonl` reference generated artifacts.

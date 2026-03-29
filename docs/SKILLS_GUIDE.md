@@ -293,7 +293,34 @@ mkdir -p coreclaw-skills-hub/skills/<group>/<skill-name>
 cd coreclaw-skills-hub/skills/<group>/<skill-name>
 ```
 
-### 2. Create skill.json
+### 2. Create SKILL.md
+
+Create canonical metadata and instructions:
+
+```markdown
+---
+name: <skill-name>
+description: |
+  Your skill description here
+---
+
+# [Skill Name]
+
+## Overview
+Description
+```
+
+### 3. Create README.md
+
+Create marketplace-facing description:
+
+```markdown
+# [Skill Name]
+
+Brief description and features
+```
+
+### 4. Add compatibility metadata only if needed
 
 ```json
 {
@@ -304,7 +331,9 @@ cd coreclaw-skills-hub/skills/<group>/<skill-name>
 }
 ```
 
-### 3. Create main.py
+### 5. Create main.py
+
+Only required when `skill.json` is present.
 
 Implement skill logic:
 
@@ -321,33 +350,7 @@ if __name__ == "__main__":
     main()
 ```
 
-### 4. Create SKILL.md
-
-Create skill documentation:
-
-```markdown
-# [Skill Name]
-
-## Overview
-Description
-
-## Usage
-Usage instructions
-
-...
-```
-
-### 5. Create README.md
-
-Create marketplace-facing description:
-
-```markdown
-# [Skill Name]
-
-Brief description and features
-```
-
-### 6. Create source/ Directory (Optional)
+### 6. Create source/ Directory (Legacy optional)
 
 Store original payload:
 
@@ -369,7 +372,9 @@ git push origin main
 
 ## Release Procedures
 
-### 1. Update Version in skill.json
+### 1. Update the release tag target
+
+`SKILL.md` is canonical. If compatibility metadata exists, also update the version in `skill.json`.
 
 ```json
 {
@@ -383,6 +388,8 @@ git push origin main
 ### 2. Commit Changes
 
 ```bash
+git add coreclaw-skills-hub/skills/<group>/<skill-name>/SKILL.md
+git add coreclaw-skills-hub/skills/<group>/<skill-name>/README.md
 git add coreclaw-skills-hub/skills/<group>/<skill-name>/skill.json
 git commit -m "bump: version v0.2.0 for <skill-name>"
 git push origin main

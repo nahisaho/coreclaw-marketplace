@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
-"""Validate a skill metadata file."""
+"""Validate a skill directory or compatibility metadata file."""
 
-import json
-import pathlib
-import re
 import sys
 
-REQUIRED_KEYS = ["name", "version", "description", "entrypoint"]
-SEMVER_TAG_PATTERN = re.compile(r"^v\d+\.\d+\.\d+$")
+from skill_metadata import SkillMetadataError, resolve_skill_metadata
 
 
 def fail(message: str) -> None:
@@ -17,36 +13,14 @@ def fail(message: str) -> None:
 
 def main() -> None:
     if len(sys.argv) != 2:
-        fail("usage: validate_skill.py <path/to/skill.json>")
-
-    path = pathlib.Path(sys.argv[1])
-    if not path.exists():
-        fail(f"file not found: {path}")
+        fail("usage: validate_skill.py <path/to/skill-dir|SKILL.md|skill.json>")
 
     try:
-        data = json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as exc:
-        fail(f"invalid JSON in {path}: {exc}")
+        metadata = resolve_skill_metadata(sys.argv[1])
+    except SkillMetadataError as exc:
+        fail(str(exc))
 
-    if not isinstance(data, dict):
-        fail("skill.json root must be an object")
-
-    for key in REQUIRED_KEYS:
-        if key not in data:
-            fail(f"missing required key: {key}")
-
-    for key in REQUIRED_KEYS:
-        if not isinstance(data.get(key), str) or not data[key].strip():
-            fail(f"key '{key}' must be a non-empty string")
-
-    if not SEMVER_TAG_PATTERN.match(data["version"]):
-        fail("version must match v<major>.<minor>.<patch>, e.g. v1.0.0")
-
-    entrypoint = path.parent / data["entrypoint"]
-    if not entrypoint.exists():
-        fail(f"entrypoint not found: {entrypoint}")
-
-    print(f"OK: {path}")
+    print(f"OK: {metadata.skill_dir} (metadata source: {metadata.metadata_source})")
 
 
 if __name__ == "__main__":

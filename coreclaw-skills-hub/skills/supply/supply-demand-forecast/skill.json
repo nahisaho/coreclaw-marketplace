@@ -1,6 +1,0 @@
-{
-  "name": "supply-demand-forecast",
-  "version": "v0.2.0",
-  "description": "Produces demand forecasts for planning teams with explicit assumptions, confidence ranges, and scenario sensitivity for capacity and inventory decisions.",
-  "entrypoint": "main.py"
-}

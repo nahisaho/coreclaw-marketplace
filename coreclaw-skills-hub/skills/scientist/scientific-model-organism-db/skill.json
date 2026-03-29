@@ -1,6 +1,0 @@
-{
-  "name": "scientific-model-organism-db",
-  "version": "v0.5.0",
-  "description": "Supports researchers working on model organism db with reproducible analysis structure, evidence-aware interpretation, and publication-ready outputs.",
-  "entrypoint": "main.py"
-}

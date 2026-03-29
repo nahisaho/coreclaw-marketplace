@@ -1,6 +1,0 @@
-{
-  "name": "diligence-investment-memo",
-  "version": "v0.2.0",
-  "description": "Produces investment memo drafts for IC and deal teams, combining thesis, evidence, risks, upside cases, and recommendation logic into a decision format.",
-  "entrypoint": "main.py"
-}

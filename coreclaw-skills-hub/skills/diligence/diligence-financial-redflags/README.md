@@ -10,4 +10,4 @@ Highlights financial red flags and scenario-sensitive assumptions.
 
 ## Quick Start
 
-python main.py
+Use this skill through the accompanying SKILL.md in an Agent Skills compatible harness. The legacy standalone main.py entrypoint has been removed.

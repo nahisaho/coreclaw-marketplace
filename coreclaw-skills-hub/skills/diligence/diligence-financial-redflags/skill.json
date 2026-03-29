@@ -1,6 +1,0 @@
-{
-  "name": "diligence-financial-redflags",
-  "version": "v0.2.0",
-  "description": "Highlights financial red flags, fragile assumptions, and scenario-sensitive exposures for investment committees and diligence reviews.",
-  "entrypoint": "main.py"
-}

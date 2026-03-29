@@ -1,6 +1,0 @@
-{
-  "name": "compliance-audit-response",
-  "version": "v0.2.0",
-  "description": "Drafts audit responses that connect findings to controls, evidence references, remediation status, and accountable owners in a traceable format.",
-  "entrypoint": "main.py"
-}

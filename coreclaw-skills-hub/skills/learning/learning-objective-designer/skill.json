@@ -1,6 +1,0 @@
-{
-  "name": "learning-objective-designer",
-  "version": "v0.2.0",
-  "description": "Designs measurable learning objectives for educators and enablement teams, linking learner outcomes, assessment expectations, and performance context.",
-  "entrypoint": "main.py"
-}

@@ -1,6 +1,0 @@
-{
-  "name": "scientific-pharmacology-targets",
-  "version": "v0.5.0",
-  "description": "Supports clinical and translational researchers working with regulated evidence, interpretable risk framing, and decision-ready scientific outputs.",
-  "entrypoint": "main.py"
-}

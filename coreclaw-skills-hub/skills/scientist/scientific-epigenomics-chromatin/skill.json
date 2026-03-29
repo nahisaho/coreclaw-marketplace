@@ -1,6 +1,0 @@
-{
-  "name": "scientific-epigenomics-chromatin",
-  "version": "v0.5.0",
-  "description": "Supports researchers in domain-specific omics workflows where reproducibility, cross-sample interpretation, and biological insight are critical.",
-  "entrypoint": "main.py"
-}

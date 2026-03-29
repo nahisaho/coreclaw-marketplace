@@ -1,6 +1,6 @@
 # Registry と CI/CD ワークフロー
 
-このドキュメントでは、coreclaw-skills-hub の registry システムと自動化ワークフローについて説明します。
+このドキュメントでは、coreclaw-skills-hubのregistryシステムと自動化ワークフローについて説明します。
 
 ## 目次
 
@@ -15,7 +15,7 @@
 
 ### registry.json の形式
 
-`coreclaw-skills-hub/registry.json` は、すべてのリリース済みスキルのメタデータと URL を管理します。
+`coreclaw-skills-hub/registry.json`は、すべてのリリース済みスキルのメタデータとURLを管理します。
 
 ```json
 {
@@ -32,6 +32,7 @@
       "name": "scientific-academic-writing",
       "version": "v0.1.0",
       "entrypoint": "main.py",
+      "metadataSource": "skill.json",
       "description": "Assists researchers in composing...",
       "latest": "v0.1.0",
       "versions": [
@@ -72,7 +73,8 @@
 | `name` | スキルの一意な名前 |
 | `version` | 現在のバージョン |
 | `description` | スキルの説明 |
-| `entrypoint` | 実行ファイル（通常は `main.py`） |
+| `entrypoint` | 互換メタデータがある場合の実行ファイル |
+| `metadataSource` | `SKILL.md` または `skill.json` |
 | `latest` | 最新バージョン番号 |
 | `versions` | バージョン履歴（URL とリリース日時を含む） |
 
@@ -82,29 +84,29 @@
 
 ### 実行タイミング
 
-- **トリガー**: `skills/**` パスへの変更を含む Pull Request
-- **アクション**: PR の validation チェック実行
+- **トリガー**: `skills/**`パスへの変更を含むPull Request
+- **アクション**: PRのvalidationチェック実行
 
 ### ワークフロー処理
 
 ```yaml
-PR 作成 → 変更検出 → skill.json 検証 → registry プレビュー生成 → artifact upload → レビュー
+PR 作成 → 変更検出 → SKILL.md と互換メタデータを検証 → registry プレビュー生成 → artifact upload → レビュー
 ```
 
 ### 検証項目
 
-1. **skill.json の存在**: 各スキルディレクトリに `skill.json` があるか
-2. **必須フィールド**: `name`, `version`, `description`, `entrypoint` が存在するか
-3. **バージョンフォーマット**: `vX.Y.Z` 形式か（セマンティック バージョニング）
-4. **entrypoint の存在**: で指定したファイルが実際に存在するか
+1. **SKILL.md の存在**: 各スキルディレクトリに正式な `SKILL.md` があるか
+2. **frontmatter 整合性**: `name` と `description` があり、`name` がディレクトリ名と一致するか
+3. **互換メタデータ**: `skill.json` がある場合だけ `name`, `version`, `description`, `entrypoint` を検証
+4. **entrypoint の存在**: `skill.json` がある場合だけ `entrypoint` 先が存在するか
 
 ### Registry プレビュー
 
-PR では `registry.preview.json` が自動生成され、artifact としてアップロードされます。
+PRでは`registry.preview.json`が自動生成され、artifactとしてアップロードされます。
 
 **用途:**
-- PR レビュー時にスキルメタデータを確認
-- registry.json の最終形を事前に確認
+- PRレビュー時にスキルメタデータを確認
+- registry.jsonの最終形を事前に確認
 - branch を汚さずに検証
 
 **確認方法:**
@@ -136,7 +138,7 @@ git tag scientist/scientific-academic-writing/v0.2.0
 ```
 タグ作成
   ↓
-skill.json 検証
+スキルメタデータ検証
   ↓
 スキルディレクトリを ZIP 化
   ↓
@@ -154,7 +156,7 @@ registry.json を main にプッシュ
 リリースページに以下が作成されます：
 
 - **タイトル**: `[<skill-path>] Release v<version>`
-- **説明**: skill.json の description
+- **説明**: `SKILL.md` frontmatter の description
 - **アセット**: `skill.zip` （スキル全体をZIP化）
 
 **URL 例：**
@@ -190,23 +192,24 @@ https://github.com/nahisaho/coreclaw-marketplace/releases/download/scientist/sci
 
 ### 検証エラー
 
-#### エラー: `skill.json not found`
+#### エラー: `missing SKILL.md`
 
-**原因**: スキルディレクトリに `skill.json` がない
+**原因**: スキルディレクトリに正式なスキル定義がない
 
 **解決方法**:
 ```bash
 # スキルディレクトリを確認
-ls coreclaw-skills-hub/skills/<group>/<skill-name>/skill.json
+ls coreclaw-skills-hub/skills/<group>/<skill-name>/SKILL.md
 
 # ない場合は作成
-cat > coreclaw-skills-hub/skills/<group>/<skill-name>/skill.json << 'EOF'
-{
-  "name": "your-skill",
-  "version": "v0.1.0",
-  "description": "Description",
-  "entrypoint": "main.py"
-}
+cat > coreclaw-skills-hub/skills/<group>/<skill-name>/SKILL.md << 'EOF'
+---
+name: your-skill
+description: |
+  Description
+---
+
+# Your Skill
 EOF
 ```
 

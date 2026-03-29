@@ -1,6 +1,0 @@
-{
-  "name": "scientific-semantic-scholar",
-  "version": "v0.5.0",
-  "description": "Supports literature review workflows for researchers who need structured search, relevance filtering, citation awareness, and evidence synthesis.",
-  "entrypoint": "main.py"
-}

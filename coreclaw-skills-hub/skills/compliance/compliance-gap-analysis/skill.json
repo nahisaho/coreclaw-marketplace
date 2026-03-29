@@ -1,6 +1,0 @@
-{
-  "name": "compliance-gap-analysis",
-  "version": "v0.2.0",
-  "description": "Identifies control, documentation, and evidence gaps for compliance teams, then ranks them by exposure, audit risk, and remediation urgency.",
-  "entrypoint": "main.py"
-}

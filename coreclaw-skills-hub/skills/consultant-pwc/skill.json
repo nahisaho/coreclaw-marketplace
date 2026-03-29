@@ -1,6 +1,0 @@
-{
-  "name": "consultant-pwc",
-  "version": "v0.2.0",
-  "description": "Consulting skillset for risk, finance, and transformation work, suited to teams balancing control needs with implementation-oriented recommendations.",
-  "entrypoint": "main.py"
-}

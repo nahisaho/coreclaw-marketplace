@@ -1,147 +1,53 @@
 ---
 name: consultant-bcg
 description: |
-  BCG (Boston Consulting Group) style consulting skill for deep research and analysis.
-  Features Growth-Share Matrix, Experience Curve, Strategy Palette, Hypothesis-Driven Approach,
-  TSR Analysis, Advantage Matrix, and Bionic Company Framework.
-  4-phase workflow: Purpose Discovery → Deep Research → Framework Analysis → Report Writing.
-  Supports Deep Research MCP for enhanced web research capabilities.
+    BCG (Boston Consulting Group) style consulting skill for deep research and analysis.
+    Features Growth-Share Matrix, Experience Curve, Strategy Palette, Hypothesis-Driven Approach,
+    TSR Analysis, Advantage Matrix, and Bionic Company Framework.
+    4-phase workflow: Purpose Discovery → Deep Research → Framework Analysis → Report Writing.
+    Supports Deep Research MCP for enhanced web research capabilities.
 ---
 
-# Consultant BCG (BCG-Style Consulting)
+# Consultant BCG (Boston Consulting Group-Style Consulting)
 
-Deep research and consulting analysis skill using BCG methodologies.
-Provides frameworks for portfolio strategy, cost operations, strategy formulation, and value creation.
+BCG (Boston Consulting Group) style consulting skill for deep research and analysis. Features Growth-Share Matrix, Experience Curve, Strategy Palette, Hypothesis-Driven Approach, TSR Analysis, Advantage Matrix, and Bionic Company Framework. 4-phase workflow: Purpose Discovery → Deep Research → Framework Analysis → Report Writing. Supports Deep Research MCP for enhanced web research capabilities.
+
+## Use This Skill When
+
+- A strategy, portfolio, or transformation problem needs BCG-style framing.
+- Growth, competitive advantage, TSR, or bionic transformation analysis must be structured into a staged workflow.
+- The engagement requires saved, reusable artifacts rather than chat-only analysis.
+
+## Local Resources
+
+- `prompts/`: phased flows for discovery, research, framework analysis, and reporting.
+- `skills/`: orchestrator support for routing and framework application.
+- Use `deep-research` MCP when available for structured external research.
+
+## Required Inputs
+
+- Client objective, portfolio scope, and strategic decision to support.
+- Available evidence, assumptions, timing, and review constraints.
+- Required report format, metrics, and decision criteria.
 
 ## Workflow
 
-```
-Phase 1: Purpose Discovery
-    ↓ Hypothesis setting via BCG approach
-Phase 2: Deep Research
-    ↓ Think→Action→Report cycle
-Phase 3: Framework Analysis
-    ↓ Structured analysis with BCG frameworks
-Phase 4: Report Writing
-    ↓ Fact-based pyramid-structured report
-```
+1. Confirm scope, evidence path, and the artifact set to save.
+2. Route through the orchestrator or local helpers only when they materially improve the current task.
+3. Save analyses, intermediate outputs, and recommendations to files instead of leaving results in chat.
+4. Verify assumptions, traceability, and recommendation quality before finalizing conclusions.
+5. Append skill selection, handoff I/O, and file writes to `logs/process-log.jsonl` when the execution harness requires trace logging.
 
-## Prompt List
+## Deliverables
 
-| Prompt | Phase | Description |
-|-----------|---------|------|
-| **purpose-discovery** | Phase 1 | 仮説駆動で目的探索 |
-| **deep-research** | Phase 2 | 反復的深層リサーチ |
-| **framework-analysis** | Phase 3 | BCGフレームワーク分析 |
-| **report-writing** | Phase 4 | レポート生成 |
-| **full-research** | 全フェーズ | 統合リサーチ |
+- `report.md`: strategic question, method, framework output, recommendation, and file inventory.
+- `results/`: matrices, scorecards, portfolio classifications, and structured evidence summaries.
+- `figures/`: English-only strategy visuals, portfolio charts, or comparison plots when needed.
+- `data/`: normalized source material when transformation occurs.
 
-## Skills
+## Quality Gates
 
-| Skill | Description |
-|--------|------|
-| **orchestrator** | タスク分類・フェーズルーティング |
-| **framework-library** | BCG固有フレームワーク定義 |
-
-## BCGフレームワーク一覧
-
-### ポートフォリオ戦略
-
-| フレームワーク | 用途 |
-|--------------|------|
-| **BCG Growth-Share Matrix** | 事業を花形/金のなる木/問題児/負け犬に分類しリソース配分 |
-| **BCG Advantage Matrix** | 競争優位の源泉と規模で業界を4タイプに分類 |
-| **Strategic Environments Matrix** | 事業環境の特性に基づく戦略分類 |
-
-### コスト・オペレーション
-
-| フレームワーク | 用途 |
-|--------------|------|
-| **BCG Experience Curve** | 累積生産量とコスト低減の関係を分析 |
-| **Time-Based Competition** | 時間を競争優位の源泉として分析 |
-| **Deconstruction** | バリューチェーン分解・再構築 |
-
-### 戦略立案
-
-| フレームワーク | 用途 |
-|--------------|------|
-| **BCG Strategy Palette** | 環境に応じた5つの戦略アプローチ選択 |
-| **Hypothesis-Driven Approach** | 仮説駆動型問題解決（Day 1 Answer → Issue Tree） |
-| **Issue Tree** | MECEなイシュー分解と優先順位付け |
-
-### 価値創造
-
-| フレームワーク | 用途 |
-|--------------|------|
-| **BCG TSR Analysis** | 株主総利回り分解による価値創造分析 |
-| **Value Creation Framework** | 成長・マージン・資本効率の3軸分析 |
-
-### デジタル変革
-
-| フレームワーク | 用途 |
-|--------------|------|
-| **Digital Acceleration Index** | デジタル化の加速度評価 |
-| **Bionic Company** | テクノロジーと人間の融合型組織設計 |
-
-## Usage
-
-### Examples
-
-- 「事業ポートフォリオを分析して」→ BCG Growth-Share Matrix 適用
-- 「コスト競争力を評価して」→ BCG Experience Curve 適用
-- 「新規市場への戦略を立案して」→ BCG Strategy Palette 適用
-- 「株主価値を分析して」→ BCG TSR Analysis 適用
-
-## BCGワークフロー推奨順序
-
-### 戦略レビュープロジェクト
-
-| Step | フレームワーク | 目的 |
-|------|---------------|------|
-| 1 | Hypothesis-Driven | 初期仮説設定・イシュー特定 |
-| 2 | Issue Tree | 問題のMECE分解 |
-| 3 | Growth-Share Matrix | ポートフォリオ可視化 |
-| 4 | Advantage Matrix | 業界特性把握 |
-| 5 | Strategy Palette | 戦略アプローチ選択 |
-| 6 | TSR Analysis | 価値創造定量化 |
-
-### コスト変革プロジェクト
-
-| Step | フレームワーク | 目的 |
-|------|---------------|------|
-| 1 | Experience Curve | コストポジション把握 |
-| 2 | Deconstruction | バリューチェーン分析 |
-| 3 | Time-Based Competition | 時間効率改善 |
-
-## 品質検証
-
-| チェック | 説明 |
-|---------|------|
-| MECE性 | イシュー分解の重複なし・漏れなし |
-| 仮説検証 | Day 1 Answerとの整合性 |
-| ファクトベース | データに基づく定量分析 |
-| So What | 経営層への示唆が明確 |
-
-## MCP Integration
-
-`deep-research` MCP サーバーが有効な場合、Deep Research フェーズで MCP の構造化リサーチ
-フレームワークを活用してください。MCP が利用できない場合は従来の Think→Action→Report
-ワークフローを使用します。
-
----
-
-## Verification Loop (v0.2.0)
-
-```
-PLAN   → define scope, inputs, expected outputs
-EXECUTE → run analysis pipeline
-VERIFY  → check outputs against quality gates
-REPORT  → save all artifacts, generate report
-```
-
-### Quality Gates
-
-- [ ] All outputs include explicit assumptions and constraints
-- [ ] Traceable reasoning between steps
-- [ ] Final recommendation with clear next actions
-- [ ] Artifacts saved as files (not chat-only output)
+- The chosen BCG-style framework matches the client objective and evidence quality.
+- Assumptions, calculations, and recommendation logic are traceable.
+- Final outputs contain actionable next steps and saved supporting artifacts.
+- `report.md` and, when used, `logs/process-log.jsonl` reference generated files.

@@ -1,6 +1,0 @@
-{
-  "name": "enterprise-assistant",
-  "version": "v0.2.0",
-  "description": "Coordinates enterprise transformation work for strategy, PMO, and leadership teams across diagnosis, prioritization, simulation, and executive communication.",
-  "entrypoint": "main.py"
-}

@@ -1,5 +1,5 @@
 ---
-name: secops-assistant
+name: secops
 description: |
   Security Incident Response skill suite for coordinated multi-step workflows.
   Includes an orchestrator plus specialized sub-skills designed
@@ -8,40 +8,42 @@ description: |
 
 # Security Incident Response
 
-This suite is a coordinated skill package under `secops`.
+Security Incident Response skill suite for coordinated multi-step workflows. Includes an orchestrator plus specialized sub-skills designed to produce higher-quality outcomes through structured chaining.
 
-## Package Structure
+## Use This Skill When
 
-- Root skill: `secops-assistant`
-- Orchestrator skill: `secops-orchestrator`
-- Specialized sub-skills: domain-focused execution skills
+- An incident-response workflow needs alert triage, correlation, root-cause analysis, containment, or postmortem work.
+- Multiple secops sub-skills must be coordinated into a single response package.
+- Intermediate outputs need validation before the final recommendation or report is issued.
 
-## Orchestration Principle
+## Local Resources
 
-The orchestrator routes tasks to specialized sub-skills in sequence,
-checks intermediate quality gates, and consolidates outputs into a
-final actionable result.
+- Route through `secops-orchestrator` when multiple incident-response sub-skills are required.
+- Use the specialized secops sub-skills directly for narrow execution tasks.
 
-## Common Output Requirements
+## Required Inputs
 
-- Explicit assumptions and constraints
-- Traceable reasoning between steps
-- Final recommendation with next actions
+- Incident objective, affected scope, severity, and decision timeline.
+- Available evidence, constraints, systems context, and review thresholds.
+- Required deliverables, escalation expectations, and reporting audience.
 
----
+## Workflow
 
-## Verification Loop (v0.2.0)
+1. Confirm scope, evidence path, and the artifact set to save.
+2. Route through the orchestrator or local helpers only when they materially improve the current task.
+3. Save analyses, intermediate outputs, and recommendations to files instead of leaving results in chat.
+4. Verify assumptions, traceability, and recommendation quality before finalizing conclusions.
+5. Append skill selection, handoff I/O, and file writes to `logs/process-log.jsonl` when the execution harness requires trace logging.
 
-```
-PLAN   → define scope, inputs, expected outputs
-EXECUTE → run analysis / generation pipeline
-VERIFY  → check outputs against quality gates
-REPORT  → deliver structured artifacts with traceable reasoning
-```
+## Deliverables
 
-### Quality Gates
+- `report.md`: incident summary, findings, actions, and file inventory.
+- `results/`: triage outputs, correlation analyses, RCA artifacts, and structured response outputs.
+- `data/`: normalized evidence when transformation occurs.
 
-- [ ] All outputs include explicit assumptions and constraints
-- [ ] Traceable reasoning between steps
-- [ ] Final recommendation with clear next actions
-- [ ] Artifacts saved as files (not chat-only output)
+## Quality Gates
+
+- Outputs include explicit assumptions, incident scope, and constraints.
+- Evidence and reasoning are traceable from source inputs to recommendation.
+- Final actions are actionable and saved as files.
+- `report.md` and, when used, `logs/process-log.jsonl` reference generated artifacts.

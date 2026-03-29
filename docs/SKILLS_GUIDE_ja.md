@@ -1,6 +1,6 @@
 # Skills 作成ガイド
 
-このガイドでは、coreclaw-skills-hub マーケットプレースにスキルを登録・公開するための手順とベストプラクティスを説明します。
+このガイドでは、coreclaw-skills-hubマーケットプレースにスキルを登録・公開するための手順とベストプラクティスを説明します。
 
 ## 目次
 
@@ -293,7 +293,34 @@ mkdir -p coreclaw-skills-hub/skills/<group>/<skill-name>
 cd coreclaw-skills-hub/skills/<group>/<skill-name>
 ```
 
-### 2. skill.json を作成
+### 2. SKILL.md を作成
+
+正式なメタデータと手順を定義します：
+
+```markdown
+---
+name: <skill-name>
+description: |
+  Your skill description here
+---
+
+# [Skill Name]
+
+## 概要
+説明
+```
+
+### 3. README.md を作成
+
+マーケットプレース向けの説明：
+
+```markdown
+# [Skill Name]
+
+Brief description and features
+```
+
+### 4. 必要な場合だけ互換メタデータを追加
 
 ```json
 {
@@ -304,7 +331,9 @@ cd coreclaw-skills-hub/skills/<group>/<skill-name>
 }
 ```
 
-### 3. main.py を作成
+### 5. main.py を作成
+
+`skill.json` を置く場合だけ必要です。
 
 スキルのロジックを実装：
 
@@ -321,33 +350,7 @@ if __name__ == "__main__":
     main()
 ```
 
-### 4. SKILL.md を作成
-
-スキルのドキュメントを作成：
-
-```markdown
-# [Skill Name]
-
-## 概要
-説明
-
-## 使用方法
-使用方法
-
-...
-```
-
-### 5. README.md を作成
-
-マーケットプレース向けの説明：
-
-```markdown
-# [Skill Name]
-
-Brief description and features
-```
-
-### 6. source/ ディレクトリを作成（オプション）
+### 6. source/ ディレクトリを作成（旧形式との互換用オプション）
 
 元のペイロードを保存：
 
@@ -369,7 +372,9 @@ git push origin main
 
 ## リリース手順
 
-### 1. skill.json のバージョンを更新
+### 1. リリース対象の更新を確定
+
+`SKILL.md` が正式定義です。互換メタデータがある場合だけ `skill.json` のバージョンも更新します。
 
 ```json
 {
@@ -383,6 +388,8 @@ git push origin main
 ### 2. 変更をコミット
 
 ```bash
+git add coreclaw-skills-hub/skills/<group>/<skill-name>/SKILL.md
+git add coreclaw-skills-hub/skills/<group>/<skill-name>/README.md
 git add coreclaw-skills-hub/skills/<group>/<skill-name>/skill.json
 git commit -m "bump: version v0.2.0 for <skill-name>"
 git push origin main
@@ -402,11 +409,11 @@ git push origin <group>/<skill-name>/v0.2.0
 
 ### 4. GitHub Release を確認
 
-タグ作成後、GitHub Actions が自動的に以下を実行：
+タグ作成後、GitHub Actionsが自動的に以下を実行：
 - スキルディレクトリをZIP化
-- GitHub Release を作成
-- registry.json を更新
-- 変更を main ブランチにプッシュ
+- GitHub Releaseを作成
+- registry.jsonを更新
+- 変更をmainブランチにプッシュ
 
 ---
 

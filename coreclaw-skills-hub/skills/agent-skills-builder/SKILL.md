@@ -6,91 +6,48 @@ description: |
   generates, validates, and distributes skill configurations for GitHub Copilot CLI and related runtimes.
 ---
 
-# Agent Skills Builder v0.9.0
+# Agent Skills Builder v0.10.0
 
 A builder that creates Agent Skills compliant packages through dialogue-based requirements discovery.
 
-## Purpose
+## Use This Skill When
 
-- Standardize skill creation for Agent Skills compatible runtimes
-- Deep exploration of user needs through structured dialogue
-- Identify the true objective behind surface-level requests
-- Concretize requirements through proactive proposals
-- Auto-generate a minimal Agent Skills template when file contents are not explicitly supplied
-- Auto-generate suite-style collections with an orchestrator and profile-based specialized skills
-- Generate profile-specific orchestrator contracts for input, output, quality, and fallback handling
-- Auto-generate sub-agent configurations when needed
-- Ensure required `SKILL.md` frontmatter and kebab-case naming
-- Preserve legacy CoreClaw scaffolds only when `target_format` requests them
-- Maintain documentation quality standards
-- Improve deliverable distribution via ZIP packaging and artifact-visible saves
+- A user wants to create a new Agent Skill from an ambiguous or high-level request.
+- The work requires structured requirements discovery before file generation.
+- A single skill or suite collection must be scaffolded and validated.
 
-## Interaction Policy
+## Local Resources
 
-- Elicit background, purpose, and constraints through user questions
-- Always conduct one-question-at-a-time interviews (never bundle multiple questions)
-- Confirm the previous answer before proceeding to the next question
-- Sequentially confirm: surface request → background problem → success criteria → constraints
-- Articulate the true objective in writing and obtain user agreement
-- Proactively propose multiple options when requirements are ambiguous
-- Show pros, cons, and recommendation rationale concisely for each proposal
-- When sub-agents are deemed necessary, present reasoning and architecture for agreement
-- Finalize specifications in a form the user can choose from
+- Generate Agent Skills output only.
+- Save generated outputs under `coreclaw-skills-hub/.artifacts/generated-skills/` and bundle a ZIP when requested.
 
-## Expected Workflow
+## Required Inputs
 
-1. Confirm the surface request (what the user initially wants) via one-question dialogue
-2. Sequentially confirm background problem, success criteria, and constraints
-3. Articulate the true objective in writing and obtain user agreement
-4. Decompose agent responsibilities needed to achieve the true objective; propose single or sub-agent architecture
-5. Determine structure type (single skill or suite collection)
-6. Generate Agent Skills compliant `SKILL.md` files by default
-7. When suite mode is selected, generate the orchestrator skill and specialized sub-skills
-8. When `subskills` are omitted, select a suite profile and generate its default role templates
-9. Generate the orchestrator's contracts and fallback policy from the selected suite profile
-10. Validate naming and required frontmatter consistency
-11. Save generated skills under `coreclaw-skills-hub/.artifacts/generated-skills/`
-12. Bundle deliverables into a downloadable ZIP when requested
-13. Only generate `skill.json`, `main.py`, and `source/SKILL.md` when `target_format` is `coreclaw`
+- Skill or suite name and the user's surface request.
+- Background problem, success criteria, constraints, and agreed true objective.
+- Structure choice: single skill or suite collection.
+- Optional suite profile and any required frontmatter or tooling constraints.
 
-## Input
+## Workflow
 
-- Skill name
-- User's surface request
-- Background problem, success criteria, constraints
-- Agreed-upon true objective
-- Sub-agent requirement (number of roles and responsibility split when needed)
-- Required input/output formats
-- Target format (`agent-skills` by default, `coreclaw` for legacy packages)
-- Optional frontmatter fields: `license`, `compatibility`, `metadata`, `allowed_tools`
-- Optional suite profile (`ops`, `research`, `consulting`)
-- Operational conditions (deadline, quality requirements, dependencies)
+1. Ask exactly one question at a time until the surface request, background, success criteria, constraints, and true objective are clear.
+2. Propose the smallest workable architecture: single skill or suite with orchestrator and specialized roles.
+3. Generate Agent Skills compliant `SKILL.md` files, plus suite artifacts when the design requires them.
+4. Validate naming, frontmatter, structure, and artifact completeness before packaging outputs.
 
-## Output
+## Deliverables
 
-- Generated Agent Skill package
-- Sub-agent (sub-skill) groups when required
-- Suite collection with orchestrator and specialized skill directories when requested
-- True objective summary (with diff from surface request)
-- Proposal comparison (selected vs. alternatives)
-- Validation results
-- Artifact-visible save path
-- Generated template file list
-- Downloadable ZIP deliverable (with path)
-- Legacy CoreClaw package when explicitly requested
+- Generated skill or suite files under `coreclaw-skills-hub/.artifacts/generated-skills/`.
+- Validation summary and generated file inventory.
+- True objective summary and chosen architecture rationale.
+- ZIP bundle path when bundling is requested.
 
-## Quality Criteria
+## Quality Gates
 
-- `SKILL.md` contains required frontmatter fields
-- Skill directory name matches the frontmatter `name`
-- Descriptions are clear and concise
-- Compliant with Agent Skills conventions (naming, structure)
-- Requirements traceable to dialogue log
-- One-question-at-a-time dialogue order maintained
-- True objective articulated and aligned with designed agent responsibilities
-- ZIP deliverable generated with all key files included
-- Generated package saved under workspace-visible `.artifacts`
-- Legacy CoreClaw files are only generated when explicitly requested
+- One-question-at-a-time dialogue is maintained until the true objective is confirmed.
+- Every generated `SKILL.md` has valid frontmatter and a directory name matching `name`.
+- Generated output remains Agent Skills compliant.
+- Generated artifacts are saved to a workspace-visible location and validated before delivery.
 
 ---
 
@@ -106,7 +63,6 @@ Before execution, define:
 - [ ] **Target skill name**: valid kebab-case identifier
 - [ ] **True objective**: confirmed by user (not just surface request)
 - [ ] **Structure type**: single skill vs. suite-style with sub-agents
-- [ ] **Target format**: Agent Skills default or legacy CoreClaw override
 - [ ] **Completeness**: all required files identified
 
 #### Pass Criteria
@@ -120,7 +76,6 @@ Before execution, define:
 - Default suite generation applies the selected suite profile when no explicit sub-skills are supplied
 - Orchestrator contracts match the selected suite profile
 - True objective documented and aligned with agent design
-- Legacy CoreClaw files appear only when `target_format` is `coreclaw`
 
 ### Verification Loop
 
@@ -136,7 +91,6 @@ Phase 2: EXECUTE
   |-- Generate suite collection README and sub-agent files if suite-style
   |-- Apply selected suite profile roles when no sub-skills are specified
   |-- Generate profile-specific orchestrator contracts
-  |-- Generate legacy CoreClaw scaffolds only when explicitly requested
   |-- Save generated package to artifact-visible workspace path
   +-- Bundle into ZIP
 
@@ -179,8 +133,7 @@ Phase 5: REPORT
 | G8 | Suite-style packages include orchestrator sections and specialized sub-skills | MUST for suite-style |
 | G9 | Default suite templates honor the selected suite profile when `subskills` are omitted | MUST for default suite mode |
 | G10 | Orchestrator contracts match the selected suite profile | MUST for profile-based suite mode |
-| G11 | Legacy CoreClaw files only appear when explicitly requested | MUST |
-| G12 | One-question-at-a-time dialogue maintained | RECOMMENDED |
+| G11 | One-question-at-a-time dialogue maintained | RECOMMENDED |
 
 ### Model Routing
 
@@ -198,7 +151,7 @@ For suite-style skill packages, split generation into parallel agents:
 Orchestrator (this skill)
 |-- Agent 1: Requirements discovery and true objective articulation
 |-- Agent 2: Skill architecture design and file structure planning
-|-- Agent 3: File generation (SKILL.md, README.md, optional legacy compatibility files)
+|-- Agent 3: File generation (SKILL.md, README.md, suite artifacts)
 +-- Agent 4: Validation, artifact save, ZIP bundling, and release preparation
 ```
 
@@ -217,29 +170,27 @@ def validate_skill_package(skill_dir):
     """Validate generated skill package against quality gates."""
     errors = []
     
-    # G1: skill.json schema
-    skill_json = skill_dir / "skill.json"
-    if not skill_json.exists():
-        errors.append("G1: skill.json missing")
-    else:
-        data = json.loads(skill_json.read_text())
-        for field in ["name", "version", "description", "entrypoint"]:
-            if field not in data:
-                errors.append(f"G1: skill.json missing '{field}'")
+  skill_md = skill_dir / "SKILL.md"
+  if not skill_md.exists():
+    errors.append("G1: SKILL.md missing")
+    return errors
+
+  text = skill_md.read_text()
+  if not text.startswith("---\n"):
+    errors.append("G1: missing YAML frontmatter")
+
+  name_match = re.search(r'^name:\s+(.+)$', text, re.MULTILINE)
+  if not name_match:
+    errors.append("G1: frontmatter name missing")
+  else:
+    name = name_match.group(1).strip()
+    if not re.match(r'^[a-z][a-z0-9-]*$', name):
+      errors.append("G4: name not kebab-case")
+    if skill_dir.name != name:
+      errors.append("G2: directory name does not match frontmatter name")
     
-    # G2: entrypoint exists
-    if skill_json.exists():
-        ep = data.get("entrypoint", "main.py")
-        if not (skill_dir / ep).exists():
-            errors.append(f"G2: entrypoint '{ep}' not found")
-    
-    # G4: naming convention
-    if not re.match(r'^[a-z][a-z0-9-]*$', data.get("name", "")):
-        errors.append("G4: name not kebab-case")
-    
-    # G5: semver
-    if not re.match(r'^v\d+\.\d+\.\d+$', data.get("version", "")):
-        errors.append("G5: version not semver vX.Y.Z")
+  if not re.search(r'^description:\s*', text, re.MULTILINE):
+    errors.append("G1: frontmatter description missing")
     
     return errors
 ```
