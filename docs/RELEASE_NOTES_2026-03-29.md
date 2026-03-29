@@ -28,7 +28,7 @@ This document contains copy-ready GitHub Releases body text for the skills updat
 
 - Required output layout standardized around `report.md`, `figures/`, `results/`, `data/`, and `logs/process-log.jsonl`.
 - Root suite documentation refreshed to match the new execution contract.
-- Updated imported scientific sub-skill markers to `v0.2.0` where affected by this release.
+- Updated imported scientific sub-skill markers to `v0.5.1` where affected by this release.
 
 ## Imported Suite Releases v0.3.0
 
@@ -104,7 +104,7 @@ Use the Shared Body section above.
 
 Use the Shared Body section above.
 
-## Scientific Subskill Releases v0.2.0
+## Scientific Subskill Releases v0.5.1
 
 Use the following body for each `scientific-*` tag added in this release.
 
@@ -112,12 +112,12 @@ Use the following body for each `scientific-*` tag added in this release.
 
 #### Highlights
 
-- Refreshed the imported scientific subskill package to `v0.2.0`.
+- Refreshed the imported scientific subskill package to `v0.5.1`.
 - Aligned the subskill with the scientist suite cleanup and compact execution-contract format.
 - Removed compatibility-layer artifacts from the imported skill layout.
 
 #### Included Changes
 
-- Updated imported version markers in subskill documentation to `v0.2.0`.
+- Updated imported version markers in subskill documentation to `v0.5.1`.
 - Removed legacy `skill.json`, compatibility wrapper `main.py`, and mirrored `source/SKILL.md` files.
 - Kept the published layout compatible with the current `SKILL.md`-native validation and release pipeline.
