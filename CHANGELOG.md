@@ -6,6 +6,22 @@ The format is based on Keep a Changelog and the project uses semantic version ta
 
 ## [Unreleased]
 
+## [2026-03-29]
+
+### Changed
+
+- Reorganized installable skill content so published assets no longer depend on nested `source/` directories.
+- Converted validation, registry preview, and release metadata flows to use `SKILL.md` frontmatter as the canonical source.
+- Optimized the `scientist` suite and 195 `scientific-*` skills into compact execution-contract oriented skill definitions.
+- Simplified `agent-skills-builder` to generate Agent Skills artifacts only and updated its runtime contract and documentation.
+- Bumped skill versions for the updated release set, including `agent-skills-builder` to `v0.10.0`, `scientist` to `v0.6.0`, updated imported suite markers to `v0.3.0`, and updated changed `scientific-*` imported markers to `v0.2.0`.
+
+### Removed
+
+- Repository-wide compatibility `skill.json` files now that `SKILL.md` frontmatter is the source of truth.
+- Placeholder or wrapper `main.py` files under imported skills, retaining only the real runtime for `agent-skills-builder`.
+- Mirrored `source/SKILL.md` files that previously interfered with validation.
+
 ### Added
 
 - Top-level English and Japanese repository guides.
