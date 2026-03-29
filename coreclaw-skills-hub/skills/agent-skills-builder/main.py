@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Implementation for agent-skills-builder (v0.9.0).
+"""Implementation for agent-skills-builder (v0.10.0).
 
 Harness-optimized with 5-phase verification loops, domain-specific eval criteria,
 model routing, sub-agent orchestration, and error recovery protocol.
@@ -14,10 +14,20 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 
 SKILL_NAME = "agent-skills-builder"
-SKILL_VERSION = "v0.9.0"
+SKILL_VERSION = "v0.10.0"
 WORKSPACE_ROOT = Path(__file__).resolve().parents[3]
 ARTIFACT_ROOT = WORKSPACE_ROOT / "coreclaw-skills-hub" / ".artifacts" / "generated-skills"
 DEFAULT_GROUP_ICON = "🧰"
+DEFAULT_ORCHESTRATOR_TOOLS = ["Read", "Grep", "Glob", "TodoWrite"]
+DEFAULT_EXECUTION_AGENT_TOOLS = ["Read", "Grep", "Glob", "Bash"]
+DEFAULT_SUB_AGENT_TOOLS = ["Read", "Grep"]
+HARNESS_PROFILE_ALIASES = {
+    "": "standard",
+    "default": "standard",
+    "standard": "standard",
+    "strict": "strict",
+    "minimal": "minimal",
+}
 SUPPORTED_TARGET_FORMAT_ALIASES = {
     "agent-skills": "agent-skills",
     "agentskills": "agent-skills",
@@ -200,6 +210,323 @@ def _yaml_scalar(value: str) -> str:
     return json.dumps(value, ensure_ascii=False)
 
 
+def _yaml_list(values: list[str], indent: int = 0) -> list[str]:
+    prefix = " " * indent
+    return [f"{prefix}- {_yaml_scalar(value)}" for value in values]
+
+
+def _normalize_tools(value: object, default: list[str]) -> list[str]:
+    if isinstance(value, list):
+        tools = [_stringify(item) for item in value if _stringify(item)]
+        return tools or list(default)
+    if isinstance(value, str):
+        parsed = [part.strip() for part in re.split(r"[,\n]", value) if part.strip()]
+        return parsed or list(default)
+    return list(default)
+
+
+def _role_model_tier(role: str) -> str:
+    if role == "orchestrator":
+        return "premium"
+    if role == "agent":
+        return "standard"
+    return "fast"
+
+
+def _harness_profile(payload: dict) -> str:
+    raw = _stringify(payload.get("harness_profile") or payload.get("hook_profile") or payload.get("profile_mode")).lower()
+    return HARNESS_PROFILE_ALIASES.get(raw, "standard")
+
+
+def _should_emit_harness_scaffold(payload: dict, is_suite: bool) -> bool:
+    requested = payload.get("include_harness_scaffold")
+    if requested is not None:
+        return bool(requested)
+    return is_suite
+
+
+def _render_hooks_json(profile: str) -> str:
+    hooks = {
+        "profile": profile,
+        "PreToolUse": [
+            {
+                "matcher": "Bash",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node scripts/hooks/pre-bash-safety.js",
+                        "timeout": 10,
+                    }
+                ],
+                "description": "Block risky shell usage and remind the agent to keep changes reviewable.",
+            }
+        ],
+        "PostToolUse": [
+            {
+                "matcher": "Edit|Write|MultiEdit",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node scripts/hooks/post-edit-quality-gate.js",
+                        "async": True,
+                        "timeout": 30,
+                    }
+                ],
+                "description": "Run a lightweight quality gate after file edits.",
+            }
+        ],
+        "Stop": [
+            {
+                "matcher": "*",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node scripts/hooks/stop-cost-tracker.js",
+                        "async": True,
+                        "timeout": 10,
+                    }
+                ],
+                "description": "Capture session-level metrics and suggested next checks.",
+            }
+        ],
+    }
+    if profile == "strict":
+        hooks["PreToolUse"].append(
+            {
+                "matcher": "Write|Edit|MultiEdit",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node scripts/hooks/config-protection.js",
+                        "timeout": 10,
+                    }
+                ],
+                "description": "Prevent weakening lint or formatter configuration during agent edits.",
+            }
+        )
+    return json.dumps(hooks, ensure_ascii=False, indent=2) + "\n"
+
+
+def _render_hook_script(name: str, body: str) -> str:
+    return f'''#!/usr/bin/env node
+// {name}
+
+{body}
+'''
+
+
+def _render_harness_audit_doc(group_title: str, profile: str) -> str:
+    return f'''# Harness Audit
+
+Collection: {group_title}
+Profile: {profile}
+
+## Categories
+
+1. Tool Coverage
+2. Context Efficiency
+3. Quality Gates
+4. Memory Persistence
+5. Eval Coverage
+6. Security Guardrails
+7. Cost Efficiency
+
+## Review Checklist
+
+- Confirm hooks/hooks.json matches the intended enforcement profile.
+- Confirm agents and sub-agents have explicit tool boundaries.
+- Confirm orchestration contracts are file-backed and reviewable.
+- Confirm eval, verify, and checkpoint commands exist and match the workflow.
+- Confirm quality gates are documented before release.
+
+## Top Actions Template
+
+1. [Category] First measurable improvement
+2. [Category] Second measurable improvement
+3. [Category] Third measurable improvement
+'''
+
+
+def _render_command_doc(title: str, purpose: str, steps: list[str]) -> str:
+    return f'''# {title}
+
+{purpose}
+
+## Steps
+
+{chr(10).join(f'- {step}' for step in steps)}
+'''
+
+
+def _render_harness_scaffold_files(group_name: str, group_title: str, profile: str) -> dict[str, str]:
+    return {
+        "hooks/hooks.json": _render_hooks_json(profile),
+        "scripts/hooks/pre-bash-safety.js": _render_hook_script(
+            "pre-bash-safety",
+            "const blocked = ['rm -rf', '--no-verify'];\nconst input = process.argv.slice(2).join(' ');\nif (blocked.some((item) => input.includes(item))) {\n  console.error('Blocked risky shell pattern:', input);\n  process.exit(2);\n}\nconsole.log('pre-bash-safety: ok');",
+        ),
+        "scripts/hooks/post-edit-quality-gate.js": _render_hook_script(
+            "post-edit-quality-gate",
+            "console.log('post-edit-quality-gate: run lint, tests, or validators here');",
+        ),
+        "scripts/hooks/stop-cost-tracker.js": _render_hook_script(
+            "stop-cost-tracker",
+            "console.log('stop-cost-tracker: capture token and cost metrics here');",
+        ),
+        "scripts/hooks/config-protection.js": _render_hook_script(
+            "config-protection",
+            "console.log('config-protection: validate config changes before accepting them');",
+        ),
+        "docs/harness-audit.md": _render_harness_audit_doc(group_title, profile),
+        "commands/eval.md": _render_command_doc(
+            "eval",
+            "Run a lightweight evaluation pass against the generated harness and orchestration contracts.",
+            [
+                "Review orchestration.json and identify the critical success path.",
+                "Score pass criteria for each orchestrator, agent, and sub-agent role.",
+                "Record failures before release or promotion.",
+            ],
+        ),
+        "commands/verify.md": _render_command_doc(
+            "verify",
+            "Verify that hooks, contracts, and generated skill files remain internally consistent.",
+            [
+                "Check every generated SKILL.md and agent manifest for required sections.",
+                "Confirm hooks.json references existing scripts.",
+                "Confirm release artifacts and output contracts are aligned.",
+            ],
+        ),
+        "commands/checkpoint.md": _render_command_doc(
+            "checkpoint",
+            "Capture the current harness state at a logical milestone before moving to the next phase.",
+            [
+                "Summarize completed work and active assumptions.",
+                "List unresolved blockers and next validation step.",
+                "Persist the checkpoint summary to a reviewable file.",
+            ],
+        ),
+    }
+
+
+def _render_agent_manifest(
+    name: str,
+    description: str,
+    role: str,
+    tools: list[str],
+    handoff_to: list[str],
+    responsibilities: list[str],
+    quality_gates: list[str],
+    output_contract: list[str],
+) -> str:
+    title = " ".join(part.capitalize() for part in name.split("-"))
+    lines = [
+        "---",
+        f"name: {name}",
+        "description: |",
+        f"  {description}",
+        f"role: {role}",
+        f"model: {_role_model_tier(role)}",
+        "tools:",
+        *(_yaml_list(tools, indent=2)),
+    ]
+    if handoff_to:
+        lines.append("handoff_to:")
+        lines.extend(_yaml_list(handoff_to, indent=2))
+    lines.append("---")
+    body = [
+        "",
+        f"# {title}",
+        "",
+        description,
+        "",
+        "## Responsibilities",
+        "",
+        *(f"- {item}" for item in responsibilities),
+        "",
+        "## Output Contract",
+        "",
+        *(f"- {item}" for item in output_contract),
+        "",
+        "## Quality Gates",
+        "",
+        *(f"- {item}" for item in quality_gates),
+    ]
+    if handoff_to:
+        body.extend([
+            "",
+            "## Handoff Targets",
+            "",
+            *(f"- {item}" for item in handoff_to),
+        ])
+    return "\n".join(lines + body)
+
+
+def _suite_agent_name(payload: dict, group_name: str) -> str:
+    return _agent_skill_name(payload.get("agent_name") or f"{group_name}-agent")
+
+
+def _suite_agent_description(group_title: str) -> str:
+    return f"Executes the {group_title.lower()} workflow under orchestrator direction and dispatches specialized sub-agents."
+
+
+def _sub_agent_manifest_name(subskill_name: str) -> str:
+    return _agent_skill_name(f"{subskill_name}-sub-agent")
+
+
+def _render_orchestration_schema(
+    group_name: str,
+    group_title: str,
+    suite_profile: str,
+    orchestrator_name: str,
+    orchestrator_contracts: dict[str, list[str]],
+    execution_agent_name: str,
+    subskills: list[dict[str, str]],
+) -> str:
+    data = {
+        "collection": group_name,
+        "title": group_title,
+        "suite_profile": suite_profile,
+        "orchestration": {
+            "orchestrator": {
+                "skill": f"{orchestrator_name}/SKILL.md",
+                "agent_manifest": f"agents/{orchestrator_name}.md",
+                "dispatches": [execution_agent_name],
+            },
+            "agent": {
+                "name": execution_agent_name,
+                "agent_manifest": f"agents/{execution_agent_name}.md",
+                "dispatches": [_sub_agent_manifest_name(item["name"]) for item in subskills],
+            },
+            "sub_agents": [
+                {
+                    "name": _sub_agent_manifest_name(item["name"]),
+                    "skill": f"{item['name']}/SKILL.md",
+                    "agent_manifest": f"agents/{_sub_agent_manifest_name(item['name'])}.md",
+                    "specialty": item["title"],
+                }
+                for item in subskills
+            ],
+        },
+        "contracts": orchestrator_contracts,
+        "harness_recommendations": {
+            "quality_gates": [
+                "Run validation after each generated file set.",
+                "Keep orchestrator handoff contracts explicit and file-backed.",
+                "Require final output summary with assumptions, risks, and next steps.",
+            ],
+            "memory_persistence": [
+                "Persist reusable generation decisions in repository memory.",
+                "Compact investigation context after architecture confirmation.",
+            ],
+            "cost_efficiency": [
+                "Use fast-tier sub-agents for exploration and scaffolding.",
+                "Reserve premium-tier reasoning for orchestration and architecture decisions.",
+            ],
+        },
+    }
+    return json.dumps(data, ensure_ascii=False, indent=2) + "\n"
+
+
 def _render_agent_frontmatter(name: str, description: str, payload: dict) -> str:
     lines = ["---", f"name: {name}", "description: |", f"  {description}"]
 
@@ -279,8 +606,10 @@ def _render_agent_body(skill_name: str, title: str, description: str, payload: d
 '''
 
 
-def _render_agent_collection_readme(collection_name: str, skill_dirs: list[str]) -> str:
+def _render_agent_collection_readme(collection_name: str, skill_dirs: list[str], agent_manifests: list[str], harness_assets: list[str]) -> str:
     items = "\n".join(f"- `{item}`" for item in skill_dirs)
+    manifests = "\n".join(f"- `{item}`" for item in agent_manifests)
+    harness = "\n".join(f"- `{item}`" for item in harness_assets)
     return f'''# {collection_name}
 
 Generated skill collection in `agent-skills` format.
@@ -288,6 +617,18 @@ Generated skill collection in `agent-skills` format.
 ## Included Skills
 
 {items}
+
+## Included Agent Manifests
+
+{manifests}
+
+## Orchestration Assets
+
+- `orchestration.json`
+
+## Harness Scaffolds
+
+{harness}
 
 Each listed directory is an individual Agent Skill with its own `SKILL.md`.
 '''
@@ -312,12 +653,39 @@ def _render_agent_suite_files(payload: dict) -> tuple[dict[str, str], dict[str, 
     group_title = _stringify(payload.get("group_title") or payload.get("title")) or _display_name(group_name)
     suite_profile = _suite_profile(payload)
     orchestrator_name = _agent_skill_name(payload.get("orchestrator_name") or f"{group_name}-orchestrator")
+    execution_agent_name = _suite_agent_name(payload, group_name)
     orchestrator_description = _stringify(payload.get("orchestrator_description")) or _default_orchestrator_description(group_title)
+    execution_agent_description = _stringify(payload.get("agent_description")) or _suite_agent_description(group_title)
     orchestrator_contracts = _orchestrator_profile_contracts(group_title, suite_profile)
     subskills = _normalize_subskills(payload, group_name, group_title)
+    harness_profile = _harness_profile(payload)
+    harness_scaffold_enabled = _should_emit_harness_scaffold(payload, True)
+    orchestrator_tools = _normalize_tools(payload.get("orchestrator_tools"), DEFAULT_ORCHESTRATOR_TOOLS)
+    agent_tools = _normalize_tools(payload.get("agent_tools"), DEFAULT_EXECUTION_AGENT_TOOLS)
+    sub_agent_tools = _normalize_tools(payload.get("sub_agent_tools") or payload.get("subagent_tools"), DEFAULT_SUB_AGENT_TOOLS)
+    agent_manifest_names = [orchestrator_name, execution_agent_name, *[_sub_agent_manifest_name(item["name"]) for item in subskills]]
+    harness_assets = []
+    harness_files = {}
+    if harness_scaffold_enabled:
+        harness_files = _render_harness_scaffold_files(group_name, group_title, harness_profile)
+        harness_assets = sorted(harness_files.keys())
 
     files: dict[str, str] = {
-        "README.md": _render_agent_collection_readme(group_name, [orchestrator_name, *[item["name"] for item in subskills]]),
+        "README.md": _render_agent_collection_readme(
+            group_name,
+            [orchestrator_name, *[item["name"] for item in subskills]],
+            agent_manifest_names,
+            harness_assets,
+        ),
+        "orchestration.json": _render_orchestration_schema(
+            group_name,
+            group_title,
+            suite_profile,
+            orchestrator_name,
+            orchestrator_contracts,
+            execution_agent_name,
+            subskills,
+        ),
         f"{orchestrator_name}/SKILL.md": _render_agent_body(
             orchestrator_name,
             _display_name(orchestrator_name),
@@ -332,7 +700,44 @@ def _render_agent_suite_files(payload: dict) -> tuple[dict[str, str], dict[str, 
             },
             role_summary="Routes work across specialized skills and validates the outputs before final delivery.",
         ) + f'''\n\n## Orchestration Flow\n\n- {'\n- '.join(item['name'] for item in subskills)}\n\n## Input Contract\n\n- {'\n- '.join(orchestrator_contracts['input_contract'])}\n\n## Output Contract\n\n- {'\n- '.join(orchestrator_contracts['output_contract'])}\n\n## Quality Gates\n\n- {'\n- '.join(orchestrator_contracts['quality_gates'])}\n\n## Fallback Policy\n\n- {'\n- '.join(orchestrator_contracts['fallback_policy'])}\n''',
+        f"agents/{orchestrator_name}.md": _render_agent_manifest(
+            orchestrator_name,
+            orchestrator_description,
+            "orchestrator",
+            orchestrator_tools,
+            [execution_agent_name],
+            [
+                "Interpret the workflow objective and choose the smallest valid execution path.",
+                "Dispatch the execution agent with complete contracts, constraints, and quality gates.",
+                "Review returned artifacts before final delivery.",
+            ],
+            orchestrator_contracts["quality_gates"],
+            orchestrator_contracts["output_contract"],
+        ),
+        f"agents/{execution_agent_name}.md": _render_agent_manifest(
+            execution_agent_name,
+            execution_agent_description,
+            "agent",
+            agent_tools,
+            [_sub_agent_manifest_name(item["name"]) for item in subskills],
+            [
+                "Translate orchestrator intent into an ordered sub-agent execution plan.",
+                "Maintain shared assumptions, constraints, and working state across sub-agents.",
+                "Assemble sub-agent outputs into a coherent delivery package.",
+            ],
+            [
+                "Sub-agent handoffs stay aligned with the orchestrator input contract.",
+                "Intermediate outputs remain traceable to the producing sub-agent.",
+                "Final assembled output is ready for orchestrator review.",
+            ],
+            [
+                "Ordered execution summary",
+                "Consolidated artifact inventory",
+                "Integrated response draft for orchestrator review",
+            ],
+        ),
     }
+    files.update(harness_files)
 
     for item in subskills:
         files[f"{item['name']}/SKILL.md"] = _render_agent_body(
@@ -349,6 +754,28 @@ def _render_agent_suite_files(payload: dict) -> tuple[dict[str, str], dict[str, 
             },
             role_summary=f"Handles the {item['title'].lower()} step within the collection.",
         )
+        sub_agent_name = _sub_agent_manifest_name(item["name"])
+        files[f"agents/{sub_agent_name}.md"] = _render_agent_manifest(
+            sub_agent_name,
+            f"Specialized sub-agent for the {item['title'].lower()} stage in the {group_title.lower()} workflow.",
+            "sub-agent",
+            sub_agent_tools,
+            [],
+            [
+                f"Execute the {item['title'].lower()} stage using the provided input contract.",
+                "Return structured outputs, assumptions, and unresolved risks.",
+                "Stop and surface blockers instead of guessing through missing prerequisites.",
+            ],
+            [
+                "Outputs are parseable and ready for the parent agent to merge.",
+                "Assumptions and confidence levels are explicit.",
+                "The response includes any blockers or missing context.",
+            ],
+            [
+                f"{item['title']} stage output",
+                "Assumptions, confidence, and open issues",
+            ],
+        )
 
     return files, {
         "structure_type": "suite",
@@ -356,8 +783,13 @@ def _render_agent_suite_files(payload: dict) -> tuple[dict[str, str], dict[str, 
         "collection_name": group_name,
         "suite_profile": suite_profile,
         "orchestrator_name": orchestrator_name,
+        "agent_name": execution_agent_name,
         "subskills": [item["name"] for item in subskills],
+        "sub_agents": [_sub_agent_manifest_name(item["name"]) for item in subskills],
         "orchestrator_contracts": orchestrator_contracts,
+        "harness_files": ["README.md", "orchestration.json", *[f"agents/{name}.md" for name in agent_manifest_names], *harness_assets],
+        "harness_profile": harness_profile,
+        "harness_scaffold": harness_scaffold_enabled,
     }
 
 
@@ -601,6 +1033,9 @@ def run(input_data: dict | None = None) -> dict:
             "suite-template-generation",
             "suite-profile-presets",
             "profile-specific-orchestrator-contracts",
+            "orchestrator-agent-sub-agent-generation",
+            "orchestration-schema-output",
+            "agent-manifest-output",
         ],
         "artifact_output": {
             "workspace_root": str(WORKSPACE_ROOT),
@@ -629,6 +1064,8 @@ def run(input_data: dict | None = None) -> dict:
                 "suite-group-generated",
                 "suite-profile-selected",
                 "profile-orchestrator-contracts-generated",
+                "agent-manifests-generated",
+                "orchestration-schema-generated",
             ],
             "model_routing": {
                 "fast": "File scaffolding, JSON generation, ZIP bundling",

@@ -38,6 +38,8 @@ A builder that creates Agent Skills compliant packages through dialogue-based re
 ## Deliverables
 
 - Generated skill or suite files under `coreclaw-skills-hub/.artifacts/generated-skills/`.
+- `orchestration.json` plus `agents/*.md` files when suite-style output is selected.
+- `hooks/hooks.json`, `scripts/hooks/*.js`, `docs/harness-audit.md`, and `commands/*.md` harness scaffolds for suite-style output.
 - Validation summary and generated file inventory.
 - True objective summary and chosen architecture rationale.
 - ZIP bundle path when bundling is requested.
@@ -48,6 +50,8 @@ A builder that creates Agent Skills compliant packages through dialogue-based re
 - Every generated `SKILL.md` has valid frontmatter and a directory name matching `name`.
 - Generated output remains Agent Skills compliant.
 - Generated artifacts are saved to a workspace-visible location and validated before delivery.
+- Suite-style output includes one orchestrator manifest, one execution agent manifest, and one sub-agent manifest per specialized role.
+- Suite-style output can include hook, audit, and eval scaffolds with selectable harness enforcement profiles.
 
 ---
 
@@ -75,6 +79,8 @@ Before execution, define:
 - Suite-style generation includes an orchestrator and at least one specialized sub-skill
 - Default suite generation applies the selected suite profile when no explicit sub-skills are supplied
 - Orchestrator contracts match the selected suite profile
+- Suite-style generation emits an `orchestration.json` topology and `agents/*.md` manifests for orchestrator, agent, and sub-agent roles
+- Suite-style generation emits hook, audit, and eval scaffolds unless explicitly disabled
 - True objective documented and aligned with agent design
 
 ### Verification Loop
@@ -88,9 +94,11 @@ Phase 1: PLAN
 
 Phase 2: EXECUTE
   |-- Generate SKILL.md with required frontmatter and usage guidance
-  |-- Generate suite collection README and sub-agent files if suite-style
+  |-- Generate suite collection README, orchestration schema, and sub-agent files if suite-style
   |-- Apply selected suite profile roles when no sub-skills are specified
   |-- Generate profile-specific orchestrator contracts
+  |-- Generate orchestrator, execution agent, and sub-agent manifests
+  |-- Generate hooks, audit, and eval scaffolds for the selected harness profile
   |-- Save generated package to artifact-visible workspace path
   +-- Bundle into ZIP
 
@@ -99,6 +107,8 @@ Phase 3: VERIFY
   |-- Confirm directory name matches frontmatter name
   |-- Verify naming convention compliance
   |-- Confirm orchestrator structure exists for suite-style packages
+  |-- Confirm orchestration schema and agent manifests exist for suite-style packages
+  |-- Confirm hooks, audit, and eval scaffold files exist when harness scaffolding is enabled
   |-- Confirm generated files live under workspace-visible `.artifacts`
   |-- Cross-check true objective alignment
   +-- Test ZIP integrity
@@ -133,15 +143,17 @@ Phase 5: REPORT
 | G8 | Suite-style packages include orchestrator sections and specialized sub-skills | MUST for suite-style |
 | G9 | Default suite templates honor the selected suite profile when `subskills` are omitted | MUST for default suite mode |
 | G10 | Orchestrator contracts match the selected suite profile | MUST for profile-based suite mode |
-| G11 | One-question-at-a-time dialogue maintained | RECOMMENDED |
+| G11 | Suite-style packages emit orchestrator/agent/sub-agent manifests plus `orchestration.json` | MUST for suite-style |
+| G12 | Harness scaffold files are generated consistently with the selected harness profile | MUST when harness scaffolding is enabled |
+| G13 | One-question-at-a-time dialogue maintained | RECOMMENDED |
 
 ### Model Routing
 
 | Task Complexity | Model Tier | Examples |
 |----------------|-----------|----------|
 | Mechanical | `fast` (haiku-class) | File scaffolding, frontmatter generation, suite profile expansion, contract generation, ZIP bundling |
-| Implementation | `standard` (sonnet-class) | SKILL.md writing, README generation, validation |
-| Reasoning | `premium` (opus-class) | True objective discovery, architecture decisions, proposal comparison |
+| Implementation | `standard` (sonnet-class) | SKILL.md writing, README generation, agent manifest generation, validation |
+| Reasoning | `premium` (opus-class) | True objective discovery, architecture decisions, orchestration design, proposal comparison |
 
 ### Sub-Agent Orchestration
 
@@ -151,7 +163,7 @@ For suite-style skill packages, split generation into parallel agents:
 Orchestrator (this skill)
 |-- Agent 1: Requirements discovery and true objective articulation
 |-- Agent 2: Skill architecture design and file structure planning
-|-- Agent 3: File generation (SKILL.md, README.md, suite artifacts)
+|-- Agent 3: File generation (SKILL.md, README.md, orchestration.json, suite artifacts)
 +-- Agent 4: Validation, artifact save, ZIP bundling, and release preparation
 ```
 
