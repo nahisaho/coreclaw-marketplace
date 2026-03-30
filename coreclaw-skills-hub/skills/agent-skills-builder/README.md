@@ -8,7 +8,7 @@ Builds Agent Skills compliant packages for GitHub Copilot CLI.
 - True-objective discovery before scaffolding
 - Multi-skill catalog layout with a lightweight root `SKILL.md` plus nested sub-skills under `skills/`
 - Agent Skills compliant single-skill generation with required `SKILL.md`
-- Agent Skills compliant suite generation with orchestrator and specialized skill directories
+- Agent Skills compliant suite generation with nested `skills/` orchestrator and specialized skill directories
 - Harness-oriented suite generation with explicit orchestrator, execution agent, and sub-agent manifests
 - `orchestration.json` output for handoff paths, contracts, and role topology
 - Hook, audit, and eval scaffold generation for suite-style harnesses
@@ -33,8 +33,8 @@ Suite output:
 - `hooks/hooks.json` plus `scripts/hooks/*.js` scaffold files
 - `docs/harness-audit.md`
 - `commands/eval.md`, `commands/verify.md`, `commands/checkpoint.md`
-- `<group>-orchestrator/SKILL.md`
-- one `SKILL.md` per specialized skill directory
+- `skills/orchestrator/SKILL.md`
+- one `SKILL.md` per specialized skill directory under `skills/`
 
 The generated `SKILL.md` files include YAML frontmatter with `name` and `description`, and optionally add `license`, `compatibility`, `metadata`, and `allowed-tools` when supplied in the input payload.
 
@@ -121,11 +121,11 @@ PY
 
 Expected generated directories:
 
-- `lab-workflow-orchestrator/`
-- `lab-workflow-intake/`
-- `lab-workflow-evidence-synthesis/`
-- `lab-workflow-report-assembly/`
-- `agents/lab-workflow-orchestrator.md`
+- `skills/orchestrator/`
+- `skills/lab-workflow-intake/`
+- `skills/lab-workflow-evidence-synthesis/`
+- `skills/lab-workflow-report-assembly/`
+- `agents/orchestrator.md`
 - `agents/lab-workflow-agent.md`
 - one `agents/*-sub-agent.md` per specialized skill
 - `orchestration.json`

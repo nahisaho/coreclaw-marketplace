@@ -11,7 +11,7 @@ description: |
 
 1. Confirm the group name, title, and suite profile.
 2. Identify the orchestrator, execution agent, and specialized sub-agents.
-3. Generate the suite README and skill directories.
+3. Generate the suite README and nested `skills/` directories.
 4. Generate `agents/*.md` manifests and `orchestration.json`.
 5. Generate harness scaffolds when enabled.
 6. Validate topology, contracts, and file completeness.
@@ -20,6 +20,6 @@ description: |
 
 - `README.md`
 - `orchestration.json`
-- `<group>-orchestrator/SKILL.md`
-- one `SKILL.md` per specialized skill directory
+- `skills/orchestrator/SKILL.md`
+- one `SKILL.md` per specialized skill directory under `skills/`
 - `agents/*.md`

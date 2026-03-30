@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Implementation for agent-skills-builder (v0.10.0).
+"""Implementation for agent-skills-builder (v0.12.0).
 
 Harness-optimized with 5-phase verification loops, domain-specific eval criteria,
 model routing, sub-agent orchestration, and error recovery protocol.
@@ -14,7 +14,7 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 
 SKILL_NAME = "agent-skills-builder"
-SKILL_VERSION = "v0.10.0"
+SKILL_VERSION = "v0.12.0"
 WORKSPACE_ROOT = Path(__file__).resolve().parents[3]
 ARTIFACT_ROOT = WORKSPACE_ROOT / "coreclaw-skills-hub" / ".artifacts" / "generated-skills"
 DEFAULT_GROUP_ICON = "🧰"
@@ -473,6 +473,10 @@ def _sub_agent_manifest_name(subskill_name: str) -> str:
     return _agent_skill_name(f"{subskill_name}-sub-agent")
 
 
+def _suite_skill_file_path(skill_name: str) -> str:
+    return f"skills/{skill_name}/SKILL.md"
+
+
 def _render_orchestration_schema(
     group_name: str,
     group_title: str,
@@ -488,7 +492,7 @@ def _render_orchestration_schema(
         "suite_profile": suite_profile,
         "orchestration": {
             "orchestrator": {
-                "skill": f"{orchestrator_name}/SKILL.md",
+                "skill": _suite_skill_file_path(orchestrator_name),
                 "agent_manifest": f"agents/{orchestrator_name}.md",
                 "dispatches": [execution_agent_name],
             },
@@ -500,7 +504,7 @@ def _render_orchestration_schema(
             "sub_agents": [
                 {
                     "name": _sub_agent_manifest_name(item["name"]),
-                    "skill": f"{item['name']}/SKILL.md",
+                    "skill": _suite_skill_file_path(item["name"]),
                     "agent_manifest": f"agents/{_sub_agent_manifest_name(item['name'])}.md",
                     "specialty": item["title"],
                 }
@@ -630,7 +634,7 @@ Generated skill collection in `agent-skills` format.
 
 {harness}
 
-Each listed directory is an individual Agent Skill with its own `SKILL.md`.
+Each listed directory under `skills/` is an individual Agent Skill with its own `SKILL.md`.
 '''
 
 
@@ -652,7 +656,7 @@ def _render_agent_suite_files(payload: dict) -> tuple[dict[str, str], dict[str, 
     group_name = _agent_skill_name(payload.get("group_name") or payload.get("skill_name") or payload.get("name") or "generated-collection")
     group_title = _stringify(payload.get("group_title") or payload.get("title")) or _display_name(group_name)
     suite_profile = _suite_profile(payload)
-    orchestrator_name = _agent_skill_name(payload.get("orchestrator_name") or f"{group_name}-orchestrator")
+    orchestrator_name = _agent_skill_name(payload.get("orchestrator_name") or "orchestrator")
     execution_agent_name = _suite_agent_name(payload, group_name)
     orchestrator_description = _stringify(payload.get("orchestrator_description")) or _default_orchestrator_description(group_title)
     execution_agent_description = _stringify(payload.get("agent_description")) or _suite_agent_description(group_title)
@@ -673,7 +677,7 @@ def _render_agent_suite_files(payload: dict) -> tuple[dict[str, str], dict[str, 
     files: dict[str, str] = {
         "README.md": _render_agent_collection_readme(
             group_name,
-            [orchestrator_name, *[item["name"] for item in subskills]],
+            [f"skills/{orchestrator_name}", *[f"skills/{item['name']}" for item in subskills]],
             agent_manifest_names,
             harness_assets,
         ),
@@ -686,7 +690,7 @@ def _render_agent_suite_files(payload: dict) -> tuple[dict[str, str], dict[str, 
             execution_agent_name,
             subskills,
         ),
-        f"{orchestrator_name}/SKILL.md": _render_agent_body(
+        _suite_skill_file_path(orchestrator_name): _render_agent_body(
             orchestrator_name,
             _display_name(orchestrator_name),
             orchestrator_description,
@@ -740,7 +744,7 @@ def _render_agent_suite_files(payload: dict) -> tuple[dict[str, str], dict[str, 
     files.update(harness_files)
 
     for item in subskills:
-        files[f"{item['name']}/SKILL.md"] = _render_agent_body(
+        files[_suite_skill_file_path(item["name"])] = _render_agent_body(
             item["name"],
             item["title"],
             item["description"],
