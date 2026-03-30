@@ -40,11 +40,16 @@ Discover the client's true objective through structured dialogue.
 - [ ] True objective is specific, actionable, and user-approved.
 - [ ] Recommended PWC frameworks are justified.
 
+
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - 複数の質問を一度に投げてはならない。必ず1問1答形式で進める
 - ユーザーの最初の依頼が「真の目的」であることは稀。表層的な依頼の裏にある本質を探ること
 - PWCフレームワークの推薦は目的確定後に行う。目的が曖昧な段階でフレームワークを決めない
+- 対話ラウンドは最低3ラウンド。3ラウンド未満で「十分」と判断してはならない
+- 構造化プロンプトの6要素に空欄がある場合は追加ヒアリングで埋めること
 
 ## Validation Loop
 

@@ -62,6 +62,9 @@ description: |
 - [ ] Recommended frameworks do not exceed 3.
 - [ ] Detailed reference is conditionally referenced (not loaded unconditionally).
 
+
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - BCGフレームワークは「考える道具」であって「答え」ではない。フレームワークを埋めることが目的になってはならない

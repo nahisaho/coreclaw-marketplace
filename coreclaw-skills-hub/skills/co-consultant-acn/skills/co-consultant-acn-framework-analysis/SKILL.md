@@ -48,7 +48,7 @@ Refer to `co-consultant-acn-framework-library` for detailed definitions.
 
 - `results/framework-outputs.md`: structured analysis with MECE validation.
 - `figures/`: matrices, maps, or strategy canvases.
-- Reuse output template in `assets/output-template.md`.
+- Reuse `assets/output-template.md` when producing standardized framework analysis output.
 
 ## Quality Gates
 
@@ -56,6 +56,9 @@ Refer to `co-consultant-acn-framework-library` for detailed definitions.
 - [ ] MECE validation passed.
 - [ ] Pyramid structure has conclusion → arguments → evidence.
 - [ ] Insights are actionable.
+
+
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
 
 ## Gotchas
 

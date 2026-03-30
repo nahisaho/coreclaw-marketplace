@@ -43,11 +43,15 @@ Use `deep-research` MCP when available. Fall back to Think→Action→Report cyc
 - [ ] Key hypotheses verified or refuted.
 - [ ] Single-source claims marked with ⚠️.
 
+
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - 検索は日英両方で行うこと。英語のみだと日本市場固有のデータを見落とす
 - BCGのレポート・出版物は信頼度「高」として扱うが、自社バイアスに注意すること
 - 収集データは各ラウンド後にファイルに保存。コンパクションで消失する
+- Phase間の引き継ぎは必ず `results/research-notes.md` に保存してからハンドオフすること
 
 ## Validation Loop
 

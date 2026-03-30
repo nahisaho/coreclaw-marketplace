@@ -37,6 +37,9 @@ Generate BCG-style pyramid-principle reports with quality validation.
 - [ ] All 4 quality check layers passed.
 - [ ] Recommendations are concrete with owners and timeline.
 
+
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - エグゼクティブサマリーは全セクション完成後に書くこと

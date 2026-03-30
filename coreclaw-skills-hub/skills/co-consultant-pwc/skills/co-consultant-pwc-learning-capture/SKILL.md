@@ -35,12 +35,17 @@ Record PwC-style consulting learnings for Memory Persistence.
 - [ ] Gotcha entry is 1-2 lines and actionable.
 - [ ] No duplicate with existing Gotchas.
 
+
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - 学びの記録は「ミス発生直後」に行うこと。時間が経つと詳細を忘れる
 - PWC固有の知見と汎用的な知見を区別すること。PWC固有の知見はこのスイートのスキルに、汎用知見はco-consultantに記録する
 
 ## Validation Loop
+
+Run `python coreclaw-skills-hub/.github/scripts/validate_skill.py` on modified skills after Gotchas update.
 
 1. Gotcha エントリを生成
 2. チェック: 具体的か、重複なしか、500行以内か

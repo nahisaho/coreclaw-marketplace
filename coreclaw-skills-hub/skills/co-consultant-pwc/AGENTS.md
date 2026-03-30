@@ -98,6 +98,21 @@ PLAN → EXECUTE → VERIFY → REPORT → LOG
 - Do not use a framework without justifying its selection rationale.
 - Do not proceed from Phase 0 without user-approved true objective.
 
+## Data Handling & Confidentiality
+
+- Client names, financial figures, and strategic plans are confidential. Do not include real client data in templates or examples.
+- Anonymize all case references: use "[Client A]", "[Company X]" instead of real names.
+- Do not store credentials, API keys, or PII in any generated files.
+- When handling competitive intelligence, cite public sources only. Do not reference proprietary databases without authorization.
+- Mark all draft deliverables as "DRAFT — CONFIDENTIAL" until client approval.
+
+## Cost Efficiency Rules
+
+- Do not enable more than 10 MCP servers simultaneously.
+- Default to built-in Think→Action→Report cycle; use MCP only when structured research adds material value.
+- Prefer the simplest framework that answers the question. Complex multi-framework analyses cost more context.
+- Keep SKILL.md under 100 lines. Move overflow to references/ with conditional access.
+
 ## Gotchas
 
 - Strategy& の Way to Play は5つの戦い方類型（カテゴリーリーダー/バリュープレーヤー/カスタマイザー/イノベーター/プラットフォーマー）から1つ選ぶ。複数選択は戦略の一貫性を損なう
