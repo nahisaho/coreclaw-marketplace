@@ -1,3 +1,10 @@
+---
+name: orchestrator
+description: |
+  Route BCG-style consulting requests to the most appropriate BCG framework or full-research flow.
+  Use when selecting portfolio, growth, TSR, advantage, or strategy analyses.
+---
+
 # BCGオーケストレーター
 
 > リクエストを分析し、最適なBCGフレームワークにルーティングします。

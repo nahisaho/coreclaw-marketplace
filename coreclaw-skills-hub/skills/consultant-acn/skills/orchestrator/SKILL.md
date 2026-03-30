@@ -1,3 +1,10 @@
+---
+name: orchestrator
+description: |
+  Route Accenture-style consulting requests to the most appropriate ACN framework or full-research flow.
+  Use when selecting DX, cost, operations, value creation, or growth-oriented analyses.
+---
+
 # ACNオーケストレーター
 
 > リクエストを分析し、最適なACNフレームワークにルーティングします。

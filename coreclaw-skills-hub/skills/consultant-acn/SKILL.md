@@ -21,7 +21,7 @@ Accenture style consulting skill for deep research and analysis. Features DX Str
 ## Local Resources
 
 - `prompts/`: phased consulting flows for discovery, research, analysis, and reporting.
-- `skills/`: orchestrator support for routing and framework application.
+- `skills/`: nested Agent Skills including `orchestrator/SKILL.md` for routing and framework application.
 - Use `deep-research` MCP when available for structured external research.
 
 ## Required Inputs

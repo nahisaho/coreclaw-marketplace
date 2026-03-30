@@ -1,3 +1,10 @@
+---
+name: orchestrator
+description: |
+  Route PwC-style consulting requests to the most appropriate PwC framework or full-research flow.
+  Use when selecting strategy, transformation, deal, impact, or risk analyses.
+---
+
 # PwC オーケストレーター
 
 ## 役割
@@ -33,18 +40,3 @@
 ### 統合リサーチ → full-research ワークフロー
 
 キーワード: 調査, リサーチ, 分析して, 総合的に, 全体分析, 事業計画, 経営計画
-
-## フォールバック
-
-キーワード一致なし → full-research ワークフロー（Phase 1 から開始）
-
-## 分析の原則
-
-すべてのルーティングにおいて、以下のPwC原則を適用すること:
-
-1. **BXT統合**: ビジネス・エクスペリエンス・テクノロジーの3軸で検討
-2. **ケイパビリティ駆動**: 「何ができるか」から戦略を構築
-3. **トータルインパクト**: 経済・社会・環境・税の4次元で評価
-4. **Fit for Growth**: コスト削減＝成長投資の原資確保
-5. **Right to Win**: その市場で勝つ権利があるか常に検証
-6. **ステークホルダー全体**: 全関係者の視点を含む分析

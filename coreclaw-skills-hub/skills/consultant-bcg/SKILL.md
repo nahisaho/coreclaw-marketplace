@@ -21,7 +21,7 @@ BCG (Boston Consulting Group) style consulting skill for deep research and analy
 ## Local Resources
 
 - `prompts/`: phased flows for discovery, research, framework analysis, and reporting.
-- `skills/`: orchestrator support for routing and framework application.
+- `skills/`: nested Agent Skills including `orchestrator/SKILL.md` for routing and framework application.
 - Use `deep-research` MCP when available for structured external research.
 
 ## Required Inputs

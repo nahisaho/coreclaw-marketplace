@@ -1,3 +1,11 @@
+---
+name: orchestrator
+description: |
+  Route consultant requests to the most appropriate staged workflow.
+  Use when deciding between purpose discovery, deep research, framework analysis,
+  report writing, or the full-research workflow.
+---
+
 # オーケストレーター
 
 > ユーザーのリクエストを分析し、最適なフェーズにルーティングする指揮者です。
@@ -29,29 +37,6 @@
 | ファイル操作 | 「このファイルを読んで」 |
 | コード関連 | 「この関数を修正して」 |
 
-## 分類フローチャート
-
-```
-ユーザーリクエスト受信
-    ↓
-タスクの性質を判断:
-├── Web検索・外部データ・複数ソース分析が必要？
-│   ├── YES → リサーチ・分析タスク
-│   │   ├── レポート作成も必要？
-│   │   │   ├── YES → full-research
-│   │   │   └── NO → purpose-discovery → deep-research
-│   │   └──
-│   └── NO
-│       ├── フレームワーク分析のみ？
-│       │   ├── YES → framework-analysis
-│       │   └── NO
-│       ├── レポート作成のみ？
-│       │   ├── YES → report-writing
-│       │   └── NO → 直接対応
-│       └──
-└──
-```
-
 ## キーワードルーティング
 
 | キーワード | プロンプト | 優先度 |
@@ -61,8 +46,6 @@
 | 検索、情報収集、深掘り | deep-research | 高 |
 | SWOT、3C、PEST、フレームワーク | framework-analysis | 高 |
 | レポート、報告書、提案書、まとめて | report-writing | 高 |
-| 比較、ベンチマーク、評価 | full-research | 中 |
-| 戦略、計画、ロードマップ | full-research | 中 |
 
 ## 緊急度判定
 

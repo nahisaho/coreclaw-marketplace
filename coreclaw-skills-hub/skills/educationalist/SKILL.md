@@ -21,7 +21,7 @@ AI assistant skill for educators. Built with reference to the SHIDEN project, fe
 ## Local Resources
 
 - `prompts/`: content-generation flows for meta-prompting, lessons, materials, assessment, individual support, feedback, and guidance.
-- `skills/`: orchestrator, theory-lookup, and context-manager helpers.
+- `skills/`: nested Agent Skills including `orchestrator/SKILL.md`, `theory-lookup/SKILL.md`, and `context-manager/SKILL.md`.
 - `data/`: education reference data including `theories.db`, `theories.json`, `relations.json`, and `curriculum.db`.
 - Use `curriculum.db` for curriculum lookup instead of scanning curriculum markdown files.
 

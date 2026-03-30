@@ -22,7 +22,7 @@ McKinsey style consulting skill for deep research and analysis. Features 7S Fram
 ## Local Resources
 
 - `prompts/`: phased flows for discovery, research, framework analysis, and reporting.
-- `skills/`: orchestrator support for routing and framework application.
+- `skills/`: nested Agent Skills including `orchestrator/SKILL.md` for routing and framework application.
 
 ## Required Inputs
 

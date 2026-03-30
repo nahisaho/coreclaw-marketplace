@@ -1,3 +1,10 @@
+---
+name: orchestrator
+description: |
+  Route McKinsey-style consulting requests to the most appropriate framework or full-research flow.
+  Use when selecting issue trees, hypothesis-driven analysis, 7S, growth, or industry analysis.
+---
+
 # McKinsey オーケストレーター
 
 ## 役割
@@ -37,18 +44,3 @@
 ### 統合リサーチ → full-research ワークフロー
 
 キーワード: 調査, リサーチ, 分析して, 戦略を考えて, 事業計画, 全体分析
-
-## フォールバック
-
-キーワード一致なし → full-research ワークフロー（Phase 1 から開始）
-
-## 分析の原則
-
-すべてのルーティングにおいて、以下のマッキンゼー原則を適用すること:
-
-1. **仮説ファースト**: 分析前にDay 1 Answerを設定
-2. **MECE**: 漏れなくダブりなく分解
-3. **80/20**: 最もインパクトの大きい領域にフォーカス
-4. **ファクトベース**: データと事実に基づく分析
-5. **So What?**: 各分析に経営への示唆を明記
-6. **ピラミッド構造**: 結論先行の論理展開

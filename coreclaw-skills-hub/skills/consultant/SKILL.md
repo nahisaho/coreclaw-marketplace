@@ -21,7 +21,7 @@ AI consultant skill for deep research and consulting analysis. Based on the SHIK
 ## Local Resources
 
 - `prompts/`: purpose discovery, deep research, framework analysis, report writing, and full-research flows.
-- `skills/`: orchestrator and framework-library helpers for routing and framework selection.
+- `skills/`: nested Agent Skills including `orchestrator/SKILL.md` and `framework-library/SKILL.md` for routing and framework selection.
 - Use `deep-research` MCP when available; otherwise keep the built-in staged workflow.
 
 ## Required Inputs
