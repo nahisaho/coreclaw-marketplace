@@ -1,0 +1,6 @@
+{
+  "name": "co-diligence",
+  "version": "v0.1.0",
+  "description": "Harness-optimized investment and due diligence workflows for market review, competitive analysis, financial screening, risk assessment, and investment decision support.",
+  "entrypoint": "AGENTS.md"
+}
