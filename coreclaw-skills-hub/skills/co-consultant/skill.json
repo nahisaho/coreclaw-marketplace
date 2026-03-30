@@ -1,0 +1,6 @@
+{
+  "name": "co-consultant",
+  "version": "v0.1.0",
+  "description": "Harness-optimized consulting partner suite with SHIKIGAMI methodology, 53 consulting frameworks, MECE validation, pyramid-principle reporting, and full Orchestrator routing.",
+  "entrypoint": "AGENTS.md"
+}

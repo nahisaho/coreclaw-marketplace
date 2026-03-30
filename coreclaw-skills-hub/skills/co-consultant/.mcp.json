@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "deep-research": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/deep-research-mcp"],
+      "env": {},
+      "description": "Deep research MCP server for structured literature and market research with question elaboration, subquestion generation, web search, content analysis, and report generation."
+    }
+  }
+}
