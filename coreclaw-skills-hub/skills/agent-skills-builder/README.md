@@ -27,6 +27,8 @@ Single-skill output:
 
 Suite output:
 
+- `group.json` package-style root metadata
+- `skill.json` compatibility metadata for versioned discovery
 - `README.md` collection summary
 - `orchestration.json` orchestration topology and contract schema
 - `agents/*.md` orchestrator, execution agent, and sub-agent manifests
@@ -121,6 +123,8 @@ PY
 
 Expected generated directories:
 
+- `group.json`
+- `skill.json`
 - `skills/orchestrator/`
 - `skills/lab-workflow-intake/`
 - `skills/lab-workflow-evidence-synthesis/`

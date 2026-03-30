@@ -18,6 +18,8 @@ description: |
 
 ## Minimum File Set
 
+- `group.json`
+- `skill.json`
 - `README.md`
 - `orchestration.json`
 - `skills/orchestrator/SKILL.md`

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Implementation for agent-skills-builder (v0.12.0).
+"""Implementation for agent-skills-builder (v0.13.0).
 
 Harness-optimized with 5-phase verification loops, domain-specific eval criteria,
 model routing, sub-agent orchestration, and error recovery protocol.
@@ -14,7 +14,7 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 
 SKILL_NAME = "agent-skills-builder"
-SKILL_VERSION = "v0.12.0"
+SKILL_VERSION = "v0.13.0"
 WORKSPACE_ROOT = Path(__file__).resolve().parents[3]
 ARTIFACT_ROOT = WORKSPACE_ROOT / "coreclaw-skills-hub" / ".artifacts" / "generated-skills"
 DEFAULT_GROUP_ICON = "🧰"
@@ -477,6 +477,32 @@ def _suite_skill_file_path(skill_name: str) -> str:
     return f"skills/{skill_name}/SKILL.md"
 
 
+def _render_group_json(name: str, description: str, icon: str, count: int) -> str:
+    return json.dumps(
+        {
+            "name": name,
+            "description": description,
+            "icon": icon,
+            "count": count,
+        },
+        ensure_ascii=False,
+        indent=2,
+    ) + "\n"
+
+
+def _render_compat_skill_json(name: str, version: str, description: str, entrypoint: str) -> str:
+    return json.dumps(
+        {
+            "name": name,
+            "version": version,
+            "description": description,
+            "entrypoint": entrypoint,
+        },
+        ensure_ascii=False,
+        indent=2,
+    ) + "\n"
+
+
 def _render_orchestration_schema(
     group_name: str,
     group_title: str,
@@ -655,6 +681,9 @@ def _render_agent_single_files(payload: dict) -> tuple[dict[str, str], dict[str,
 def _render_agent_suite_files(payload: dict) -> tuple[dict[str, str], dict[str, object]]:
     group_name = _agent_skill_name(payload.get("group_name") or payload.get("skill_name") or payload.get("name") or "generated-collection")
     group_title = _stringify(payload.get("group_title") or payload.get("title")) or _display_name(group_name)
+    group_version = _normalize_version(_stringify(payload.get("version") or payload.get("group_version")))
+    group_icon = _stringify(payload.get("icon") or payload.get("group_icon")) or DEFAULT_GROUP_ICON
+    group_description = _default_group_description(group_title, _stringify(payload.get("description")))
     suite_profile = _suite_profile(payload)
     orchestrator_name = _agent_skill_name(payload.get("orchestrator_name") or "orchestrator")
     execution_agent_name = _suite_agent_name(payload, group_name)
@@ -675,6 +704,18 @@ def _render_agent_suite_files(payload: dict) -> tuple[dict[str, str], dict[str, 
         harness_assets = sorted(harness_files.keys())
 
     files: dict[str, str] = {
+        "group.json": _render_group_json(
+            group_title,
+            group_description,
+            group_icon,
+            len(subskills) + 2,
+        ),
+        "skill.json": _render_compat_skill_json(
+            group_name,
+            group_version,
+            group_description,
+            "README.md",
+        ),
         "README.md": _render_agent_collection_readme(
             group_name,
             [f"skills/{orchestrator_name}", *[f"skills/{item['name']}" for item in subskills]],
@@ -791,7 +832,7 @@ def _render_agent_suite_files(payload: dict) -> tuple[dict[str, str], dict[str, 
         "subskills": [item["name"] for item in subskills],
         "sub_agents": [_sub_agent_manifest_name(item["name"]) for item in subskills],
         "orchestrator_contracts": orchestrator_contracts,
-        "harness_files": ["README.md", "orchestration.json", *[f"agents/{name}.md" for name in agent_manifest_names], *harness_assets],
+        "harness_files": ["group.json", "skill.json", "README.md", "orchestration.json", *[f"agents/{name}.md" for name in agent_manifest_names], *harness_assets],
         "harness_profile": harness_profile,
         "harness_scaffold": harness_scaffold_enabled,
     }

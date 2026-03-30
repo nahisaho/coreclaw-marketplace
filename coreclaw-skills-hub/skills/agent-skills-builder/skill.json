@@ -1,6 +1,6 @@
 {
   "name": "agent-skills-builder",
-  "version": "v0.12.0",
+  "version": "v0.13.0",
   "description": "Builds and packages Agent Skills through guided requirements discovery, architecture planning, validation, and release preparation.",
   "entrypoint": "main.py"
 }
