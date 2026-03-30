@@ -83,6 +83,23 @@ coreclaw-skills-hub/skills/<group>/
 3. **出力テンプレート** — 定型出力がある場合のフォーマット（assets/ に分離可）
 4. **Quality Gates** — チェックリスト形式の品質基準
 
+### Post-Generation Harness Check（必須）
+**Agent Skills の開発完了後、コミット前に必ず Harness 7軸チェックを実施すること。**
+
+| # | 軸 | 合格基準 | チェック内容 |
+|---|-----|---------|------------|
+| 1 | Tool Coverage | ≥1 | description起動条件、キーワード重複なし |
+| 2 | Context Efficiency | ≥1 | SKILL.md≤500行、条件付き参照 |
+| 3 | Quality Gates | ≥1 | 検証ループ + 失敗時リカバリ |
+| 4 | Memory Persistence | ≥1 | Gotchas 3+（具体的） |
+| 5 | Eval Coverage | ≥1 | 出力検証基準明示 |
+| 6 | Security Guardrails | ≥1 | 禁止事項、データルール |
+| 7 | Cost Efficiency | ≥1 | 冗長なし、デフォルト明示 |
+
+- **ブロッキング**: いずれかの軸がスコア0 → 修正して再チェック
+- **合格**: 全7軸スコア1以上
+- **推奨**: 総合 14/21 以上
+
 ### Custom Agents のルール
 - 読み取り専用の監査 Agent は `tools: [read_file, grep_search, list_directory]` に制限
 - オーケストレーション Agent は全ツールアクセス可能

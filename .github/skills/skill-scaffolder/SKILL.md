@@ -80,7 +80,7 @@ Reuse templates in this skill's `assets/` directory:
 ## Validation Loop
 
 1. 生成したパッケージを確認
-2. チェック:
+2. **構造チェック**:
    - [ ] `name` フィールドが命名規則に従い、フォルダ名と一致
    - [ ] `description` が「何をするか」+「Use when」の2部構成
    - [ ] スイート構成なら AGENTS.md が存在する
@@ -90,4 +90,27 @@ Reuse templates in this skill's `assets/` directory:
    - [ ] references/ への参照は全て条件付き
    - [ ] assets/ のテンプレートが SKILL.md から参照されている
 3. 不合格項目がある場合: 修正して再チェック
-4. 全項目合格後のみ完了
+4. 構造チェック合格後、**Harness 7軸チェック**を実施:
+
+### Post-Generation Harness Check（必須）
+
+生成完了後、以下の 7軸チェックを全スキルに対して実行する。
+`harness-auditor` スキルの基準に従い、各軸を 0–3 でスコアリング。
+
+| # | 軸 | 合格基準 | チェック内容 |
+|---|-----|---------|------------|
+| 1 | Tool Coverage | ≥1 | description に起動条件あり、スキル間キーワード重複なし |
+| 2 | Context Efficiency | ≥1 | SKILL.md ≤500行、条件付き参照のみ、assets活用 |
+| 3 | Quality Gates | ≥1 | 検証ループ + チェックリスト + 失敗時リカバリ |
+| 4 | Memory Persistence | ≥1 | Gotchas 3項目以上（具体的）、learning-capture考慮 |
+| 5 | Eval Coverage | ≥1 | 出力検証基準が明示、CI統合ポイントあり |
+| 6 | Security Guardrails | ≥1 | 禁止事項明示、データ取り扱いルール |
+| 7 | Cost Efficiency | ≥1 | 冗長説明なし、デフォルト明示、選択肢最小化 |
+
+**合格条件**: 全7軸でスコア1以上（総合 7/21 以上）
+**推奨水準**: 総合 14/21 以上（Intermediate）
+
+5. いずれかの軸がスコア0の場合:
+   - 該当軸の改善を実施（description → `description-optimizer`、Gotchas → `gotchas-curator`）
+   - 改善後に再スコアリング
+6. 全軸スコア1以上を確認してから完了とする

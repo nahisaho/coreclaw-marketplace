@@ -32,9 +32,9 @@ WHEN: ユーザーが新しいスキルスイートの作成を依頼
 DO:
   1. `skill-scaffolder` スキルでフルスイートを生成（AGENTS.md + skills/ + agents/）
   2. `description-optimizer` スキルで全スキルの description を最適化
-  3. `harness-auditor` スキルで 7軸監査を実施
-  4. 監査スコアが Intermediate 以上になるまで改善
-  5. assets/ / references/ の必要性を検討し、テンプレートや参照資料を作成
+  3. assets/ / references/ の必要性を検討し、テンプレートや参照資料を作成
+  4. **Post-Generation Harness Check を実施**（以下参照）
+  5. 全7軸スコア1以上になるまで改善サイクルを繰り返す
 
 WHEN: 既存スキルの改善を依頼
 DO:
@@ -42,13 +42,48 @@ DO:
   2. スコアが低い軸を特定
   3. 該当する改善スキルを適用
   4. assets/ / references/ の追加を検討
-  5. 改善後に再監査
+  5. **Post-Generation Harness Check で改善を確認**
 
 WHEN: 複数スキルのワークフロー設計を依頼
 DO:
   1. 利用可能なスキル一覧を収集
   2. `orchestrator-designer` スキルで AGENTS.md を設計
   3. `description-optimizer` で全スキルの description 棲み分けを確認
+  4. **Post-Generation Harness Check を実施**
+
+## Post-Generation Harness Check（必須プロセス）
+
+**全てのスキル開発作業の最終ステップとして、以下の Harness 7軸チェックを必ず実施する。**
+
+`harness-auditor` スキルの基準に従い、生成した全スキルを 7軸でスコアリング:
+
+| # | 軸 | 合格基準 | 主なチェック項目 |
+|---|-----|---------|---------------|
+| 1 | Tool Coverage | ≥1 | description起動条件、キーワード重複なし、AGENTS.mdルーティング |
+| 2 | Context Efficiency | ≥1 | SKILL.md≤500行、条件付き参照、assets活用 |
+| 3 | Quality Gates | ≥1 | 検証ループ、チェックリスト、失敗時リカバリ |
+| 4 | Memory Persistence | ≥1 | Gotchas 3+項目（具体的）、learning-capture |
+| 5 | Eval Coverage | ≥1 | 出力検証基準、CI統合ポイント |
+| 6 | Security Guardrails | ≥1 | 禁止事項、データ取り扱いルール |
+| 7 | Cost Efficiency | ≥1 | 冗長説明なし、デフォルト明示 |
+
+### 判定基準
+- **ブロッキング**: いずれかの軸がスコア0 → 該当軸を修正して再チェック
+- **合格**: 全7軸でスコア1以上（総合 7/21 以上）
+- **推奨水準**: 総合 14/21 以上（Intermediate）
+
+### 不合格時の修正フロー
+1. スコア0の軸を特定
+2. 対応するスキルで修正:
+   - Tool Coverage → `description-optimizer` + `orchestrator-designer`
+   - Context Efficiency → references/ 分離、条件付き参照化
+   - Quality Gates → 検証ループ追加
+   - Memory Persistence → `gotchas-curator`
+   - Eval Coverage → Validation Loop 強化
+   - Security Guardrails → 禁止事項追記
+   - Cost Efficiency → 冗長記述の削減
+3. 修正後に再スコアリング
+4. 全軸スコア1以上を確認して完了
 
 ## Suite Generation Checklist
 
