@@ -60,12 +60,16 @@ Discover the user's true objective through structured one-question-at-a-time dia
 - [ ] True objective is specific, actionable, and user-approved.
 - [ ] Research plan includes bilingual search queries.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - 複数の質問を一度に投げてはならない。必ず1問1答形式で進める。情報過多は回答精度を下げる
 - 5 Whys で5回掘り下げる必要がないケースもある。根本原因に到達したら停止する
 - ユーザーの最初の依頼が「真の目的」であることは稀。表層的な依頼の裏にある本質を探ること
 - 構造化プロンプトの承認なしに次のステップに進んではならない
+- 対話ラウンドは最低3ラウンド。3ラウンド未満で「十分」と判断してはならない
+- 構造化プロンプトの6要素に空欄がある場合は追加ヒアリングで埋めること
 
 ## Validation Loop
 

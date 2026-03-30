@@ -50,6 +50,8 @@ Record consulting learnings and maintain Gotchas for Memory Persistence.
 - [ ] No duplicate with existing Gotchas.
 - [ ] Target skill remains under 500 lines after addition.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - 学びの記録は「ミス発生直後」に行うこと。時間が経つと詳細を忘れる
@@ -57,6 +59,8 @@ Record consulting learnings and maintain Gotchas for Memory Persistence.
 - 同じ学びを複数スキルに重複記載しない。最も関連性の高い1箇所に書く
 
 ## Validation Loop
+
+Run `python coreclaw-skills-hub/.github/scripts/validate_skill.py` on modified skills after Gotchas update.
 
 1. Gotcha エントリを生成
 2. チェック:

@@ -73,6 +73,8 @@ Generate pyramid-principle consulting reports with multi-layer quality validatio
 - [ ] Recommendations are concrete with owners and timeline.
 - [ ] No unsourced data in the report.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - エグゼクティブサマリーは全セクション完成後に書くこと。先に書くと内容との乖離が生じる

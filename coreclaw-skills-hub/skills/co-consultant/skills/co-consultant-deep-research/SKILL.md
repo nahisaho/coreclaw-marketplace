@@ -68,12 +68,15 @@ Fall back to the built-in Think→Action→Report cycle when MCP is unavailable.
 - [ ] Single-source claims marked with ⚠️.
 - [ ] Results saved to files (not chat-only).
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - 検索は日英両方で行うこと。英語のみだと日本市場固有のデータ（官公庁白書、国内調査）を見落とす
 - ソースの信頼度が「低」のデータ（ブログ、SNS）は単独では使用しない。必ず上位ソースで裏付けを取る
 - 「十分な情報が集まった」の判断を急がないこと。完了基準（3+ソース、信頼度60%+）を満たしてからCOMPLETEにする
 - 収集データは各ラウンド後にファイルに保存すること。コンパクションで中間結果が消失する
+- Phase間の引き継ぎは必ず `results/research-notes.md` に保存してからハンドオフすること
 
 ## Validation Loop
 

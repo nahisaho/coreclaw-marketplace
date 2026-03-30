@@ -53,6 +53,32 @@ Every task follows: **PLAN → EXECUTE → VERIFY → REPORT → LOG**
 | `engagement-lead` | Full-lifecycle consulting orchestration | All tools | Tool Coverage |
 | `quality-reviewer` | Read-only MECE, logic, evidence audit | Read, search only | Quality Gates |
 
+## Data Handling & Confidentiality
+
+- Client data is confidential. Use "[Client A]" placeholders, never real names.
+- Do not store credentials or PII in generated files.
+- Mark drafts as "DRAFT — CONFIDENTIAL".
+- Cite public sources only for competitive intelligence.
+
+## Compaction Resilience
+
+Important intermediate results must be saved to files — session compaction loses chat-only context:
+
+| ✅ Survives compaction | ❌ Lost on compaction |
+|----------------------|---------------------|
+| Files on disk (report.md, results/) | Chat-only analysis |
+| Git-committed changes | Tool call history |
+| Gotchas in SKILL.md | Intermediate reasoning |
+| process-log.jsonl entries | File contents read in session |
+
+**Rule**: After each Phase, save handoff data to `results/` before proceeding.
+
+## CI Integration
+
+Validate generated skills with the repository's CI pipeline:
+- PR changes to `coreclaw-skills-hub/skills/**` trigger automatic validation.
+- Use `python coreclaw-skills-hub/.github/scripts/validate_skill.py <skill-dir>` for local validation.
+
 ## Gotchas
 
 - フレームワーク分析で MECE 検証を飛ばすと、論理のギャップがレポートに残る。必ず検証してから次へ進む

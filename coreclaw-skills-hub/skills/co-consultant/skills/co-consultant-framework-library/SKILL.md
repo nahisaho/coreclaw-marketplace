@@ -91,10 +91,19 @@ Refer to `co-consultant-framework-analysis` for trigger-keyword-to-framework map
 2. Prefer **simpler** frameworks when data is limited.
 3. Maximum **3 frameworks** per analysis to avoid information overload.
 4. Always justify the selection rationale.
-5. Read detailed definitions in `references/` when applying a specific framework:
-   - Strategy/Decision frameworks → `references/strategy-decision.md`
-   - Marketing/Innovation frameworks → `references/marketing-innovation.md`
-   - Problem-solving/Process frameworks → `references/problem-solving-process.md`
+5. Read detailed definitions in `references/` only when applying a specific framework:
+   - Read `references/strategy-decision.md` when applying SWOT, 5 Forces, Decision Matrix, BCG, or Risk Matrix
+   - Read `references/marketing-innovation.md` when applying STP, BMC, Lean Canvas, Customer Journey, or Design Thinking
+   - Read `references/problem-solving-process.md` when applying Logic Tree, Issue Tree, 5 Whys, Fishbone, PDCA, or ECRS
+
+## Quality Gates
+
+- [ ] Framework definition is accurate and complete.
+- [ ] Selection rationale matches the business objective.
+- [ ] Recommended frameworks do not exceed 3.
+- [ ] Reference files are conditionally referenced (not loaded unconditionally).
+
+If any gate fails: identify the specific issue, correct the framework selection or definition, and re-validate.
 
 ## Gotchas
 

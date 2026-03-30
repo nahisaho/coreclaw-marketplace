@@ -64,7 +64,7 @@ Apply consulting frameworks to collected data with MECE validation and pyramid s
 
 - `results/framework-outputs.md`: structured analysis with MECE validation.
 - `figures/`: matrices, positioning maps, or strategy canvases.
-- Reuse the output template in `assets/output-template.md` for consistent formatting.
+- Reuse `assets/output-template.md` when producing standardized framework analysis output.
 
 ## Quality Gates
 
@@ -73,6 +73,8 @@ Apply consulting frameworks to collected data with MECE validation and pyramid s
 - [ ] Pyramid structure has conclusion → 3(±1) arguments → evidence.
 - [ ] Insights are actionable (not just descriptive).
 - [ ] So What / Why So check passes for all conclusions.
+
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
 
 ## Gotchas
 

@@ -120,6 +120,21 @@ Every execution follows: PLAN → EXECUTE → VERIFY → REPORT → LOG
 - Do not use a framework without justifying its selection rationale.
 - Do not proceed from Phase 0 without user-approved true objective.
 
+## Data Handling & Confidentiality
+
+- Client names, financial figures, and strategic plans are confidential. Do not include real client data in templates or examples.
+- Anonymize all case references: use "[Client A]", "[Company X]" instead of real names.
+- Do not store credentials, API keys, or PII in any generated files.
+- When handling competitive intelligence, cite public sources only.
+- Mark all draft deliverables as "DRAFT — CONFIDENTIAL" until client approval.
+
+## Cost Efficiency Rules
+
+- Do not enable more than 10 MCP servers simultaneously.
+- Default to built-in Think→Action→Report cycle; use MCP only when structured research adds material value.
+- Prefer the simplest framework that answers the question. Complex multi-framework analyses cost more context.
+- Keep SKILL.md under 100 lines. Move overflow to references/ with conditional access.
+
 ## Gotchas
 
 - Purpose Discovery と Deep Research は起動条件が近い。目的が未定ならPurpose Discovery、目的確定済みで情報収集ならDeep Research
