@@ -1,6 +1,6 @@
 {
   "name": "scientist",
-  "version": "v0.7.0",
+  "version": "v0.8.0",
   "description": "Scientific research workflows covering literature review, experiment design, data analysis, modeling, and publication-ready reporting.",
   "entrypoint": "SKILL.md"
 }

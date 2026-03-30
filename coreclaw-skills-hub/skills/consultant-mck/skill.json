@@ -1,6 +1,6 @@
 {
   "name": "consultant-mck",
-  "version": "v0.3.0",
+  "version": "v0.4.0",
   "description": "McKinsey-style consulting workflows for issue trees, hypothesis-driven problem solving, 7S diagnosis, and industry analysis.",
   "entrypoint": "SKILL.md"
 }

@@ -1,6 +1,6 @@
 {
   "name": "diligence",
-  "version": "v0.3.0",
+  "version": "v0.4.0",
   "description": "Investment and due diligence workflows for market review, target analysis, risk assessment, and decision support.",
   "entrypoint": "SKILL.md"
 }

@@ -1,6 +1,6 @@
 {
   "name": "enterprise",
-  "version": "v0.3.0",
+  "version": "v0.4.0",
   "description": "Enterprise transformation workflows for strategy execution, operating model redesign, change programs, and cross-functional alignment.",
   "entrypoint": "SKILL.md"
 }

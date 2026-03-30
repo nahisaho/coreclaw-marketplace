@@ -80,7 +80,7 @@ For package-style roots that intentionally keep only nested sub-skills, the comp
 ```json
 {
    "name": "agent-skills-builder",
-   "version": "v0.10.0",
+   "version": "v0.11.0",
    "description": "Builder skill that designs and generates Agent Skills compliant packages through user dialogue.",
    "entrypoint": "main.py"
 }

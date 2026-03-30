@@ -1,6 +1,6 @@
 {
   "name": "consultant",
-  "version": "v0.3.0",
+  "version": "v0.4.0",
   "description": "General consulting workflows for research, business analysis, strategy development, problem solving, and client-ready reporting.",
   "entrypoint": "SKILL.md"
 }

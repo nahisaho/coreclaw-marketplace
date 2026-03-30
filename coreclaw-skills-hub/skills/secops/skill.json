@@ -1,6 +1,6 @@
 {
   "name": "secops",
-  "version": "v0.3.0",
+  "version": "v0.4.0",
   "description": "Security incident response workflows for triage, investigation, containment, remediation, and post-incident review.",
   "entrypoint": "SKILL.md"
 }
