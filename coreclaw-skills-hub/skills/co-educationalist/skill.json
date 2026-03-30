@@ -1,0 +1,6 @@
+{
+  "name": "co-educationalist",
+  "version": "v0.1.0",
+  "description": "Harness-optimized education partner suite covering lesson planning, materials, assessment, feedback, guidance, and theory-grounded instruction with 175 education theories.",
+  "entrypoint": "AGENTS.md"
+}
