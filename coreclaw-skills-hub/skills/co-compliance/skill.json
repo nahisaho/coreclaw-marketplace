@@ -1,0 +1,6 @@
+{
+  "name": "co-compliance",
+  "version": "v0.1.0",
+  "description": "Harness-optimized compliance and audit workflows for control mapping, evidence collection, gap analysis, remediation planning, and audit-ready response generation.",
+  "entrypoint": "AGENTS.md"
+}
