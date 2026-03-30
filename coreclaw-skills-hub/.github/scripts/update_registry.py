@@ -4,12 +4,14 @@
 import datetime as dt
 import json
 import pathlib
+import re
 import sys
 from typing import Any
 
 from skill_metadata import SkillMetadataError, resolve_skill_metadata
 
 REGISTRY_FILE = pathlib.Path("registry.json")
+SEMVER_TAG_PATTERN = re.compile(r"^v(\d+)\.(\d+)\.(\d+)$")
 
 
 def utc_now_iso() -> str:
@@ -37,6 +39,13 @@ def load_group_metadata(group_name: str) -> dict[str, Any] | None:
     if group_json.exists():
         return json.loads(group_json.read_text(encoding="utf-8"))
     return None
+
+
+def semver_sort_key(value: str) -> tuple[int, int, int, str]:
+    match = SEMVER_TAG_PATTERN.match(value)
+    if not match:
+        return (-1, -1, -1, value)
+    return tuple(int(part) for part in match.groups()) + (value,)
 
 
 def load_skill_metadata(skill_path: str) -> dict[str, str] | None:
@@ -85,7 +94,7 @@ def main() -> None:
             }
         )
 
-    versions.sort(key=lambda x: x.get("version", ""))
+    versions.sort(key=lambda x: semver_sort_key(str(x.get("version", ""))))
     item["latest"] = version
     item["versions"] = versions
     metadata = load_skill_metadata(skill)

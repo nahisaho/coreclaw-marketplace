@@ -1,0 +1,6 @@
+{
+  "name": "supply",
+  "version": "v0.3.0",
+  "description": "Supply chain decision workflows for planning, sourcing, inventory, logistics, and operational trade-off analysis.",
+  "entrypoint": "SKILL.md"
+}

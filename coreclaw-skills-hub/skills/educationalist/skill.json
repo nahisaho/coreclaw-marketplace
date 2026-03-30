@@ -1,0 +1,6 @@
+{
+  "name": "educationalist",
+  "version": "v0.3.0",
+  "description": "Education support workflows for lesson planning, materials, assessment, learner support, feedback, and curriculum design.",
+  "entrypoint": "SKILL.md"
+}

@@ -1,0 +1,6 @@
+{
+  "name": "consultant-acn",
+  "version": "v0.3.0",
+  "description": "Accenture-style consulting workflows for digital transformation, technology strategy, cost optimization, and operating model analysis.",
+  "entrypoint": "SKILL.md"
+}

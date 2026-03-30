@@ -1,0 +1,6 @@
+{
+  "name": "growth",
+  "version": "v0.3.0",
+  "description": "Product growth workflows for user research, funnel analysis, experimentation, retention, and go-to-market decisions.",
+  "entrypoint": "SKILL.md"
+}

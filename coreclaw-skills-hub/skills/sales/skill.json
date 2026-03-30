@@ -1,0 +1,6 @@
+{
+  "name": "sales",
+  "version": "v0.3.0",
+  "description": "Strategic sales workflows for account planning, opportunity analysis, stakeholder mapping, and deal execution.",
+  "entrypoint": "SKILL.md"
+}

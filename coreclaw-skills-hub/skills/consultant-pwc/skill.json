@@ -1,0 +1,6 @@
+{
+  "name": "consultant-pwc",
+  "version": "v0.3.0",
+  "description": "PwC-style consulting workflows for strategy, transformation, deals, risk, and total-impact analysis.",
+  "entrypoint": "SKILL.md"
+}

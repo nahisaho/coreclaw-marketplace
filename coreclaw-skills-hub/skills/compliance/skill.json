@@ -1,0 +1,6 @@
+{
+  "name": "compliance",
+  "version": "v0.3.0",
+  "description": "Compliance and audit workflows for policy review, control assessment, evidence collection, and remediation planning.",
+  "entrypoint": "SKILL.md"
+}

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Shared helpers for skill metadata resolution.
 
-The canonical metadata source is SKILL.md frontmatter.
-Compatibility metadata from skill.json is optional and, when present,
-is validated against the canonical skill definition.
+The canonical metadata source is SKILL.md frontmatter when a root SKILL.md exists.
+For package-style group roots that only expose nested skills/<subskill>/SKILL.md,
+compatibility metadata from skill.json can be used together with group.json.
 """
 
 from __future__ import annotations
@@ -80,6 +80,22 @@ def load_compat_metadata(skill_dir: pathlib.Path) -> dict | None:
     return data
 
 
+def list_nested_skill_definitions(skill_dir: pathlib.Path) -> list[pathlib.Path]:
+    skills_root = skill_dir / "skills"
+    if not skills_root.is_dir():
+        return []
+
+    return sorted(
+        path
+        for path in skills_root.glob("*/SKILL.md")
+        if path.is_file()
+    )
+
+
+def is_package_style_group_root(skill_dir: pathlib.Path) -> bool:
+    return (skill_dir / "group.json").exists() and bool(list_nested_skill_definitions(skill_dir))
+
+
 def resolve_skill_dir(target: pathlib.Path) -> pathlib.Path:
     path = target.resolve()
     if path.is_dir():
@@ -92,27 +108,35 @@ def resolve_skill_dir(target: pathlib.Path) -> pathlib.Path:
 def resolve_skill_metadata(target: str | pathlib.Path) -> SkillMetadata:
     skill_dir = resolve_skill_dir(pathlib.Path(target))
     skill_md = skill_dir / "SKILL.md"
-    if not skill_md.exists():
-        raise SkillMetadataError(f"missing SKILL.md in {skill_dir}")
-
-    name, description = parse_skill_frontmatter(skill_md)
-    if name != skill_dir.name:
-        raise SkillMetadataError(
-            f"frontmatter name '{name}' must match directory name '{skill_dir.name}' in {skill_md}"
-        )
-
     compat = load_compat_metadata(skill_dir)
-    if compat is None:
-        return SkillMetadata(
-            skill_dir=skill_dir,
-            name=name,
-            description=description,
-            skill_md=skill_md,
-            skill_json=None,
-            version=None,
-            entrypoint=None,
-            metadata_source="SKILL.md",
-        )
+
+    if skill_md.exists():
+        name, description = parse_skill_frontmatter(skill_md)
+        if name != skill_dir.name:
+            raise SkillMetadataError(
+                f"frontmatter name '{name}' must match directory name '{skill_dir.name}' in {skill_md}"
+            )
+
+        if compat is None:
+            return SkillMetadata(
+                skill_dir=skill_dir,
+                name=name,
+                description=description,
+                skill_md=skill_md,
+                skill_json=None,
+                version=None,
+                entrypoint=None,
+                metadata_source="SKILL.md",
+            )
+    else:
+        if compat is None:
+            raise SkillMetadataError(f"missing SKILL.md in {skill_dir}")
+        if not is_package_style_group_root(skill_dir):
+            raise SkillMetadataError(
+                f"missing SKILL.md in {skill_dir}; package-style roots require group.json and nested skills/*/SKILL.md"
+            )
+        name = skill_dir.name
+        description = compat.get("description", "") if isinstance(compat, dict) else ""
 
     required = ["name", "version", "description", "entrypoint"]
     for key in required:
@@ -122,7 +146,7 @@ def resolve_skill_metadata(target: str | pathlib.Path) -> SkillMetadata:
 
     if compat["name"] != name:
         raise SkillMetadataError(
-            f"skill.json name '{compat['name']}' must match SKILL.md name '{name}' in {skill_dir}"
+            f"skill.json name '{compat['name']}' must match canonical name '{name}' in {skill_dir}"
         )
 
     if not SEMVER_TAG_PATTERN.match(compat["version"]):
@@ -137,8 +161,8 @@ def resolve_skill_metadata(target: str | pathlib.Path) -> SkillMetadata:
     return SkillMetadata(
         skill_dir=skill_dir,
         name=name,
-        description=description,
-        skill_md=skill_md,
+        description=compat["description"].strip() or description,
+        skill_md=skill_md if skill_md.exists() else entrypoint_path,
         skill_json=skill_dir / "skill.json",
         version=compat["version"],
         entrypoint=compat["entrypoint"],

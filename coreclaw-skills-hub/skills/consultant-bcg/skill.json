@@ -1,0 +1,6 @@
+{
+  "name": "consultant-bcg",
+  "version": "v0.3.0",
+  "description": "BCG-style consulting workflows for portfolio strategy, growth, competitive advantage, and hypothesis-driven analysis.",
+  "entrypoint": "SKILL.md"
+}

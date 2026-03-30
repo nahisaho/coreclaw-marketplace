@@ -1,29 +1,83 @@
 {
-  "generated_at": "2026-03-29T23:51:35+00:00",
+  "generated_at": "2026-03-30T01:36:29+00:00",
   "skills": {
     "consultant": {
-      "latest": "v0.1.0",
-      "versions": []
+      "latest": "v0.3.0",
+      "versions": [
+        {
+          "version": "v0.3.0",
+          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/consultant/v0.3.0/consultant-v0.3.0.zip",
+          "released_at": "2026-03-30T01:36:35+00:00"
+        }
+      ],
+      "name": "consultant",
+      "description": "General consulting workflows for research, business analysis, strategy development, problem solving, and client-ready reporting.",
+      "metadataSource": "skill.json"
     },
     "consultant-acn": {
-      "latest": "v0.1.0",
-      "versions": []
+      "latest": "v0.3.0",
+      "versions": [
+        {
+          "version": "v0.3.0",
+          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/consultant-acn/v0.3.0/consultant-acn-v0.3.0.zip",
+          "released_at": "2026-03-30T01:36:29+00:00"
+        }
+      ],
+      "name": "consultant-acn",
+      "description": "Accenture-style consulting workflows for digital transformation, technology strategy, cost optimization, and operating model analysis.",
+      "metadataSource": "skill.json"
     },
     "consultant-bcg": {
-      "latest": "v0.1.0",
-      "versions": []
+      "latest": "v0.3.0",
+      "versions": [
+        {
+          "version": "v0.3.0",
+          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/consultant-bcg/v0.3.0/consultant-bcg-v0.3.0.zip",
+          "released_at": "2026-03-30T01:36:29+00:00"
+        }
+      ],
+      "name": "consultant-bcg",
+      "description": "BCG-style consulting workflows for portfolio strategy, growth, competitive advantage, and hypothesis-driven analysis.",
+      "metadataSource": "skill.json"
     },
     "consultant-mck": {
-      "latest": "v0.1.0",
-      "versions": []
+      "latest": "v0.3.0",
+      "versions": [
+        {
+          "version": "v0.3.0",
+          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/consultant-mck/v0.3.0/consultant-mck-v0.3.0.zip",
+          "released_at": "2026-03-30T01:36:29+00:00"
+        }
+      ],
+      "name": "consultant-mck",
+      "description": "McKinsey-style consulting workflows for issue trees, hypothesis-driven problem solving, 7S diagnosis, and industry analysis.",
+      "metadataSource": "skill.json"
     },
     "consultant-pwc": {
-      "latest": "v0.1.0",
-      "versions": []
+      "latest": "v0.3.0",
+      "versions": [
+        {
+          "version": "v0.3.0",
+          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/consultant-pwc/v0.3.0/consultant-pwc-v0.3.0.zip",
+          "released_at": "2026-03-30T01:36:29+00:00"
+        }
+      ],
+      "name": "consultant-pwc",
+      "description": "PwC-style consulting workflows for strategy, transformation, deals, risk, and total-impact analysis.",
+      "metadataSource": "skill.json"
     },
     "educationalist": {
-      "latest": "v0.1.0",
-      "versions": []
+      "latest": "v0.3.0",
+      "versions": [
+        {
+          "version": "v0.3.0",
+          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/educationalist/v0.3.0/educationalist-v0.3.0.zip",
+          "released_at": "2026-03-30T01:36:29+00:00"
+        }
+      ],
+      "name": "educationalist",
+      "description": "Education support workflows for lesson planning, materials, assessment, learner support, feedback, and curriculum design.",
+      "metadataSource": "skill.json"
     },
     "scientist": {
       "latest": "v0.7.0",
@@ -36,12 +90,12 @@
         {
           "version": "v0.7.0",
           "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/scientist/v0.7.0/scientist-v0.7.0.zip",
-          "released_at": "2026-03-29T12:44:11+00:00"
+          "released_at": "2026-03-30T01:36:29+00:00"
         }
       ],
       "name": "scientist",
-      "description": "Scientific research suite with 195 specialized sub-skills. Covers literature review, experimental design, data analysis, modeling, bioinformatics, cheminformatics, visualization, and publication-ready reporting. Requires file-first outputs, verification gates, and timestamped execution logging.",
-      "metadataSource": "SKILL.md"
+      "description": "Scientific research workflows covering literature review, experiment design, data analysis, modeling, and publication-ready reporting.",
+      "metadataSource": "skill.json"
     },
     "scientist/scientific-academic-writing": {
       "latest": "v0.5.1",
@@ -2582,11 +2636,6 @@
       "latest": "v0.10.0",
       "versions": [
         {
-          "version": "v0.10.0",
-          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/agent-skills-builder/v0.10.0/agent-skills-builder-v0.10.0.zip",
-          "released_at": "2026-03-29T23:51:35+00:00"
-        },
-        {
           "version": "v0.8.0",
           "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/agent-skills-builder/v0.8.0/agent-skills-builder-v0.8.0.zip",
           "released_at": "2026-03-28T13:01:00+00:00"
@@ -2595,11 +2644,120 @@
           "version": "v0.9.0",
           "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/agent-skills-builder/v0.9.0/agent-skills-builder-v0.9.0.zip",
           "released_at": "2026-03-28T21:27:54+00:00"
+        },
+        {
+          "version": "v0.10.0",
+          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/agent-skills-builder/v0.10.0/agent-skills-builder-v0.10.0.zip",
+          "released_at": "2026-03-30T01:36:35+00:00"
         }
       ],
       "name": "agent-skills-builder",
-      "description": "Builder skill that designs and generates Agent Skills compliant packages through user dialogue. Discovers the true objective behind surface-level requests, then designs, generates, validates, and distributes skill configurations for GitHub Copilot CLI and related runtimes.",
-      "metadataSource": "SKILL.md"
+      "description": "Builds and packages Agent Skills through guided requirements discovery, architecture planning, validation, and release preparation.",
+      "metadataSource": "skill.json"
+    },
+    "compliance": {
+      "latest": "v0.3.0",
+      "versions": [
+        {
+          "version": "v0.3.0",
+          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/compliance/v0.3.0/compliance-v0.3.0.zip",
+          "released_at": "2026-03-30T01:36:35+00:00"
+        }
+      ],
+      "name": "compliance",
+      "description": "Compliance and audit workflows for policy review, control assessment, evidence collection, and remediation planning.",
+      "metadataSource": "skill.json"
+    },
+    "diligence": {
+      "latest": "v0.3.0",
+      "versions": [
+        {
+          "version": "v0.3.0",
+          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/diligence/v0.3.0/diligence-v0.3.0.zip",
+          "released_at": "2026-03-30T01:36:29+00:00"
+        }
+      ],
+      "name": "diligence",
+      "description": "Investment and due diligence workflows for market review, target analysis, risk assessment, and decision support.",
+      "metadataSource": "skill.json"
+    },
+    "enterprise": {
+      "latest": "v0.3.0",
+      "versions": [
+        {
+          "version": "v0.3.0",
+          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/enterprise/v0.3.0/enterprise-v0.3.0.zip",
+          "released_at": "2026-03-30T01:36:29+00:00"
+        }
+      ],
+      "name": "enterprise",
+      "description": "Enterprise transformation workflows for strategy execution, operating model redesign, change programs, and cross-functional alignment.",
+      "metadataSource": "skill.json"
+    },
+    "growth": {
+      "latest": "v0.3.0",
+      "versions": [
+        {
+          "version": "v0.3.0",
+          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/growth/v0.3.0/growth-v0.3.0.zip",
+          "released_at": "2026-03-30T01:36:29+00:00"
+        }
+      ],
+      "name": "growth",
+      "description": "Product growth workflows for user research, funnel analysis, experimentation, retention, and go-to-market decisions.",
+      "metadataSource": "skill.json"
+    },
+    "learning": {
+      "latest": "v0.3.0",
+      "versions": [
+        {
+          "version": "v0.3.0",
+          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/learning/v0.3.0/learning-v0.3.0.zip",
+          "released_at": "2026-03-30T01:36:29+00:00"
+        }
+      ],
+      "name": "learning",
+      "description": "Learning design workflows for curriculum planning, assessment design, instructional sequencing, and learner outcomes.",
+      "metadataSource": "skill.json"
+    },
+    "sales": {
+      "latest": "v0.3.0",
+      "versions": [
+        {
+          "version": "v0.3.0",
+          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/sales/v0.3.0/sales-v0.3.0.zip",
+          "released_at": "2026-03-30T01:36:29+00:00"
+        }
+      ],
+      "name": "sales",
+      "description": "Strategic sales workflows for account planning, opportunity analysis, stakeholder mapping, and deal execution.",
+      "metadataSource": "skill.json"
+    },
+    "secops": {
+      "latest": "v0.3.0",
+      "versions": [
+        {
+          "version": "v0.3.0",
+          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/secops/v0.3.0/secops-v0.3.0.zip",
+          "released_at": "2026-03-30T01:36:29+00:00"
+        }
+      ],
+      "name": "secops",
+      "description": "Security incident response workflows for triage, investigation, containment, remediation, and post-incident review.",
+      "metadataSource": "skill.json"
+    },
+    "supply": {
+      "latest": "v0.3.0",
+      "versions": [
+        {
+          "version": "v0.3.0",
+          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/supply/v0.3.0/supply-v0.3.0.zip",
+          "released_at": "2026-03-30T01:36:29+00:00"
+        }
+      ],
+      "name": "supply",
+      "description": "Supply chain decision workflows for planning, sourcing, inventory, logistics, and operational trade-off analysis.",
+      "metadataSource": "skill.json"
     }
   }
 }
