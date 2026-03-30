@@ -39,13 +39,31 @@ Generate Harness-optimized Agent Skill packages — from single skills to full s
    - Frontmatter: `name`, `description` (+ `tu_tools` if MCP)
    - Body: Use This Skill When, Workflow, Deliverables, Quality Gates, Gotchas (3+), Validation Loop
 
-4. Determine if sub-skills need supplementary directories:
-   - `assets/` — when the skill produces templated outputs (reports, analyses)
-   - `references/` — when detailed definitions exceed SKILL.md's 500-line budget
-   - `scripts/` — when validation or transformation scripts are needed
-   - Reuse templates from this skill's `assets/` directory
+4. **Supplementary Directory Assessment（必須）**:
+   生成した各スキルに対して、以下の判定を実行し、結果に応じて作成する。
+
+   **assets/ 判定**:
+   - [ ] スキルが定型フォーマットの出力を生成するか？（レポート、分析結果、テンプレート）
+   - [ ] 出力構造が再利用可能か？（毎回同じ構造を使う）
+   → いずれかYES → `assets/` に出力テンプレートを作成し、SKILL.md から条件付き参照
+
+   **references/ 判定**:
+   - [ ] スキルが100行以上の参照情報（フレームワーク定義、API仕様、規約等）を必要とするか？
+   - [ ] SKILL.md に含めると500行を超えるか？
+   → いずれかYES → `references/` に分離し、SKILL.md から条件付き参照（「〜の場合に読む」）
+
+   **scripts/ 判定**:
+   - [ ] バリデーションを自動化できるか？（構文チェック、整合性確認）
+   - [ ] データ変換やフォーマット処理が必要か？
+   → いずれかYES → `scripts/` に実行可能コードを作成
+
+   **判定後の確認**:
+   - 作成した assets/ は SKILL.md から条件付きで参照されているか
+   - 作成した references/ は「いつ読むか」が明示されているか
+   - 判定の結果「不要」となったディレクトリは作成しない
 
 5. Add conditional references in SKILL.md:
+   - ✅ `Reuse assets/output-template.md when producing standardized analysis output`
    - ✅ `Read references/api-errors.md when API returns non-200 status`
    - ❌ `See references/ for details`
 
@@ -80,37 +98,52 @@ Reuse templates in this skill's `assets/` directory:
 ## Validation Loop
 
 1. 生成したパッケージを確認
-2. **構造チェック**:
+2. **Phase 1: 構造チェック**:
    - [ ] `name` フィールドが命名規則に従い、フォルダ名と一致
    - [ ] `description` が「何をするか」+「Use when」の2部構成
    - [ ] スイート構成なら AGENTS.md が存在する
    - [ ] 本文500行以内（超過分は references/ に分離済み）
    - [ ] Gotchas セクションが3項目以上
-   - [ ] 検証ループまたはチェックリストが含まれる
-   - [ ] references/ への参照は全て条件付き
-   - [ ] assets/ のテンプレートが SKILL.md から参照されている
-3. 不合格項目がある場合: 修正して再チェック
-4. 構造チェック合格後、**Harness 7軸チェック**を実施:
+   - [ ] 検証ループに失敗時リカバリ手順が含まれる
+   - [ ] Quality Gates にチェックリストが含まれる
+   → 不合格項目がある場合: 修正して再チェック
 
-### Post-Generation Harness Check（必須）
+3. **Phase 2: Supplementary Directory チェック**:
+   各スキルに対して以下を確認:
+   - [ ] 定型出力を生成するスキルに `assets/` テンプレートがあるか
+   - [ ] 100行超の参照情報が `references/` に分離されているか
+   - [ ] assets/references が SKILL.md から条件付きで参照されているか
+   - [ ] 不要な空ディレクトリが残っていないか
+   → 不足がある場合: assets/references/scripts を作成し、SKILL.md に条件付き参照を追加
 
-生成完了後、以下の 7軸チェックを全スキルに対して実行する。
-`harness-auditor` スキルの基準に従い、各軸を 0–3 でスコアリング。
+4. **Phase 3: Harness 7軸チェック（3/3 目標）**:
 
-| # | 軸 | 合格基準 | チェック内容 |
-|---|-----|---------|------------|
-| 1 | Tool Coverage | ≥1 | description に起動条件あり、スキル間キーワード重複なし |
-| 2 | Context Efficiency | ≥1 | SKILL.md ≤500行、条件付き参照のみ、assets活用 |
-| 3 | Quality Gates | ≥1 | 検証ループ + チェックリスト + 失敗時リカバリ |
-| 4 | Memory Persistence | ≥1 | Gotchas 3項目以上（具体的）、learning-capture考慮 |
-| 5 | Eval Coverage | ≥1 | 出力検証基準が明示、CI統合ポイントあり |
-| 6 | Security Guardrails | ≥1 | 禁止事項明示、データ取り扱いルール |
-| 7 | Cost Efficiency | ≥1 | 冗長説明なし、デフォルト明示、選択肢最小化 |
+生成完了後、全スキルに対して 7軸スコアリングを実施。
 
-**合格条件**: 全7軸でスコア1以上（総合 7/21 以上）
-**推奨水準**: 総合 14/21 以上（Intermediate）
+| # | 軸 | スコア3の基準 | チェック内容 |
+|---|-----|------------|------------|
+| 1 | Tool Coverage | 3 | WHEN/DO + 全スキルにキーワード棲み分け + Agent→軸マッピング |
+| 2 | Context Efficiency | 3 | 全SKILL.md≤100行 + 全参照が条件付き + assets/refs活用 |
+| 3 | Quality Gates | 3 | 全スキルに失敗時リカバリ + チェックリスト |
+| 4 | Memory Persistence | 3 | 具体的Gotchas(閾値・コマンド付き) + learning-capture + コンパクション耐性 |
+| 5 | Eval Coverage | 3 | 全スキルにValidation Loop + CI統合ポイント |
+| 6 | Security Guardrails | 3 | データ取り扱いルール + 匿名化 + PII禁止 + 禁止事項 |
+| 7 | Cost Efficiency | 3 | MCP上限 + デフォルト明示 + 最シンプルフレームワーク原則 |
 
-5. いずれかの軸がスコア0の場合:
-   - 該当軸の改善を実施（description → `description-optimizer`、Gotchas → `gotchas-curator`）
-   - 改善後に再スコアリング
-6. 全軸スコア1以上を確認してから完了とする
+**合格条件**: 全7軸でスコア3（総合 21/21 = Expert）
+**最低合格**: 全7軸でスコア1以上（総合 7/21 以上）
+
+5. スコア3未満の軸がある場合の修正フロー:
+
+| 軸 | 2→3 に必要な改善 |
+|----|----------------|
+| Tool Coverage | Agent→Harness軸マッピング追加、description キーワード棲み分け検証 |
+| Context Efficiency | 無条件参照→条件付き、assets/references 追加・活用 |
+| Quality Gates | 失敗時リカバリ手順追加、具体的な不合格条件定義 |
+| Memory Persistence | Gotchas に具体的閾値・コマンド追記、コンパクション耐性テーブル追加 |
+| Eval Coverage | CI統合（validate_skill.py）参照追加 |
+| Security Guardrails | Data Handling & Confidentiality セクション追加 |
+| Cost Efficiency | MCP 10サーバー上限、デフォルトツール優先ルール追加 |
+
+6. 修正後に再スコアリング
+7. 全軸スコア3を確認してから完了とする（3未満でもスコア1以上なら合格として完了可）
