@@ -23,6 +23,18 @@ Generate Harness-optimized Agent Skill packages — from single skills to full s
 
 ## Workflow
 
+### Phase 0: Purpose Discovery（必須 — 情報不足時に1問1答で要件を収集）
+
+**スキル生成の前に、必ず `purpose-discovery` スキルの基準で入力を評価する。**
+
+1. ユーザー入力を8要素（PURPOSE, DOMAIN, AUDIENCE, SCOPE, WORKFLOWS, INTEGRATIONS, REFERENCE MODEL, QUALITY CRITERIA）で評価
+2. 5/8以上が明確 → Phase 1 へ進む
+3. 5/8未満 → `purpose-discovery` スキルの1問1答ダイアログで不足情報を収集
+4. 収集完了後、構造化仕様書を生成しユーザー承認を得る ⏸️
+5. 承認済み仕様書を元に Phase 1 へ進む
+
+### Phase 1: Package Generation
+
 1. Determine package type:
    - **Single skill**: SKILL.md only
    - **Suite**: AGENTS.md + multiple SKILL.md + agents/ + copilot-instructions.md

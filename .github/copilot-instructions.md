@@ -76,6 +76,14 @@ coreclaw-skills-hub/skills/<group>/
 - 禁止事項を明記
 - 緊急度トリアージを含める
 
+### Purpose Discovery First（必須）
+**Agent Skills 開発の開始前に、ユーザー入力の情報充足度を必ず確認すること。**
+
+1. ユーザー入力を8要素（PURPOSE, DOMAIN, AUDIENCE, SCOPE, WORKFLOWS, INTEGRATIONS, REFERENCE MODEL, QUALITY CRITERIA）で評価
+2. 5/8以上が明確 → スキル生成に進む
+3. 5/8未満 → `purpose-discovery` スキルで1問1答ダイアログ（1問ずつ、最大8ラウンド）
+4. 構造化仕様書を生成し、ユーザー承認後にスキル生成を開始
+
 ### Harness 最適化 必須パターン
 すべてのスキルに以下を含めること:
 1. **Gotchas セクション** — 3項目以上の具体的な落とし穴
