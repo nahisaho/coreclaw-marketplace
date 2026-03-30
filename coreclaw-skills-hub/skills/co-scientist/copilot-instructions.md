@@ -109,6 +109,27 @@ Required events: `run_started`, `prompt_received`, `skill_selected`, `handoff_st
 | `data-steward` | Data governance, FAIR, ethics | Read, search only | Security Guardrails |
 | `writing-coach` | Manuscript structure review | Read, search only | Quality Gates |
 
+## Data Handling & Confidentiality
+
+- Research data is confidential. Use "[Subject A]" placeholders.
+- Do not store credentials or PII in files.
+- Mark drafts as "DRAFT — NOT FOR DISTRIBUTION".
+
+## Compaction Resilience
+
+| ✅ Survives compaction | ❌ Lost on compaction |
+|----------------------|---------------------|
+| Files (report.md, results/) | Chat-only analysis |
+| Git-committed changes | Tool call history |
+| Gotchas in SKILL.md | Intermediate reasoning |
+| process-log.jsonl entries | File contents read in session |
+
+**Rule**: Save Phase outputs before proceeding.
+
+## CI Integration
+
+Use `python coreclaw-skills-hub/.github/scripts/validate_skill.py <skill-dir>` for validation.
+
 ## Gotchas
 
 - `co-scientist-literature-review` と `co-scientist-research-planning` は起動条件が近い。テーマ未定なら planning、テーマ決定済みなら literature-review。

@@ -56,6 +56,8 @@ Research learnings, methodological insights, and Gotchas maintenance.
 - [ ] No duplicate with existing Gotchas.
 - [ ] Target skill remains under 500 lines after addition.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - 学びの記録は「ミス発生直後」に行うこと。時間が経つと詳細を忘れる

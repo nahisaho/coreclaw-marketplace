@@ -59,6 +59,8 @@ DOE, power analysis, sample size calculation, and protocol design.
 - [ ] Randomization strategy is documented.
 - [ ] Protocol is detailed enough for independent replication.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - 検出力分析でα=0.05, power=0.80 をデフォルトとするが、ユーザーの分野慣習を確認すること。臨床試験ではα=0.025（片側）が標準

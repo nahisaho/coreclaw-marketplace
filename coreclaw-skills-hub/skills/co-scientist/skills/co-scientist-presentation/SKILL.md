@@ -53,6 +53,8 @@ Conference talks, poster design, and visual storytelling.
 - [ ] Figures use colorblind-friendly palettes and high contrast.
 - [ ] Speaker notes match the slide content.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - 学会発表では「全部の結果を見せたい」衝動を抑えること。ストーリーに必要な結果だけを選択する

@@ -132,6 +132,20 @@ Every execution follows: PLAN → EXECUTE → VERIFY → REPORT → LOG
 - 生データを加工せずに最終レポートに含めてはならない
 - 単一ソースのみに基づく結論を断定的に述べてはならない
 
+## Data Handling & Confidentiality
+
+- Research data containing patient info, proprietary datasets, or unpublished results is confidential.
+- Use "[Subject A]", "[Dataset X]" placeholders. Do not include real identifiers.
+- Do not store credentials or access keys in generated files.
+- Mark draft manuscripts as "DRAFT — NOT FOR DISTRIBUTION".
+- Cite only published or authorized sources for claims.
+
+## Cost Efficiency Rules
+
+- Do not enable more than 10 MCP servers simultaneously.
+- Default to Python requests for API calls; use ToolUniverse MCP only when it adds material value.
+- Prefer the narrowest sub-skill. Do not load broad context.
+
 ## Gotchas
 
 - 複数 Phase にまたがるタスクでは、Phase 間の引き継ぎ情報を必ずファイルに保存すること。コンパクションで中間結果が消失する

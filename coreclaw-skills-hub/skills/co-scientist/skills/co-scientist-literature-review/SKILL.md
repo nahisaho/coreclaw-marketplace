@@ -69,6 +69,8 @@ Systematic literature search, screening, and evidence synthesis.
 | Semantic Scholar | `SemanticScholar_get_paper` | Semantic Scholar API |
 | Crossref | `Crossref_search_works` | Crossref API |
 
+- Read `references/prisma-guide.md` when conducting PRISMA-compliant systematic reviews.
+
 ## Quality Gates
 
 - [ ] Search strategy is documented and reproducible.
@@ -76,6 +78,8 @@ Systematic literature search, screening, and evidence synthesis.
 - [ ] At least 3 sources are cross-validated for key claims.
 - [ ] Single-source findings are marked with ⚠️.
 - [ ] Research gaps are identified with supporting evidence.
+
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
 
 ## Gotchas
 

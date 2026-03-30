@@ -56,6 +56,8 @@ Statistical analysis, visualization, and result interpretation.
 - [ ] Multiple comparisons are corrected (Bonferroni, FDR, etc.) when applicable.
 - [ ] Limitations of the analysis are explicitly stated.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - p値だけでなく効果量と信頼区間を必ず報告すること。「p < 0.05 で有意」だけでは不十分

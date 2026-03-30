@@ -49,6 +49,8 @@ Research question formulation, scope definition, and methodology selection.
 - [ ] Constraints and limitations are explicitly stated.
 - [ ] Plan is approved by user before proceeding.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - 研究テーマが曖昧な場合、1回の質問で明確化しようとせず、1問ずつ段階的にヒアリングする

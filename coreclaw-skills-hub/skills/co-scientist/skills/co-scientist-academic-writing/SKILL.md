@@ -63,6 +63,8 @@ Research paper drafting, journal formatting, and citation management.
 | Crossref | `Crossref_search_works` | Crossref API |
 | Crossref | `Crossref_get_work` | Crossref API |
 
+- Reuse `assets/imrad-template.md` when writing IMRaD-format papers.
+
 ## Quality Gates
 
 - [ ] Manuscript follows target journal's structure and guidelines.
@@ -70,6 +72,8 @@ Research paper drafting, journal formatting, and citation management.
 - [ ] Every figure and table is referenced in text.
 - [ ] Abstract contains objective, methods, key results, and conclusion.
 - [ ] Word count is within journal limits.
+
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
 
 ## Gotchas
 

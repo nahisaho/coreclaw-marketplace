@@ -58,6 +58,8 @@ Code packaging, data management, and reproducibility assurance.
 - [ ] Data provenance is documented from raw to processed.
 - [ ] A README explains how to reproduce the analysis.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - `pip freeze` の出力をそのまま使わないこと。直接依存のみを `requirements.txt` に書き、間接依存は `pip freeze > requirements-lock.txt` で分離する

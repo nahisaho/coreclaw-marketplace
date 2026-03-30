@@ -76,6 +76,8 @@ Self-review, reviewer response, and revision management.
 - [ ] Each response references specific manuscript changes.
 - [ ] Revision log tracks all changes with before/after.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - 査読者のコメントに反論する場合も、まず感謝を述べてから根拠を示すこと。攻撃的な応答はリジェクトにつながる
