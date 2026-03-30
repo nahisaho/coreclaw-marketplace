@@ -1,0 +1,6 @@
+{
+  "name": "co-consultant-acn",
+  "version": "v0.1.0",
+  "description": "Accenture-style consulting partner with DX Strategy, Digital Maturity Assessment, Zero-Based Budgeting, Cost Excellence, Intelligent Operations, and Value Creation frameworks.",
+  "entrypoint": "AGENTS.md"
+}

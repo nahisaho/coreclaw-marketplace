@@ -1,0 +1,6 @@
+{
+  "name": "co-consultant-mck",
+  "version": "v0.1.0",
+  "description": "McKinsey-style consulting partner with 7S Framework, Hypothesis-Driven Approach, Issue Tree, Pyramid Principle, Three Horizons, Granularity of Growth, OVA, Profit Pool, and SCP Analysis.",
+  "entrypoint": "AGENTS.md"
+}

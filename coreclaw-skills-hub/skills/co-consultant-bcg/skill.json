@@ -1,0 +1,6 @@
+{
+  "name": "co-consultant-bcg",
+  "version": "v0.1.0",
+  "description": "BCG-style consulting partner with Growth-Share Matrix, Experience Curve, Strategy Palette, Hypothesis-Driven Approach, TSR Analysis, Advantage Matrix, Three Horizons, and Profit Pool Analysis.",
+  "entrypoint": "AGENTS.md"
+}
