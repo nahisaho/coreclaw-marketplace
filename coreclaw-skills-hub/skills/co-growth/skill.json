@@ -1,0 +1,6 @@
+{
+  "name": "co-growth",
+  "version": "v0.1.0",
+  "description": "Harness-optimized product growth workflows for user segmentation, funnel optimization, A/B experimentation, and growth loop management.",
+  "entrypoint": "AGENTS.md"
+}
