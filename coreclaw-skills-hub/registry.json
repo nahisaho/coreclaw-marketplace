@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-30T01:36:29+00:00",
+  "generated_at": "2026-03-30T02:04:39+00:00",
   "skills": {
     "consultant": {
       "latest": "v0.3.0",
@@ -2633,7 +2633,7 @@
       "metadataSource": "SKILL.md"
     },
     "agent-skills-builder": {
-      "latest": "v0.10.0",
+      "latest": "v0.11.0",
       "versions": [
         {
           "version": "v0.8.0",
@@ -2649,6 +2649,11 @@
           "version": "v0.10.0",
           "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/agent-skills-builder/v0.10.0/agent-skills-builder-v0.10.0.zip",
           "released_at": "2026-03-30T01:36:35+00:00"
+        },
+        {
+          "version": "v0.11.0",
+          "url": "https://github.com/nahisaho/coreclaw-marketplace/releases/download/agent-skills-builder/v0.11.0/agent-skills-builder-v0.11.0.zip",
+          "released_at": "2026-03-30T02:04:39+00:00"
         }
       ],
       "name": "agent-skills-builder",
