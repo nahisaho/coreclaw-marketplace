@@ -18,62 +18,41 @@
 
 ## ディレクトリ構造
 
-### グループ直下の本体スキル（スイート親）
+### package-style グループ root（スイート親）
 
 ```
 coreclaw-skills-hub/skills/
 └── <group-name>/
     ├── group.json                    # グループメタデータ
-    ├── SKILL.md                      # スキルドキュメント（根ルート）
-    ├── skill.json                    # スキルメタデータ
-    ├── main.py                       # エントリポイント（マーケットプレース用）
-    ├── README.md                     # スキル説明（マーケットプレース用）
-  ├── source/                       # 元のペイロード
-        ├── SKILL.md                  # 元のスキルドキュメント
-  │   └── [その他のオリジナルファイル]
-  ├── <group-orchestrator>/         # オーケストレーター用サブスキル
-  │   ├── SKILL.md
-  │   ├── skill.json
-  │   ├── main.py
-  │   ├── README.md
-  │   └── source/
-  │       └── SKILL.md
-  └── <group-specialized-skill>/    # 専門サブスキル
-    ├── SKILL.md
-    ├── skill.json
-    ├── main.py
-    ├── README.md
-    └── source/
+  ├── skill.json                    # root互換メタデータ
+  ├── README.md                     # パッケージ説明 / root entrypoint 対象
+  ├── orchestration.json            # 任意のルーティング・契約メタデータ
+  ├── agents/                       # 任意のagent manifest
+  ├── hooks/                        # 任意のhook設定
+  ├── commands/                     # 任意のcommand doc
+  ├── docs/                         # 任意の監査・補助doc
+  └── skills/
+    ├── orchestrator/
+    │   └── SKILL.md
+    └── <specialized-skill>/
       └── SKILL.md
 ```
 
-例：`scientist/`, `enterprise/`, `growth/`, `secops/`
+例：`agent-skills-builder/`, `dx-agent/`のような生成スイートルート
 
-### ネストされたグループ内のスキル（複数スキル）
+### インストール可能な単一スキルルート
 
 ```
 coreclaw-skills-hub/skills/
-└── <group-name>/
-    ├── group.json                    # グループメタデータ
-    ├── <skill-name-1>/
-    │   ├── SKILL.md
-    │   ├── skill.json
-    │   ├── main.py
-    │   ├── README.md
-    │   └── source/
-    │       ├── SKILL.md
-    │       └── [その他のファイル]
-    └── <skill-name-2>/
-        ├── SKILL.md
-        ├── skill.json
-        ├── main.py
-        ├── README.md
-        └── source/
-            ├── SKILL.md
-            └── [その他のファイル]
+└── <group-name>/<skill-name>/
+  ├── SKILL.md                      # 正式なスキル定義
+  ├── README.md                     # マーケットプレース向け説明
+  ├── skill.json                    # 任意の互換メタデータ
+  ├── main.py                       # entrypoint が main.py の場合だけ必要
+  └── [その他のアセット]
 ```
 
-例：`scientist/scientific-academic-writing/`, `enterprise/enterprise-orchestrator/`, `growth/growth-funnel-analysis/`
+例：`scientist/scientific-academic-writing/`, `growth/growth-funnel-analysis/`
 
 ---
 
@@ -86,7 +65,7 @@ coreclaw-skills-hub/skills/
   "name": "my-skill-name",
   "version": "v0.1.0",
   "description": "Brief description of what this skill does",
-  "entrypoint": "main.py"
+  "entrypoint": "README.md"
 }
 ```
 
@@ -97,7 +76,7 @@ coreclaw-skills-hub/skills/
 | `name` | string | ✅ | スキルの一意な名前。ケバブケース（kebab-case）で記述。EXドメイン内で重複しない必要があります。 |
 | `version` | string | ✅ | セマンティック バージョン（Semantic Versioning）形式：`vX.Y.Z`。例：`v0.1.0`, `v1.2.3` |
 | `description` | string | ✅ | スキルの簡潔な説明（英語推奨）。1-2 文で概要を説明。 |
-| `entrypoint` | string | ✅ | マーケットプレースから実行されるメインファイル。通常は `main.py` |
+| `entrypoint` | string | ✅ | 互換 entrypoint として使う既存ファイル。`SKILL.md`、`README.md`、`main.py` など |
 | `author` | string | ❌ | スキル作成者の名前またはメールアドレス |
 | `license` | string | ❌ | ライセンスタイプ。例：`MIT`, `Apache-2.0` |
 | `keywords` | array | ❌ | スキルを分類するキーワード。例：`["research", "writing", "academic"]` |
@@ -109,7 +88,7 @@ coreclaw-skills-hub/skills/
   "name": "scientific-academic-writing",
   "version": "v0.2.0",
   "description": "Assists researchers in composing high-quality academic papers with proper structure and citation formatting",
-  "entrypoint": "main.py",
+  "entrypoint": "SKILL.md",
   "author": "research-team",
   "license": "MIT",
   "keywords": ["research", "writing", "academic", "paper", "documentation"]
@@ -159,7 +138,7 @@ coreclaw-skills-hub/skills/
 
 ### SKILL.md（スキルドキュメント）
 
-スキルの詳細なドキュメント。根ルートと `source/` の両方に配置。
+スキルの詳細なドキュメント。インストール可能な各スキルルートに配置します。
 
 **必須セクション：**
 
@@ -189,7 +168,7 @@ coreclaw-skills-hub/skills/
 
 ### Orchestrator用SKILL.md（スイート構成で必須）
 
-`<group>/<group>-orchestrator/` のようなオーケストレーター用サブスキルでは、`SKILL.md` に次のセクションを含めます。
+`<group>/skills/orchestrator/` のようなオーケストレーター用サブスキルでは、`SKILL.md` に次のセクションを含めます。
 
 - `## Orchestration Flow`
 - `## Input Contract`
@@ -199,9 +178,9 @@ coreclaw-skills-hub/skills/
 
 サブスキル連携順と検証ルールを明示してください。
 
-### main.py（エントリポイント）
+### main.py（任意の runtime entrypoint）
 
-マーケットプレースから実行される Python スクリプト。
+互換`entrypoint`が`main.py`を指す場合だけ必要なPythonスクリプトです。
 
 **最小限の例：**
 
@@ -278,22 +257,32 @@ python main.py
 
 ### 1. 構成タイプを選択
 
-- **スイート構成（高度処理向け、推奨）**
+- **package-style スイート root（複数スキルのオーケストレーション向け、推奨）**
 
 ```bash
 mkdir -p coreclaw-skills-hub/skills/<group>
-mkdir -p coreclaw-skills-hub/skills/<group>/source
-mkdir -p coreclaw-skills-hub/skills/<group>/<group>-orchestrator/source
+mkdir -p coreclaw-skills-hub/skills/<group>/skills/orchestrator
+mkdir -p coreclaw-skills-hub/skills/<group>/skills/<specialized-skill>
 ```
 
-- **単一サブスキルのみ**
+- **単一のインストール可能スキル**
 
 ```bash
 mkdir -p coreclaw-skills-hub/skills/<group>/<skill-name>
 cd coreclaw-skills-hub/skills/<group>/<skill-name>
 ```
 
-### 2. SKILL.md を作成
+### 2. スイートルートが必要ならルートメタデータを作成
+
+package-style suite rootでは、次を作成します。
+
+- `group.json`
+- `skill.json`
+- `README.md`
+
+ルートに実ランタイムがない場合、`entrypoint`は通常`README.md`を使います。
+
+### 3. SKILL.md を作成
 
 正式なメタデータと手順を定義します：
 
@@ -310,7 +299,7 @@ description: |
 説明
 ```
 
-### 3. README.md を作成
+### 4. README.md を作成
 
 マーケットプレース向けの説明：
 
@@ -320,18 +309,18 @@ description: |
 Brief description and features
 ```
 
-### 4. 必要な場合だけ互換メタデータを追加
+### 5. 必要な場合だけ互換メタデータを追加
 
 ```json
 {
   "name": "<skill-name>",
   "version": "v0.1.0",
   "description": "Your skill description here",
-  "entrypoint": "main.py"
+  "entrypoint": "SKILL.md"
 }
 ```
 
-### 5. main.py を作成
+### 6. main.py は必要な場合だけ作成
 
 `skill.json` を置く場合だけ必要です。
 
@@ -348,16 +337,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-```
-
-### 6. source/ ディレクトリを作成（旧形式との互換用オプション）
-
-元のペイロードを保存：
-
-```bash
-mkdir source
-cp SKILL.md source/
-# 他のオリジナルファイルをコピー
 ```
 
 ### 7. 変更をコミット
@@ -381,7 +360,7 @@ git push origin main
   "name": "my-skill",
   "version": "v0.2.0",  // <- Update this
   "description": "...",
-  "entrypoint": "main.py"
+  "entrypoint": "SKILL.md"
 }
 ```
 
@@ -393,6 +372,15 @@ git add coreclaw-skills-hub/skills/<group>/<skill-name>/README.md
 git add coreclaw-skills-hub/skills/<group>/<skill-name>/skill.json
 git commit -m "bump: version v0.2.0 for <skill-name>"
 git push origin main
+```
+
+package-style suite rootでは、ルートメタデータも必要に応じてコミットします。
+
+```bash
+git add coreclaw-skills-hub/skills/<group>/group.json
+git add coreclaw-skills-hub/skills/<group>/skill.json
+git add coreclaw-skills-hub/skills/<group>/README.md
+git add coreclaw-skills-hub/skills/<group>/skills/**
 ```
 
 ### 3. リリースタグを作成

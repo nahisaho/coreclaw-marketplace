@@ -4,12 +4,12 @@ Inventory of remaining compatibility-oriented files under `coreclaw-skills-hub/s
 
 ## Summary
 
-- `skill.json`: 0 files
+- `skill.json`: 1 file
 - `main.py`: 1 file
 - Skill READMEs that still tell users to run `python main.py`: 0 files
 
-The current workflows no longer require `skill.json` or `main.py` for validation and release.
-The repository is now fully `SKILL.md`-native for metadata. One implementation file remains for the builder runtime.
+The current workflows are `SKILL.md`-native by default and only require `skill.json` for package-style roots or explicit compatibility metadata.
+The repository keeps one root `skill.json` and one implementation file for the builder runtime.
 
 ## main.py Categories
 
@@ -62,6 +62,7 @@ These are not CI blockers anymore:
 - placeholder sub-skill READMEs were updated to point users at SKILL.md instead of a removed standalone entrypoint
 - imported wrappers and their matching `skill.json` files were removed in Phase 2
 - `agent-skills-builder/main.py` remains only because it contains real builder implementation logic
+- runtime-generated suite roots intentionally emit `group.json` plus root `skill.json` so nested `skills/*/SKILL.md` packages validate as package-style roots
 
 ## Removal Priority
 
@@ -110,3 +111,4 @@ The repository cleanup is complete.
 Remaining implementation note:
 
 1. `agent-skills-builder/main.py` is kept because it is the builder runtime, not a compatibility shim.
+2. `agent-skills-builder/skill.json` is kept because the package root intentionally exposes compatibility metadata.

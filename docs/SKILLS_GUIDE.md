@@ -18,62 +18,41 @@ This guide explains the procedures and best practices for creating and registeri
 
 ## Directory Structure
 
-### Group-level Root Skill (Suite Parent)
+### Package-style Group Root (Suite Parent)
 
 ```
 coreclaw-skills-hub/skills/
 └── <group-name>/
     ├── group.json                    # Group metadata
-    ├── SKILL.md                      # Skill documentation (root)
-    ├── skill.json                    # Skill metadata
-    ├── main.py                       # Entrypoint (marketplace)
-    ├── README.md                     # Skill description (marketplace)
-  ├── source/                       # Original payload
-        ├── SKILL.md                  # Original skill document
-  │   └── [other original files]
-  ├── <group-orchestrator>/         # Orchestrator sub-skill
-  │   ├── SKILL.md
-  │   ├── skill.json
-  │   ├── main.py
-  │   ├── README.md
-  │   └── source/
-  │       └── SKILL.md
-  └── <group-specialized-skill>/    # Specialized sub-skill(s)
-    ├── SKILL.md
-    ├── skill.json
-    ├── main.py
-    ├── README.md
-    └── source/
+  ├── skill.json                    # Root compatibility metadata
+  ├── README.md                     # Package description / root entrypoint target
+  ├── orchestration.json            # Optional routing and contract metadata
+  ├── agents/                       # Optional agent manifests
+  ├── hooks/                        # Optional hook configuration
+  ├── commands/                     # Optional command docs
+  ├── docs/                         # Optional audit / support docs
+  └── skills/
+    ├── orchestrator/
+    │   └── SKILL.md
+    └── <specialized-skill>/
       └── SKILL.md
 ```
 
-Examples: `scientist/`, `enterprise/`, `growth/`, `secops/`
+Examples: `agent-skills-builder/`, generated suite roots such as `dx-agent/`
 
-### Nested Skills (Multiple Skills in Group)
+### Installable Skill Root
 
 ```
 coreclaw-skills-hub/skills/
-└── <group-name>/
-    ├── group.json                    # Group metadata
-    ├── <skill-name-1>/
-    │   ├── SKILL.md
-    │   ├── skill.json
-    │   ├── main.py
-    │   ├── README.md
-    │   └── source/
-    │       ├── SKILL.md
-    │       └── [other files]
-    └── <skill-name-2>/
-        ├── SKILL.md
-        ├── skill.json
-        ├── main.py
-        ├── README.md
-        └── source/
-            ├── SKILL.md
-            └── [other files]
+└── <group-name>/<skill-name>/
+  ├── SKILL.md                      # Canonical skill definition
+  ├── README.md                     # Marketplace-facing description
+  ├── skill.json                    # Optional compatibility metadata
+  ├── main.py                       # Optional runtime only when entrypoint uses it
+  └── [other assets]
 ```
 
-Examples: `scientist/scientific-academic-writing/`, `enterprise/enterprise-orchestrator/`, `growth/growth-funnel-analysis/`
+Examples: `scientist/scientific-academic-writing/`, `growth/growth-funnel-analysis/`
 
 ---
 
@@ -86,7 +65,7 @@ Examples: `scientist/scientific-academic-writing/`, `enterprise/enterprise-orche
   "name": "my-skill-name",
   "version": "v0.1.0",
   "description": "Brief description of what this skill does",
-  "entrypoint": "main.py"
+  "entrypoint": "README.md"
 }
 ```
 
@@ -97,7 +76,7 @@ Examples: `scientist/scientific-academic-writing/`, `enterprise/enterprise-orche
 | `name` | string | ✅ | Unique skill name. Use kebab-case. Must not duplicate within the domain. |
 | `version` | string | ✅ | Semantic Versioning format: `vX.Y.Z`. Ex: `v0.1.0`, `v1.2.3` |
 | `description` | string | ✅ | Brief skill description (English recommended). Summarize in 1-2 sentences. |
-| `entrypoint` | string | ✅ | Main file executed from marketplace. Usually `main.py` |
+| `entrypoint` | string | ✅ | Existing file used as the compatibility entrypoint. Common values are `SKILL.md`, `README.md`, or `main.py` |
 | `author` | string | ❌ | Skill creator name or email address |
 | `license` | string | ❌ | License type. Ex: `MIT`, `Apache-2.0` |
 | `keywords` | array | ❌ | Keywords for skill classification. Ex: `["research", "writing", "academic"]` |
@@ -109,7 +88,7 @@ Examples: `scientist/scientific-academic-writing/`, `enterprise/enterprise-orche
   "name": "scientific-academic-writing",
   "version": "v0.2.0",
   "description": "Assists researchers in composing high-quality academic papers with proper structure and citation formatting",
-  "entrypoint": "main.py",
+  "entrypoint": "SKILL.md",
   "author": "research-team",
   "license": "MIT",
   "keywords": ["research", "writing", "academic", "paper", "documentation"]
@@ -159,7 +138,7 @@ Defines metadata for groups (skill categories). Place directly in group director
 
 ### SKILL.md (Skill Documentation)
 
-Detailed skill documentation. Place in both root and `source/` directories.
+Detailed skill documentation. Place it at each installable skill root.
 
 **Required Sections:**
 
@@ -189,7 +168,7 @@ Skill license information.
 
 ### Orchestrator SKILL.md (Required for Suite-style Groups)
 
-For orchestrator sub-skills (for example, `<group>/<group>-orchestrator/`), include these sections in `SKILL.md`:
+For orchestrator sub-skills (for example, `<group>/skills/orchestrator/`), include these sections in `SKILL.md`:
 
 - `## Orchestration Flow`
 - `## Input Contract`
@@ -199,9 +178,9 @@ For orchestrator sub-skills (for example, `<group>/<group>-orchestrator/`), incl
 
 The orchestrator file should explicitly define how sub-skills are chained and validated.
 
-### main.py (Entrypoint)
+### main.py (Optional Runtime Entrypoint)
 
-Python script executed from the marketplace.
+Python script only when the compatibility `entrypoint` points to `main.py`.
 
 **Minimal Example:**
 
@@ -278,22 +257,32 @@ python main.py
 
 ### 1. Choose Structure Type
 
-- **Suite-style group** (recommended for advanced workflows):
+- **Package-style suite root** (recommended for orchestrated multi-skill workflows):
 
 ```bash
 mkdir -p coreclaw-skills-hub/skills/<group>
-mkdir -p coreclaw-skills-hub/skills/<group>/source
-mkdir -p coreclaw-skills-hub/skills/<group>/<group>-orchestrator/source
+mkdir -p coreclaw-skills-hub/skills/<group>/skills/orchestrator
+mkdir -p coreclaw-skills-hub/skills/<group>/skills/<specialized-skill>
 ```
 
-- **Single sub-skill only**:
+- **Single installable skill**:
 
 ```bash
 mkdir -p coreclaw-skills-hub/skills/<group>/<skill-name>
 cd coreclaw-skills-hub/skills/<group>/<skill-name>
 ```
 
-### 2. Create SKILL.md
+### 2. Create root metadata for suites when needed
+
+For package-style suite roots, create:
+
+- `group.json`
+- `skill.json`
+- `README.md`
+
+Use `entrypoint: "README.md"` unless the package root has a real runtime such as `main.py`.
+
+### 3. Create SKILL.md
 
 Create canonical metadata and instructions:
 
@@ -310,7 +299,7 @@ description: |
 Description
 ```
 
-### 3. Create README.md
+### 4. Create README.md
 
 Create marketplace-facing description:
 
@@ -320,18 +309,18 @@ Create marketplace-facing description:
 Brief description and features
 ```
 
-### 4. Add compatibility metadata only if needed
+### 5. Add compatibility metadata only if needed
 
 ```json
 {
   "name": "<skill-name>",
   "version": "v0.1.0",
   "description": "Your skill description here",
-  "entrypoint": "main.py"
+  "entrypoint": "SKILL.md"
 }
 ```
 
-### 5. Create main.py
+### 6. Create main.py only when the entrypoint needs it
 
 Only required when `skill.json` is present.
 
@@ -348,16 +337,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-```
-
-### 6. Create source/ Directory (Legacy optional)
-
-Store original payload:
-
-```bash
-mkdir source
-cp SKILL.md source/
-# Copy other original files
 ```
 
 ### 7. Commit Changes
@@ -381,7 +360,7 @@ git push origin main
   "name": "my-skill",
   "version": "v0.2.0",  // <- Update this
   "description": "...",
-  "entrypoint": "main.py"
+  "entrypoint": "SKILL.md"
 }
 ```
 
@@ -393,6 +372,15 @@ git add coreclaw-skills-hub/skills/<group>/<skill-name>/README.md
 git add coreclaw-skills-hub/skills/<group>/<skill-name>/skill.json
 git commit -m "bump: version v0.2.0 for <skill-name>"
 git push origin main
+```
+
+For package-style suite roots, also commit root metadata when changed:
+
+```bash
+git add coreclaw-skills-hub/skills/<group>/group.json
+git add coreclaw-skills-hub/skills/<group>/skill.json
+git add coreclaw-skills-hub/skills/<group>/README.md
+git add coreclaw-skills-hub/skills/<group>/skills/**
 ```
 
 ### 3. Create Release Tag

@@ -113,13 +113,17 @@ coreclaw-skills-hub/
 ├── skills/
 │   ├── scientist/
 │   │   ├── group.json                                  # Group metadata
+│   │   ├── skill.json                                  # Optional package-style root metadata
 │   │   ├── scientific-academic-writing/
 │   │   │   ├── SKILL.md                               # Canonical skill definition
 │   │   │   ├── skill.json                             # Optional compatibility metadata
-│   │   │   ├── main.py                                # Optional compatibility entrypoint
-│   │   │   ├── SKILL.md
 │   │   │   ├── README.md
 │   │   │   └── [other assets]
+│   │   ├── skills/                                    # Optional nested sub-skills for package-style roots
+│   │   │   ├── orchestrator/
+│   │   │   │   └── SKILL.md
+│   │   │   └── [specialized-skill]/
+│   │   │       └── SKILL.md
 │   │   └── [...other skills...]
 │   ├── consultant/
 │   └── [...other groups...]
@@ -140,6 +144,8 @@ coreclaw-skills-hub/
     ├── REGISTRY_AND_CI_CD.md                          # Registry and CI/CD guide
     └── REGISTRY_AND_CI_CD_ja.md                       # Japanese version
 ```
+
+Package-style roots may omit a root `SKILL.md` when they keep `group.json`, a root `skill.json`, and nested `skills/<subskill>/SKILL.md` files.
 
 ---
 

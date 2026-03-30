@@ -113,13 +113,17 @@ coreclaw-skills-hub/
 ├── skills/
 │   ├── scientist/
 │   │   ├── group.json                                  # グループメタデータ
+│   │   ├── skill.json                                  # package-style root用の任意メタデータ
 │   │   ├── scientific-academic-writing/
 │   │   │   ├── SKILL.md                               # 正式なスキル定義
 │   │   │   ├── skill.json                             # 任意の互換メタデータ
-│   │   │   ├── main.py                                # 任意の互換エントリポイント
-│   │   │   ├── SKILL.md
 │   │   │   ├── README.md
 │   │   │   └── [その他のアセット]
+│   │   ├── skills/                                    # package-style root用のネストされたサブスキル
+│   │   │   ├── orchestrator/
+│   │   │   │   └── SKILL.md
+│   │   │   └── [specialized-skill]/
+│   │   │       └── SKILL.md
 │   │   └── [...その他のスキル...]
 │   ├── consultant/
 │   └── [...その他のグループ...]
@@ -137,6 +141,8 @@ coreclaw-skills-hub/
     ├── SKILLS_GUIDE.md                                # スキル作成ガイド
     └── REGISTRY_AND_CI_CD.md                          # Registry と CI/CD
 ```
+
+package-style rootは、ルートに`SKILL.md`を置かず、`group.json`とルートの`skill.json`と`skills/<subskill>/SKILL.md`を持つ構成でも有効です。
 
 ---
 
