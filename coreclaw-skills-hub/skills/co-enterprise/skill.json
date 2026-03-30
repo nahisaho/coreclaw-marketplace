@@ -1,0 +1,6 @@
+{
+  "name": "co-enterprise",
+  "version": "v0.1.0",
+  "description": "Harness-optimized enterprise transformation workflows for strategy execution, operating model redesign, change programs, and cross-functional alignment.",
+  "entrypoint": "AGENTS.md"
+}
