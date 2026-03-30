@@ -2,6 +2,7 @@
 name: co-consultant-acn-deep-research
 description: |
   Iterative deep research with Think→Action→Report cycle for Accenture-style engagements.
+  Web search via web_search tool, /research command, and MCP integration.
   Bilingual search, source quality assessment, and cross-validation.
   Use when COLLECTING information, verifying market data, conducting competitive analysis,
   or gathering evidence for ACN framework application.
@@ -20,16 +21,50 @@ Hypothesis-driven iterative research for Accenture-style consulting.
 - Verifying business data from multiple sources.
 - Gathering evidence before applying ACN frameworks.
 
-## MCP Integration
+## Research Tools (Priority Order)
 
-Use `deep-research` MCP when available. Fall back to Think→Action→Report cycle.
+### 1. `web_search` tool (Built-in — Always Available)
+Targeted web queries. Always run bilingual (JP + EN):
+```
+web_search("Japan digital transformation market size 2025")
+web_search("Accenture ACN framework case study")
+```
+Best for: focused data points, market statistics, recent news, company data.
+
+### 2. `/research` command (CLI — Interactive Sessions)
+Comprehensive multi-source investigation:
+```
+/research What is the competitive landscape for [target market]?
+```
+Best for: complex research questions needing automated sub-question decomposition.
+
+### 3. `deep-research` MCP (When Configured)
+Full pipeline: elaborate → subquestions → search → analyze → report.
 
 ## Workflow
 
-1. Think: Analyze knowledge gaps, generate hypotheses.
-2. Action: SEARCH (bilingual) / VISIT / VERIFY / COMPLETE.
-3. Report: Update findings with source URLs and trust levels.
-4. Repeat until completion criteria met.
+### Think Phase
+- Analyze knowledge gaps against the objective.
+- Generate hypotheses.
+- Choose tool: `web_search` for targeted, `/research` for comprehensive, MCP for pipeline.
+
+### Action Phase
+| Action | Tool | When |
+|--------|------|------|
+| SEARCH | `web_search` (bilingual JP+EN) | Need specific data points |
+| RESEARCH | `/research` command | Need comprehensive multi-source investigation |
+| VISIT | `web_fetch` | Need full page content from URL |
+| VERIFY | `web_search` (2nd query) | Cross-validate key numbers/facts |
+| COMPLETE | — | All completion criteria met |
+
+- **Bilingual**: Always search in both Japanese and English.
+- **Academic priority**: Prefer `.ac.jp`, `.edu`, `.gov` domains.
+- **Cross-validation**: Verify key data with 2+ sources.
+
+### Report Phase
+- Update findings after each round.
+- Tag each fact with source URL and trust level.
+- Mark single-source findings with ⚠️.
 
 ## Deliverables
 
@@ -43,12 +78,13 @@ Use `deep-research` MCP when available. Fall back to Think→Action→Report cyc
 - [ ] Key hypotheses verified or refuted.
 - [ ] Single-source claims marked with ⚠️.
 
-
-If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+If any gate fails: identify the issue, fix, and re-validate.
 
 ## Gotchas
 
+- `web_search` は常に利用可能。MCP が設定されていなくても Web 検索は実行できる
 - 検索は日英両方で行うこと。英語のみだと日本市場固有のデータを見落とす
+- `/research` コマンドは CLI インタラクティブセッションでのみ使用可能。自動化では `web_search` を使う
 - Accentureのレポート・出版物は信頼度「高」として扱うが、自社バイアスに注意すること
 - 収集データは各ラウンド後にファイルに保存。コンパクションで消失する
 - Phase間の引き継ぎは必ず `results/research-notes.md` に保存してからハンドオフすること
@@ -59,13 +95,3 @@ If any gate fails: identify the specific failing check, fix the issue, and re-va
 2. チェック: 3+ソース、交差検証済み、⚠️タグ付き
 3. 不合格なら追加ラウンド
 4. 全基準を満たしてからCOMPLETE
-
-## Available Tools (MCP)
-
-> Use `deep-research` MCP server when available.
-
-| Source | Tool | Description |
-|--------|------|-------------|
-| Deep Research MCP | `elaborate_question` | Refine research scope |
-| Deep Research MCP | `generate_subquestions` | Decompose into sub-questions |
-| Deep Research MCP | `web_search` | Search authoritative sources |
