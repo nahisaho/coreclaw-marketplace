@@ -28,7 +28,7 @@ Generate Accenture-style pyramid-principle reports with quality validation.
 
 - `report.md`: complete ACN-style consulting report.
 - `results/executive-summary.md`: standalone executive summary.
-- Reuse templates in `assets/` when available.
+- Reuse templates in `assets/` when report type matches: market-analysis.md, strategic-proposal.md, business-case.md, due-diligence.md.
 
 ## Quality Gates
 

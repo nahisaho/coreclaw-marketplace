@@ -53,7 +53,7 @@ description: |
 2. Prefer simpler frameworks when data is limited.
 3. Maximum 3 frameworks per analysis.
 4. BCG frameworks take priority over generic frameworks when applicable.
-5. Read detailed definitions in `references/frameworks.md` when applying a specific framework.
+5. Read detailed definitions in `references/bcg-frameworks.md` when applying a specific framework.
 
 ## Gotchas
 
