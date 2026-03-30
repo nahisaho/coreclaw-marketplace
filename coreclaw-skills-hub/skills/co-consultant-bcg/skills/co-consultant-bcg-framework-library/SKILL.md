@@ -55,6 +55,13 @@ description: |
 4. BCG frameworks take priority over generic frameworks when applicable.
 5. Read detailed definitions in `references/bcg-frameworks.md` when applying a specific framework.
 
+## Quality Gates
+
+- [ ] Framework definition is accurate and complete.
+- [ ] Selection rationale matches the business objective.
+- [ ] Recommended frameworks do not exceed 3.
+- [ ] Detailed reference is conditionally referenced (not loaded unconditionally).
+
 ## Gotchas
 
 - BCGフレームワークは「考える道具」であって「答え」ではない。フレームワークを埋めることが目的になってはならない
