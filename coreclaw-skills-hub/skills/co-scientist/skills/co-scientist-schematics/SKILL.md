@@ -45,6 +45,8 @@ Scientific schematics skill. Pathway diagrams, mechanism illustrations, experime
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - Input data quality must be verified before analysis. Garbage-in-garbage-out is the most common cause of incorrect results

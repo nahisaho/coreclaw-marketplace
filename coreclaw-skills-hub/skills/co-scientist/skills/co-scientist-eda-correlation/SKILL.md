@@ -46,6 +46,8 @@ EDA and correlation analysis skill. Exploratory data analysis, correlation matri
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - Statistical assumptions (normality, independence, homoscedasticity) must be tested before parametric methods

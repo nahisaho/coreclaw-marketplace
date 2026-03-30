@@ -45,6 +45,8 @@ Research audit report skill. Systematic quality assessment of experimental desig
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - Citation style varies by journal (author-year vs numbered). Confirm target format before writing

@@ -46,6 +46,8 @@ Data preprocessing skill. Missing value imputation, outlier detection, normaliza
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - Statistical assumptions (normality, independence, homoscedasticity) must be tested before parametric methods

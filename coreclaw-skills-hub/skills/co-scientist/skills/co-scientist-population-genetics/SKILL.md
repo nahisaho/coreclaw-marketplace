@@ -62,6 +62,8 @@ Population genetics skill. Allele frequency analysis, Hardy-Weinberg testing, Fs
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - Reference genome version (hg19 vs hg38) must be confirmed before analysis. Mixing versions produces invalid coordinates

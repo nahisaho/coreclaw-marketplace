@@ -58,6 +58,8 @@ Model organism database skill. FlyBase/WormBase/SGD/ZFIN/MGI queries, ortholog m
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - Database API versions change frequently. Pin the API version or record access date for reproducibility

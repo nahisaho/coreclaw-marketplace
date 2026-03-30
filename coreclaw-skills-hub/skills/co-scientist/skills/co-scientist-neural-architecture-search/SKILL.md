@@ -45,6 +45,8 @@ Neural architecture search (NAS) skill. Architecture space definition, search st
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - Data leakage between train/test splits invalidates all metrics. Verify no leakage before reporting results

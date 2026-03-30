@@ -46,6 +46,8 @@ Clinical NLP skill. MedSpaCy/cTAKES/scispaCy-based clinical text NER, section de
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - Patient data must be de-identified before analysis. Check for quasi-identifiers (age + zip + diagnosis)

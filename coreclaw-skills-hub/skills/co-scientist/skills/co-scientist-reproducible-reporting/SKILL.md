@@ -45,6 +45,8 @@ Reproducible reporting skill. Jupyter/Quarto/R Markdown report automation, compu
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - Citation style varies by journal (author-year vs numbered). Confirm target format before writing

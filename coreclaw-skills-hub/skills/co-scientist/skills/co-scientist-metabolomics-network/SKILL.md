@@ -45,6 +45,8 @@ Metabolomics network skill. Metabolite correlation networks, pathway-level netwo
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - Metabolite identification confidence levels (1-4) must be reported. Level 1 requires matched standards

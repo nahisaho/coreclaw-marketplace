@@ -46,6 +46,8 @@ Geospatial analysis skill. Spatial data processing with GeoPandas, coordinate tr
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - Geographic coordinate systems (WGS84, UTM) must be specified. Mixing systems causes spatial analysis errors

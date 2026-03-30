@@ -45,6 +45,8 @@ Interactive dashboard skill. Streamlit/Plotly Dash scientific dashboard creation
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - All figure text (axis labels, legends, annotations) must be in English for journal compatibility

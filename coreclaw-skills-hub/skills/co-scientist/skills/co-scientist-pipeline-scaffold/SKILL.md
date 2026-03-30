@@ -44,6 +44,8 @@ Pipeline scaffold skill. Bioinformatics pipeline scaffolding with Snakemake/Next
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - Experimental protocols must include negative controls. Results without controls are not interpretable

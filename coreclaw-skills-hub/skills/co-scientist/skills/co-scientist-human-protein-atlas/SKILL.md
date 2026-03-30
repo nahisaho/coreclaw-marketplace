@@ -58,6 +58,8 @@ Human Protein Atlas skill. Protein expression data retrieval, tissue/cell/pathol
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - PDB structures may contain missing residues or alternate conformations. Check structure completeness before analysis

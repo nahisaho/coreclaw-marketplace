@@ -59,6 +59,8 @@ Crossref metadata skill. Scholarly publication metadata retrieval, citation coun
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - Search results vary by database. Use at least 2 databases (PubMed + Scopus) for systematic reviews

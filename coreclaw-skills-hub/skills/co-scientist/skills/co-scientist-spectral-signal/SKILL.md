@@ -45,6 +45,8 @@ Spectral signal processing skill. Spectroscopy data analysis (UV-Vis/NMR/MS), pe
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - Computational resource requirements should be estimated before execution. Large analyses may exceed memory or time

@@ -45,6 +45,8 @@ Clinical standards skill. CDISC SDTM/ADaM data standards, HL7 FHIR resource mapp
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - Patient data must be de-identified before analysis. Check for quasi-identifiers (age + zip + diagnosis)

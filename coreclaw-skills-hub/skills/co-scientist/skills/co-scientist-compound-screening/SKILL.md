@@ -62,6 +62,8 @@ Compound screening skill. High-throughput screening data analysis, hit identific
 - [ ] `report.md` and `logs/process-log.jsonl` reference the generated artifacts.
 - [ ] No essential result remains chat-only.
 
+If any gate fails: identify the specific failing check, fix the issue, and re-validate before proceeding.
+
 ## Gotchas
 
 - SMILES strings may represent different stereoisomers. Canonicalize SMILES before database lookups
