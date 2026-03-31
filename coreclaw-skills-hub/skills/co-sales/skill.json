@@ -1,0 +1,6 @@
+{
+  "name": "co-sales",
+  "version": "v0.1.0",
+  "description": "Harness-optimized strategic sales workflows for account planning, stakeholder analysis, discovery, objection handling, and proposal acceleration.",
+  "entrypoint": "AGENTS.md"
+}
