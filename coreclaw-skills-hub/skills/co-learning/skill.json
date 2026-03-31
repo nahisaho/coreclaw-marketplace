@@ -1,0 +1,6 @@
+{
+  "name": "co-learning",
+  "version": "v0.1.0",
+  "description": "Harness-optimized learning design workflows for objective design, curriculum building, activity generation, rubric creation, and feedback-driven improvement.",
+  "entrypoint": "AGENTS.md"
+}
