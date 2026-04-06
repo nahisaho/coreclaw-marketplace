@@ -6,7 +6,15 @@
         "data/curriculum.db"
       ],
       "env": {},
-      "description": "Curriculum database for Japanese education standards (\u5b66\u7fd2\u6307\u5c0e\u8981\u9818) lookup via SQLite FTS."
+      "description": "学習指導要領データベース（小中高、2,469項目）— SQLite FTS5 全文検索。セットアップ: bash scripts/setup-databases.sh"
+    },
+    "theories-db": {
+      "command": "sqlite3",
+      "args": [
+        "data/theories.db"
+      ],
+      "env": {},
+      "description": "教育理論データベース（175件）— SQLite FTS5 trigram 日本語全文検索。セットアップ: bash scripts/setup-databases.sh"
     }
   }
 }

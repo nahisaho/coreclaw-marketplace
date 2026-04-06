@@ -1,0 +1,22 @@
+{
+  "name": "co-educationalist-data",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SHIDEN education databases for co-educationalist skill suite",
+  "scripts": {
+    "setup": "bash scripts/setup-databases.sh",
+    "setup:link": "bash scripts/setup-databases.sh --link",
+    "theories:search": "npx shiden theories search",
+    "theories:categories": "npx shiden theories categories",
+    "curriculum:search": "npx shiden curriculum search",
+    "curriculum:subject": "npx shiden curriculum subject",
+    "curriculum:grade": "npx shiden curriculum grade",
+    "curriculum:stats": "npx shiden curriculum stats"
+  },
+  "dependencies": {
+    "shiden": "^0.4.3"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

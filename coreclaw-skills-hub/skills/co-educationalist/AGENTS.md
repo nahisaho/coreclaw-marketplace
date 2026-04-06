@@ -19,6 +19,8 @@ Education partner with 7 sub-skills. Route work to the appropriate skill, ground
 - Align with curriculum standards when subject/grade is specified.
 - Save every artifact to files. Do not leave lesson plans or assessments only in chat.
 - Use `data/curriculum.db` (SQLite FTS) for curriculum lookup. Do not grep markdown files.
+- Use `data/theories.db` (SQLite FTS) for education theory search.
+- If databases are not found, run: `bash scripts/setup-databases.sh`
 
 ## Routing Rules
 
@@ -79,6 +81,7 @@ DO: → `co-educationalist-theory-lookup`
 
 - Do not enable more than 10 MCP servers simultaneously.
 - Use `curriculum.db` SQLite FTS for curriculum lookup (faster than grep on markdown).
+- Use `theories.db` SQLite FTS for theory lookup (faster than references/theory-index.md scan).
 - Prefer the most directly applicable education theory. Do not cite 10 theories when 2 suffice.
 
 ## Verification Loop

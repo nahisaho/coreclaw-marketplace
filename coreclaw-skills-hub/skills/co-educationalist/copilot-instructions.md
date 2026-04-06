@@ -41,6 +41,31 @@ FROM sections_fts f JOIN sections s ON f.rowid = s.rowid
 WHERE sections_fts MATCH '{keyword}' AND s.school_level = '{level}' LIMIT 5;
 ```
 
+## Theory Lookup
+
+Use `data/theories.db` (SQLite FTS5 trigram) for education theory search:
+```sql
+-- キーワードで理論を検索
+SELECT id, name_ja, name_en, theorist, category, substr(description,1,500)
+FROM theories_fts f JOIN theories t ON f.rowid = t.rowid
+WHERE theories_fts MATCH '{keyword}' LIMIT 10;
+```
+
+Also available via CLI:
+```bash
+npx shiden theories search "構成主義"       # 教育理論を検索
+npx shiden curriculum search "プログラミング" # 学習指導要領を検索
+```
+
+## Database Setup
+
+教育理論DB・学習指導要領DBは SHIDEN パッケージ (npm) から取得します:
+```bash
+cd coreclaw-skills-hub/skills/co-educationalist
+bash scripts/setup-databases.sh
+```
+詳細は `scripts/setup-databases.sh --help` を参照。
+
 ## Data Handling & Confidentiality
 
 - Student data is confidential. Use "[Student A]" placeholders.
